@@ -1,41 +1,38 @@
 # Tracing App
 
-Single-page application for visualizing agent run traces, LLM context, tool output, and run summaries. Built with React + Vite and designed to connect to the tracing platform API.
+The Tracing application provides the run timeline and event inspection interface for the Agyn platform.
 
-## Prerequisites
+Architecture: [Tracing](https://github.com/agynio/architecture/blob/main/architecture/tracing.md)
 
-- Node.js (LTS recommended)
-- pnpm
+## Local Development
 
-## Setup
+Full setup: [Local Development](https://github.com/agynio/architecture/blob/main/architecture/operations/local-development.md)
 
-Install dependencies:
-
-```bash
-pnpm install
-```
-
-Run the dev server:
+### Prepare environment
 
 ```bash
-pnpm dev
+git clone https://github.com/agynio/bootstrap.git
+cd bootstrap
+chmod +x apply.sh
+./apply.sh -y
 ```
 
-Build for production:
+See [bootstrap](https://github.com/agynio/bootstrap) for details.
+
+### Run from sources
 
 ```bash
-pnpm build
+# Deploy once (exit when healthy)
+devspace dev
+
+# Watch mode (streams logs, re-syncs on changes)
+devspace dev -w
 ```
 
-## Environment Variables
+### Run tests
 
-- `VITE_API_BASE_URL` (required): Base URL for the tracing API and socket connections.
-  - Example: `https://platform.example.com/api`
-  - For local dev using the mock API, set `VITE_API_BASE_URL=/api`
+```bash
+devspace run test:e2e
+```
 
-## Architecture Overview
-
-- **API layer**: `src/api` contains typed clients and hooks for run summaries, timeline events, and context pages.
-- **UI layer**: `src/components` renders the run timeline, event details, and tool output panes.
-- **Screens**: `src/pages` composes API data with UI components (e.g., `AgentsRunScreen`).
-- **Real-time updates**: `src/lib/graph/socket.ts` maintains socket listeners for run status and timeline events.
+See [E2E Testing](https://github.com/agynio/architecture/blob/main/architecture/operations/e2e-testing.md).
