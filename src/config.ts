@@ -1,0 +1,65 @@
+// Centralized environment configuration for tracing-app.
+// Provides env-resolved values and throws if missing.
+
+type ViteEnv = {
+  VITE_API_BASE_URL?: string;
+  STORYBOOK?: string;
+};
+
+function resolveStorybookFallback(name: keyof ViteEnv): string | null {
+  if (name !== 'VITE_API_BASE_URL') return null;
+  const isStorybook = import.meta.env?.STORYBOOK === 'true';
+  if (!isStorybook) return null;
+  return 'http://localhost:4173/api';
+}
+
+function requireEnv(name: keyof ViteEnv): string {
+  const val = import.meta.env?.[name];
+  if (typeof val === 'string' && val.trim()) return val;
+
+  const fallback = resolveStorybookFallback(name);
+  if (fallback) return fallback;
+
+  throw new Error(`tracing-app config: required env ${String(name)} is missing`);
+}
+
+function stripTrailingSlash(pathname: string): string {
+  if (pathname === '/') return '';
+  return pathname.replace(/\/+$/, '');
+}
+
+function stripTrailingApi(pathname: string): string {
+  return pathname.replace(/\/api\/?$/, '/');
+}
+
+function resolveUrl(raw: string): URL {
+  const trimmed = raw.trim();
+  try {
+    return new URL(trimmed, typeof window !== 'undefined' ? window.location.origin : 'http://localhost');
+  } catch {
+    return new URL(trimmed, 'http://localhost');
+  }
+}
+
+function deriveBase(raw: string, options: { stripApi: boolean }): string {
+  const parsed = resolveUrl(raw);
+  if (options.stripApi) parsed.pathname = stripTrailingApi(parsed.pathname);
+  const cleanedPath = stripTrailingSlash(parsed.pathname);
+  return cleanedPath ? `${parsed.origin}${cleanedPath}` : parsed.origin;
+}
+
+const rawApiBase = requireEnv('VITE_API_BASE_URL');
+
+const apiBaseUrl = deriveBase(rawApiBase, { stripApi: true });
+const socketBaseUrl = deriveBase(rawApiBase, { stripApi: true });
+export const config = {
+  apiBaseUrl,
+  socketBaseUrl,
+};
+
+let cachedSocketBaseUrl: string | null = null;
+
+export function getSocketBaseUrl(): string {
+  if (!cachedSocketBaseUrl) cachedSocketBaseUrl = socketBaseUrl;
+  return cachedSocketBaseUrl;
+}

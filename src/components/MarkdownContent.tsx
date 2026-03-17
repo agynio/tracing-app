@@ -1,0 +1,332 @@
+import ReactMarkdown from 'react-markdown';
+import type { Components } from 'react-markdown';
+import {
+  Children,
+  cloneElement,
+  isValidElement,
+  type ComponentPropsWithoutRef,
+  type ReactElement,
+  type ReactNode,
+  type CSSProperties,
+} from 'react';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { MARKDOWN_REMARK_PLUGINS, MARKDOWN_REHYPE_PLUGINS } from '@/lib/markdown/config';
+import { cn } from '@/lib/utils';
+
+interface MarkdownContentProps {
+  content: string;
+  className?: string;
+}
+
+type MarkdownCodeProps = ComponentPropsWithoutRef<'code'> & {
+  inline?: boolean;
+  node?: unknown;
+};
+
+type MarkdownPreProps = ComponentPropsWithoutRef<'pre'> & {
+  node?: unknown;
+};
+
+type ReactMarkdownListInternals = {
+  node?: unknown;
+  ordered?: boolean;
+  depth?: number;
+  index?: number;
+  checked?: boolean | null;
+};
+
+type MarkdownOrderedListProps = ComponentPropsWithoutRef<'ol'> & ReactMarkdownListInternals;
+type MarkdownUnorderedListProps = ComponentPropsWithoutRef<'ul'> & ReactMarkdownListInternals;
+type MarkdownListItemProps = ComponentPropsWithoutRef<'li'> & ReactMarkdownListInternals;
+
+const getCodeRenderMeta = ({ inline, className, node }: MarkdownCodeProps) => {
+  const match = /language-(\w+)/.exec(className || '');
+  const position = (node as { position?: { start?: { line?: number }; end?: { line?: number } } })?.position;
+  const spansMultipleLines = Boolean(
+    position?.start?.line !== undefined &&
+      position?.end?.line !== undefined &&
+      position.start.line !== position.end.line
+  );
+  const isInlineCode = (inline ?? !spansMultipleLines) && !match;
+
+  return { match, isInlineCode } as const;
+};
+
+const stripTextShadowFromTheme = <T extends Record<string, CSSProperties>>(theme: T): T => {
+  return Object.fromEntries(
+    Object.entries(theme).map(([selector, styles]) => {
+      const { textShadow: _removedTextShadow, ...rest } = styles;
+      return [selector, rest];
+    }),
+  ) as T;
+};
+
+const oneDarkWithoutTextShadow = stripTextShadowFromTheme(oneDark);
+
+export function MarkdownContent({ content, className = '' }: MarkdownContentProps) {
+  const renderCode = ({ inline, className: codeClassName, children, style, node, ...props }: MarkdownCodeProps) => {
+    const { match, isInlineCode } = getCodeRenderMeta({ inline, className: codeClassName, node });
+    const text = String(children).replace(/\n$/, '');
+
+    if (!isInlineCode && match) {
+      return (
+        <SyntaxHighlighter
+          style={oneDarkWithoutTextShadow}
+          language={match[1]}
+          PreTag="pre"
+          customStyle={{
+            margin: '16px 0',
+            borderRadius: '10px',
+            padding: '1rem',
+            fontSize: '13px',
+            lineHeight: '1.6',
+            maxWidth: '100%',
+            minWidth: 0,
+            overflowX: 'auto',
+            background: 'var(--agyn-bg-light)',
+            color: 'var(--agyn-dark)',
+          }}
+          codeTagProps={{
+            style: {
+              whiteSpace: 'pre',
+            },
+          }}
+          {...props}
+        >
+          {text}
+        </SyntaxHighlighter>
+      );
+    }
+
+    if (!isInlineCode) {
+      return (
+        <code
+          className={[
+            'block whitespace-pre-wrap font-mono text-sm leading-relaxed text-[var(--agyn-dark)]',
+            codeClassName,
+          ]
+            .filter(Boolean)
+            .join(' ')}
+          {...props}
+        >
+          {text}
+        </code>
+      );
+    }
+
+    return (
+      <code
+        className="bg-[var(--agyn-bg-light)] text-[var(--agyn-purple)] px-1.5 py-0.5 rounded text-sm break-words max-w-full whitespace-pre-wrap"
+        style={{ overflowWrap: 'break-word', wordBreak: 'break-word', ...style }}
+        {...props}
+      >
+        {children}
+      </code>
+    );
+  };
+
+  const markdownComponents: Components = {
+    h1: ({ children }) => (
+      <h1 className="text-[var(--agyn-dark)] mb-4 mt-6 first:mt-0">
+        {children}
+      </h1>
+    ),
+    h2: ({ children }) => (
+      <h2 className="text-[var(--agyn-dark)] mb-3 mt-5 first:mt-0">
+        {children}
+      </h2>
+    ),
+    h3: ({ children }) => (
+      <h3 className="text-[var(--agyn-dark)] mb-2 mt-4 first:mt-0">
+        {children}
+      </h3>
+    ),
+    h4: ({ children }) => (
+      <h4 className="text-[var(--agyn-dark)] mb-2 mt-3 first:mt-0">
+        {children}
+      </h4>
+    ),
+    h5: ({ children }) => (
+      <h5 className="text-[var(--agyn-dark)] mb-2 mt-3 first:mt-0">
+        {children}
+      </h5>
+    ),
+    h6: ({ children }) => (
+      <h6 className="text-[var(--agyn-dark)] mb-2 mt-3 first:mt-0">
+        {children}
+      </h6>
+    ),
+
+    p: ({ children }) => (
+      <p className="text-[var(--agyn-dark)] mb-4 last:mb-0 leading-relaxed">
+        {children}
+      </p>
+    ),
+
+    ul: ({ children, className, node: _node, depth: _depth, ordered: _ordered, ...domProps }: MarkdownUnorderedListProps) => (
+      <ul
+        className={cn('list-disc list-outside ml-5 mb-4 space-y-1 text-[var(--agyn-dark)]', className)}
+        {...domProps}
+      >
+        {children}
+      </ul>
+    ),
+    ol: ({ children, className, node: _node, depth: _depth, ordered: _ordered, index: _index, ...domProps }: MarkdownOrderedListProps) => (
+      <ol
+        className={cn('list-decimal list-outside ml-5 mb-4 space-y-1 text-[var(--agyn-dark)]', className)}
+        {...domProps}
+      >
+        {children}
+      </ol>
+    ),
+    li: ({ children, className, node: _node, ordered: _ordered, index: _index, checked: _checked, depth: _depth, ...domProps }: MarkdownListItemProps) => (
+      <li className={cn('text-[var(--agyn-dark)] leading-relaxed', className)} {...domProps}>
+        {children}
+      </li>
+    ),
+
+    code: renderCode,
+
+    pre: ({ children, className: preClassName, style: preStyle, node: _node, ...props }: MarkdownPreProps) => {
+      const childArray = Children.toArray(children);
+      const firstElement = childArray.find((node): node is ReactElement => isValidElement(node));
+
+      if (firstElement && firstElement.type === renderCode) {
+        const { match, isInlineCode } = getCodeRenderMeta(firstElement.props as MarkdownCodeProps);
+        if (!isInlineCode && match) {
+          return firstElement;
+        }
+      }
+
+      if (firstElement && firstElement.type === SyntaxHighlighter) {
+        return firstElement;
+      }
+
+      if (firstElement && firstElement.type === 'pre') {
+        return firstElement;
+      }
+
+      const mergedClassName = [
+        'my-4 w-full overflow-x-auto rounded-[10px] bg-[var(--agyn-bg-light)] p-3 font-mono text-sm leading-relaxed text-[var(--agyn-dark)]',
+        preClassName,
+      ]
+        .filter(Boolean)
+        .join(' ');
+
+      const mergedStyle = {
+        whiteSpace: 'pre-wrap' as const,
+        wordBreak: 'break-word' as const,
+        minWidth: 0,
+        maxWidth: '100%',
+        ...(preStyle ?? {}),
+      };
+
+      return (
+        <pre className={mergedClassName} style={mergedStyle} {...props}>
+          {childArray.map((node: ReactNode) => {
+            if (!isValidElement<{ className?: string }>(node)) {
+              return node;
+            }
+
+            const mergedChildClassName = [
+              'block whitespace-pre-wrap font-mono text-sm leading-relaxed text-[var(--agyn-dark)]',
+              node.props.className,
+            ]
+              .filter(Boolean)
+              .join(' ');
+
+            return cloneElement(node, { className: mergedChildClassName });
+          })}
+        </pre>
+      );
+    },
+
+    blockquote: ({ children }) => (
+      <blockquote className="border-l-4 border-[var(--agyn-blue)] bg-[var(--agyn-bg-light)] pl-4 pr-4 py-3 my-4 italic text-[var(--agyn-dark)]">
+        {children}
+      </blockquote>
+    ),
+
+    a: ({ href, children }) => (
+      <a
+        href={typeof href === 'string' ? href : undefined}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-[var(--agyn-blue)] hover:text-[var(--agyn-purple)] underline transition-colors"
+      >
+        {children}
+      </a>
+    ),
+
+    hr: () => (
+      <hr className="border-0 border-t border-[var(--agyn-border-subtle)] my-6" />
+    ),
+
+    table: ({ children }) => (
+      <div className="overflow-x-auto my-4">
+        <table className="min-w-full border border-[var(--agyn-border-subtle)] rounded-[6px]">
+          {children}
+        </table>
+      </div>
+    ),
+    thead: ({ children }) => (
+      <thead className="bg-[var(--agyn-bg-light)]">
+        {children}
+      </thead>
+    ),
+    tbody: ({ children }) => (
+      <tbody>
+        {children}
+      </tbody>
+    ),
+    tr: ({ children }) => (
+      <tr className="border-b border-[var(--agyn-border-subtle)] last:border-b-0">
+        {children}
+      </tr>
+    ),
+    th: ({ children }) => (
+      <th className="px-4 py-2 text-left text-[var(--agyn-dark)] border-r border-[var(--agyn-border-subtle)] last:border-r-0">
+        {children}
+      </th>
+    ),
+    td: ({ children }) => (
+      <td className="px-4 py-2 text-[var(--agyn-dark)] border-r border-[var(--agyn-border-subtle)] last:border-r-0">
+        {children}
+      </td>
+    ),
+
+    strong: ({ children }) => (
+      <strong className="text-[var(--agyn-dark)]">
+        {children}
+      </strong>
+    ),
+
+    em: ({ children }) => (
+      <em className="text-[var(--agyn-dark)]">
+        {children}
+      </em>
+    ),
+
+    del: ({ children }) => (
+      <del className="text-[var(--agyn-gray)] opacity-70">
+        {children}
+      </del>
+    ),
+  };
+
+  return (
+    <div
+      className={`markdown-content w-full min-w-0 ${className}`}
+      style={{ overflowWrap: 'break-word', wordBreak: 'break-word' }}
+    >
+      <ReactMarkdown
+        remarkPlugins={MARKDOWN_REMARK_PLUGINS}
+        rehypePlugins={MARKDOWN_REHYPE_PLUGINS}
+        components={markdownComponents}
+      >
+        {content}
+      </ReactMarkdown>
+    </div>
+  );
+}
