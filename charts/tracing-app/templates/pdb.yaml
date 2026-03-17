@@ -1,0 +1,1 @@
+{{- include "tracing-app.render" (dict "template" "service-base.pdb" "context" .) -}}

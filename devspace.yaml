@@ -1,0 +1,71 @@
+version: v2beta1
+
+vars:
+  APP_NAMESPACE: platform
+
+functions:
+  disable_argocd_sync: |-
+    if kubectl get application tracing-app -n argocd >/dev/null 2>&1; then
+      echo "Disabling ArgoCD auto-sync for tracing-app..."
+      kubectl patch application tracing-app -n argocd \
+        --type merge \
+        -p '{"spec":{"syncPolicy":{"automated":null}}}'
+      echo "ArgoCD auto-sync disabled."
+    else
+      echo "WARNING: ArgoCD Application 'tracing-app' not found in argocd namespace."
+    fi
+  restore_argocd_sync: &restore_argocd_sync |-
+    if kubectl get application tracing-app -n argocd >/dev/null 2>&1; then
+      echo "Re-enabling ArgoCD auto-sync for tracing-app..."
+      kubectl patch application tracing-app -n argocd \
+        --type merge \
+        -p '{"spec":{"syncPolicy":{"automated":{"prune":true,"selfHeal":true}}}}'
+      echo "ArgoCD auto-sync restored."
+    else
+      echo "WARNING: ArgoCD Application 'tracing-app' not found in argocd namespace."
+    fi
+
+pipelines:
+  dev:
+    flags:
+      - name: watch
+        short: w
+        description: "Keep DevSpace running and stream logs"
+    run: |-
+      disable_argocd_sync
+      if [ "$(get_flag "watch")" == "true" ]; then
+        start_dev --disable-pod-replace tracing-app
+      else
+        start_dev --disable-pod-replace tracing-app
+        echo "Dev environment ready. Stopping dev session."
+        stop_dev tracing-app
+      fi
+
+hooks:
+  - name: restore-argocd-auto-sync
+    events:
+      - after:dev:tracing-app
+    command: bash
+    args:
+      - -c
+      - *restore_argocd_sync
+
+dev:
+  tracing-app:
+    namespace: ${APP_NAMESPACE}
+    labelSelector:
+      app.kubernetes.io/name: tracing-app
+      app.kubernetes.io/instance: tracing-app
+    containers:
+      tracing-app:
+        sync:
+          - path: ./dist:/usr/share/nginx/html
+            excludePaths:
+              - .git/
+              - .devspace/
+              - node_modules/
+        logs:
+          enabled: true
+          lastLines: 200
+    ports:
+      - port: "3000"
