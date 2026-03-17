@@ -9,11 +9,11 @@ import type {
   LlmContextPageItem,
   RunEventStatus,
   RunEventType,
-  RunTimelineEvent,
 } from '@/api/types/agents';
 import { useFollowState } from '@/hooks/useFollowState';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useTimelinePagination } from '@/hooks/useTimelinePagination';
+import { matchesFilters } from '@/lib/eventFiltering';
 import { createUiEvent, extractLlmResponse, mapRunStatus } from '@/lib/eventMapping';
 import { toContextRecord } from '@/lib/llmContext';
 import { buildToolLinkData } from '@/lib/toolDataParsing';
@@ -48,11 +48,6 @@ const STATUS_FILTER_TO_STATUSES: Record<StatusFilter, RunEventStatus[]> = {
   terminated: ['cancelled'],
 };
 
-function matchesFilters(event: RunTimelineEvent, types: RunEventType[], statuses: RunEventStatus[]): boolean {
-  const includeType = types.length === 0 || types.includes(event.type);
-  const includeStatus = statuses.length === 0 || statuses.includes(event.status);
-  return includeType && includeStatus;
-}
 
 type TokenTotals = {
   input: number;
@@ -427,7 +422,6 @@ export function AgentsRunScreen() {
   );
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
     const handler = (event: KeyboardEvent) => {
       if (event.defaultPrevented) return;
       if (event.metaKey || event.ctrlKey || event.altKey) return;
@@ -447,7 +441,6 @@ export function AgentsRunScreen() {
   }, [toggleFollowing]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
     const handleKeydown = (event: KeyboardEvent) => {
       if (event.defaultPrevented) return;
       if (event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) return;
@@ -506,7 +499,7 @@ export function AgentsRunScreen() {
 
   const handleTerminate = useCallback(async () => {
     if (!runId || isTerminating) return;
-    if (typeof window !== 'undefined' && !window.confirm('Terminate this run?')) {
+    if (!window.confirm('Terminate this run?')) {
       return;
     }
     setIsTerminating(true);

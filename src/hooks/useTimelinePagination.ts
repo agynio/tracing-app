@@ -8,6 +8,7 @@ import type {
   RunTimelineEventsCursor,
   RunTimelineEventsResponse,
 } from '@/api/types/agents';
+import { matchesFilters } from '@/lib/eventFiltering';
 import { graphSocket } from '@/lib/graph/socket';
 
 type UseTimelinePaginationOptions = {
@@ -49,12 +50,6 @@ function compareEvents(a: RunTimelineEvent, b: RunTimelineEvent): number {
 function sortEvents(events: RunTimelineEvent[]): RunTimelineEvent[] {
   if (events.length <= 1) return events.slice();
   return [...events].sort(compareEvents);
-}
-
-function matchesFilters(event: RunTimelineEvent, types: RunEventType[], statuses: RunEventStatus[]): boolean {
-  const includeType = types.length === 0 || types.includes(event.type);
-  const includeStatus = statuses.length === 0 || statuses.includes(event.status);
-  return includeType && includeStatus;
 }
 
 function areEventListsEqual(a: RunTimelineEvent[], b: RunTimelineEvent[]): boolean {
