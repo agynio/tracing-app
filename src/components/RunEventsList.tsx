@@ -1,7 +1,7 @@
+import { useCallback, useEffect, useRef } from 'react';
 import { MessageSquare, Bot, Wrench, FileText, Terminal, Users, Loader2 } from 'lucide-react';
 import { type EventType, type MessageSubtype, type RunEventData } from './RunEventDetails';
 import { StatusIndicator, type Status } from './StatusIndicator';
-import { VirtualizedList } from './VirtualizedList';
 
 export interface RunEvent {
   id: string;
@@ -21,14 +21,16 @@ export interface RunEventsListProps {
   isLoadingMore?: boolean;
 }
 
-export function RunEventsList({ 
-  events, 
-  selectedEventId, 
-  onSelectEvent, 
-  hasMore = false, 
-  loadMore = () => {}, 
-  isLoadingMore = false 
+export function RunEventsList({
+  events,
+  selectedEventId,
+  onSelectEvent,
+  hasMore = false,
+  loadMore = () => {},
+  isLoadingMore = false,
 }: RunEventsListProps) {
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const hasInitializedRef = useRef(false);
 
   const getEventIcon = (event: RunEvent) => {
     switch (event.type) {
@@ -88,11 +90,9 @@ export function RunEventsList({
     }
   };
 
-  const getEventSubtitle = (_event: RunEvent) => {
-    return null;
-  };
+  const getEventSubtitle = (_event: RunEvent) => null;
 
-  const renderEventItem = (_index: number, event: RunEvent) => {
+  const renderEventItem = (event: RunEvent) => {
     const subtitle = getEventSubtitle(event);
     const isSelected = selectedEventId === event.id;
     
@@ -148,18 +148,37 @@ export function RunEventsList({
     </div>
   ) : null;
 
+  const handleScroll = useCallback(() => {
+    const element = scrollRef.current;
+    if (!element) return;
+    if (hasMore && !isLoadingMore && element.scrollTop <= 80) {
+      loadMore();
+    }
+  }, [hasMore, isLoadingMore, loadMore]);
+
+  useEffect(() => {
+    const element = scrollRef.current;
+    if (!element || events.length === 0) return;
+    const isFirstRender = !hasInitializedRef.current;
+    if (isFirstRender) {
+      hasInitializedRef.current = true;
+      element.scrollTop = element.scrollHeight;
+      return;
+    }
+    const distanceFromBottom = element.scrollHeight - element.scrollTop - element.clientHeight;
+    if (distanceFromBottom < 40) {
+      element.scrollTop = element.scrollHeight;
+    }
+  }, [events.length]);
+
   return (
     <div className="bg-white overflow-hidden h-full flex flex-col">
-      <VirtualizedList
-        items={events}
-        renderItem={renderEventItem}
-        getItemKey={(event) => event.id}
-        hasMore={hasMore}
-        isLoadingMore={isLoadingMore}
-        onLoadMore={loadMore}
-        header={header}
-        style={{ flex: 1 }}
-      />
+      <div ref={scrollRef} className="flex-1 overflow-y-auto" onScroll={handleScroll}>
+        {header}
+        {events.map((event) => (
+          <div key={event.id}>{renderEventItem(event)}</div>
+        ))}
+      </div>
     </div>
   );
 }

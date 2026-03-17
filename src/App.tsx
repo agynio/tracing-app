@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import { Toaster } from 'sonner';
 import { TooltipProvider } from './components/ui/tooltip';
 import { RootLayout, DEFAULT_TIMELINE_PATH } from './layout/RootLayout';
 import { AgentsRunScreen } from './pages/AgentsRunScreen';
@@ -10,6 +11,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider delayDuration={200}>
+        <Toaster position="top-right" richColors />
         <Routes>
           <Route element={<RootLayout />}>
             <Route path="/agents/threads/:threadId/runs/:runId/timeline" element={<AgentsRunScreen />} />

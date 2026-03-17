@@ -6,7 +6,7 @@ import tseslint from 'typescript-eslint'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist', 'platform/**', 'tracing-app/**', '.pnpm-store/**']),
+  globalIgnores(['dist', '.pnpm-store/**', 'platform/**', 'codex-tools-mcp/**']),
   {
     files: ['**/*.{ts,tsx}'],
     extends: [

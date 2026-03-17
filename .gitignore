@@ -12,8 +12,6 @@ dist
 dist-ssr
 *.local
 .pnpm-store/
-platform/
-codex-tools-mcp
 
 # Editor directories and files
 .vscode/*

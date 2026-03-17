@@ -1,11 +1,7 @@
 import { io, type ManagerOptions, type Socket, type SocketOptions } from 'socket.io-client';
 import { getSocketBaseUrl } from '@/config';
-import type { NodeStatusEvent, ReminderCountEvent } from './types';
 import type { RunTimelineEvent, RunTimelineEventsCursor, ToolOutputChunk, ToolOutputTerminal } from '@/api/types/agents';
 
-type NodeStateEvent = { nodeId: string; state: Record<string, unknown>; updatedAt: string };
-type ThreadSummary = { id: string; alias: string; summary: string | null; status: 'open' | 'closed'; createdAt: string; parentId?: string | null };
-type MessageSummary = { id: string; kind: 'user' | 'assistant' | 'system' | 'tool'; text: string | null; source: unknown; createdAt: string; runId?: string };
 type RunSummary = {
   id: string;
   threadId?: string;
@@ -15,14 +11,6 @@ type RunSummary = {
 };
 type RunEventSocketPayload = { runId: string; mutation: 'append' | 'update'; event: RunTimelineEvent };
 interface ServerToClientEvents {
-  node_status: (payload: NodeStatusEvent) => void;
-  node_state: (payload: NodeStateEvent) => void;
-  node_reminder_count: (payload: ReminderCountEvent) => void;
-  thread_created: (payload: { thread: ThreadSummary }) => void;
-  thread_updated: (payload: { thread: ThreadSummary }) => void;
-  thread_activity_changed: (payload: { threadId: string; activity: 'working' | 'waiting' | 'idle' }) => void;
-  thread_reminders_count: (payload: { threadId: string; remindersCount: number }) => void;
-  message_created: (payload: { threadId: string; message: MessageSummary }) => void;
   run_status_changed: (payload: RunStatusChangedPayload) => void;
   run_event_appended: (payload: RunEventSocketPayload) => void;
   run_event_updated: (payload: RunEventSocketPayload) => void;
@@ -32,14 +20,6 @@ interface ServerToClientEvents {
 type SubscribePayload = { room?: string; rooms?: string[] };
 interface ClientToServerEvents { subscribe: (payload: SubscribePayload) => void }
 
-type Listener = (ev: NodeStatusEvent) => void;
-type StateListener = (ev: { nodeId: string; state: Record<string, unknown>; updatedAt: string }) => void;
-type ReminderListener = (ev: ReminderCountEvent) => void;
-type ThreadCreatedPayload = { thread: ThreadSummary };
-type ThreadUpdatedPayload = { thread: ThreadSummary };
-type ThreadActivityPayload = { threadId: string; activity: 'working' | 'waiting' | 'idle' };
-type ThreadRemindersPayload = { threadId: string; remindersCount: number };
-type MessageCreatedPayload = { message: MessageSummary; threadId: string };
 type RunStatusChangedPayload = { threadId: string; run: RunSummary };
 type RunEventListenerPayload = RunEventSocketPayload;
 type ToolChunkListener = (payload: ToolOutputChunk) => void;
@@ -47,14 +27,6 @@ type ToolTerminalListener = (payload: ToolOutputTerminal) => void;
 
 class GraphSocket {
   private socket: Socket<ServerToClientEvents, ClientToServerEvents> | null = null;
-  private listeners = new Map<string, Set<Listener>>();
-  private stateListeners = new Map<string, Set<StateListener>>();
-  private reminderListeners = new Map<string, Set<ReminderListener>>();
-  private threadCreatedListeners = new Set<(payload: ThreadCreatedPayload) => void>();
-  private threadUpdatedListeners = new Set<(payload: ThreadUpdatedPayload) => void>();
-  private threadActivityListeners = new Set<(payload: ThreadActivityPayload) => void>();
-  private threadRemindersListeners = new Set<(payload: ThreadRemindersPayload) => void>();
-  private messageCreatedListeners = new Set<(payload: MessageCreatedPayload) => void>();
   private runStatusListeners = new Set<(payload: RunStatusChangedPayload) => void>();
   private runEventListeners = new Set<(payload: RunEventListenerPayload) => void>();
   private toolChunkListeners = new Set<ToolChunkListener>();
@@ -146,56 +118,6 @@ class GraphSocket {
     this.socketCleanup.push(() => socket.off('connect_error', handleConnectError));
     manager.on('reconnect', handleReconnect);
     this.managerCleanup.push(() => manager.off('reconnect', handleReconnect));
-    const handleNodeStatus: ServerToClientEvents['node_status'] = (payload) => {
-      const set = this.listeners.get(payload.nodeId);
-      if (set) for (const fn of set) fn(payload);
-    };
-    socket.on('node_status', handleNodeStatus);
-    this.socketCleanup.push(() => socket.off('node_status', handleNodeStatus));
-
-    const handleNodeState: ServerToClientEvents['node_state'] = (payload) => {
-      const set = this.stateListeners.get(payload.nodeId);
-      if (set) for (const fn of set) fn(payload);
-    };
-    socket.on('node_state', handleNodeState);
-    this.socketCleanup.push(() => socket.off('node_state', handleNodeState));
-
-    const handleNodeReminderCount: ServerToClientEvents['node_reminder_count'] = (payload) => {
-      const set = this.reminderListeners.get(payload.nodeId);
-      if (set) for (const fn of set) fn(payload);
-    };
-    socket.on('node_reminder_count', handleNodeReminderCount);
-    this.socketCleanup.push(() => socket.off('node_reminder_count', handleNodeReminderCount));
-    const handleThreadCreated: ServerToClientEvents['thread_created'] = (payload) => {
-      for (const fn of this.threadCreatedListeners) fn(payload);
-    };
-    socket.on('thread_created', handleThreadCreated);
-    this.socketCleanup.push(() => socket.off('thread_created', handleThreadCreated));
-
-    const handleThreadUpdated: ServerToClientEvents['thread_updated'] = (payload) => {
-      for (const fn of this.threadUpdatedListeners) fn(payload);
-    };
-    socket.on('thread_updated', handleThreadUpdated);
-    this.socketCleanup.push(() => socket.off('thread_updated', handleThreadUpdated));
-
-    const handleThreadActivityChanged: ServerToClientEvents['thread_activity_changed'] = (payload) => {
-      for (const fn of this.threadActivityListeners) fn(payload);
-    };
-    socket.on('thread_activity_changed', handleThreadActivityChanged);
-    this.socketCleanup.push(() => socket.off('thread_activity_changed', handleThreadActivityChanged));
-
-    const handleThreadRemindersCount: ServerToClientEvents['thread_reminders_count'] = (payload) => {
-      for (const fn of this.threadRemindersListeners) fn(payload);
-    };
-    socket.on('thread_reminders_count', handleThreadRemindersCount);
-    this.socketCleanup.push(() => socket.off('thread_reminders_count', handleThreadRemindersCount));
-
-    const handleMessageCreated: ServerToClientEvents['message_created'] = (payload) => {
-      for (const fn of this.messageCreatedListeners) fn(payload);
-    };
-    socket.on('message_created', handleMessageCreated);
-    this.socketCleanup.push(() => socket.off('message_created', handleMessageCreated));
-
     const handleRunStatusChanged: ServerToClientEvents['run_status_changed'] = (payload) => {
       for (const fn of this.runStatusListeners) fn(payload);
     };
@@ -229,45 +151,6 @@ class GraphSocket {
     this.socketCleanup.push(() => socket.off('tool_output_terminal', handleToolOutputTerminal));
 
     return socket;
-  }
-
-  onNodeStatus(nodeId: string, cb: Listener) {
-    let set = this.listeners.get(nodeId);
-    if (!set) {
-      set = new Set();
-      this.listeners.set(nodeId, set);
-    }
-    set.add(cb);
-    return () => {
-      set!.delete(cb);
-      if (set!.size === 0) this.listeners.delete(nodeId);
-    };
-  }
-
-  onNodeState(nodeId: string, cb: StateListener) {
-    let set = this.stateListeners.get(nodeId);
-    if (!set) {
-      set = new Set();
-      this.stateListeners.set(nodeId, set);
-    }
-    set.add(cb);
-    return () => {
-      set!.delete(cb);
-      if (set!.size === 0) this.stateListeners.delete(nodeId);
-    };
-  }
-
-  onReminderCount(nodeId: string, cb: ReminderListener) {
-    let set = this.reminderListeners.get(nodeId);
-    if (!set) {
-      set = new Set();
-      this.reminderListeners.set(nodeId, set);
-    }
-    set.add(cb);
-    return () => {
-      set!.delete(cb);
-      if (set!.size === 0) this.reminderListeners.delete(nodeId);
-    };
   }
 
   subscribe(rooms: string[]) {
@@ -309,50 +192,11 @@ class GraphSocket {
     this.socket = null;
     this.subscribedRooms.clear();
     this.runCursors.clear();
-    this.listeners.clear();
-    this.stateListeners.clear();
-    this.reminderListeners.clear();
-    this.threadCreatedListeners.clear();
-    this.threadUpdatedListeners.clear();
-    this.threadActivityListeners.clear();
-    this.threadRemindersListeners.clear();
-    this.messageCreatedListeners.clear();
     this.runStatusListeners.clear();
     this.runEventListeners.clear();
     this.connectCallbacks.clear();
     this.reconnectCallbacks.clear();
     this.disconnectCallbacks.clear();
-  }
-
-  onThreadCreated(cb: (payload: ThreadCreatedPayload) => void) {
-    this.threadCreatedListeners.add(cb);
-    return () => {
-      this.threadCreatedListeners.delete(cb);
-    };
-  }
-  onThreadUpdated(cb: (payload: ThreadUpdatedPayload) => void) {
-    this.threadUpdatedListeners.add(cb);
-    return () => {
-      this.threadUpdatedListeners.delete(cb);
-    };
-  }
-  onThreadActivityChanged(cb: (payload: ThreadActivityPayload) => void) {
-    this.threadActivityListeners.add(cb);
-    return () => {
-      this.threadActivityListeners.delete(cb);
-    };
-  }
-  onThreadRemindersCount(cb: (payload: ThreadRemindersPayload) => void) {
-    this.threadRemindersListeners.add(cb);
-    return () => {
-      this.threadRemindersListeners.delete(cb);
-    };
-  }
-  onMessageCreated(cb: (payload: MessageCreatedPayload) => void) {
-    this.messageCreatedListeners.add(cb);
-    return () => {
-      this.messageCreatedListeners.delete(cb);
-    };
   }
   onRunEvent(cb: (payload: RunEventListenerPayload) => void) {
     this.runEventListeners.add(cb);

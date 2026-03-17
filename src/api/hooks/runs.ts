@@ -2,24 +2,6 @@ import { useQuery } from '@tanstack/react-query';
 import { runs } from '@/api/modules/runs';
 import type { RunTimelineEventsCursor } from '@/api/types/agents';
 
-export function useThreadRuns(threadId: string | undefined) {
-  return useQuery({
-    enabled: !!threadId,
-    queryKey: ['agents', 'threads', threadId, 'runs'],
-    queryFn: () => runs.listByThread(threadId as string),
-    staleTime: 20000,
-    refetchOnWindowFocus: false,
-  });
-}
-
-export function useRunMessages(runId: string | undefined, type: 'input' | 'injected' | 'output') {
-  return useQuery({
-    enabled: !!runId,
-    queryKey: ['agents', 'runs', runId, 'messages', type],
-    queryFn: () => runs.messages(runId as string, type),
-  });
-}
-
 export function useRunTimelineSummary(runId: string | undefined) {
   return useQuery({
     enabled: !!runId,
