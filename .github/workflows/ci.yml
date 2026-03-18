@@ -54,9 +54,10 @@ jobs:
           terraform_version: 1.6.6
 
       - name: Install DevSpace
-        uses: loft-sh/setup-devspace@v1
-        with:
-          version: v6.3.20
+        run: |
+          curl -fsSL -o devspace "https://github.com/loft-sh/devspace/releases/download/v6.3.20/devspace-linux-amd64"
+          sudo install -c -m 0755 devspace /usr/local/bin
+          devspace version
 
       - name: Provision cluster
         working-directory: bootstrap
