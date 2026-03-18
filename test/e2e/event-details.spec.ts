@@ -1,25 +1,11 @@
-import type { APIRequestContext } from '@playwright/test';
 import {
   expect,
   fetchRunContext,
-  fetchRunEvents,
+  findEvent,
   formatSnippet,
   test,
-  type RunContext,
-  type RunEventSummary,
+  timelineForEvent,
 } from './fixtures';
-
-const timelineForEvent = (context: RunContext, eventId: string) =>
-  `/agents/threads/${context.threadId}/runs/${context.runId}/timeline?eventId=${encodeURIComponent(eventId)}&follow=false`;
-
-const findEvent = async (
-  context: RunContext,
-  runEventType: string[],
-  request: APIRequestContext,
-): Promise<RunEventSummary | null> => {
-  const events = await fetchRunEvents(request, context.runId, { types: runEventType, limit: 50, order: 'desc' });
-  return events[0] ?? null;
-};
 
 test.describe('event details', () => {
   test('shows LLM call details', async ({ page }) => {

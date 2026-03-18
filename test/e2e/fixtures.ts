@@ -150,6 +150,22 @@ export async function fetchRunEvents(
     .filter((value): value is RunEventSummary => value !== null);
 }
 
+export const timelineForEvent = (context: RunContext, eventId: string) =>
+  `/agents/threads/${context.threadId}/runs/${context.runId}/timeline?eventId=${encodeURIComponent(eventId)}&follow=false`;
+
+export async function findEvent(
+  context: RunContext,
+  runEventType: string[],
+  request: APIRequestContext,
+): Promise<RunEventSummary | null> {
+  const events = await fetchRunEvents(request, context.runId, { types: runEventType, limit: 50, order: 'desc' });
+  return events[0] ?? null;
+}
+
+export async function findToolEvent(context: RunContext, request: APIRequestContext): Promise<RunEventSummary | null> {
+  return findEvent(context, ['tool_execution'], request);
+}
+
 function parseRunEvent(item: Record<string, unknown>): RunEventSummary | null {
   const id = asString(item.id);
   const type = asString(item.type);
