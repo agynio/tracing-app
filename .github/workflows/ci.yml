@@ -70,7 +70,7 @@ jobs:
       - name: Run E2E tests
         env:
           KUBECONFIG: ${{ github.workspace }}/bootstrap/stacks/k8s/.kube/agyn-local-kubeconfig.yaml
-        run: devspace run test:e2e
+        run: devspace run-pipeline test:e2e
 
       - name: Upload Playwright report
         if: ${{ !cancelled() }}
