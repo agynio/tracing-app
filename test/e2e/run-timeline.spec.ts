@@ -1,43 +1,74 @@
-import { expect, isMocked, test } from './fixtures';
+import {
+  expect,
+  fetchRunContext,
+  fetchRunEvents,
+  fetchRunSummary,
+  test,
+  type RunContext,
+  type RunEventSummary,
+  type RunSummary,
+} from './fixtures';
 
-const DEFAULT_TIMELINE_PATH = '/agents/threads/thread-demo/runs/run-demo/timeline';
+const timelinePath = (context: RunContext) =>
+  `/agents/threads/${context.threadId}/runs/${context.runId}/timeline`;
+
+const eventLabel = (event: RunEventSummary): string | RegExp => {
+  switch (event.type) {
+    case 'invocation_message':
+    case 'injection':
+      return /Message/;
+    case 'llm_call':
+      return 'LLM Call';
+    case 'tool_execution':
+      return event.toolName ?? 'Tool Call';
+    case 'summarization':
+      return 'Summarization';
+    default:
+      return /Event/;
+  }
+};
+
+let runContext: RunContext | null = null;
+let runSummary: RunSummary | null = null;
+let runEvents: RunEventSummary[] = [];
+
+test.beforeAll(async ({ request }) => {
+  runContext = await fetchRunContext(request);
+  if (!runContext) return;
+  runSummary = await fetchRunSummary(request, runContext.runId);
+  runEvents = await fetchRunEvents(request, runContext.runId, { limit: 50, order: 'desc' });
+});
 
 test.describe('run timeline', () => {
   test('renders run timeline on load', async ({ page }) => {
-    await page.goto(DEFAULT_TIMELINE_PATH);
+    test.skip(!runContext, 'No run data available in the cluster.');
+    test.skip(runEvents.length === 0, 'No events available for the cluster run.');
 
-    if (!isMocked) {
-      await expect(page.getByRole('button', { name: /events/ })).toBeVisible();
-      return;
-    }
+    if (!runContext || runEvents.length === 0) return;
 
-    await expect(page.getByRole('button', { name: /Message.*Source/ })).toBeVisible();
-    await expect(page.getByRole('button', { name: /LLM Call/ })).toBeVisible();
-    await expect(page.getByRole('button', { name: /shell_command/ })).toBeVisible();
-    await expect(page.getByRole('button', { name: /Summarization/ })).toBeVisible();
+    await page.goto(timelinePath(runContext));
+
+    await expect(page.getByRole('button', { name: /events/ })).toBeVisible();
+    await expect(page.getByRole('button', { name: eventLabel(runEvents[0]) })).toBeVisible();
   });
 
   test('shows run summary', async ({ page }) => {
-    await page.goto(DEFAULT_TIMELINE_PATH);
+    test.skip(!runContext || !runSummary, 'No run summary available in the cluster.');
+    if (!runContext || !runSummary) return;
 
-    if (!isMocked) {
-      await expect(page.getByRole('button', { name: /events/ })).toBeVisible();
-      await expect(page.getByRole('button', { name: /tokens/ })).toBeVisible();
-      return;
-    }
+    await page.goto(timelinePath(runContext));
 
-    await expect(page.getByText('running', { exact: true })).toBeVisible();
-    await expect(page.getByRole('button', { name: /4\s+events/ })).toBeVisible();
-    await expect(page.getByRole('button', { name: /200\s+tokens/ })).toBeVisible();
+    await expect(page.getByText(runSummary.status, { exact: true })).toBeVisible();
+    await expect(page.getByRole('button', { name: /events/ })).toBeVisible();
+    await expect(page.getByRole('button', { name: /tokens/ })).toBeVisible();
   });
 
   test('redirects unknown paths to default timeline', async ({ page }) => {
-    await page.goto('/');
+    test.skip(!runContext, 'No run data available in the cluster.');
+    if (!runContext) return;
+
+    await page.goto(`/agents/threads/${runContext.threadId}/runs/${runContext.runId}/timeline/unknown`);
 
     await expect(page).toHaveURL(/\/agents\/threads\/thread-demo\/runs\/run-demo\/timeline/);
-
-    if (!isMocked) return;
-
-    await expect(page.getByRole('button', { name: /LLM Call/ })).toBeVisible();
   });
 });

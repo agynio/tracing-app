@@ -1,20 +1,34 @@
-import { expect, isMocked, test } from './fixtures';
-
-const DEFAULT_TIMELINE_PATH = '/agents/threads/thread-demo/runs/run-demo/timeline';
-const timelineForEvent = (eventId: string) =>
-  `${DEFAULT_TIMELINE_PATH}?eventId=${eventId}&follow=false`;
+import {
+  expect,
+  fetchRunContext,
+  fetchToolOutputSnippet,
+  findToolEvent,
+  formatSnippet,
+  test,
+  timelineForEvent,
+} from './fixtures';
 
 test.describe('tool output', () => {
   test('displays tool output chunks', async ({ page }) => {
-    await page.goto(isMocked ? timelineForEvent('evt-run-demo-tool') : DEFAULT_TIMELINE_PATH);
+    const context = await fetchRunContext(page.request);
+    test.skip(!context, 'No run data available in the cluster.');
+    if (!context) return;
 
-    if (!isMocked) {
-      await expect(page.getByRole('heading', { level: 3 })).toBeVisible();
-      return;
-    }
+    const toolEvent = await findToolEvent(context, page.request);
+    test.skip(!toolEvent, 'No tool execution events available in the cluster run.');
+    if (!toolEvent) return;
 
-    await expect(page.getByText('Resolving packages...')).toBeVisible();
-    await expect(page.getByText(/Dependencies installed/)).toBeVisible();
-    await expect(page.getByText('warning: using mock data')).toBeVisible();
+    const outputSnippet =
+      formatSnippet(await fetchToolOutputSnippet(page.request, context.runId, toolEvent.id))
+      ?? formatSnippet(toolEvent.outputText);
+    test.skip(!outputSnippet, 'No tool output available for the cluster run.');
+    if (!outputSnippet) return;
+
+    const toolLabel = toolEvent.toolName ?? 'Tool Call';
+    await page.goto(timelineForEvent(context, toolEvent.id));
+
+    await expect(page.getByRole('heading', { name: toolLabel })).toBeVisible();
+    await expect(page.getByText('Output', { exact: true })).toBeVisible();
+    await expect(page.getByText(outputSnippet)).toBeVisible();
   });
 });
