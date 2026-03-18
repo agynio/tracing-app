@@ -200,6 +200,7 @@ export interface RunEventData extends Record<string, unknown> {
     [key: string]: unknown;
   };
   cost?: string;
+  provider?: string;
   model?: string;
   input?: unknown;
   output?: unknown;
@@ -569,6 +570,7 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
     const totalTokens = asNumber(event.data.tokens?.total);
     const reasoningTokens = extractReasoningMetrics(event.data.tokens?.reasoning).tokens;
     const cost = typeof event.data.cost === 'string' ? event.data.cost : '';
+    const provider = asString(event.data.provider);
     const model = asString(event.data.model);
     const toolCalls = Array.isArray(event.data.toolCalls)
       ? event.data.toolCalls.filter(isRecord)
@@ -621,6 +623,15 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
 
         <div className="grid grid-cols-2 gap-4 flex-1 min-h-0">
           <div className="flex flex-col min-h-0 min-w-0">
+            {provider && (
+              <div className="flex-shrink-0 mb-4">
+                <div className="flex items-center gap-2 mb-3 h-8">
+                  <span className="text-sm text-[var(--agyn-gray)]">Provider</span>
+                  <IconButton icon={<Copy className="w-3 h-3" />} size="sm" variant="ghost" />
+                </div>
+                <div className="text-[var(--agyn-dark)] text-sm font-mono">{provider}</div>
+              </div>
+            )}
             {model && (
               <div className="flex-shrink-0 mb-4">
                 <div className="flex items-center gap-2 mb-3 h-8">

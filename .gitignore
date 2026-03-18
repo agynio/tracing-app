@@ -26,3 +26,8 @@ dist-ssr
 
 # Lint reports
 eslint-report.json
+
+# Playwright
+playwright-report/
+test-results/
+.playwright/

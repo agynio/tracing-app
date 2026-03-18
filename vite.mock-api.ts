@@ -215,7 +215,8 @@ function buildMockRun(runId: string): MockRunData {
     runId,
     threadId,
     type: 'tool_execution',
-    status: 'success',
+    // Intentionally marked running to exercise in-progress tool UI with partial output.
+    status: 'running',
     ts: toIso(baseTime + 120000),
     startedAt: toIso(baseTime + 120000),
     endedAt: toIso(baseTime + 120000 + 8000),

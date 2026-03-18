@@ -160,6 +160,7 @@ export function createUiEvent(event: RunTimelineEvent, options?: CreateUiEventOp
           context,
           response,
           assistantContext,
+          provider: event.llmCall?.provider ?? undefined,
           model: event.llmCall?.model ?? undefined,
           contextDeltaStatus: event.llmCall?.contextDeltaStatus,
           tokens: usage
