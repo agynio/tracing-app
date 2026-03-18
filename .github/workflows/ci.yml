@@ -45,7 +45,7 @@ jobs:
 
       - name: Install k3d
         run: |
-          curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+          curl -s https://raw.githubusercontent.com/k3d-io/k3d/v5.7.5/install.sh | TAG=v5.7.5 bash
           k3d version
 
       - name: Setup Terraform

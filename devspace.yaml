@@ -76,6 +76,10 @@ pipelines:
             [ -f /opt/app/data/pnpm-lock.yaml ] && break
             sleep 2
           done
+          if [ ! -f /opt/app/data/pnpm-lock.yaml ]; then
+            echo "ERROR: file sync timed out — pnpm-lock.yaml not found after 120s"
+            exit 1
+          fi
           cd /opt/app/data && corepack enable && pnpm install --frozen-lockfile && pnpm test:e2e
         '
       EXIT_CODE=$?
