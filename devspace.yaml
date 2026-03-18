@@ -73,7 +73,7 @@ pipelines:
         -- bash -c '
           echo "Waiting for file sync..."
           for i in $(seq 1 60); do
-            [ -f /opt/app/data/package.json ] && break
+            [ -f /opt/app/data/pnpm-lock.yaml ] && break
             sleep 2
           done
           cd /opt/app/data && corepack enable && pnpm install --frozen-lockfile && pnpm test:e2e
