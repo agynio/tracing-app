@@ -200,6 +200,7 @@ export interface RunEventData extends Record<string, unknown> {
     [key: string]: unknown;
   };
   cost?: string;
+  provider?: string;
   model?: string;
   input?: unknown;
   output?: unknown;

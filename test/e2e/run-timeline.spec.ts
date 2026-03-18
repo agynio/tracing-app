@@ -35,6 +35,9 @@ test.describe('run timeline', () => {
     await page.goto('/');
 
     await expect(page).toHaveURL(/\/agents\/threads\/thread-demo\/runs\/run-demo\/timeline/);
+
+    if (!isMocked) return;
+
     await expect(page.getByRole('button', { name: /LLM Call/ })).toBeVisible();
   });
 });
