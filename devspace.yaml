@@ -70,7 +70,14 @@ pipelines:
       exec_container \
         --label-selector "app.kubernetes.io/name=tracing-app-e2e" \
         -n ${APP_NAMESPACE} \
-        -- bash -c 'cd /opt/app/data && corepack enable && pnpm install --frozen-lockfile && pnpm test:e2e'
+        -- bash -c '
+          echo "Waiting for file sync..."
+          for i in $(seq 1 60); do
+            [ -f /opt/app/data/package.json ] && break
+            sleep 2
+          done
+          cd /opt/app/data && corepack enable && pnpm install --frozen-lockfile && pnpm test:e2e
+        '
       EXIT_CODE=$?
       stop_dev e2e-runner
       purge_deployments e2e-runner
