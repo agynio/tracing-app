@@ -1,8 +1,10 @@
 import { defineConfig, devices } from '@playwright/test';
 
-const PORT = Number(process.env.E2E_PORT ?? 5173);
-const BASE_URL = process.env.E2E_BASE_URL ?? `http://localhost:${PORT}`;
-const USE_MOCK_SERVER = !process.env.E2E_BASE_URL;
+const baseUrl = process.env.E2E_BASE_URL;
+
+if (!baseUrl) {
+  throw new Error('E2E_BASE_URL is required to run Playwright e2e tests.');
+}
 
 export default defineConfig({
   testDir: './test/e2e',
@@ -13,7 +15,7 @@ export default defineConfig({
   reporter: process.env.CI ? [['github'], ['html', { open: 'never' }]] : [['html']],
 
   use: {
-    baseURL: BASE_URL,
+    baseURL: baseUrl,
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
   },
@@ -24,19 +26,4 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
   ],
-
-  ...(USE_MOCK_SERVER
-    ? {
-        webServer: {
-          command: `pnpm exec vite --port ${PORT}`,
-          port: PORT,
-          reuseExistingServer: !process.env.CI,
-          timeout: 30_000,
-          env: {
-            ...process.env,
-            VITE_API_BASE_URL: '/api',
-          },
-        },
-      }
-    : {}),
 });
