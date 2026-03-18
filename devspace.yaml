@@ -36,9 +36,12 @@ deployments:
       values:
         containers:
           - image: ${E2E_IMAGE}
+            command: ["sleep", "infinity"]
             env:
               - name: E2E_BASE_URL
-                value: "http://tracing-app:3000"
+                value: "https://tracing.agyn.dev"
+              - name: E2E_HOST
+                value: "tracing.agyn.dev"
         labels:
           app.kubernetes.io/name: tracing-app-e2e
 
@@ -64,26 +67,46 @@ pipelines:
 
   test-e2e:
     run: |-
+      GATEWAY_IP=$(kubectl get svc istio-ingressgateway \
+        -n istio-gateway \
+        -o jsonpath='{.spec.clusterIP}')
+      if [ -z "$GATEWAY_IP" ]; then
+        echo "ERROR: Could not resolve istio-ingressgateway ClusterIP" >&2
+        exit 1
+      fi
+      echo "Resolved istio-ingressgateway ClusterIP: $GATEWAY_IP"
+
       create_deployments e2e-runner
-      start_dev e2e-runner &
-      sleep 5
-      exec_container \
-        --label-selector "app.kubernetes.io/name=tracing-app-e2e" \
+
+      echo "Waiting for e2e-runner pod..."
+      kubectl wait pod \
+        -l app.kubernetes.io/name=tracing-app-e2e \
         -n ${APP_NAMESPACE} \
-        -- bash -c '
-          echo "Waiting for file sync..."
-          for i in $(seq 1 60); do
-            [ -f /opt/app/data/pnpm-lock.yaml ] && break
-            sleep 2
-          done
-          if [ ! -f /opt/app/data/pnpm-lock.yaml ]; then
-            echo "ERROR: file sync timed out — pnpm-lock.yaml not found after 120s"
-            exit 1
-          fi
-          cd /opt/app/data && corepack enable && pnpm install --frozen-lockfile && pnpm test:e2e
-        '
+        --for=condition=Ready \
+        --timeout=120s
+
+      POD_NAME=$(kubectl get pod \
+        -l app.kubernetes.io/name=tracing-app-e2e \
+        -n ${APP_NAMESPACE} \
+        -o jsonpath='{.items[0].metadata.name}')
+
+      echo "Injecting /etc/hosts entry for tracing.agyn.dev..."
+      kubectl exec "$POD_NAME" -n ${APP_NAMESPACE} -- \
+        bash -c "echo '$GATEWAY_IP tracing.agyn.dev' >> /etc/hosts"
+
+      echo "Copying test files to pod..."
+      kubectl cp . "${APP_NAMESPACE}/${POD_NAME}:/opt/app" \
+        --no-preserve=true
+
+      echo "Running e2e tests..."
+      kubectl exec "$POD_NAME" -n ${APP_NAMESPACE} -- bash -c \
+        'cd /opt/app && corepack enable && pnpm install --frozen-lockfile && pnpm test:e2e'
       EXIT_CODE=$?
-      stop_dev e2e-runner
+
+      echo "Copying test results back..."
+      kubectl cp "${APP_NAMESPACE}/${POD_NAME}:/opt/app/playwright-report" ./playwright-report 2>/dev/null || true
+      kubectl cp "${APP_NAMESPACE}/${POD_NAME}:/opt/app/test-results" ./test-results 2>/dev/null || true
+
       purge_deployments e2e-runner
       exit $EXIT_CODE
 
@@ -115,16 +138,3 @@ dev:
           lastLines: 200
     ports:
       - port: "3000"
-
-  e2e-runner:
-    namespace: ${APP_NAMESPACE}
-    labelSelector:
-      app.kubernetes.io/name: tracing-app-e2e
-    command: ["sleep", "infinity"]
-    workingDir: /opt/app/data
-    sync:
-      - path: ./:/opt/app/data
-        excludePaths:
-          - .git/
-          - .devspace/
-          - node_modules/
