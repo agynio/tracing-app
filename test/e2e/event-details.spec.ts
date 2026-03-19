@@ -10,11 +10,11 @@ import {
 test.describe('event details', () => {
   test('shows LLM call details', async ({ page }) => {
     const context = await fetchRunContext(page.request);
-    test.skip(!context, 'No run data available in the cluster.');
+    expect(context, 'No run data available in the cluster.').toBeTruthy();
     if (!context) return;
 
     const llmEvent = await findEvent(context, ['llm_call'], page.request);
-    test.skip(!llmEvent, 'No LLM call events available in the cluster run.');
+    expect(llmEvent, 'No LLM call events available in the cluster run.').toBeTruthy();
     if (!llmEvent) return;
 
     await page.goto(timelineForEvent(context, llmEvent.id));
@@ -26,11 +26,11 @@ test.describe('event details', () => {
 
   test('shows tool execution details', async ({ page }) => {
     const context = await fetchRunContext(page.request);
-    test.skip(!context, 'No run data available in the cluster.');
+    expect(context, 'No run data available in the cluster.').toBeTruthy();
     if (!context) return;
 
     const toolEvent = await findEvent(context, ['tool_execution'], page.request);
-    test.skip(!toolEvent, 'No tool execution events available in the cluster run.');
+    expect(toolEvent, 'No tool execution events available in the cluster run.').toBeTruthy();
     if (!toolEvent) return;
 
     const toolLabel = toolEvent.toolName ?? 'Tool Call';
@@ -42,11 +42,11 @@ test.describe('event details', () => {
 
   test('shows invocation message', async ({ page }) => {
     const context = await fetchRunContext(page.request);
-    test.skip(!context, 'No run data available in the cluster.');
+    expect(context, 'No run data available in the cluster.').toBeTruthy();
     if (!context) return;
 
     const messageEvent = await findEvent(context, ['invocation_message', 'injection'], page.request);
-    test.skip(!messageEvent, 'No message events available in the cluster run.');
+    expect(messageEvent, 'No message events available in the cluster run.').toBeTruthy();
     if (!messageEvent) return;
 
     await page.goto(timelineForEvent(context, messageEvent.id));

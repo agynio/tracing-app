@@ -41,8 +41,8 @@ test.beforeAll(async ({ request }) => {
 
 test.describe('run timeline', () => {
   test('renders run timeline on load', async ({ page }) => {
-    test.skip(!runContext, 'No run data available in the cluster.');
-    test.skip(runEvents.length === 0, 'No events available for the cluster run.');
+    expect(runContext, 'No run data available in the cluster.').toBeTruthy();
+    expect(runEvents.length, 'No events available for the cluster run.').toBeGreaterThan(0);
 
     if (!runContext || runEvents.length === 0) return;
 
@@ -53,7 +53,7 @@ test.describe('run timeline', () => {
   });
 
   test('shows run summary', async ({ page }) => {
-    test.skip(!runContext || !runSummary, 'No run summary available in the cluster.');
+    expect(runContext && runSummary, 'No run summary available in the cluster.').toBeTruthy();
     if (!runContext || !runSummary) return;
 
     await page.goto(timelinePath(runContext));
@@ -64,7 +64,7 @@ test.describe('run timeline', () => {
   });
 
   test('redirects unknown paths to default timeline', async ({ page }) => {
-    test.skip(!runContext, 'No run data available in the cluster.');
+    expect(runContext, 'No run data available in the cluster.').toBeTruthy();
     if (!runContext) return;
 
     await page.goto(`/agents/threads/${runContext.threadId}/runs/${runContext.runId}/timeline/unknown`);

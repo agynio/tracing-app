@@ -11,17 +11,17 @@ import {
 test.describe('tool output', () => {
   test('displays tool output chunks', async ({ page }) => {
     const context = await fetchRunContext(page.request);
-    test.skip(!context, 'No run data available in the cluster.');
+    expect(context, 'No run data available in the cluster.').toBeTruthy();
     if (!context) return;
 
     const toolEvent = await findToolEvent(context, page.request);
-    test.skip(!toolEvent, 'No tool execution events available in the cluster run.');
+    expect(toolEvent, 'No tool execution events available in the cluster run.').toBeTruthy();
     if (!toolEvent) return;
 
     const outputSnippet =
       formatSnippet(await fetchToolOutputSnippet(page.request, context.runId, toolEvent.id))
       ?? formatSnippet(toolEvent.outputText);
-    test.skip(!outputSnippet, 'No tool output available for the cluster run.');
+    expect(outputSnippet, 'No tool output available for the cluster run.').toBeTruthy();
     if (!outputSnippet) return;
 
     const toolLabel = toolEvent.toolName ?? 'Tool Call';
