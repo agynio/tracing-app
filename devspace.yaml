@@ -73,13 +73,14 @@ pipelines:
         -- bash -c '
           echo "Waiting for file sync..."
           for i in $(seq 1 60); do
-            [ -f /opt/app/data/package.json ] && [ -f /opt/app/data/pnpm-lock.yaml ] && [ -f /opt/app/data/test/e2e/fixtures.ts ] && break
+            [ -f /opt/app/data/package.json ] && [ -f /opt/app/data/pnpm-lock.yaml ] && [ -f /opt/app/data/test/e2e/fixtures.ts ] && [ -f /opt/app/data/src/App.tsx ] && break
             sleep 2
           done
-          if [ ! -f /opt/app/data/package.json ] || [ ! -f /opt/app/data/pnpm-lock.yaml ] || [ ! -f /opt/app/data/test/e2e/fixtures.ts ]; then
-            echo "ERROR: file sync timed out — package.json, pnpm-lock.yaml, or test/e2e/fixtures.ts not found after 120s"
+          if [ ! -f /opt/app/data/package.json ] || [ ! -f /opt/app/data/pnpm-lock.yaml ] || [ ! -f /opt/app/data/test/e2e/fixtures.ts ] || [ ! -f /opt/app/data/src/App.tsx ]; then
+            echo "ERROR: file sync timed out — package.json, pnpm-lock.yaml, test/e2e/fixtures.ts, or src/App.tsx not found after 120s"
             exit 1
           fi
+          sleep 5
           cd /opt/app/data
           corepack enable
           pnpm install --frozen-lockfile
