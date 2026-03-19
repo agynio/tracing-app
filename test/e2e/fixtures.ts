@@ -1,4 +1,9 @@
-import { test as base, type APIRequestContext } from '@playwright/test';
+import { test as base } from '@playwright/test';
+import { mockRunEvents } from '../../src/api/mock-data/events';
+import { mockRunSummary } from '../../src/api/mock-data/run-summary';
+import { mockToolOutputSnapshot } from '../../src/api/mock-data/tool-output';
+import { DEFAULT_EVENT_IDS, DEFAULT_RUN_ID, DEFAULT_THREAD_ID } from '../../src/api/mock-data/store';
+import type { RunTimelineEvent } from '../../src/api/types/agents';
 
 export const test = base.extend<Record<string, never>>({});
 export { expect } from '@playwright/test';
@@ -21,33 +26,12 @@ export type RunEventSummary = {
   outputText?: string;
 };
 
-const BASE_URL = process.env.E2E_BASE_URL as string;
+const RUN_CONTEXT: RunContext = { threadId: DEFAULT_THREAD_ID, runId: DEFAULT_RUN_ID };
 
-type QueryParams = Record<string, string | number | undefined>;
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null;
-}
-
-function asString(value: unknown): string | null {
-  return typeof value === 'string' && value.trim().length > 0 ? value : null;
-}
-
-function asArray(value: unknown): unknown[] {
-  return Array.isArray(value) ? value : [];
-}
-
-function getStringField(record: Record<string, unknown>, keys: string[]): string | null {
-  for (const key of keys) {
-    const value = asString(record[key]);
-    if (value) return value;
-  }
-  return null;
-}
-
-function parseItems(value: unknown): Record<string, unknown>[] {
-  if (!isRecord(value)) return [];
-  return asArray(value.items).filter(isRecord);
+function asString(value: string | null | undefined): string | null {
+  if (typeof value !== 'string') return null;
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : null;
 }
 
 function formatValue(value: unknown): string | null {
@@ -72,137 +56,103 @@ export function formatSnippet(value: string | null | undefined): string | null {
   return null;
 }
 
-function buildUrl(path: string, params?: QueryParams): string {
-  const url = new URL(path, BASE_URL);
-  if (params) {
-    for (const [key, value] of Object.entries(params)) {
-      if (value !== undefined) url.searchParams.set(key, String(value));
-    }
-  }
-  return url.toString();
+function parseTimestamp(value: string): number {
+  const parsed = Date.parse(value);
+  return Number.isNaN(parsed) ? Number.NEGATIVE_INFINITY : parsed;
 }
 
-async function fetchJson(request: APIRequestContext, path: string, params?: QueryParams): Promise<unknown | null> {
-  try {
-    const response = await request.get(buildUrl(path, params));
-    if (!response.ok()) return null;
-    return await response.json();
-  } catch {
-    return null;
-  }
+function compareEvents(a: RunTimelineEvent, b: RunTimelineEvent): number {
+  const timeDiff = parseTimestamp(a.ts) - parseTimestamp(b.ts);
+  if (timeDiff !== 0) return timeDiff;
+  const lexical = a.ts.localeCompare(b.ts);
+  if (lexical !== 0) return lexical;
+  return a.id.localeCompare(b.id);
 }
 
-export async function fetchRunContext(request: APIRequestContext): Promise<RunContext | null> {
-  const threadsData = await fetchJson(request, '/api/agents/threads');
-  const threads = parseItems(threadsData);
+function parseRunEvent(event: RunTimelineEvent): RunEventSummary {
+  const summary: RunEventSummary = { id: event.id, type: event.type };
 
-  for (const thread of threads) {
-    const threadId = getStringField(thread, ['id', 'threadId']);
-    if (!threadId) continue;
-    const runsData = await fetchJson(request, `/api/agents/threads/${encodeURIComponent(threadId)}/runs`);
-    const runs = parseItems(runsData);
-    const candidate = pickRun(runs, threadId);
-    if (candidate) return candidate;
+  if (event.type === 'tool_execution' && event.toolExecution) {
+    summary.toolName = asString(event.toolExecution.toolName) ?? undefined;
+    summary.outputText = formatValue(event.toolExecution.output ?? event.toolExecution.raw) ?? undefined;
   }
 
-  return null;
-}
-
-function pickRun(runs: Record<string, unknown>[], fallbackThreadId: string): RunContext | null {
-  const candidates = runs
-    .map((run) => {
-      const runId = getStringField(run, ['id', 'runId']);
-      if (!runId) return null;
-      const threadId = getStringField(run, ['threadId']) ?? fallbackThreadId;
-      const createdAt = asString(run.createdAt);
-      const parsedCreatedAt = createdAt ? Date.parse(createdAt) : 0;
-      const createdAtMs = Number.isNaN(parsedCreatedAt) ? 0 : parsedCreatedAt;
-      return { runId, threadId, createdAtMs };
-    })
-    .filter((value): value is { runId: string; threadId: string; createdAtMs: number } => value !== null);
-
-  if (candidates.length === 0) return null;
-  candidates.sort((a, b) => b.createdAtMs - a.createdAtMs);
-  return { runId: candidates[0].runId, threadId: candidates[0].threadId };
-}
-
-export async function fetchRunSummary(request: APIRequestContext, runId: string): Promise<RunSummary | null> {
-  const data = await fetchJson(request, `/api/agents/runs/${encodeURIComponent(runId)}/summary`);
-  if (!isRecord(data)) return null;
-  const status = asString(data.status);
-  if (!status) return null;
-  return { status };
-}
-
-export async function fetchRunEvents(
-  request: APIRequestContext,
-  runId: string,
-  options?: { types?: string[]; limit?: number; order?: 'asc' | 'desc' },
-): Promise<RunEventSummary[]> {
-  const data = await fetchJson(request, `/api/agents/runs/${encodeURIComponent(runId)}/events`, {
-    limit: options?.limit ?? 50,
-    order: options?.order ?? 'desc',
-    types: options?.types && options.types.length > 0 ? options.types.join(',') : undefined,
-  });
-  const items = parseItems(data);
-  return items
-    .map((item) => parseRunEvent(item))
-    .filter((value): value is RunEventSummary => value !== null);
-}
-
-export const timelineForEvent = (context: RunContext, eventId: string) =>
-  `/agents/threads/${context.threadId}/runs/${context.runId}/timeline?eventId=${encodeURIComponent(eventId)}&follow=false`;
-
-export async function findEvent(
-  context: RunContext,
-  runEventType: string[],
-  request: APIRequestContext,
-): Promise<RunEventSummary | null> {
-  const events = await fetchRunEvents(request, context.runId, { types: runEventType, limit: 50, order: 'desc' });
-  return events[0] ?? null;
-}
-
-export async function findToolEvent(context: RunContext, request: APIRequestContext): Promise<RunEventSummary | null> {
-  return findEvent(context, ['tool_execution'], request);
-}
-
-function parseRunEvent(item: Record<string, unknown>): RunEventSummary | null {
-  const id = asString(item.id);
-  const type = asString(item.type);
-  if (!id || !type) return null;
-  const summary: RunEventSummary = { id, type };
-
-  if (type === 'tool_execution' && isRecord(item.toolExecution)) {
-    summary.toolName = asString(item.toolExecution.toolName) ?? undefined;
-    summary.outputText = formatValue(item.toolExecution.output ?? item.toolExecution.raw) ?? undefined;
+  if ((event.type === 'invocation_message' || event.type === 'injection') && event.message) {
+    summary.messageText = asString(event.message.text) ?? undefined;
   }
 
-  if ((type === 'invocation_message' || type === 'injection') && isRecord(item.message)) {
-    summary.messageText = asString(item.message.text) ?? undefined;
-  }
-
-  if (type === 'llm_call' && isRecord(item.llmCall)) {
-    summary.responseText = asString(item.llmCall.responseText) ?? undefined;
+  if (event.type === 'llm_call' && event.llmCall) {
+    summary.responseText = asString(event.llmCall.responseText) ?? undefined;
   }
 
   return summary;
 }
 
-export async function fetchToolOutputSnippet(
-  request: APIRequestContext,
+function assertRunContext(runId: string) {
+  if (runId !== RUN_CONTEXT.runId) {
+    throw new Error(`Unknown runId: ${runId}`);
+  }
+}
+
+export async function fetchRunContext(): Promise<RunContext> {
+  return RUN_CONTEXT;
+}
+
+export async function fetchRunSummary(runId: string): Promise<RunSummary> {
+  assertRunContext(runId);
+  return { status: mockRunSummary.status };
+}
+
+export async function fetchRunEvents(
   runId: string,
-  eventId: string,
-): Promise<string | null> {
-  const data = await fetchJson(request, `/api/agents/runs/${encodeURIComponent(runId)}/events/${encodeURIComponent(eventId)}/output`, {
-    limit: 25,
-    order: 'asc',
-  });
-  if (!isRecord(data)) return null;
-  const items = asArray(data.items).filter(isRecord);
+  options?: { types?: string[]; limit?: number; order?: 'asc' | 'desc' },
+): Promise<RunEventSummary[]> {
+  assertRunContext(runId);
+  let events = mockRunEvents.slice();
+  if (options?.types && options.types.length > 0) {
+    const typeSet = new Set(options.types);
+    events = events.filter((event) => typeSet.has(event.type));
+  }
+  events = events.sort(compareEvents);
+  if (options?.order === 'desc') {
+    events = [...events].reverse();
+  }
+  if (options?.limit && options.limit > 0) {
+    events = events.slice(0, options.limit);
+  }
+  return events.map(parseRunEvent);
+}
+
+export const timelineForEvent = (context: RunContext, eventId: string) =>
+  `/agents/threads/${context.threadId}/runs/${context.runId}/timeline?eventId=${encodeURIComponent(eventId)}&follow=false`;
+
+export async function findEvent(context: RunContext, runEventType: string[]): Promise<RunEventSummary> {
+  const events = await fetchRunEvents(context.runId, { types: runEventType, limit: 50, order: 'desc' });
+  const event = events[0];
+  if (!event) {
+    throw new Error(`No events available for types: ${runEventType.join(', ')}`);
+  }
+  return event;
+}
+
+export async function findToolEvent(context: RunContext): Promise<RunEventSummary> {
+  return findEvent(context, ['tool_execution']);
+}
+
+export async function fetchToolOutputSnippet(runId: string, eventId: string): Promise<string> {
+  assertRunContext(runId);
+  if (eventId !== DEFAULT_EVENT_IDS.tool) {
+    throw new Error(`Unknown tool event id: ${eventId}`);
+  }
+  const items = mockToolOutputSnapshot.items ?? [];
   for (const item of items) {
     const snippet = formatSnippet(asString(item.data));
     if (snippet) return snippet;
   }
-  const terminal = isRecord(data.terminal) ? data.terminal : null;
-  return terminal ? formatSnippet(asString(terminal.message)) : null;
+  const terminal = mockToolOutputSnapshot.terminal;
+  const fallback = terminal ? formatSnippet(asString(terminal.message)) : null;
+  if (!fallback) {
+    throw new Error('No tool output available for mock data.');
+  }
+  return fallback;
 }
