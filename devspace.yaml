@@ -38,7 +38,7 @@ deployments:
           - image: ${E2E_IMAGE}
             env:
               - name: E2E_BASE_URL
-                value: "http://tracing-app:3000"
+                value: "https://tracing.agyn.dev"
         labels:
           app.kubernetes.io/name: tracing-app-e2e
 
