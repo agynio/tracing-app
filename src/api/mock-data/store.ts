@@ -48,7 +48,7 @@ export const ALL_EVENT_TYPES: RunEventType[] = [
 export const ALL_EVENT_STATUSES: RunEventStatus[] = ['pending', 'running', 'success', 'error', 'cancelled'];
 
 const mockRuns = new Map<string, MockRunData>();
-const BASE_TIME = Date.now() - 5 * 60 * 1000;
+const BASE_TIME = new Date('2026-01-15T12:00:00Z').getTime();
 
 function toIso(timestampMs: number): string {
   return new Date(timestampMs).toISOString();
@@ -426,7 +426,7 @@ function getContextPage(run: MockRunData, cursor: LlmContextPageCursor | null, l
   return { items: newestFirst, nextCursor };
 }
 
-function filterEvents(events: RunTimelineEvent[], types: string[], statuses: string[]): RunTimelineEvent[] {
+function filterEvents(events: RunTimelineEvent[], types: RunEventType[], statuses: RunEventStatus[]): RunTimelineEvent[] {
   return events.filter((event) => {
     if (types.length > 0 && !types.includes(event.type)) return false;
     if (statuses.length > 0 && !statuses.includes(event.status)) return false;
@@ -435,8 +435,8 @@ function filterEvents(events: RunTimelineEvent[], types: string[], statuses: str
 }
 
 type RunEventsParams = {
-  types: string[];
-  statuses: string[];
+  types: RunEventType[];
+  statuses: RunEventStatus[];
   limit: number;
   order: 'asc' | 'desc';
   cursor: RunTimelineEventsCursor | null;
@@ -451,10 +451,7 @@ export function getRunSummary(runId: string): RunTimelineSummary {
   return buildSummary(getMockRun(runId));
 }
 
-function buildEventsResponse(
-  run: MockRunData,
-  params: { types: string[]; statuses: string[]; order: 'asc' | 'desc'; limit: number; cursor: RunTimelineEventsCursor | null },
-): RunTimelineEventsResponse {
+function buildEventsResponse(run: MockRunData, params: RunEventsParams): RunTimelineEventsResponse {
   const { types, statuses, order, limit, cursor } = params;
   let filtered = filterEvents(run.events, types, statuses).sort((a, b) => compareCursors(toCursor(a), toCursor(b)));
   if (cursor) {
@@ -477,8 +474,8 @@ export function buildSummary(run: MockRunData): RunTimelineSummary {
   const countsByType = ALL_EVENT_TYPES.reduce((acc, type) => ({ ...acc, [type]: 0 }), {} as Record<RunEventType, number>);
   const countsByStatus = ALL_EVENT_STATUSES.reduce((acc, status) => ({ ...acc, [status]: 0 }), {} as Record<RunEventStatus, number>);
   run.events.forEach((event) => {
-    countsByType[event.type] = (countsByType[event.type] ?? 0) + 1;
-    countsByStatus[event.status] = (countsByStatus[event.status] ?? 0) + 1;
+    countsByType[event.type] += 1;
+    countsByStatus[event.status] += 1;
   });
 
   return {
@@ -524,8 +521,8 @@ function buildTotals(run: MockRunData, params: { types: RunEventType[]; statuses
   return {
     runId: run.runId,
     filters: {
-      types: types as RunEventType[],
-      statuses: statuses as RunEventStatus[],
+      types,
+      statuses,
     },
     totals: {
       eventCount: filtered.length,
