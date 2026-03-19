@@ -1,12 +1,11 @@
 import {
   expect,
-  fetchRunContext,
-  fetchRunEvents,
-  fetchRunSummary,
+  runContext,
+  runEvents,
+  runSummary,
   test,
   type RunContext,
   type RunEventSummary,
-  type RunSummary,
 } from './fixtures';
 
 const timelinePath = (context: RunContext) =>
@@ -27,16 +26,6 @@ const eventLabel = (event: RunEventSummary): string | RegExp => {
       return /Event/;
   }
 };
-
-let runContext: RunContext;
-let runSummary: RunSummary;
-let runEvents: RunEventSummary[] = [];
-
-test.beforeAll(async () => {
-  runContext = await fetchRunContext();
-  runSummary = await fetchRunSummary(runContext.runId);
-  runEvents = await fetchRunEvents(runContext.runId, { limit: 50, order: 'desc' });
-});
 
 test.describe('run timeline', () => {
   test('renders run timeline on load', async ({ page }) => {
