@@ -89,7 +89,7 @@ pipelines:
           echo "Waiting for preview server..."
           READY=0
           for i in $(seq 1 60); do
-            node -e "require('http').get('http://localhost:3000', res => process.exit(res.statusCode ? 0 : 1)).on('error', () => process.exit(1));" && READY=1 && break
+            curl -sf http://localhost:3000 > /dev/null 2>&1 && READY=1 && break
             sleep 2
           done
           if [ "$READY" -ne 1 ]; then
