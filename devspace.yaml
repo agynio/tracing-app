@@ -64,6 +64,49 @@ pipelines:
 
   test-e2e:
     run: |-
+      disable_argocd_sync
+      start_dev --disable-pod-replace tracing-app &
+      sleep 5
+      echo "Installing dependencies for build..."
+      if ! (corepack enable && pnpm install --frozen-lockfile); then
+        echo "ERROR: dependency install failed"
+        stop_dev tracing-app
+        restore_argocd_sync
+        exit 1
+      fi
+      echo "Building tracing-app for e2e..."
+      if ! VITE_API_BASE_URL=/api pnpm build; then
+        echo "ERROR: build failed"
+        stop_dev tracing-app
+        restore_argocd_sync
+        exit 1
+      fi
+      ASSET_FILE=$(ls dist/assets/index-*.js 2>/dev/null | head -n 1)
+      if [ -z "$ASSET_FILE" ]; then
+        echo "ERROR: build output missing dist/assets/index-*.js"
+        stop_dev tracing-app
+        restore_argocd_sync
+        exit 1
+      fi
+      ASSET_NAME=$(basename "$ASSET_FILE")
+      echo "Waiting for dist sync to tracing-app..."
+      DIST_SYNCED=0
+      for i in $(seq 1 60); do
+        if exec_container \
+          --label-selector "app.kubernetes.io/name=tracing-app,app.kubernetes.io/instance=tracing-app" \
+          -n ${APP_NAMESPACE} \
+          -- sh -c "test -f /usr/share/nginx/html/assets/${ASSET_NAME}"; then
+          DIST_SYNCED=1
+          break
+        fi
+        sleep 2
+      done
+      if [ "$DIST_SYNCED" -ne 1 ]; then
+        echo "ERROR: dist sync timed out — ${ASSET_NAME} not found after 120s"
+        stop_dev tracing-app
+        restore_argocd_sync
+        exit 1
+      fi
       create_deployments e2e-runner
       start_dev e2e-runner &
       sleep 5
@@ -85,6 +128,8 @@ pipelines:
       EXIT_CODE=$?
       stop_dev e2e-runner
       purge_deployments e2e-runner
+      stop_dev tracing-app
+      restore_argocd_sync
       exit $EXIT_CODE
 
 hooks:
