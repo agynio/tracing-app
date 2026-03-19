@@ -1,4 +1,4 @@
-import { DEFAULT_THREAD_ID } from './store';
+import { DEFAULT_THREAD_ID } from './store.ts';
 
 export type MockThread = { id: string };
 

@@ -1,5 +1,5 @@
 import type { RunTimelineEvent } from '@/api/types/agents';
-import { DEFAULT_EVENT_IDS, DEFAULT_RUN_ID, getMockRun } from './store';
+import { DEFAULT_EVENT_IDS, DEFAULT_RUN_ID, getMockRun } from './store.ts';
 
 const defaultRun = getMockRun(DEFAULT_RUN_ID);
 

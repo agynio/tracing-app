@@ -1,5 +1,5 @@
 import type { RunStatus } from '@/api/types/agents';
-import { DEFAULT_RUN_ID, getMockRun } from './store';
+import { DEFAULT_RUN_ID, getMockRun } from './store.ts';
 
 export type MockRun = {
   id: string;
