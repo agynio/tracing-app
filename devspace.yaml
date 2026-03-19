@@ -38,9 +38,7 @@ deployments:
           - image: ${E2E_IMAGE}
             env:
               - name: E2E_BASE_URL
-                value: "https://tracing.agyn.dev"
-              - name: E2E_HOST
-                value: "tracing.agyn.dev"
+                value: "http://tracing-app:3000"
         labels:
           app.kubernetes.io/name: tracing-app-e2e
 
@@ -66,34 +64,24 @@ pipelines:
 
   test-e2e:
     run: |-
-      GATEWAY_IP=$(kubectl get svc istio-ingressgateway \
-        -n istio-gateway \
-        -o jsonpath='{.spec.clusterIP}')
-      if [ -z "$GATEWAY_IP" ]; then
-        echo "ERROR: Could not resolve istio-ingressgateway ClusterIP" >&2
-        exit 1
-      fi
-      echo "Resolved istio-ingressgateway ClusterIP: $GATEWAY_IP"
-
       create_deployments e2e-runner
       start_dev e2e-runner &
       sleep 5
       exec_container \
         --label-selector "app.kubernetes.io/name=tracing-app-e2e" \
         -n ${APP_NAMESPACE} \
-        -- bash -c "
-          echo '$GATEWAY_IP tracing.agyn.dev' >> /etc/hosts
-          echo 'Waiting for file sync...'
-          for i in \$(seq 1 60); do
+        -- bash -c '
+          echo "Waiting for file sync..."
+          for i in $(seq 1 60); do
             [ -f /opt/app/data/package.json ] && [ -f /opt/app/data/pnpm-lock.yaml ] && [ -f /opt/app/data/test/e2e/fixtures.ts ] && break
             sleep 2
           done
           if [ ! -f /opt/app/data/package.json ] || [ ! -f /opt/app/data/pnpm-lock.yaml ] || [ ! -f /opt/app/data/test/e2e/fixtures.ts ]; then
-            echo 'ERROR: file sync timed out — package.json/pnpm-lock.yaml/test/e2e/fixtures.ts not found after 120s'
+            echo "ERROR: file sync timed out — package.json, pnpm-lock.yaml, or test/e2e/fixtures.ts not found after 120s"
             exit 1
           fi
           cd /opt/app/data && corepack enable && pnpm install --frozen-lockfile && pnpm test:e2e
-        "
+        '
       EXIT_CODE=$?
       stop_dev e2e-runner
       purge_deployments e2e-runner
