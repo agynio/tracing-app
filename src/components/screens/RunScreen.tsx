@@ -10,11 +10,9 @@ import {
   MessageSquare,
   ScrollText,
   Settings2,
-  Square,
   Wrench,
 } from 'lucide-react';
 import type { ReactNode } from 'react';
-import { Button } from '../Button';
 import { IconButton } from '../IconButton';
 import { RunEventDetails, type ContextPaginationState } from '../RunEventDetails';
 import { type RunEvent, RunEventsList } from '../RunEventsList';
@@ -30,7 +28,7 @@ import {
 } from '../ui/dropdown-menu';
 
 export type EventFilter = 'message' | 'llm' | 'tool' | 'summary';
-export type StatusFilter = 'running' | 'finished' | 'failed' | 'terminated';
+export type StatusFilter = 'running' | 'finished' | 'failed';
 
 interface RunScreenProps {
   runId: string;
@@ -72,7 +70,6 @@ interface RunScreenProps {
   onRunsPopoverOpenChange: (open: boolean) => void;
   onLoadMoreEvents?: () => void;
   onLoadOlderContext?: (eventId: string) => Promise<{ addedCount: number; hasMore: boolean }>;
-  onTerminate?: () => void;
   onBack?: () => void;
   className?: string;
 }
@@ -105,7 +102,6 @@ export default function RunScreen({
   onRunsPopoverOpenChange,
   onLoadMoreEvents,
   onLoadOlderContext,
-  onTerminate,
   onBack,
   className = '',
 }: RunScreenProps) {
@@ -149,7 +145,6 @@ export default function RunScreen({
     running: events.filter((event) => event.status === 'running').length,
     finished: events.filter((event) => event.status === 'finished').length,
     failed: events.filter((event) => event.status === 'failed').length,
-    terminated: events.filter((event) => event.status === 'terminated').length,
   } satisfies Record<StatusFilter, number>;
 
   const handleToggleEventFilter = (filter: EventFilter) => {
@@ -331,14 +326,6 @@ export default function RunScreen({
               </Popover.Root>
             </div>
 
-            <div className="flex items-center gap-2">
-              {status === 'running' && (
-                <Button onClick={onTerminate} variant="danger" size="sm">
-                  <Square className="mr-1.5 h-4 w-4" />
-                  Terminate
-                </Button>
-              )}
-            </div>
           </div>
 
           <div className="flex flex-1 overflow-hidden">
@@ -418,13 +405,6 @@ export default function RunScreen({
                                 <span className="text-[var(--agyn-text-subtle)]">Failed</span>
                               </div>
                               <span className="font-medium text-[var(--agyn-dark)]">{formatNumber(runsByStatus.failed)}</span>
-                            </div>
-                            <div className="flex items-center justify-between text-xs">
-                              <div className="flex items-center gap-1.5">
-                                <StatusIndicator status="terminated" size="sm" showTooltip={false} />
-                                <span className="text-[var(--agyn-text-subtle)]">Terminated</span>
-                              </div>
-                              <span className="font-medium text-[var(--agyn-dark)]">{formatNumber(runsByStatus.terminated)}</span>
                             </div>
                           </div>
                         </div>
@@ -610,24 +590,6 @@ export default function RunScreen({
                             <span className="text-xs text-[var(--agyn-text-subtle)]">({formatNumber(runsByStatus.failed)})</span>
                           </div>
                           {statusFilterSet.has('failed') ? (
-                            <Eye className="h-4 w-4 text-[var(--agyn-blue)]" />
-                          ) : (
-                            <EyeOff className="h-4 w-4 text-[var(--agyn-text-subtle)]" />
-                          )}
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          className="flex items-center justify-between rounded-md px-3 py-2 text-sm transition-colors hover:bg-[var(--agyn-bg-light)] focus:bg-[var(--agyn-bg-light)]"
-                          onSelect={(event) => {
-                            event.preventDefault();
-                            handleToggleStatusFilter('terminated');
-                          }}
-                        >
-                          <div className="flex items-center gap-2">
-                            <StatusIndicator status="terminated" size="sm" showTooltip={false} />
-                            <span>Terminated</span>
-                            <span className="text-xs text-[var(--agyn-text-subtle)]">({formatNumber(runsByStatus.terminated)})</span>
-                          </div>
-                          {statusFilterSet.has('terminated') ? (
                             <Eye className="h-4 w-4 text-[var(--agyn-blue)]" />
                           ) : (
                             <EyeOff className="h-4 w-4 text-[var(--agyn-text-subtle)]" />

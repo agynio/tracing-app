@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package agynio.tracing.app.v1;
+
+// Placeholder file to allow buf dep update.
+message Placeholder {
+  string id = 1;
+}

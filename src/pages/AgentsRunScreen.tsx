@@ -17,13 +17,12 @@ import { matchesFilters } from '@/lib/eventFiltering';
 import { createUiEvent, extractLlmResponse, mapRunStatus } from '@/lib/eventMapping';
 import { toContextRecord } from '@/lib/llmContext';
 import { buildToolLinkData } from '@/lib/toolDataParsing';
-import { notifyError, notifySuccess } from '@/lib/notify';
 import { formatDuration } from '@/components/agents/runTimelineFormatting';
 
 const EVENT_FILTER_OPTIONS: EventFilter[] = ['message', 'llm', 'tool', 'summary'];
-const STATUS_FILTER_OPTIONS: StatusFilter[] = ['running', 'finished', 'failed', 'terminated'];
+const STATUS_FILTER_OPTIONS: StatusFilter[] = ['running', 'finished', 'failed'];
 const API_EVENT_TYPES: RunEventType[] = ['invocation_message', 'injection', 'llm_call', 'tool_execution', 'summarization'];
-const API_EVENT_STATUSES: RunEventStatus[] = ['pending', 'running', 'success', 'error', 'cancelled'];
+const API_EVENT_STATUSES: RunEventStatus[] = ['running', 'success', 'error'];
 const LLM_CONTEXT_PAGE_LIMIT = 100;
 
 type LlmContextState = {
@@ -42,10 +41,9 @@ const EVENT_FILTER_TO_TYPES: Record<EventFilter, RunEventType[]> = {
 };
 
 const STATUS_FILTER_TO_STATUSES: Record<StatusFilter, RunEventStatus[]> = {
-  running: ['pending', 'running'],
+  running: ['running'],
   finished: ['success'],
   failed: ['error'],
-  terminated: ['cancelled'],
 };
 
 
@@ -130,7 +128,6 @@ export function AgentsRunScreen() {
   const [statusFilters, setStatusFilters] = useState<StatusFilter[]>([]);
   const [tokensPopoverOpen, setTokensPopoverOpen] = useState(false);
   const [runsPopoverOpen, setRunsPopoverOpen] = useState(false);
-  const [isTerminating, setIsTerminating] = useState(false);
   const contextStateRef = useRef<Map<string, LlmContextState>>(new Map());
   const [contextStateVersion, setContextStateVersion] = useState(0);
 
@@ -149,7 +146,6 @@ export function AgentsRunScreen() {
   useEffect(() => {
     setEventFilters(EVENT_FILTER_OPTIONS);
     setStatusFilters([]);
-    setIsTerminating(false);
     contextStateRef.current.clear();
     setContextStateVersion((version) => version + 1);
   }, [runId]);
@@ -243,7 +239,6 @@ export function AgentsRunScreen() {
     selectedTypes,
     selectedStatuses,
     onRunEvent: refreshSummaryAndTotals,
-    onRunStatusChange: refreshSummaryAndTotals,
     onReconnect: refreshSummaryAndTotals,
   });
 
@@ -497,24 +492,6 @@ export function AgentsRunScreen() {
     [ensureSelectionVisible, selectedTypes],
   );
 
-  const handleTerminate = useCallback(async () => {
-    if (!runId || isTerminating) return;
-    if (!window.confirm('Terminate this run?')) {
-      return;
-    }
-    setIsTerminating(true);
-    try {
-      await runs.terminate(runId);
-      notifySuccess('Termination signaled');
-      await summaryQuery.refetch();
-    } catch (error) {
-      const message = error instanceof Error && error.message ? error.message : 'Failed to terminate run';
-      notifyError(message);
-    } finally {
-      setIsTerminating(false);
-    }
-  }, [runId, isTerminating, summaryQuery]);
-
   const handleLoadOlderContext = useCallback(
     async (eventId: string) => {
       const state = contextStateRef.current.get(eventId);
@@ -625,7 +602,6 @@ export function AgentsRunScreen() {
         onTokensPopoverOpenChange={setTokensPopoverOpen}
         onRunsPopoverOpenChange={setRunsPopoverOpen}
         onLoadMoreEvents={hasMoreEvents ? loadOlderEvents : undefined}
-        onTerminate={runStatus === 'running' && !isTerminating ? handleTerminate : undefined}
       />
     </>
   );

@@ -46,6 +46,6 @@ test.describe('run timeline', () => {
   test('redirects unknown paths to default timeline', async ({ page }) => {
     await page.goto(`/agents/threads/${runContext.threadId}/runs/${runContext.runId}/timeline/unknown`);
 
-    await expect(page).toHaveURL(/\/agents\/threads\/thread-demo\/runs\/run-demo\/timeline/);
+    await expect(page).toHaveURL(new RegExp(`/agents/threads/${runContext.threadId}/runs/${runContext.runId}/timeline`));
   });
 });
