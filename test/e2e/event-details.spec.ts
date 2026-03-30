@@ -1,3 +1,4 @@
+import { argosScreenshot } from '@argos-ci/playwright';
 import {
   expect,
   formatSnippet,
@@ -16,6 +17,7 @@ test.describe('event details', () => {
     await expect(page.getByRole('heading', { name: 'LLM Call' })).toBeVisible();
     await expect(page.getByText('Context', { exact: true })).toBeVisible();
     await expect(page.getByText('Output', { exact: true })).toBeVisible();
+    await argosScreenshot(page, 'event-details-llm-call');
   });
 
   test('shows tool execution details', async ({ page }) => {
@@ -24,6 +26,7 @@ test.describe('event details', () => {
 
     await expect(page.getByRole('heading', { name: toolLabel })).toBeVisible();
     await expect(page.getByText('Output', { exact: true })).toBeVisible();
+    await argosScreenshot(page, 'event-details-tool-execution');
   });
 
   test('shows invocation message', async ({ page }) => {
@@ -36,5 +39,7 @@ test.describe('event details', () => {
     if (messageSnippet) {
       await expect(page.getByText(messageSnippet)).toBeVisible();
     }
+
+    await argosScreenshot(page, 'event-details-invocation-message');
   });
 });

@@ -1,3 +1,4 @@
+import { argosScreenshot } from '@argos-ci/playwright';
 import {
   expect,
   runContext,
@@ -33,6 +34,7 @@ test.describe('run timeline', () => {
 
     await expect(page.getByRole('button', { name: /events/ })).toBeVisible();
     await expect(page.getByRole('button', { name: eventLabel(runEvents[0]) })).toBeVisible();
+    await argosScreenshot(page, 'run-timeline-loaded');
   });
 
   test('shows run summary', async ({ page }) => {
@@ -41,11 +43,13 @@ test.describe('run timeline', () => {
     await expect(page.getByText(runSummary.status, { exact: true })).toBeVisible();
     await expect(page.getByRole('button', { name: /events/ })).toBeVisible();
     await expect(page.getByRole('button', { name: /tokens/ })).toBeVisible();
+    await argosScreenshot(page, 'run-summary');
   });
 
   test('redirects unknown paths to default timeline', async ({ page }) => {
     await page.goto(`/agents/threads/${runContext.threadId}/runs/${runContext.runId}/timeline/unknown`);
 
     await expect(page).toHaveURL(new RegExp(`/agents/threads/${runContext.threadId}/runs/${runContext.runId}/timeline`));
+    await argosScreenshot(page, 'run-timeline-redirect');
   });
 });

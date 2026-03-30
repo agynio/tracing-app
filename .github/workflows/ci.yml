@@ -70,6 +70,9 @@ jobs:
       - name: Run E2E tests
         env:
           KUBECONFIG: ${{ github.workspace }}/bootstrap/stacks/k8s/.kube/agyn-local-kubeconfig.yaml
+          ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
+          ARGOS_BRANCH: ${{ github.head_ref || github.ref_name }}
+          ARGOS_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
         run: devspace run-pipeline test-e2e
 
       - name: Upload Playwright report

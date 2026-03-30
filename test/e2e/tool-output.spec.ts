@@ -1,3 +1,4 @@
+import { argosScreenshot } from '@argos-ci/playwright';
 import {
   expect,
   runContext,
@@ -15,5 +16,6 @@ test.describe('tool output', () => {
     await expect(page.getByRole('heading', { name: toolLabel })).toBeVisible();
     await expect(page.getByText('Output', { exact: true })).toBeVisible();
     await expect(page.getByText(toolOutputSnippet)).toBeVisible();
+    await argosScreenshot(page, 'tool-output-chunks');
   });
 });

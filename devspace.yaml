@@ -39,6 +39,14 @@ deployments:
             env:
               - name: E2E_BASE_URL
                 value: "http://localhost:3000"
+              - name: ARGOS_TOKEN
+                value: "${ARGOS_TOKEN}"
+              - name: ARGOS_BRANCH
+                value: "${ARGOS_BRANCH}"
+              - name: ARGOS_COMMIT
+                value: "${ARGOS_COMMIT}"
+              - name: CI
+                value: "${CI}"
         labels:
           app.kubernetes.io/name: tracing-app-e2e
 
@@ -99,7 +107,7 @@ pipelines:
             kill $PREVIEW_PID || true
             exit 1
           fi
-          E2E_BASE_URL=http://localhost:3000 pnpm test:e2e
+          E2E_BASE_URL=http://localhost:3000 ARGOS_TOKEN=${ARGOS_TOKEN} ARGOS_BRANCH=${ARGOS_BRANCH} ARGOS_COMMIT=${ARGOS_COMMIT} CI=true pnpm test:e2e
           EXIT_CODE=$?
           kill $PREVIEW_PID || true
           exit $EXIT_CODE
