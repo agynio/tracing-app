@@ -5,7 +5,7 @@ import { MainLayout } from '@/components/layouts/MainLayout';
 import type { MenuItem } from '@/components/Sidebar';
 
 export const DEFAULT_THREAD_ID = 'thread-demo';
-export const DEFAULT_RUN_ID = 'run-demo';
+export const DEFAULT_RUN_ID = '0123456789abcdef0123456789abcdef';
 export const DEFAULT_TIMELINE_PATH = `/agents/threads/${DEFAULT_THREAD_ID}/runs/${DEFAULT_RUN_ID}/timeline`;
 
 const MENU_ITEMS: MenuItem[] = [

@@ -1,8 +1,13 @@
+import path from 'path';
 import { configDefaults, defineConfig } from 'vitest/config';
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
   test: {
     exclude: [...configDefaults.exclude, 'test/e2e/**'],
-    passWithNoTests: true,
   },
 });

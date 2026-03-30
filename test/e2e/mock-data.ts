@@ -16,30 +16,30 @@ export type RunEventSummary = {
   outputText?: string;
 };
 
-export const runContext: RunContext = { threadId: 'thread-demo', runId: 'run-demo' };
+export const runContext: RunContext = { threadId: 'thread-demo', runId: '0123456789abcdef0123456789abcdef' };
 export const runSummary: RunSummary = { status: 'running' };
 
 export const messageEvent: RunEventSummary = {
-  id: 'evt-run-demo-message',
+  id: 'aaaaaaaaaaaaaaaa',
   type: 'invocation_message',
   messageText: 'Provide a quick status update for the current run.',
 };
 
 export const llmEvent: RunEventSummary = {
-  id: 'evt-run-demo-llm',
+  id: 'bbbbbbbbbbbbbbbb',
   type: 'llm_call',
   responseText: 'The run completed the tool step and summarized the output with one warning.',
 };
 
 export const toolEvent: RunEventSummary = {
-  id: 'evt-run-demo-tool',
+  id: 'cccccccccccccccc',
   type: 'tool_execution',
   toolName: 'shell_command',
-  outputText: 'Progress: resolved 128 packages\nDone in 3.4s',
+  outputText: 'Resolving packages...\nProgress: resolved 128 packages\nDone in 3.4s',
 };
 
 export const summarizationEvent: RunEventSummary = {
-  id: 'evt-run-demo-summary',
+  id: 'dddddddddddddddd',
   type: 'summarization',
 };
 
