@@ -75,12 +75,14 @@ const spans: SpanJson[] = [
     startNs: baseTimeNs + 2_000_000_000n,
     endNs: baseTimeNs + 2_000_000_000n + spanDurationNs,
     attributes: [
-      stringAttr('agyn.llm.provider', 'openai'),
-      stringAttr('agyn.llm.model', 'gpt-4'),
-      stringAttr('agyn.llm.response', llmEvent.responseText ?? ''),
-      intAttr('agyn.llm.input_tokens', 10),
-      intAttr('agyn.llm.output_tokens', 20),
-      intAttr('agyn.llm.total_tokens', 30),
+      stringAttr('gen_ai.system', 'openai'),
+      stringAttr('gen_ai.request.model', 'gpt-4'),
+      stringAttr('gen_ai.response.finish_reason', 'stop'),
+      stringAttr('agyn.llm.response_text', llmEvent.responseText ?? ''),
+      intAttr('gen_ai.usage.input_tokens', 10),
+      intAttr('gen_ai.usage.output_tokens', 20),
+      intAttr('gen_ai.usage.cache_read.input_tokens', 0),
+      intAttr('agyn.usage.reasoning_tokens', 0),
     ],
   }),
   buildSpan({
@@ -100,9 +102,9 @@ const spans: SpanJson[] = [
     startNs: baseTimeNs + 4_000_000_000n,
     endNs: baseTimeNs + 4_000_000_000n + spanDurationNs,
     attributes: [
-      stringAttr('agyn.summary.text', 'Summary completed.'),
-      intAttr('agyn.summary.new_context_count', 1),
-      intAttr('agyn.summary.old_context_tokens', 5),
+      stringAttr('agyn.summarization.text', 'Summary completed.'),
+      intAttr('agyn.summarization.new_context_count', 1),
+      intAttr('agyn.summarization.old_context_tokens', 5),
     ],
   }),
 ];

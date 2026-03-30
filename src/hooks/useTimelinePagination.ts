@@ -278,7 +278,8 @@ export function useTimelinePagination({
         const event = spanToEvent(spans[0].span, spans[0].resourceAttrs);
         updateEventsState([event]);
         if (onRunEvent) onRunEvent(event);
-      })().catch(() => {
+      })().catch((error) => {
+        console.warn('Failed to fetch span update', error);
         void refetchEvents();
       });
     });

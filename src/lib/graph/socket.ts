@@ -1,6 +1,8 @@
 import type { JsonObject } from '@bufbuild/protobuf';
 import { notificationsClient } from '@/api/client';
 
+const RECONNECT_DELAY_MS = 3000;
+
 type SpanEventListener = (traceId: string, spanId: string, isNew: boolean) => void;
 type ReconnectListener = () => void;
 
@@ -86,7 +88,7 @@ class NotificationStream {
       globalThis.setTimeout(() => {
         if (this.abortController?.signal.aborted) return;
         void this.startStream();
-      }, 3000);
+      }, RECONNECT_DELAY_MS);
     }
   }
 }

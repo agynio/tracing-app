@@ -7,6 +7,7 @@ import {
   getStringAttr,
   hexToBytes,
   nanosToIso,
+  SPAN_NAME_TO_EVENT_TYPE,
   spanToEvent,
 } from '@/api/spanToEvent';
 import type {
@@ -25,21 +26,14 @@ import type {
 } from '@/api/types/agents';
 import { ListSpansOrderBy, SpanStatus, TraceStatus } from '@/gen/agynio/api/tracing/v1/tracing_pb';
 
-const EVENT_TYPE_TO_SPAN_NAME: Record<RunEventType, string> = {
-  invocation_message: 'invocation.message',
-  injection: 'injection',
-  llm_call: 'llm.call',
-  tool_execution: 'tool.execution',
-  summarization: 'summarization',
-};
-
-const SPAN_NAME_TO_EVENT_TYPE: Record<string, RunEventType> = {
-  'invocation.message': 'invocation_message',
-  injection: 'injection',
-  'llm.call': 'llm_call',
-  'tool.execution': 'tool_execution',
-  summarization: 'summarization',
-};
+const EVENT_TYPE_TO_SPAN_NAME: Record<RunEventType, string> =
+  (Object.entries(SPAN_NAME_TO_EVENT_TYPE) as Array<[string, RunEventType]>).reduce(
+    (acc, [spanName, eventType]) => {
+      acc[eventType] = spanName;
+      return acc;
+    },
+    {} as Record<RunEventType, string>,
+  );
 
 const RUN_EVENT_TYPES = new Set<RunEventType>(Object.keys(EVENT_TYPE_TO_SPAN_NAME) as RunEventType[]);
 const RUN_EVENT_STATUSES = new Set<RunEventStatus>(['pending', 'running', 'success', 'error', 'cancelled']);
@@ -80,13 +74,13 @@ function parseEventStatuses(value?: string): RunEventStatus[] {
 function mapTraceStatus(status: TraceStatus): RunStatus {
   switch (status) {
     case TraceStatus.RUNNING:
+    case TraceStatus.UNSPECIFIED:
       return 'running';
     case TraceStatus.COMPLETED:
     case TraceStatus.ERROR:
       return 'finished';
-    case TraceStatus.UNSPECIFIED:
     default:
-      return 'running';
+      throw new Error(`Unhandled TraceStatus: ${status}`);
   }
 }
 
@@ -153,13 +147,12 @@ function buildPageToken(cursorTs?: string, cursorId?: string): string | null {
 
 function decodeCursorFromPageToken(token: string): RunTimelineEventsCursor | null {
   if (!token) return null;
-  const decoded = (() => {
-    try {
-      return atob(token);
-    } catch {
-      return token;
-    }
-  })();
+  let decoded: string;
+  try {
+    decoded = atob(token);
+  } catch {
+    throw new Error(`Invalid base64 page token: ${token}`);
+  }
   let parsed: unknown;
   try {
     parsed = JSON.parse(decoded);

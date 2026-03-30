@@ -5,7 +5,7 @@ import type { RunEventStatus, RunEventType, RunTimelineEvent } from '@/api/types
 
 type FlattenedSpan = { span: Span; resourceAttrs: KeyValue[] };
 
-const SPAN_NAME_TO_EVENT_TYPE: Record<string, RunEventType> = {
+export const SPAN_NAME_TO_EVENT_TYPE: Record<string, RunEventType> = {
   'invocation.message': 'invocation_message',
   injection: 'injection',
   'llm.call': 'llm_call',
@@ -61,7 +61,8 @@ export function getJsonAttr(attrs: KeyValue[], key: string): unknown {
   if (!raw) return null;
   try {
     return JSON.parse(raw);
-  } catch {
+  } catch (error) {
+    console.warn(`Failed to parse JSON attribute: ${key}`, { error, raw });
     return null;
   }
 }
@@ -83,22 +84,46 @@ export function nanosToDurationMs(start: bigint, end: bigint): number | null {
 }
 
 function mapSpanNameToEventType(name: string): RunEventType {
-  return SPAN_NAME_TO_EVENT_TYPE[name] ?? 'invocation_message';
+  const type = SPAN_NAME_TO_EVENT_TYPE[name];
+  if (!type) {
+    throw new Error(`Unhandled span name: ${name}`);
+  }
+  return type;
+}
+
+type ToolCallPayload = {
+  call_id: string;
+  name: string;
+  arguments?: unknown;
+};
+
+function isToolCallPayload(value: unknown): value is ToolCallPayload {
+  if (!value || typeof value !== 'object') return false;
+  const record = value as Record<string, unknown>;
+  return typeof record.call_id === 'string' && typeof record.name === 'string';
 }
 
 function parseToolCalls(raw: string | null): Array<{ callId: string; name: string; arguments: unknown }> {
   if (!raw) return [];
+  let parsed: unknown;
   try {
-    const parsed = JSON.parse(raw);
-    if (!Array.isArray(parsed)) return [];
-    return parsed.map((toolCall: { callId?: string; call_id?: string; id?: string; name?: string; arguments?: unknown }) => ({
-      callId: toolCall.callId ?? toolCall.call_id ?? toolCall.id ?? '',
-      name: toolCall.name ?? '',
-      arguments: toolCall.arguments ?? null,
-    }));
-  } catch {
-    return [];
+    parsed = JSON.parse(raw);
+  } catch (error) {
+    throw new Error(`Invalid tool calls JSON: ${(error as Error).message}`);
   }
+  if (!Array.isArray(parsed)) {
+    throw new Error('Invalid tool calls payload: expected an array');
+  }
+  return parsed.map((toolCall, index) => {
+    if (!isToolCallPayload(toolCall)) {
+      throw new Error(`Invalid tool call payload at index ${index}`);
+    }
+    return {
+      callId: toolCall.call_id,
+      name: toolCall.name,
+      arguments: toolCall.arguments ?? null,
+    };
+  });
 }
 
 function extractLlmCall(span: Span) {
