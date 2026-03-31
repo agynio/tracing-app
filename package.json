@@ -42,6 +42,7 @@
     "unified": "^11.0.5"
   },
   "devDependencies": {
+    "@argos-ci/playwright": "^6.5.0",
     "@bufbuild/buf": "latest",
     "@bufbuild/protoc-gen-es": "^2.0.0",
     "@eslint/js": "^9.35.0",
