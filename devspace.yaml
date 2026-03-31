@@ -80,15 +80,40 @@ pipelines:
         -n ${APP_NAMESPACE} \
         -- bash -c '
           echo "Waiting for file sync..."
+          required_files=(
+            /opt/app/data/package.json
+            /opt/app/data/pnpm-lock.yaml
+            /opt/app/data/index.html
+            /opt/app/data/test/e2e/fixtures.ts
+            /opt/app/data/src/App.tsx
+            /opt/app/data/src/main.tsx
+            /opt/app/data/src/index.css
+            /opt/app/data/src/styles/shadcn-compat.css
+          )
           for i in $(seq 1 60); do
-            [ -f /opt/app/data/package.json ] && [ -f /opt/app/data/pnpm-lock.yaml ] && [ -f /opt/app/data/test/e2e/fixtures.ts ] && [ -f /opt/app/data/src/App.tsx ] && break
+            missing=0
+            for file in "${required_files[@]}"; do
+              if [ ! -f "$file" ]; then
+                missing=1
+                break
+              fi
+            done
+            if [ "$missing" -eq 0 ]; then
+              break
+            fi
             sleep 2
           done
-          if [ ! -f /opt/app/data/package.json ] || [ ! -f /opt/app/data/pnpm-lock.yaml ] || [ ! -f /opt/app/data/test/e2e/fixtures.ts ] || [ ! -f /opt/app/data/src/App.tsx ]; then
-            echo "ERROR: file sync timed out — package.json, pnpm-lock.yaml, test/e2e/fixtures.ts, or src/App.tsx not found after 120s"
+          missing_files=()
+          for file in "${required_files[@]}"; do
+            if [ ! -f "$file" ]; then
+              missing_files+=("$file")
+            fi
+          done
+          if [ "${#missing_files[@]}" -ne 0 ]; then
+            echo "ERROR: file sync timed out — missing files:${missing_files[*]}"
             exit 1
           fi
-          sleep 5
+          sleep 10
           cd /opt/app/data
           corepack enable
           pnpm install --frozen-lockfile
@@ -107,7 +132,7 @@ pipelines:
             kill $PREVIEW_PID || true
             exit 1
           fi
-          E2E_BASE_URL=http://localhost:3000 ARGOS_TOKEN=${ARGOS_TOKEN} ARGOS_BRANCH=${ARGOS_BRANCH} ARGOS_COMMIT=${ARGOS_COMMIT} CI=true pnpm test:e2e
+          E2E_BASE_URL=http://localhost:3000 ARGOS_TOKEN=${ARGOS_TOKEN} ARGOS_BRANCH=${ARGOS_BRANCH} ARGOS_COMMIT=${ARGOS_COMMIT} CI=${CI} pnpm test:e2e
           EXIT_CODE=$?
           kill $PREVIEW_PID || true
           exit $EXIT_CODE
