@@ -40,13 +40,13 @@ deployments:
               - name: E2E_BASE_URL
                 value: "http://localhost:3000"
               - name: ARGOS_TOKEN
-                value: "${ARGOS_TOKEN}"
+                value: "${ARGOS_TOKEN:-}"
               - name: ARGOS_BRANCH
-                value: "${ARGOS_BRANCH}"
+                value: "${ARGOS_BRANCH:-}"
               - name: ARGOS_COMMIT
-                value: "${ARGOS_COMMIT}"
+                value: "${ARGOS_COMMIT:-}"
               - name: CI
-                value: "${CI}"
+                value: "${CI:-}"
         labels:
           app.kubernetes.io/name: tracing-app-e2e
 
