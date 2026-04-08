@@ -132,7 +132,7 @@ pipelines:
             kill $PREVIEW_PID || true
             exit 1
           fi
-          E2E_BASE_URL=http://localhost:3000 pnpm test:e2e
+          E2E_BASE_URL=http://localhost:3000 ARGOS_TOKEN=${ARGOS_TOKEN} ARGOS_BRANCH=${ARGOS_BRANCH} ARGOS_COMMIT=${ARGOS_COMMIT} CI=true pnpm test:e2e
           EXIT_CODE=$?
           kill $PREVIEW_PID || true
           exit $EXIT_CODE
