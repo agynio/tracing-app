@@ -2,9 +2,6 @@ import { createArgosReporterOptions } from '@argos-ci/playwright/reporter';
 import { defineConfig, devices } from '@playwright/test';
 
 const baseUrl = process.env.E2E_BASE_URL;
-const argosToken = process.env.ARGOS_TOKEN;
-const hasValidArgosToken = Boolean(argosToken) && argosToken.length === 40 && !argosToken.includes('$');
-
 if (!baseUrl) {
   throw new Error('E2E_BASE_URL is required to run Playwright e2e tests.');
 }
@@ -21,7 +18,7 @@ export default defineConfig({
     [
       '@argos-ci/playwright/reporter',
       createArgosReporterOptions({
-        uploadToArgos: Boolean(process.env.CI) && hasValidArgosToken,
+        uploadToArgos: Boolean(process.env.CI),
       }),
     ],
   ],
