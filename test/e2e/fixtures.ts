@@ -189,14 +189,14 @@ async function seedTracingRun(): Promise<SeededRun> {
 
   const seedMessageText = `${SEED_MESSAGE_PREFIX}-${now}`;
 
-  await threadsClient.sendMessage({
+  const sendMessageResponse = await threadsClient.sendMessage({
     threadId,
     senderId: config.identityId,
     body: seedMessageText,
     fileIds: [],
   });
 
-  const messageStartTimeMin = msToNanos(Math.max(0, Date.now() - SPAN_START_GRACE_MS));
+  const messageStartTimeMin = resolveSpanStartTimeMin(sendMessageResponse.message?.createdAt);
 
   const messageSpan = await waitForSpan(
     tracingClient,
@@ -378,6 +378,19 @@ function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+function resolveSpanStartTimeMin(createdAt: { seconds: bigint; nanos: number } | undefined): bigint {
+  if (!createdAt) {
+    return msToNanos(Math.max(0, Date.now() - SPAN_START_GRACE_MS));
+  }
+  const graceNanos = msToNanos(SPAN_START_GRACE_MS);
+  const createdAtNanos = timestampToNanos(createdAt);
+  return createdAtNanos > graceNanos ? createdAtNanos - graceNanos : 0n;
+}
+
 function msToNanos(ms: number): bigint {
   return BigInt(ms) * 1_000_000n;
+}
+
+function timestampToNanos(timestamp: { seconds: bigint; nanos: number }): bigint {
+  return timestamp.seconds * 1_000_000_000n + BigInt(timestamp.nanos);
 }
