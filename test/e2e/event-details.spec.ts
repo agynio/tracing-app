@@ -1,4 +1,3 @@
-import { argosScreenshot } from '@argos-ci/playwright';
 import { expect, formatSnippet, test, timelineForEvent } from './fixtures';
 
 test.describe('event details', () => {
@@ -17,7 +16,6 @@ test.describe('event details', () => {
     const outputSnippet = formatSnippet(seededRun.llmResponseText) ?? seededRun.llmResponseText;
     await expect(output).toContainText(outputSnippet);
 
-    await argosScreenshot(page, 'event-details-llm-call');
   });
 
   test('shows invocation message', async ({ page, seededRun }) => {
@@ -27,6 +25,5 @@ test.describe('event details', () => {
     const content = page.getByTestId('run-event-details-message-content');
     await expect(content).toContainText(seededRun.messageText);
 
-    await argosScreenshot(page, 'event-details-invocation-message');
   });
 });

@@ -98,9 +98,7 @@ export function RunEventsList({
     
     return (
       <button
-        data-testid="run-event-item"
-        data-event-id={event.id}
-        data-event-type={event.type}
+        data-testid={`run-event-${event.id}`}
         onClick={() => onSelectEvent(event.id)}
         className={`w-full px-4 py-3 border-b border-[var(--agyn-border-subtle)] hover:bg-[var(--agyn-bg-light)] transition-colors text-left relative ${
           isSelected ? 'bg-[var(--agyn-bg-light)]' : ''

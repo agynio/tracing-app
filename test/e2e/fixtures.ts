@@ -22,6 +22,7 @@ const SEED_AGENT_ROLE = 'You are a helpful assistant.';
 const SPAN_WAIT_TIMEOUT_MS = 120000;
 const SPAN_WAIT_INTERVAL_MS = 2000;
 const MESSAGE_WAIT_TIMEOUT_MS = 120000;
+const TRACE_STATUS_WAIT_TIMEOUT_MS = 120000;
 
 type E2EConfig = {
   gatewayBaseUrl: string;
@@ -39,7 +40,6 @@ export type SeededRun = {
   llmEventId: string;
   messageText: string;
   llmResponseText: string;
-  status: 'running' | 'finished';
 };
 
 type GatewayClients = ReturnType<typeof createGatewayClients>;
@@ -58,8 +58,7 @@ const authInterceptor: Interceptor = (next) => async (req) => {
 
 export const test = base.extend<{ seededRun: SeededRun }>({
   seededRun: [
-    async ({ browser }, runFixture) => {
-      void browser;
+    async ({ browserName: _browserName }, runFixture) => {
       const seededRun = await seedTracingRun();
       await runFixture(seededRun);
     },
@@ -231,8 +230,7 @@ async function seedTracingRun(): Promise<SeededRun> {
     'LLM span missing response text',
   );
 
-  const summary = await tracingClient.getTraceSummary({ traceId: messageSpan.span.traceId });
-  const status = mapTraceStatus(summary.status);
+  await waitForTraceCompletion(tracingClient, messageSpan.span.traceId);
 
   return {
     threadId,
@@ -241,7 +239,6 @@ async function seedTracingRun(): Promise<SeededRun> {
     llmEventId,
     messageText,
     llmResponseText,
-    status,
   };
 }
 
@@ -299,17 +296,16 @@ async function waitForSpan(
   throw new Error(`Timed out waiting for ${label}`);
 }
 
-function mapTraceStatus(status: TraceStatus): 'running' | 'finished' {
-  switch (status) {
-    case TraceStatus.RUNNING:
-    case TraceStatus.UNSPECIFIED:
-      return 'running';
-    case TraceStatus.COMPLETED:
-    case TraceStatus.ERROR:
-      return 'finished';
-    default:
-      throw new Error(`Unhandled TraceStatus: ${status}`);
+async function waitForTraceCompletion(tracingClient: TracingClient, traceId: Uint8Array): Promise<void> {
+  const deadline = Date.now() + TRACE_STATUS_WAIT_TIMEOUT_MS;
+  while (Date.now() < deadline) {
+    const summary = await tracingClient.getTraceSummary({ traceId });
+    if (summary.status === TraceStatus.COMPLETED || summary.status === TraceStatus.ERROR) {
+      return;
+    }
+    await sleep(SPAN_WAIT_INTERVAL_MS);
   }
+  throw new Error(`Timed out waiting for trace ${bytesToHex(traceId)} to complete`);
 }
 
 function requireString(value: string | undefined | null, message: string): string {
