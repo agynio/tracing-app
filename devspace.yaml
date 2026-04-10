@@ -82,7 +82,7 @@ pipelines:
         export E2E_IDENTITY_ID="$(terraform -chdir=./bootstrap/stacks/platform output -raw cluster_admin_identity_id)"
       fi
       if [ -z "${E2E_IDENTITY_GRPC_BASE_URL}" ]; then
-        export E2E_IDENTITY_GRPC_BASE_URL="http://identity-identity.${APP_NAMESPACE}.svc.cluster.local:50051"
+        export E2E_IDENTITY_GRPC_BASE_URL="http://identity.${APP_NAMESPACE}.svc.cluster.local:50051"
       fi
       create_deployments e2e-runner
       start_dev e2e-runner &
