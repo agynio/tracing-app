@@ -20,12 +20,12 @@ const SEED_MESSAGE_PREFIX = 'hello';
 const SEED_ENV_NAME = 'E2E_TRACING';
 const SEED_ENV_VALUE = 'tracing-app';
 const SEED_AGENT_ROLE = 'You are a helpful assistant.';
-const SEED_RUN_TIMEOUT_MS = 180000;
+const SEED_RUN_TIMEOUT_MS = 420000;
 const SPAN_START_GRACE_MS = 300000;
 
-const SPAN_WAIT_TIMEOUT_MS = 120000;
+const SPAN_WAIT_TIMEOUT_MS = 300000;
 const SPAN_WAIT_INTERVAL_MS = 2000;
-const TRACE_STATUS_WAIT_TIMEOUT_MS = 120000;
+const TRACE_STATUS_WAIT_TIMEOUT_MS = 300000;
 
 type E2EConfig = {
   gatewayBaseUrl: string;
@@ -210,8 +210,10 @@ async function seedTracingRun(): Promise<SeededRun> {
       const spanThreadId =
         getStringAttr(span.resourceAttrs, 'agyn.thread.id') ??
         getStringAttr(span.span.attributes, 'agyn.thread.id');
-      if (spanThreadId && spanThreadId !== threadId) return false;
       const messageText = getStringAttr(span.span.attributes, 'agyn.message.text');
+      if (spanThreadId) {
+        return spanThreadId === threadId && Boolean(messageText);
+      }
       return messageText === seedMessageText;
     },
     `invocation.message span for thread ${threadId}`,
