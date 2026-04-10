@@ -98,6 +98,7 @@ pipelines:
             /opt/app/data/index.html
             /opt/app/data/test/e2e/fixtures.ts
             /opt/app/data/src/App.tsx
+            /opt/app/data/src/pages/AgentsRunScreen.tsx
             /opt/app/data/src/main.tsx
             /opt/app/data/src/index.css
             /opt/app/data/src/styles/shadcn-compat.css
