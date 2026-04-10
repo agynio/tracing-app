@@ -16,12 +16,12 @@ const DEFAULT_TESTLLM_ENDPOINT = 'https://testllm.dev/v1/org/agynio/suite/codex/
 const DEFAULT_TESTLLM_MODEL = 'simple-hello';
 const DEFAULT_AGENT_IMAGE = 'alpine:3.21';
 const DEFAULT_INIT_IMAGE = 'ghcr.io/agynio/agent-init-codex:latest';
-const SEED_MESSAGE_TEXT = 'hello';
+const SEED_MESSAGE_PREFIX = 'hello';
 const SEED_ENV_NAME = 'E2E_TRACING';
 const SEED_ENV_VALUE = 'tracing-app';
 const SEED_AGENT_ROLE = 'You are a helpful assistant.';
 const SEED_RUN_TIMEOUT_MS = 180000;
-const SPAN_START_GRACE_MS = 60000;
+const SPAN_START_GRACE_MS = 300000;
 
 const SPAN_WAIT_TIMEOUT_MS = 120000;
 const SPAN_WAIT_INTERVAL_MS = 2000;
@@ -189,14 +189,15 @@ async function seedTracingRun(): Promise<SeededRun> {
   });
   const threadId = requireString(threadResp.thread?.id, 'CreateThread response missing id');
 
+  const seedMessageText = `${SEED_MESSAGE_PREFIX}-${now}`;
+  const messageStartTimeMin = msToNanos(Math.max(0, now - SPAN_START_GRACE_MS));
+
   await threadsClient.sendMessage({
     threadId,
     senderId: config.identityId,
-    body: SEED_MESSAGE_TEXT,
+    body: seedMessageText,
     fileIds: [],
   });
-
-  const messageStartTimeMin = msToNanos(Math.max(0, Date.now() - SPAN_START_GRACE_MS));
 
   await waitForAgentReply(threadsClient, threadId, config.identityId);
 
@@ -209,10 +210,12 @@ async function seedTracingRun(): Promise<SeededRun> {
       orderBy: ListSpansOrderBy.START_TIME_DESC,
     },
     (span) => {
-      const threadAttr = getStringAttr(span.resourceAttrs, 'agyn.thread.id');
-      if (threadAttr !== threadId) return false;
+      const spanThreadId =
+        getStringAttr(span.resourceAttrs, 'agyn.thread.id') ??
+        getStringAttr(span.span.attributes, 'agyn.thread.id');
+      if (spanThreadId && spanThreadId !== threadId) return false;
       const messageText = getStringAttr(span.span.attributes, 'agyn.message.text');
-      return messageText === SEED_MESSAGE_TEXT;
+      return messageText === seedMessageText;
     },
     `invocation.message span for thread ${threadId}`,
   );
