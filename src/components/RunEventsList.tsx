@@ -98,6 +98,9 @@ export function RunEventsList({
     
     return (
       <button
+        data-testid="run-event-item"
+        data-event-id={event.id}
+        data-event-type={event.type}
         onClick={() => onSelectEvent(event.id)}
         className={`w-full px-4 py-3 border-b border-[var(--agyn-border-subtle)] hover:bg-[var(--agyn-bg-light)] transition-colors text-left relative ${
           isSelected ? 'bg-[var(--agyn-bg-light)]' : ''
@@ -172,7 +175,7 @@ export function RunEventsList({
   }, [events.length]);
 
   return (
-    <div className="bg-white overflow-hidden h-full flex flex-col">
+    <div className="bg-white overflow-hidden h-full flex flex-col" data-testid="run-events-list">
       <div ref={scrollRef} className="flex-1 overflow-y-auto" onScroll={handleScroll}>
         {header}
         {events.map((event) => (

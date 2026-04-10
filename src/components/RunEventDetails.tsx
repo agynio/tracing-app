@@ -536,14 +536,16 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
     };
 
     return (
-      <div className="space-y-6">
+      <div className="space-y-6" data-testid="run-event-details-message">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-[var(--agyn-blue)]/10 flex items-center justify-center">
               <MessageSquare className="w-5 h-5 text-[var(--agyn-blue)]" />
             </div>
             <div>
-              <h3 className="text-[var(--agyn-dark)] mb-1">Message • {getMessageLabel()}</h3>
+              <h3 className="text-[var(--agyn-dark)] mb-1" data-testid="run-event-details-heading">
+                Message • {getMessageLabel()}
+              </h3>
               <div className="flex items-center gap-2 text-xs text-[var(--agyn-gray)]">
                 <Clock className="w-3 h-3" />
                 <span>{event.timestamp}</span>
@@ -557,7 +559,12 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
             <span className="text-sm text-[var(--agyn-gray)]">Content</span>
             <IconButton icon={<Copy className="w-3 h-3" />} size="sm" variant="ghost" />
           </div>
-          <p className="text-[var(--agyn-dark)] leading-relaxed whitespace-pre-wrap">{content}</p>
+          <p
+            className="text-[var(--agyn-dark)] leading-relaxed whitespace-pre-wrap"
+            data-testid="run-event-details-message-content"
+          >
+            {content}
+          </p>
         </div>
       </div>
     );
@@ -587,14 +594,14 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
     const historyButtonLabel = contextOlderVisibleCount > 0 ? 'Load more' : 'View context history';
 
     return (
-      <div className="space-y-6 h-full flex flex-col">
+      <div className="space-y-6 h-full flex flex-col" data-testid="run-event-details-llm">
         <div className="flex items-start flex-shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-[var(--agyn-purple)]/10 flex items-center justify-center">
               <Bot className="w-5 h-5 text-[var(--agyn-purple)]" />
             </div>
             <div>
-              <h3 className="text-[var(--agyn-dark)] mb-1">LLM Call</h3>
+              <h3 className="text-[var(--agyn-dark)] mb-1" data-testid="run-event-details-heading">LLM Call</h3>
               <div className="flex items-center gap-2 text-xs text-[var(--agyn-gray)]">
                 <Clock className="w-3 h-3" />
                 <span>{event.timestamp}</span>
@@ -649,7 +656,7 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
               <div
                 className="flex-1 overflow-y-auto min-h-0 border border-[var(--agyn-border-subtle)] rounded-[10px] p-4"
                 ref={contextScrollRef}
-                data-testid="context-scroll-container"
+                data-testid="run-event-details-llm-context"
               >
                 {showHistoryButton && (
                   <button
@@ -702,7 +709,10 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
               <span className="text-sm text-[var(--agyn-gray)]">Output</span>
               <IconButton icon={<Copy className="w-3 h-3" />} size="sm" variant="ghost" />
             </div>
-            <div className="flex-1 overflow-y-auto min-h-0 border border-[var(--agyn-border-subtle)] rounded-[10px] p-4">
+            <div
+              className="flex-1 overflow-y-auto min-h-0 border border-[var(--agyn-border-subtle)] rounded-[10px] p-4"
+              data-testid="run-event-details-llm-output"
+            >
               {response ? (
                 <div className="prose prose-sm max-w-none">
                   <MarkdownContent content={response} />
@@ -1226,7 +1236,9 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
             </div>
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <h3 className="text-[var(--agyn-dark)]">{event.data.toolName || 'Tool Call'}</h3>
+                <h3 className="text-[var(--agyn-dark)]" data-testid="run-event-details-heading">
+                  {event.data.toolName || 'Tool Call'}
+                </h3>
                 {event.status && <StatusIndicator status={event.status} size="sm" />}
               </div>
               <div className="flex items-center gap-2 text-xs text-[var(--agyn-gray)]">
@@ -1264,7 +1276,7 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
               <FileText className="w-5 h-5 text-[var(--agyn-gray)]" />
             </div>
             <div>
-              <h3 className="text-[var(--agyn-dark)] mb-1">Summarization</h3>
+              <h3 className="text-[var(--agyn-dark)] mb-1" data-testid="run-event-details-heading">Summarization</h3>
               <div className="flex items-center gap-2 text-xs text-[var(--agyn-gray)]">
                 <Clock className="w-3 h-3" />
                 <span>{event.timestamp}</span>
@@ -1325,7 +1337,7 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
   };
 
   return (
-    <div className="bg-white h-full flex flex-col">
+    <div className="bg-white h-full flex flex-col" data-testid="run-event-details">
       <div className="flex-1 overflow-y-auto p-6">
         {event.type === 'message' && renderMessageEvent()}
         {event.type === 'llm' && renderLLMEvent()}
