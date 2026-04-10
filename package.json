@@ -45,6 +45,7 @@
     "@argos-ci/playwright": "^6.5.0",
     "@bufbuild/buf": "latest",
     "@bufbuild/protoc-gen-es": "^2.0.0",
+    "@connectrpc/connect-node": "^2.1.1",
     "@eslint/js": "^9.35.0",
     "@playwright/test": "^1.52.0",
     "@types/node": "^24.5.1",

@@ -1,4 +1,5 @@
-import { createClient, type Interceptor } from '@connectrpc/connect';
+import { Code, ConnectError, createClient, type Interceptor } from '@connectrpc/connect';
+import { createGrpcTransport } from '@connectrpc/connect-node';
 import { createConnectTransport } from '@connectrpc/connect-web';
 import { test as base, type Page } from '@playwright/test';
 import { AgentsGateway } from '../../src/gen/agynio/api/gateway/v1/agents_pb';
@@ -6,6 +7,7 @@ import { LLMGateway } from '../../src/gen/agynio/api/gateway/v1/llm_pb';
 import { OrganizationsGateway } from '../../src/gen/agynio/api/gateway/v1/organizations_pb';
 import { ThreadsGateway } from '../../src/gen/agynio/api/gateway/v1/threads_pb';
 import { TracingGateway } from '../../src/gen/agynio/api/gateway/v1/tracing_pb';
+import { IdentityService, IdentityType } from '../../src/gen/agynio/api/identity/v1/identity_pb';
 import { AuthMethod } from '../../src/gen/agynio/api/llm/v1/llm_pb';
 import { ListSpansOrderBy, TraceStatus } from '../../src/gen/agynio/api/tracing/v1/tracing_pb';
 import { bytesToHex, flattenResourceSpans, getStringAttr } from '../../src/api/spanToEvent';
@@ -26,6 +28,7 @@ const TRACE_STATUS_WAIT_TIMEOUT_MS = 120000;
 
 type E2EConfig = {
   gatewayBaseUrl: string;
+  identityGrpcBaseUrl?: string;
   authToken: string;
   identityId: string;
   testllmEndpoint: string;
@@ -86,8 +89,10 @@ export function formatSnippet(value: string | null | undefined): string | null {
 }
 
 function resolveConfig(): E2EConfig {
+  const identityBaseUrl = resolveOptionalEnv('E2E_IDENTITY_GRPC_BASE_URL');
   return {
     gatewayBaseUrl: normalizeBaseUrl(resolveRequiredEnv('E2E_GATEWAY_BASE_URL')),
+    identityGrpcBaseUrl: identityBaseUrl ? normalizeBaseUrl(identityBaseUrl) : undefined,
     authToken: resolveRequiredEnv('E2E_AUTH_TOKEN'),
     identityId: resolveRequiredEnv('E2E_IDENTITY_ID'),
     testllmEndpoint: process.env.E2E_TESTLLM_ENDPOINT ?? DEFAULT_TESTLLM_ENDPOINT,
@@ -102,6 +107,11 @@ function resolveRequiredEnv(name: string): string {
     throw new Error(`${name} is required to run tracing-app e2e tests.`);
   }
   return value;
+}
+
+function resolveOptionalEnv(name: string): string | undefined {
+  const value = process.env[name];
+  return value && value.length > 0 ? value : undefined;
 }
 
 function normalizeBaseUrl(value: string): string {
@@ -126,6 +136,7 @@ function createGatewayClients() {
 }
 
 async function seedTracingRun(): Promise<SeededRun> {
+  await ensureIdentityRegistered(config.identityId);
   const { organizationsClient, llmClient, agentsClient, threadsClient, tracingClient } = createGatewayClients();
 
   const now = Date.now();
@@ -240,6 +251,35 @@ async function seedTracingRun(): Promise<SeededRun> {
     messageText,
     llmResponseText,
   };
+}
+
+async function ensureIdentityRegistered(identityId: string): Promise<void> {
+  if (!config.identityGrpcBaseUrl) {
+    return;
+  }
+  const identityClient = createIdentityClient();
+  try {
+    await identityClient.registerIdentity({
+      identityId,
+      identityType: IdentityType.USER,
+    });
+  } catch (error) {
+    if (error instanceof ConnectError && error.code === Code.AlreadyExists) {
+      return;
+    }
+    throw error;
+  }
+}
+
+function createIdentityClient() {
+  if (!config.identityGrpcBaseUrl) {
+    throw new Error('E2E_IDENTITY_GRPC_BASE_URL is required to register identities.');
+  }
+  const transport = createGrpcTransport({
+    baseUrl: config.identityGrpcBaseUrl,
+    interceptors: [authInterceptor],
+  });
+  return createClient(IdentityService, transport);
 }
 
 async function waitForAgentReply(
