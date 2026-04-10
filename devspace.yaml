@@ -39,12 +39,6 @@ deployments:
             env:
               - name: E2E_BASE_URL
                 value: "http://localhost:3000"
-              - name: E2E_GATEWAY_BASE_URL
-                value: "${E2E_GATEWAY_BASE_URL}"
-              - name: E2E_AUTH_TOKEN
-                value: "${E2E_AUTH_TOKEN}"
-              - name: E2E_IDENTITY_ID
-                value: "${E2E_IDENTITY_ID}"
               - name: ARGOS_TOKEN
                 value: "${ARGOS_TOKEN}"
               - name: ARGOS_BRANCH
@@ -93,7 +87,7 @@ pipelines:
       exec_container \
         --label-selector "app.kubernetes.io/name=tracing-app-e2e" \
         -n ${APP_NAMESPACE} \
-        -- bash -c '
+        -- env E2E_GATEWAY_BASE_URL="${E2E_GATEWAY_BASE_URL}" E2E_AUTH_TOKEN="${E2E_AUTH_TOKEN}" E2E_IDENTITY_ID="${E2E_IDENTITY_ID}" bash -c '
           echo "Waiting for file sync..."
           required_files=(
             /opt/app/data/package.json
