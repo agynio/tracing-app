@@ -25,7 +25,6 @@ const SPAN_START_GRACE_MS = 300000;
 
 const SPAN_WAIT_TIMEOUT_MS = 120000;
 const SPAN_WAIT_INTERVAL_MS = 2000;
-const MESSAGE_WAIT_TIMEOUT_MS = 120000;
 const TRACE_STATUS_WAIT_TIMEOUT_MS = 120000;
 
 type E2EConfig = {
@@ -49,7 +48,6 @@ export type SeededRun = {
 
 type GatewayClients = ReturnType<typeof createGatewayClients>;
 type TracingClient = GatewayClients['tracingClient'];
-type ThreadsClient = GatewayClients['threadsClient'];
 type AgentsClient = GatewayClients['agentsClient'];
 type ListSpansRequest = Parameters<TracingClient['listSpans']>[0];
 type FlattenedSpan = ReturnType<typeof flattenResourceSpans>[number];
@@ -190,7 +188,6 @@ async function seedTracingRun(): Promise<SeededRun> {
   const threadId = requireString(threadResp.thread?.id, 'CreateThread response missing id');
 
   const seedMessageText = `${SEED_MESSAGE_PREFIX}-${now}`;
-  const messageStartTimeMin = msToNanos(Math.max(0, now - SPAN_START_GRACE_MS));
 
   await threadsClient.sendMessage({
     threadId,
@@ -199,7 +196,7 @@ async function seedTracingRun(): Promise<SeededRun> {
     fileIds: [],
   });
 
-  await waitForAgentReply(threadsClient, threadId, config.identityId);
+  const messageStartTimeMin = msToNanos(Math.max(0, Date.now() - SPAN_START_GRACE_MS));
 
   const messageSpan = await waitForSpan(
     tracingClient,
@@ -287,25 +284,6 @@ function createIdentityClient() {
     interceptors: [authInterceptor],
   });
   return createClient(IdentityService, transport);
-}
-
-async function waitForAgentReply(
-  threadsClient: ThreadsClient,
-  threadId: string,
-  senderId: string,
-): Promise<void> {
-  const deadline = Date.now() + MESSAGE_WAIT_TIMEOUT_MS;
-  while (Date.now() < deadline) {
-    const response = await threadsClient.getMessages({
-      threadId,
-      pageSize: 200,
-      pageToken: '',
-    });
-    const agentMessage = response.messages.find((message) => message.senderId && message.senderId !== senderId);
-    if (agentMessage) return;
-    await sleep(SPAN_WAIT_INTERVAL_MS);
-  }
-  throw new Error(`Timed out waiting for agent reply in thread ${threadId}`);
 }
 
 async function waitForAgentReady(
