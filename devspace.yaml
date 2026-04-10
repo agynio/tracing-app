@@ -73,7 +73,7 @@ pipelines:
   test-e2e:
     run: |-
       if [ -z "${E2E_GATEWAY_BASE_URL}" ]; then
-        export E2E_GATEWAY_BASE_URL="http://gateway.${APP_NAMESPACE}.svc.cluster.local:8080"
+        export E2E_GATEWAY_BASE_URL="http://gateway-gateway.${APP_NAMESPACE}.svc.cluster.local:8080"
       fi
       if [ -z "${E2E_AUTH_TOKEN}" ]; then
         export E2E_AUTH_TOKEN="$(terraform -chdir=./bootstrap/stacks/platform output -raw cluster_admin_api_token)"
