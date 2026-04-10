@@ -546,7 +546,7 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
               <h3 className="text-[var(--agyn-dark)] mb-1" data-testid="run-event-details-heading">
                 Message • {getMessageLabel()}
               </h3>
-              <div className="flex items-center gap-2 text-xs text-[var(--agyn-gray)]">
+              <div className="flex items-center gap-2 text-xs text-[var(--agyn-gray)]" data-testid="run-event-details-meta">
                 <Clock className="w-3 h-3" />
                 <span>{event.timestamp}</span>
               </div>
@@ -602,7 +602,7 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
             </div>
             <div>
               <h3 className="text-[var(--agyn-dark)] mb-1" data-testid="run-event-details-heading">LLM Call</h3>
-              <div className="flex items-center gap-2 text-xs text-[var(--agyn-gray)]">
+              <div className="flex items-center gap-2 text-xs text-[var(--agyn-gray)]" data-testid="run-event-details-meta">
                 <Clock className="w-3 h-3" />
                 <span>{event.timestamp}</span>
                 {event.duration && (
@@ -1241,7 +1241,7 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
                 </h3>
                 {event.status && <StatusIndicator status={event.status} size="sm" />}
               </div>
-              <div className="flex items-center gap-2 text-xs text-[var(--agyn-gray)]">
+              <div className="flex items-center gap-2 text-xs text-[var(--agyn-gray)]" data-testid="run-event-details-meta">
                 <Clock className="w-3 h-3" />
                 <span>{event.timestamp}</span>
                 {event.duration && (
@@ -1277,7 +1277,7 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
             </div>
             <div>
               <h3 className="text-[var(--agyn-dark)] mb-1" data-testid="run-event-details-heading">Summarization</h3>
-              <div className="flex items-center gap-2 text-xs text-[var(--agyn-gray)]">
+              <div className="flex items-center gap-2 text-xs text-[var(--agyn-gray)]" data-testid="run-event-details-meta">
                 <Clock className="w-3 h-3" />
                 <span>{event.timestamp}</span>
                 {event.duration && (

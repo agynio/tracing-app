@@ -126,7 +126,7 @@ export function RunEventsList({
                 {subtitle}
               </div>
             )}
-            <div className="text-xs text-[var(--agyn-gray)]">
+            <div className="text-xs text-[var(--agyn-gray)]" data-testid="run-event-meta">
               {event.timestamp}
               {event.duration && ` • ${event.duration}`}
             </div>

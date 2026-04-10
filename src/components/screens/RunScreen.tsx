@@ -262,18 +262,20 @@ export default function RunScreen({
         <div className="flex flex-1 flex-col overflow-hidden">
           <div className="flex items-center justify-between border-b border-[var(--agyn-border-subtle)] bg-white px-6 py-3">
             <div className="flex items-center gap-4">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3" data-testid="run-summary-status">
                 <StatusIndicator status={status} size="md" showTooltip={false} />
                 <span className="font-medium capitalize">{status}</span>
               </div>
 
               <div className="text-[var(--agyn-border-subtle)]">|</div>
 
-              <div className="text-sm text-[var(--agyn-dark)]">{duration}</div>
+              <div className="text-sm text-[var(--agyn-dark)]" data-testid="run-summary-duration">{duration}</div>
 
               <div className="text-[var(--agyn-border-subtle)]">|</div>
 
-              <div className="text-sm text-[var(--agyn-text-subtle)]">{formatDate(createdAt)}</div>
+              <div className="text-sm text-[var(--agyn-text-subtle)]" data-testid="run-summary-created-at">
+                {formatDate(createdAt)}
+              </div>
 
               <div className="text-[var(--agyn-border-subtle)]">|</div>
 
@@ -281,6 +283,7 @@ export default function RunScreen({
                 <Popover.Trigger asChild>
                   <button
                     className="text-sm text-[var(--agyn-dark)] transition-colors hover:text-[var(--agyn-blue)]"
+                    data-testid="run-summary-tokens"
                     onMouseEnter={() => onTokensPopoverOpenChange(true)}
                     onMouseLeave={() => onTokensPopoverOpenChange(false)}
                   >

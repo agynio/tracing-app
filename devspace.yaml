@@ -39,6 +39,12 @@ deployments:
             env:
               - name: E2E_BASE_URL
                 value: "http://localhost:3000"
+              - name: E2E_GATEWAY_BASE_URL
+                value: "${E2E_GATEWAY_BASE_URL}"
+              - name: E2E_AUTH_TOKEN
+                value: "${E2E_AUTH_TOKEN}"
+              - name: E2E_IDENTITY_ID
+                value: "${E2E_IDENTITY_ID}"
               - name: ARGOS_TOKEN
                 value: "${ARGOS_TOKEN}"
               - name: ARGOS_BRANCH
@@ -72,6 +78,15 @@ pipelines:
 
   test-e2e:
     run: |-
+      if [ -z "${E2E_GATEWAY_BASE_URL}" ]; then
+        export E2E_GATEWAY_BASE_URL="http://gateway:8080"
+      fi
+      if [ -z "${E2E_AUTH_TOKEN}" ]; then
+        export E2E_AUTH_TOKEN="$(terraform -chdir=./bootstrap/stacks/platform output -raw cluster_admin_api_token)"
+      fi
+      if [ -z "${E2E_IDENTITY_ID}" ]; then
+        export E2E_IDENTITY_ID="$(terraform -chdir=./bootstrap/stacks/platform output -raw cluster_admin_identity_id)"
+      fi
       create_deployments e2e-runner
       start_dev e2e-runner &
       sleep 5

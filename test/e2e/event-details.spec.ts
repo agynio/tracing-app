@@ -1,4 +1,14 @@
+import { argosScreenshot } from '@argos-ci/playwright';
 import { expect, formatSnippet, test, timelineForEvent } from './fixtures';
+
+const detailsMask = (page: Parameters<typeof argosScreenshot>[0]) => [
+  page.getByTestId('run-event-meta'),
+  page.getByTestId('run-summary-status'),
+  page.getByTestId('run-summary-duration'),
+  page.getByTestId('run-summary-created-at'),
+  page.getByTestId('run-summary-tokens'),
+  page.getByTestId('run-event-details-meta'),
+];
 
 test.describe('event details', () => {
   test('shows LLM call details', async ({ page, seededRun }) => {
@@ -16,6 +26,7 @@ test.describe('event details', () => {
     const outputSnippet = formatSnippet(seededRun.llmResponseText) ?? seededRun.llmResponseText;
     await expect(output).toContainText(outputSnippet);
 
+    await argosScreenshot(page, 'event-details-llm-call', { mask: detailsMask(page) });
   });
 
   test('shows invocation message', async ({ page, seededRun }) => {
@@ -25,5 +36,6 @@ test.describe('event details', () => {
     const content = page.getByTestId('run-event-details-message-content');
     await expect(content).toContainText(seededRun.messageText);
 
+    await argosScreenshot(page, 'event-details-invocation-message', { mask: detailsMask(page) });
   });
 });
