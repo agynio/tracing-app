@@ -99,7 +99,7 @@ pipelines:
             /opt/app/data/src/index.css
             /opt/app/data/src/styles/shadcn-compat.css
           )
-          for i in $(seq 1 60); do
+          for i in $(seq 1 120); do
             missing=0
             for file in "${required_files[@]}"; do
               if [ ! -f "$file" ]; then
