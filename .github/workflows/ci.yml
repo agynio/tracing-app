@@ -81,6 +81,8 @@ jobs:
 
       - name: Provision cluster
         working-directory: bootstrap
+        env:
+          TF_VAR_tracing_chart_version: 0.2.1
         run: ./apply.sh -y
 
       - name: Verify cluster health

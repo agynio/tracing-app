@@ -118,7 +118,9 @@ export function RunEventsList({
                 {getEventLabel(event)}
               </div>
               {event.status && (
-                <StatusIndicator status={event.status} size="sm" showTooltip={false} />
+                <span data-run-event-status="true">
+                  <StatusIndicator status={event.status} size="sm" showTooltip={false} />
+                </span>
               )}
             </div>
             {subtitle && (

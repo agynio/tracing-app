@@ -6,6 +6,7 @@ const timelinePath = (context: SeededRun) =>
 
 const timelineMask = (page: Parameters<typeof argosScreenshot>[0]) => [
   page.getByTestId('run-event-meta'),
+  page.locator('[data-run-event-status]'),
   page.getByTestId('run-summary-status'),
   page.getByTestId('run-summary-duration'),
   page.getByTestId('run-summary-created-at'),

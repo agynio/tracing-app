@@ -8,6 +8,9 @@ const detailsMask = (page: Parameters<typeof argosScreenshot>[0]) => [
   page.getByTestId('run-summary-created-at'),
   page.getByTestId('run-summary-tokens'),
   page.getByTestId('run-event-details-meta'),
+  page.locator(
+    '[data-testid="run-event-details-message-content"], [data-testid="run-event-details-llm-context"], [data-testid="run-event-details-llm-output"]',
+  ),
 ];
 
 test.describe('event details', () => {
