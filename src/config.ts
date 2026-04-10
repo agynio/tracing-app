@@ -34,7 +34,7 @@ function deriveBase(raw: string, options: { stripApi: boolean }): string {
 
 const rawApiBase = requireEnv('VITE_API_BASE_URL');
 
-const apiBaseUrl = deriveBase(rawApiBase, { stripApi: true });
+const apiBaseUrl = deriveBase(rawApiBase, { stripApi: false });
 export const config = {
   apiBaseUrl,
 };
