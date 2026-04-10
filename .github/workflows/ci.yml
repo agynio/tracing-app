@@ -89,6 +89,14 @@ jobs:
         working-directory: bootstrap
         run: ./.github/scripts/verify_platform_health.sh
 
+      - name: Patch tracing-app /api rewrite
+        env:
+          KUBECONFIG: ${{ github.workspace }}/bootstrap/stacks/k8s/.kube/agyn-local-kubeconfig.yaml
+        run: |
+          ISTIO_GATEWAY_NAMESPACE="$(terraform -chdir=bootstrap/stacks/system output -raw istio_gateway_namespace)"
+          kubectl -n "$ISTIO_GATEWAY_NAMESPACE" patch virtualservice tracing-app --type=json \
+            -p='[{"op":"replace","path":"/spec/http/0/match","value":[{"uri":{"prefix":"/api/"}},{"uri":{"exact":"/api"}}]},{"op":"add","path":"/spec/http/0/rewrite","value":{"uri":"/"}}]'
+
       - name: Run E2E tests
         env:
           KUBECONFIG: ${{ github.workspace }}/bootstrap/stacks/k8s/.kube/agyn-local-kubeconfig.yaml
