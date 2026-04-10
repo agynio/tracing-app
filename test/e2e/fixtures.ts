@@ -21,6 +21,7 @@ const SEED_ENV_NAME = 'E2E_TRACING';
 const SEED_ENV_VALUE = 'tracing-app';
 const SEED_AGENT_ROLE = 'You are a helpful assistant.';
 const SEED_RUN_TIMEOUT_MS = 180000;
+const SPAN_START_GRACE_MS = 60000;
 
 const SPAN_WAIT_TIMEOUT_MS = 120000;
 const SPAN_WAIT_INTERVAL_MS = 2000;
@@ -195,12 +196,14 @@ async function seedTracingRun(): Promise<SeededRun> {
     fileIds: [],
   });
 
+  const messageStartTimeMin = msToNanos(Math.max(0, Date.now() - SPAN_START_GRACE_MS));
+
   await waitForAgentReply(threadsClient, threadId, config.identityId);
 
   const messageSpan = await waitForSpan(
     tracingClient,
     {
-      filter: { names: ['invocation.message'] },
+      filter: { names: ['invocation.message'], startTimeMin: messageStartTimeMin },
       pageSize: 200,
       pageToken: '',
       orderBy: ListSpansOrderBy.START_TIME_DESC,
@@ -327,11 +330,16 @@ async function waitForSpan(
   label: string,
 ): Promise<FlattenedSpan> {
   const deadline = Date.now() + SPAN_WAIT_TIMEOUT_MS;
+  const requestBase = { ...request };
   while (Date.now() < deadline) {
-    const response = await tracingClient.listSpans(request);
-    const spans = flattenResourceSpans(response.resourceSpans);
-    const match = spans.find(predicate);
-    if (match) return match;
+    let pageToken = requestBase.pageToken;
+    do {
+      const response = await tracingClient.listSpans({ ...requestBase, pageToken });
+      const spans = flattenResourceSpans(response.resourceSpans);
+      const match = spans.find(predicate);
+      if (match) return match;
+      pageToken = response.nextPageToken;
+    } while (pageToken);
     await sleep(SPAN_WAIT_INTERVAL_MS);
   }
   throw new Error(`Timed out waiting for ${label}`);
@@ -387,4 +395,8 @@ function buildGatewayUrl(requestUrl: string): string {
 
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function msToNanos(ms: number): bigint {
+  return BigInt(ms) * 1_000_000n;
 }
