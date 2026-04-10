@@ -20,6 +20,7 @@ const SEED_MESSAGE_TEXT = 'hello';
 const SEED_ENV_NAME = 'E2E_TRACING';
 const SEED_ENV_VALUE = 'tracing-app';
 const SEED_AGENT_ROLE = 'You are a helpful assistant.';
+const SEED_RUN_TIMEOUT_MS = 180000;
 
 const SPAN_WAIT_TIMEOUT_MS = 120000;
 const SPAN_WAIT_INTERVAL_MS = 2000;
@@ -65,7 +66,7 @@ export const test = base.extend<{ seededRun: SeededRun }>({
       const seededRun = await seedTracingRun();
       await runFixture(seededRun);
     },
-    { scope: 'worker' },
+    { scope: 'worker', timeout: SEED_RUN_TIMEOUT_MS },
   ],
   page: async ({ page }, runFixture) => {
     await setupTracingProxy(page);
