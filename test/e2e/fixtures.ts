@@ -16,9 +16,11 @@ const DEFAULT_TESTLLM_ENDPOINT = 'https://testllm.dev/v1/org/agynio/suite/codex/
 const DEFAULT_TESTLLM_MODEL = 'simple-hello';
 const DEFAULT_AGENT_IMAGE = 'alpine:3.21';
 const DEFAULT_INIT_IMAGE = 'ghcr.io/agynio/agent-init-codex:latest';
+const DEFAULT_TRACING_ADDRESS = 'tracing.platform.svc.cluster.local:50051';
 const SEED_MESSAGE_PREFIX = 'hello';
 const SEED_ENV_NAME = 'E2E_TRACING';
 const SEED_ENV_VALUE = 'tracing-app';
+const TRACING_ENV_NAME = 'TRACING_ADDRESS';
 const SEED_AGENT_ROLE = 'You are a helpful assistant.';
 const SEED_RUN_TIMEOUT_MS = 420000;
 const SPAN_START_GRACE_MS = 300000;
@@ -35,6 +37,7 @@ type E2EConfig = {
   testllmEndpoint: string;
   testllmModel: string;
   initImage: string;
+  tracingAddress: string;
 };
 
 export type SeededRun = {
@@ -90,14 +93,16 @@ export function formatSnippet(value: string | null | undefined): string | null {
 
 function resolveConfig(): E2EConfig {
   const identityBaseUrl = resolveOptionalEnv('E2E_IDENTITY_GRPC_BASE_URL');
+  const normalizedIdentityBaseUrl = identityBaseUrl ? normalizeBaseUrl(identityBaseUrl) : undefined;
   return {
     gatewayBaseUrl: normalizeBaseUrl(resolveRequiredEnv('E2E_GATEWAY_BASE_URL')),
-    identityGrpcBaseUrl: identityBaseUrl ? normalizeBaseUrl(identityBaseUrl) : undefined,
+    identityGrpcBaseUrl: normalizedIdentityBaseUrl,
     authToken: resolveRequiredEnv('E2E_AUTH_TOKEN'),
     identityId: resolveRequiredEnv('E2E_IDENTITY_ID'),
     testllmEndpoint: process.env.E2E_TESTLLM_ENDPOINT ?? DEFAULT_TESTLLM_ENDPOINT,
     testllmModel: process.env.E2E_TESTLLM_MODEL_REMOTE_NAME ?? DEFAULT_TESTLLM_MODEL,
     initImage: process.env.E2E_AGENT_INIT_IMAGE ?? DEFAULT_INIT_IMAGE,
+    tracingAddress: resolveTracingAddress(normalizedIdentityBaseUrl),
   };
 }
 
@@ -118,6 +123,29 @@ function normalizeBaseUrl(value: string): string {
   const url = new URL(value);
   const normalized = url.toString();
   return normalized.endsWith('/') ? normalized.slice(0, -1) : normalized;
+}
+
+function resolveTracingAddress(identityGrpcBaseUrl?: string): string {
+  const explicit = resolveOptionalEnv('E2E_TRACING_ADDRESS');
+  if (explicit) return explicit;
+  const derived = identityGrpcBaseUrl ? deriveTracingAddress(identityGrpcBaseUrl) : null;
+  return derived ?? DEFAULT_TRACING_ADDRESS;
+}
+
+function deriveTracingAddress(identityGrpcBaseUrl: string): string | null {
+  let url: URL;
+  try {
+    url = new URL(identityGrpcBaseUrl);
+  } catch (error) {
+    console.warn('Failed to parse E2E_IDENTITY_GRPC_BASE_URL for tracing address derivation.', error);
+    return null;
+  }
+  if (!url.hostname) return null;
+  const hostParts = url.hostname.split('.');
+  if (hostParts.length === 0) return null;
+  hostParts[0] = 'tracing';
+  const port = url.port || '50051';
+  return `${hostParts.join('.')}:${port}`;
 }
 
 function createGatewayClients() {
@@ -180,6 +208,12 @@ async function seedTracingRun(): Promise<SeededRun> {
     description: 'Tracing app E2E env',
     target: { case: 'agentId', value: agentId },
     source: { case: 'value', value: SEED_ENV_VALUE },
+  });
+  await agentsClient.createEnv({
+    name: TRACING_ENV_NAME,
+    description: 'Tracing endpoint for agent spans',
+    target: { case: 'agentId', value: agentId },
+    source: { case: 'value', value: config.tracingAddress },
   });
 
   const threadResp = await threadsClient.createThread({
