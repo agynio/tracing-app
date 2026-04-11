@@ -1,11 +1,22 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes, useParams } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import { TooltipProvider } from './components/ui/tooltip';
 import { RootLayout, DEFAULT_TIMELINE_PATH } from './layout/RootLayout';
 import { AgentsRunScreen } from './pages/AgentsRunScreen';
 
 const queryClient = new QueryClient();
+
+const buildTimelinePath = (threadId: string, runId: string) =>
+  `/agents/threads/${threadId}/runs/${runId}/timeline`;
+
+function TimelineRedirect() {
+  const params = useParams<{ threadId: string; runId: string }>();
+  if (!params.threadId || !params.runId) {
+    return <Navigate to={DEFAULT_TIMELINE_PATH} replace />;
+  }
+  return <Navigate to={buildTimelinePath(params.threadId, params.runId)} replace />;
+}
 
 function App() {
   return (
@@ -15,6 +26,10 @@ function App() {
         <Routes>
           <Route element={<RootLayout />}>
             <Route path="/agents/threads/:threadId/runs/:runId/timeline" element={<AgentsRunScreen />} />
+            <Route
+              path="/agents/threads/:threadId/runs/:runId/timeline/*"
+              element={<TimelineRedirect />}
+            />
           </Route>
           <Route path="*" element={<Navigate to={DEFAULT_TIMELINE_PATH} replace />} />
         </Routes>
