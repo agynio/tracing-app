@@ -15,7 +15,7 @@ import { bytesToHex, flattenResourceSpans, getStringAttr, hexToBytes } from '../
 const DEFAULT_TESTLLM_ENDPOINT = 'https://testllm.dev/v1/org/agynio/suite/codex/responses';
 const DEFAULT_TESTLLM_MODEL = 'simple-hello';
 const DEFAULT_AGENT_IMAGE = 'alpine:3.21';
-const DEFAULT_INIT_IMAGE = 'ghcr.io/agynio/agent-init-agn:v0.3.0';
+const DEFAULT_INIT_IMAGE = 'ghcr.io/agynio/agent-init-agn:latest';
 const DEFAULT_TRACING_ADDRESS = 'tracing.platform.svc.cluster.local:50051';
 const SEED_MESSAGE_PREFIX = 'hello';
 const SEED_ENV_NAME = 'E2E_TRACING';
@@ -601,7 +601,7 @@ function formatSpanFilter(filter: ListSpansRequest['filter'] | undefined): strin
 
 function formatSeedConfig(): string {
   const identityBase = config.identityGrpcBaseUrl ?? 'none';
-  return `gateway=${config.gatewayBaseUrl}, tracing=${config.tracingAddress}, identityGrpc=${identityBase}`;
+  return `gateway=${config.gatewayBaseUrl}, tracing=${config.tracingAddress}, identityGrpc=${identityBase}, initImage=${config.initImage}, agentImage=${DEFAULT_AGENT_IMAGE}`;
 }
 
 async function summarizeTraceStatuses(tracingClient: TracingClient, traceIds: string[]): Promise<string | null> {

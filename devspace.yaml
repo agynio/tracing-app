@@ -30,12 +30,28 @@ functions:
     kubectl logs -n ${APP_NAMESPACE} -l app.kubernetes.io/name=gateway --all-containers --tail=200 || true
     echo "=== TRACING LOGS ==="
     kubectl logs -n ${APP_NAMESPACE} -l app.kubernetes.io/name=tracing --all-containers --tail=200 || true
+    echo "=== TRACING SERVICE ==="
+    kubectl get svc -n ${APP_NAMESPACE} tracing -o wide 2>/dev/null || true
+    kubectl get endpoints -n ${APP_NAMESPACE} tracing -o wide 2>/dev/null || true
+    echo "=== TRACING PODS ==="
+    kubectl get pods -n ${APP_NAMESPACE} -l app.kubernetes.io/name=tracing -o wide 2>/dev/null || true
+    for pod in $(kubectl get pods -n ${APP_NAMESPACE} -l app.kubernetes.io/name=tracing -o name 2>/dev/null); do
+      echo "--- ${pod} ---"
+      kubectl describe -n ${APP_NAMESPACE} "${pod}" 2>/dev/null || true
+    done
     echo "=== K8S RUNNER LOGS ==="
     kubectl logs -n ${APP_NAMESPACE} -l app.kubernetes.io/name=k8s-runner --all-containers --tail=200 || true
     echo "=== AGENTS-ORCHESTRATOR LOGS ==="
     kubectl logs -n ${APP_NAMESPACE} -l app.kubernetes.io/name=agents-orchestrator --all-containers --tail=200 || true
     echo "=== AGENT WORKLOAD PODS (agyn-workloads) ==="
     kubectl get pods -n agyn-workloads -o wide 2>/dev/null || true
+    echo "=== AGENT WORKLOAD EVENTS (agyn-workloads) ==="
+    kubectl get events -n agyn-workloads --sort-by='.lastTimestamp' 2>/dev/null || true
+    echo "=== AGENT WORKLOAD POD DESCRIBES (agyn-workloads) ==="
+    for pod in $(kubectl get pods -n agyn-workloads -o name 2>/dev/null); do
+      echo "--- ${pod} ---"
+      kubectl describe -n agyn-workloads "${pod}" 2>/dev/null || true
+    done
     echo "=== AGENT WORKLOAD LOGS ==="
     for pod in $(kubectl get pods -n agyn-workloads -o name 2>/dev/null); do
       echo "--- $pod ---"
