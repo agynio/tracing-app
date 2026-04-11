@@ -10,7 +10,7 @@ import { TracingGateway } from '../../src/gen/agynio/api/gateway/v1/tracing_pb';
 import { IdentityService, IdentityType } from '../../src/gen/agynio/api/identity/v1/identity_pb';
 import { AuthMethod } from '../../src/gen/agynio/api/llm/v1/llm_pb';
 import { ListSpansOrderBy, TraceStatus } from '../../src/gen/agynio/api/tracing/v1/tracing_pb';
-import { bytesToHex, flattenResourceSpans, getStringAttr } from '../../src/api/spanToEvent';
+import { bytesToHex, flattenResourceSpans, getStringAttr, hexToBytes } from '../../src/api/spanToEvent';
 
 const DEFAULT_TESTLLM_ENDPOINT = 'https://testllm.dev/v1/org/agynio/suite/codex/responses';
 const DEFAULT_TESTLLM_MODEL = 'simple-hello';
@@ -378,8 +378,17 @@ async function waitForSpan(
   }
   const summary = formatSpanSummary(lastSummary);
   const error = lastError ?? 'none';
+  let diagnostics: string | null = null;
+  if (!lastError && (!lastSummary || lastSummary.spanCount === 0)) {
+    try {
+      diagnostics = await collectSpanDiagnostics(tracingClient, requestBase);
+    } catch (diagnosticError) {
+      diagnostics = `failed to collect diagnostics: ${formatSpanError(diagnosticError)}`;
+    }
+  }
+  const diagnosticSuffix = diagnostics ? ` Diagnostics: ${diagnostics}` : '';
   throw new Error(
-    `Timed out waiting for ${label}. Last listSpans summary: ${summary}. Last listSpans error: ${error}`,
+    `Timed out waiting for ${label}. Last listSpans summary: ${summary}. Last listSpans error: ${error}.${diagnosticSuffix}`,
   );
 }
 
@@ -468,6 +477,146 @@ function formatSpanSummary(summary: SpanQuerySummary | null): string {
   const names = summary.sampleNames.length > 0 ? summary.sampleNames.join(', ') : 'none';
   const traceIds = summary.sampleTraceIds.length > 0 ? summary.sampleTraceIds.join(', ') : 'none';
   return `spanCount=${summary.spanCount}, sampleNames=[${names}], sampleTraceIds=[${traceIds}]`;
+}
+
+type SpanSummaryResult = {
+  label: string;
+  summary: SpanQuerySummary | null;
+  error: string | null;
+};
+
+async function collectSpanDiagnostics(
+  tracingClient: TracingClient,
+  requestBase: ListSpansRequest,
+): Promise<string> {
+  const diagnosticRequests: SpanSummaryResult[] = [];
+  const orderBy = requestBase.orderBy ?? ListSpansOrderBy.START_TIME_DESC;
+  const baseRequest = {
+    pageSize: 50,
+    pageToken: '',
+    orderBy,
+  };
+  diagnosticRequests.push(
+    await safeSpanSummary(tracingClient, 'timeWindowSummary', {
+      ...baseRequest,
+      filter: buildDiagnosticFilter(requestBase.filter),
+    }),
+  );
+  diagnosticRequests.push(
+    await safeSpanSummary(tracingClient, 'invocationSummary', {
+      ...baseRequest,
+      filter: { names: ['invocation.message'] },
+    }),
+  );
+  const allSummary = await safeSpanSummary(tracingClient, 'allSummary', baseRequest);
+  diagnosticRequests.push(allSummary);
+
+  const parts = [`config=${formatSeedConfig()}`, `filter=${formatSpanFilter(requestBase.filter)}`];
+  parts.push(...diagnosticRequests.map(formatSpanSummaryResult));
+
+  if (allSummary.summary?.sampleTraceIds.length) {
+    const traceStatuses = await summarizeTraceStatuses(tracingClient, allSummary.summary.sampleTraceIds);
+    if (traceStatuses) {
+      parts.push(`traceStatuses=${traceStatuses}`);
+    }
+  }
+
+  return parts.join('. ');
+}
+
+async function safeSpanSummary(
+  tracingClient: TracingClient,
+  label: string,
+  request: ListSpansRequest,
+): Promise<SpanSummaryResult> {
+  try {
+    const summary = await summarizeListSpans(tracingClient, request);
+    return { label, summary, error: null };
+  } catch (error) {
+    return { label, summary: null, error: formatSpanError(error) };
+  }
+}
+
+async function summarizeListSpans(
+  tracingClient: TracingClient,
+  request: ListSpansRequest,
+): Promise<SpanQuerySummary> {
+  const response = await tracingClient.listSpans(request);
+  const spans = flattenResourceSpans(response.resourceSpans);
+  return summarizeSpanResponse(spans);
+}
+
+function formatSpanSummaryResult(result: SpanSummaryResult): string {
+  if (result.error) return `${result.label}=error(${result.error})`;
+  return `${result.label}=${formatSpanSummary(result.summary)}`;
+}
+
+function buildDiagnosticFilter(filter: ListSpansRequest['filter'] | undefined): ListSpansRequest['filter'] | undefined {
+  if (!filter) return undefined;
+  const diagnostic: ListSpansRequest['filter'] = {};
+  if (filter.traceId && filter.traceId.length > 0) {
+    diagnostic.traceId = filter.traceId;
+  }
+  if (filter.startTimeMin !== undefined) {
+    diagnostic.startTimeMin = filter.startTimeMin;
+  }
+  if (filter.startTimeMax !== undefined) {
+    diagnostic.startTimeMax = filter.startTimeMax;
+  }
+  return diagnostic;
+}
+
+function formatSpanFilter(filter: ListSpansRequest['filter'] | undefined): string {
+  if (!filter) return 'none';
+  const parts: string[] = [];
+  if (filter.traceId && filter.traceId.length > 0) {
+    parts.push(`traceId=${bytesToHex(filter.traceId)}`);
+  }
+  if (filter.parentSpanId && filter.parentSpanId.length > 0) {
+    parts.push(`parentSpanId=${bytesToHex(filter.parentSpanId)}`);
+  }
+  if (filter.names && filter.names.length > 0) {
+    parts.push(`names=[${filter.names.join(', ')}]`);
+  }
+  if (filter.name) {
+    parts.push(`name=${filter.name}`);
+  }
+  if (filter.startTimeMin !== undefined) {
+    parts.push(`startTimeMin=${filter.startTimeMin.toString()}`);
+  }
+  if (filter.startTimeMax !== undefined) {
+    parts.push(`startTimeMax=${filter.startTimeMax.toString()}`);
+  }
+  if (typeof filter.inProgress === 'boolean') {
+    parts.push(`inProgress=${filter.inProgress}`);
+  }
+  if (filter.statuses && filter.statuses.length > 0) {
+    parts.push(`statuses=[${filter.statuses.join(', ')}]`);
+  }
+  if (filter.kind && filter.kind !== 0) {
+    parts.push(`kind=${filter.kind}`);
+  }
+  return parts.length ? parts.join(', ') : 'empty';
+}
+
+function formatSeedConfig(): string {
+  const identityBase = config.identityGrpcBaseUrl ?? 'none';
+  return `gateway=${config.gatewayBaseUrl}, tracing=${config.tracingAddress}, identityGrpc=${identityBase}`;
+}
+
+async function summarizeTraceStatuses(tracingClient: TracingClient, traceIds: string[]): Promise<string | null> {
+  const uniqueIds = [...new Set(traceIds.filter((traceId) => traceId.length > 0))].slice(0, 3);
+  if (uniqueIds.length === 0) return null;
+  const statuses: string[] = [];
+  for (const traceId of uniqueIds) {
+    try {
+      const summary = await tracingClient.getTraceSummary({ traceId: hexToBytes(traceId) });
+      statuses.push(`${traceId}:${formatTraceStatus(summary.status)}`);
+    } catch (error) {
+      statuses.push(`${traceId}:error(${formatSpanError(error)})`);
+    }
+  }
+  return statuses.join(', ');
 }
 
 function formatSpanError(error: unknown): string {
