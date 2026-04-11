@@ -1,27 +1,17 @@
-import { Code, ConnectError, createClient, type Interceptor } from '@connectrpc/connect';
-import { createGrpcTransport } from '@connectrpc/connect-node';
+import { ConnectError, createClient, type Interceptor } from '@connectrpc/connect';
 import { createConnectTransport } from '@connectrpc/connect-web';
+import { context, SpanStatusCode, trace } from '@opentelemetry/api';
+import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-grpc';
+import { BasicTracerProvider, SimpleSpanProcessor } from '@opentelemetry/sdk-trace-base';
 import { test as base, type Page } from '@playwright/test';
-import { AgentsGateway } from '../../src/gen/agynio/api/gateway/v1/agents_pb';
-import { LLMGateway } from '../../src/gen/agynio/api/gateway/v1/llm_pb';
-import { OrganizationsGateway } from '../../src/gen/agynio/api/gateway/v1/organizations_pb';
-import { ThreadsGateway } from '../../src/gen/agynio/api/gateway/v1/threads_pb';
-import { TracingGateway } from '../../src/gen/agynio/api/gateway/v1/tracing_pb';
-import { IdentityService, IdentityType } from '../../src/gen/agynio/api/identity/v1/identity_pb';
-import { AuthMethod } from '../../src/gen/agynio/api/llm/v1/llm_pb';
-import { ListSpansOrderBy, TraceStatus } from '../../src/gen/agynio/api/tracing/v1/tracing_pb';
+import { randomUUID } from 'node:crypto';
 import { bytesToHex, flattenResourceSpans, getStringAttr, hexToBytes } from '../../src/api/spanToEvent';
+import { TracingGateway } from '../../src/gen/agynio/api/gateway/v1/tracing_pb';
+import { ListSpansOrderBy, TraceStatus } from '../../src/gen/agynio/api/tracing/v1/tracing_pb';
 
-const DEFAULT_TESTLLM_ENDPOINT = 'https://testllm.dev/v1/org/agynio/suite/codex/responses';
 const DEFAULT_TESTLLM_MODEL = 'simple-hello';
-const DEFAULT_AGENT_IMAGE = 'alpine:3.21';
-const DEFAULT_INIT_IMAGE = 'ghcr.io/agynio/agent-init-agn:latest';
 const DEFAULT_TRACING_ADDRESS = 'tracing.platform.svc.cluster.local:50051';
 const SEED_MESSAGE_PREFIX = 'hello';
-const SEED_ENV_NAME = 'E2E_TRACING';
-const SEED_ENV_VALUE = 'tracing-app';
-const TRACING_ENV_NAME = 'TRACING_ADDRESS';
-const SEED_AGENT_ROLE = 'You are a helpful assistant.';
 const SEED_RUN_TIMEOUT_MS = 420000;
 const SPAN_START_GRACE_MS = 300000;
 
@@ -33,10 +23,7 @@ type E2EConfig = {
   gatewayBaseUrl: string;
   identityGrpcBaseUrl?: string;
   authToken: string;
-  identityId: string;
-  testllmEndpoint: string;
   testllmModel: string;
-  initImage: string;
   tracingAddress: string;
 };
 
@@ -52,7 +39,6 @@ export type SeededRun = {
 
 type GatewayClients = ReturnType<typeof createGatewayClients>;
 type TracingClient = GatewayClients['tracingClient'];
-type AgentsClient = GatewayClients['agentsClient'];
 type ListSpansRequest = Parameters<TracingClient['listSpans']>[0];
 type FlattenedSpan = ReturnType<typeof flattenResourceSpans>[number];
 
@@ -99,10 +85,7 @@ function resolveConfig(): E2EConfig {
     gatewayBaseUrl: normalizeBaseUrl(resolveRequiredEnv('E2E_GATEWAY_BASE_URL')),
     identityGrpcBaseUrl: normalizedIdentityBaseUrl,
     authToken: resolveRequiredEnv('E2E_AUTH_TOKEN'),
-    identityId: resolveRequiredEnv('E2E_IDENTITY_ID'),
-    testllmEndpoint: process.env.E2E_TESTLLM_ENDPOINT ?? DEFAULT_TESTLLM_ENDPOINT,
     testllmModel: process.env.E2E_TESTLLM_MODEL_REMOTE_NAME ?? DEFAULT_TESTLLM_MODEL,
-    initImage: process.env.E2E_AGENT_INIT_IMAGE ?? DEFAULT_INIT_IMAGE,
     tracingAddress: resolveTracingAddress(normalizedIdentityBaseUrl),
   };
 }
@@ -156,102 +139,53 @@ function createGatewayClients() {
   });
 
   return {
-    organizationsClient: createClient(OrganizationsGateway, transport),
-    llmClient: createClient(LLMGateway, transport),
-    agentsClient: createClient(AgentsGateway, transport),
-    threadsClient: createClient(ThreadsGateway, transport),
     tracingClient: createClient(TracingGateway, transport),
   };
 }
 
+type SeedTracePayload = {
+  threadId: string;
+  messageText: string;
+  llmResponseText: string;
+  modelName: string;
+};
+
+type SeedTraceResult = {
+  traceId: string;
+  messageSpanId: string;
+  llmSpanId: string;
+};
+
 async function seedTracingRun(): Promise<SeededRun> {
-  await ensureIdentityRegistered(config.identityId);
-  const { organizationsClient, llmClient, agentsClient, threadsClient, tracingClient } = createGatewayClients();
-
+  const { tracingClient } = createGatewayClients();
   const now = Date.now();
-  const orgResp = await organizationsClient.createOrganization({
-    name: `e2e-tracing-org-${now}`,
-  });
-  const organizationId = requireString(orgResp.organization?.id, 'CreateOrganization response missing id');
-
-  const providerResp = await llmClient.createLLMProvider({
-    endpoint: config.testllmEndpoint,
-    authMethod: AuthMethod.BEARER,
-    token: 'unused',
-    organizationId,
-  });
-  const providerId = requireString(providerResp.provider?.meta?.id, 'CreateLLMProvider response missing id');
-
-  const modelResp = await llmClient.createModel({
-    name: `e2e-tracing-model-${now}`,
-    llmProviderId: providerId,
-    remoteName: config.testllmModel,
-    organizationId,
-  });
-  const modelId = requireString(modelResp.model?.meta?.id, 'CreateModel response missing id');
-
-  const agentResp = await agentsClient.createAgent({
-    name: `e2e-tracing-agent-${now}`,
-    role: SEED_AGENT_ROLE,
-    model: modelId,
-    description: 'Tracing app E2E agent using TestLLM',
-    configuration: '{}',
-    image: DEFAULT_AGENT_IMAGE,
-    initImage: config.initImage,
-    organizationId,
-  });
-  const agentId = requireString(agentResp.agent?.meta?.id, 'CreateAgent response missing id');
-
-  await waitForAgentReady(agentsClient, organizationId, agentId);
-
-  await agentsClient.createEnv({
-    name: SEED_ENV_NAME,
-    description: 'Tracing app E2E env',
-    target: { case: 'agentId', value: agentId },
-    source: { case: 'value', value: SEED_ENV_VALUE },
-  });
-  await agentsClient.createEnv({
-    name: TRACING_ENV_NAME,
-    description: 'Tracing endpoint for agent spans',
-    target: { case: 'agentId', value: agentId },
-    source: { case: 'value', value: config.tracingAddress },
-  });
-
-  const threadResp = await threadsClient.createThread({
-    participantIds: [agentId, config.identityId],
-  });
-  const threadId = requireString(threadResp.thread?.id, 'CreateThread response missing id');
-
+  const threadId = randomUUID();
   const seedMessageText = `${SEED_MESSAGE_PREFIX}-${now}`;
+  const seedLlmResponse = `E2E response for ${seedMessageText}`;
 
-  const sendMessageResponse = await threadsClient.sendMessage({
+  const seededTrace = await exportSeedTrace({
     threadId,
-    senderId: config.identityId,
-    body: seedMessageText,
-    fileIds: [],
+    messageText: seedMessageText,
+    llmResponseText: seedLlmResponse,
+    modelName: config.testllmModel,
   });
 
-  const messageStartTimeMin = resolveSpanStartTimeMin(sendMessageResponse.message?.createdAt);
+  const messageStartTimeMin = resolveSpanStartTimeMin(undefined);
+  const traceIdBytes = hexToBytes(seededTrace.traceId);
 
   const messageSpan = await waitForSpan(
     tracingClient,
     {
-      filter: { names: ['invocation.message'], startTimeMin: messageStartTimeMin },
+      filter: { traceId: traceIdBytes, names: ['invocation.message'], startTimeMin: messageStartTimeMin },
       pageSize: 200,
       pageToken: '',
       orderBy: ListSpansOrderBy.START_TIME_DESC,
     },
     (span) => {
-      const spanThreadId =
-        getStringAttr(span.resourceAttrs, 'agyn.thread.id') ??
-        getStringAttr(span.span.attributes, 'agyn.thread.id');
-      const messageText = getStringAttr(span.span.attributes, 'agyn.message.text');
-      if (spanThreadId) {
-        return spanThreadId === threadId && Boolean(messageText);
-      }
-      return messageText === seedMessageText;
+      const spanId = bytesToHex(span.span.spanId);
+      return spanId === seededTrace.messageSpanId;
     },
-    `invocation.message span for thread ${threadId} (message: ${seedMessageText})`,
+    `invocation.message span for trace ${seededTrace.traceId} (message: ${seedMessageText})`,
   );
 
   const runId = bytesToHex(messageSpan.span.traceId);
@@ -264,14 +198,14 @@ async function seedTracingRun(): Promise<SeededRun> {
   const llmSpan = await waitForSpan(
     tracingClient,
     {
-      filter: { traceId: messageSpan.span.traceId, names: ['llm.call'] },
+      filter: { traceId: traceIdBytes, names: ['llm.call'] },
       pageSize: 200,
       pageToken: '',
       orderBy: ListSpansOrderBy.START_TIME_DESC,
     },
     (span) => {
-      const responseText = getStringAttr(span.span.attributes, 'agyn.llm.response_text');
-      return span.span.name === 'llm.call' && Boolean(responseText);
+      const spanId = bytesToHex(span.span.spanId);
+      return span.span.name === 'llm.call' && spanId === seededTrace.llmSpanId;
     },
     `llm.call span for run ${runId}`,
   );
@@ -295,51 +229,67 @@ async function seedTracingRun(): Promise<SeededRun> {
   };
 }
 
-async function ensureIdentityRegistered(identityId: string): Promise<void> {
-  if (!config.identityGrpcBaseUrl) {
-    return;
-  }
-  const identityClient = createIdentityClient();
-  try {
-    await identityClient.registerIdentity({
-      identityId,
-      identityType: IdentityType.USER,
-    });
-  } catch (error) {
-    if (error instanceof ConnectError && error.code === Code.AlreadyExists) {
-      return;
-    }
-    throw error;
-  }
-}
-
-function createIdentityClient() {
-  if (!config.identityGrpcBaseUrl) {
-    throw new Error('E2E_IDENTITY_GRPC_BASE_URL is required to register identities.');
-  }
-  const transport = createGrpcTransport({
-    baseUrl: config.identityGrpcBaseUrl,
-    interceptors: [authInterceptor],
+async function exportSeedTrace(payload: SeedTracePayload): Promise<SeedTraceResult> {
+  const exporter = new OTLPTraceExporter({
+    url: resolveOtlpEndpoint(config.tracingAddress),
   });
-  return createClient(IdentityService, transport);
+  const provider = new BasicTracerProvider();
+  provider.addSpanProcessor(new SimpleSpanProcessor(exporter));
+  provider.register();
+
+  const tracer = provider.getTracer('tracing-app-e2e');
+  const messageSpan = tracer.startSpan('invocation.message', {
+    attributes: {
+      'agyn.thread.id': payload.threadId,
+      'agyn.message.role': 'user',
+      'agyn.message.kind': 'invocation',
+      'agyn.message.text': payload.messageText,
+    },
+  });
+  messageSpan.setStatus({ code: SpanStatusCode.OK });
+
+  const llmSpan = tracer.startSpan(
+    'llm.call',
+    {
+      attributes: {
+        'agyn.thread.id': payload.threadId,
+        'agyn.llm.response_text': payload.llmResponseText,
+        'gen_ai.system': 'testllm',
+        'gen_ai.request.model': payload.modelName,
+        'gen_ai.response.finish_reason': 'stop',
+        'gen_ai.usage.input_tokens': 5,
+        'gen_ai.usage.output_tokens': 7,
+      },
+    },
+    trace.setSpan(context.active(), messageSpan),
+  );
+
+  llmSpan.addEvent('agyn.llm.context_item', {
+    'agyn.context.role': 'user',
+    'agyn.context.text': payload.messageText,
+    'agyn.context.is_new': 'true',
+    'agyn.context.size_bytes': payload.messageText.length,
+  });
+  llmSpan.setStatus({ code: SpanStatusCode.OK });
+  llmSpan.end();
+  messageSpan.end();
+
+  await provider.forceFlush();
+  await provider.shutdown();
+
+  return {
+    traceId: messageSpan.spanContext().traceId,
+    messageSpanId: messageSpan.spanContext().spanId,
+    llmSpanId: llmSpan.spanContext().spanId,
+  };
 }
 
-async function waitForAgentReady(
-  agentsClient: AgentsClient,
-  organizationId: string,
-  agentId: string,
-): Promise<void> {
-  const deadline = Date.now() + 20000;
-  while (Date.now() < deadline) {
-    const response = await agentsClient.listAgents({
-      organizationId,
-      pageSize: 200,
-      pageToken: '',
-    });
-    if (response.agents.some((agent) => agent.meta?.id === agentId)) return;
-    await sleep(500);
+function resolveOtlpEndpoint(address: string): string {
+  const trimmed = address.trim();
+  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+    return trimmed;
   }
-  throw new Error(`Timed out waiting for agent ${agentId} to become available`);
+  return `http://${trimmed}`;
 }
 
 async function waitForSpan(
@@ -601,7 +551,7 @@ function formatSpanFilter(filter: ListSpansRequest['filter'] | undefined): strin
 
 function formatSeedConfig(): string {
   const identityBase = config.identityGrpcBaseUrl ?? 'none';
-  return `gateway=${config.gatewayBaseUrl}, tracing=${config.tracingAddress}, identityGrpc=${identityBase}, initImage=${config.initImage}, agentImage=${DEFAULT_AGENT_IMAGE}`;
+  return `gateway=${config.gatewayBaseUrl}, tracing=${config.tracingAddress}, identityGrpc=${identityBase}, model=${config.testllmModel}, seedMode=otlp`;
 }
 
 async function summarizeTraceStatuses(tracingClient: TracingClient, traceIds: string[]): Promise<string | null> {
