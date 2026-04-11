@@ -105,21 +105,6 @@ pipelines:
 
   test-e2e:
     run: |-
-      if [ -z "${E2E_GATEWAY_BASE_URL}" ]; then
-        export E2E_GATEWAY_BASE_URL="http://gateway-gateway.${APP_NAMESPACE}.svc.cluster.local:8080"
-      fi
-      if [ -z "${E2E_AUTH_TOKEN}" ]; then
-        export E2E_AUTH_TOKEN="$(terraform -chdir=./bootstrap/stacks/platform output -raw cluster_admin_api_token)"
-      fi
-      if [ -z "${E2E_IDENTITY_ID}" ]; then
-        export E2E_IDENTITY_ID="$(terraform -chdir=./bootstrap/stacks/platform output -raw cluster_admin_identity_id)"
-      fi
-      if [ -z "${E2E_IDENTITY_GRPC_BASE_URL}" ]; then
-        export E2E_IDENTITY_GRPC_BASE_URL="http://identity.${APP_NAMESPACE}.svc.cluster.local:50051"
-      fi
-      if [ -z "${E2E_TRACING_ADDRESS}" ]; then
-        export E2E_TRACING_ADDRESS="tracing.${APP_NAMESPACE}.svc.cluster.local:50051"
-      fi
       create_deployments e2e-runner
       start_dev e2e-runner &
       sleep 5
@@ -127,7 +112,7 @@ pipelines:
       exec_container \
         --label-selector "app.kubernetes.io/name=tracing-app-e2e" \
         -n ${APP_NAMESPACE} \
-        -- env E2E_GATEWAY_BASE_URL="${E2E_GATEWAY_BASE_URL}" E2E_AUTH_TOKEN="${E2E_AUTH_TOKEN}" E2E_IDENTITY_ID="${E2E_IDENTITY_ID}" E2E_IDENTITY_GRPC_BASE_URL="${E2E_IDENTITY_GRPC_BASE_URL}" E2E_TRACING_ADDRESS="${E2E_TRACING_ADDRESS}" bash -c '
+        -- bash -c '
           echo "Waiting for file sync..."
           required_files=(
             /opt/app/data/package.json

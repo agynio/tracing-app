@@ -10,6 +10,7 @@ import { TracingGateway } from '../../src/gen/agynio/api/gateway/v1/tracing_pb';
 import { ListSpansOrderBy, TraceStatus } from '../../src/gen/agynio/api/tracing/v1/tracing_pb';
 
 const DEFAULT_TESTLLM_MODEL = 'simple-hello';
+const DEFAULT_GATEWAY_BASE_URL = 'http://gateway-gateway.platform.svc.cluster.local:8080';
 const DEFAULT_TRACING_ADDRESS = 'tracing.platform.svc.cluster.local:50051';
 const SEED_MESSAGE_PREFIX = 'hello';
 const SEED_RUN_TIMEOUT_MS = 420000;
@@ -22,7 +23,7 @@ const TRACE_STATUS_WAIT_TIMEOUT_MS = 300000;
 type E2EConfig = {
   gatewayBaseUrl: string;
   identityGrpcBaseUrl?: string;
-  authToken: string;
+  authToken?: string;
   testllmModel: string;
   tracingAddress: string;
 };
@@ -45,7 +46,9 @@ type FlattenedSpan = ReturnType<typeof flattenResourceSpans>[number];
 const config = resolveConfig();
 
 const authInterceptor: Interceptor = (next) => async (req) => {
-  req.header.set('Authorization', `Bearer ${config.authToken}`);
+  if (config.authToken) {
+    req.header.set('Authorization', `Bearer ${config.authToken}`);
+  }
   return next(req);
 };
 
@@ -82,20 +85,12 @@ function resolveConfig(): E2EConfig {
   const identityBaseUrl = resolveOptionalEnv('E2E_IDENTITY_GRPC_BASE_URL');
   const normalizedIdentityBaseUrl = identityBaseUrl ? normalizeBaseUrl(identityBaseUrl) : undefined;
   return {
-    gatewayBaseUrl: normalizeBaseUrl(resolveRequiredEnv('E2E_GATEWAY_BASE_URL')),
+    gatewayBaseUrl: normalizeBaseUrl(resolveOptionalEnv('E2E_GATEWAY_BASE_URL') ?? DEFAULT_GATEWAY_BASE_URL),
     identityGrpcBaseUrl: normalizedIdentityBaseUrl,
-    authToken: resolveRequiredEnv('E2E_AUTH_TOKEN'),
+    authToken: resolveOptionalEnv('E2E_AUTH_TOKEN'),
     testllmModel: process.env.E2E_TESTLLM_MODEL_REMOTE_NAME ?? DEFAULT_TESTLLM_MODEL,
     tracingAddress: resolveTracingAddress(normalizedIdentityBaseUrl),
   };
-}
-
-function resolveRequiredEnv(name: string): string {
-  const value = process.env[name];
-  if (!value) {
-    throw new Error(`${name} is required to run tracing-app e2e tests.`);
-  }
-  return value;
 }
 
 function resolveOptionalEnv(name: string): string | undefined {
@@ -375,8 +370,10 @@ async function setupTracingProxy(page: Page): Promise<void> {
     const proxyUrl = buildGatewayUrl(request.url());
     const headers = {
       ...request.headers(),
-      authorization: `Bearer ${config.authToken}`,
     };
+    if (config.authToken) {
+      headers.authorization = `Bearer ${config.authToken}`;
+    }
     delete headers.host;
     delete headers['content-length'];
 
