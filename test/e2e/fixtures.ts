@@ -16,7 +16,7 @@ const DEFAULT_TESTLLM_ENDPOINT = 'https://testllm.dev/v1/org/agynio/suite/codex/
 const DEFAULT_TESTLLM_MODEL = 'simple-hello';
 const DEFAULT_AGENT_IMAGE = 'alpine:3.21';
 const DEFAULT_INIT_IMAGE = 'ghcr.io/agynio/agent-init-codex:latest';
-const DEFAULT_TRACING_ADDRESS = 'tracing.platform.svc.cluster.local:50051';
+const DEFAULT_TRACING_ADDRESS = 'tracing.ziti:443';
 const SEED_MESSAGE_PREFIX = 'hello';
 const SEED_ENV_NAME = 'E2E_TRACING';
 const SEED_ENV_VALUE = 'tracing-app';
@@ -102,7 +102,7 @@ function resolveConfig(): E2EConfig {
     testllmEndpoint: process.env.E2E_TESTLLM_ENDPOINT ?? DEFAULT_TESTLLM_ENDPOINT,
     testllmModel: process.env.E2E_TESTLLM_MODEL_REMOTE_NAME ?? DEFAULT_TESTLLM_MODEL,
     initImage: process.env.E2E_AGENT_INIT_IMAGE ?? DEFAULT_INIT_IMAGE,
-    tracingAddress: resolveTracingAddress(normalizedIdentityBaseUrl),
+    tracingAddress: resolveTracingAddress(),
   };
 }
 
@@ -125,27 +125,9 @@ function normalizeBaseUrl(value: string): string {
   return normalized.endsWith('/') ? normalized.slice(0, -1) : normalized;
 }
 
-function resolveTracingAddress(identityGrpcBaseUrl?: string): string {
+function resolveTracingAddress(): string {
   const explicit = resolveOptionalEnv('E2E_TRACING_ADDRESS');
-  if (explicit) return explicit;
-  const derived = identityGrpcBaseUrl ? deriveTracingAddress(identityGrpcBaseUrl) : null;
-  return derived ?? DEFAULT_TRACING_ADDRESS;
-}
-
-function deriveTracingAddress(identityGrpcBaseUrl: string): string | null {
-  let url: URL;
-  try {
-    url = new URL(identityGrpcBaseUrl);
-  } catch (error) {
-    console.warn('Failed to parse E2E_IDENTITY_GRPC_BASE_URL for tracing address derivation.', error);
-    return null;
-  }
-  if (!url.hostname) return null;
-  const hostParts = url.hostname.split('.');
-  if (hostParts.length === 0) return null;
-  hostParts[0] = 'tracing';
-  const port = url.port || '50051';
-  return `${hostParts.join('.')}:${port}`;
+  return explicit ?? DEFAULT_TRACING_ADDRESS;
 }
 
 function createGatewayClients() {
@@ -250,7 +232,7 @@ async function seedTracingRun(): Promise<SeededRun> {
       }
       return messageText === seedMessageText;
     },
-    `invocation.message span for thread ${threadId}`,
+    `invocation.message span for thread ${threadId} (message: ${seedMessageText})`,
   );
 
   const runId = bytesToHex(messageSpan.span.traceId);
@@ -348,18 +330,37 @@ async function waitForSpan(
 ): Promise<FlattenedSpan> {
   const deadline = Date.now() + SPAN_WAIT_TIMEOUT_MS;
   const requestBase = { ...request };
+  let lastSummary: SpanQuerySummary | null = null;
+  let lastError: string | null = null;
   while (Date.now() < deadline) {
     let pageToken = requestBase.pageToken;
+    const collected: FlattenedSpan[] = [];
+    let hadError = false;
     do {
-      const response = await tracingClient.listSpans({ ...requestBase, pageToken });
-      const spans = flattenResourceSpans(response.resourceSpans);
-      const match = spans.find(predicate);
-      if (match) return match;
-      pageToken = response.nextPageToken;
+      try {
+        const response = await tracingClient.listSpans({ ...requestBase, pageToken });
+        const spans = flattenResourceSpans(response.resourceSpans);
+        collected.push(...spans);
+        const match = spans.find(predicate);
+        if (match) return match;
+        pageToken = response.nextPageToken;
+      } catch (error) {
+        lastError = formatSpanError(error);
+        hadError = true;
+        break;
+      }
     } while (pageToken);
+    if (!hadError) {
+      lastSummary = summarizeSpanResponse(collected);
+      lastError = null;
+    }
     await sleep(SPAN_WAIT_INTERVAL_MS);
   }
-  throw new Error(`Timed out waiting for ${label}`);
+  const summary = formatSpanSummary(lastSummary);
+  const error = lastError ?? 'none';
+  throw new Error(
+    `Timed out waiting for ${label}. Last listSpans summary: ${summary}. Last listSpans error: ${error}`,
+  );
 }
 
 async function waitForTraceCompletion(tracingClient: TracingClient, traceId: Uint8Array): Promise<void> {
@@ -421,6 +422,37 @@ function resolveSpanStartTimeMin(createdAt: { seconds: bigint; nanos: number } |
   const graceNanos = msToNanos(SPAN_START_GRACE_MS);
   const createdAtNanos = timestampToNanos(createdAt);
   return createdAtNanos > graceNanos ? createdAtNanos - graceNanos : 0n;
+}
+
+type SpanQuerySummary = {
+  spanCount: number;
+  sampleNames: string[];
+  sampleTraceIds: string[];
+};
+
+function summarizeSpanResponse(spans: FlattenedSpan[]): SpanQuerySummary {
+  return {
+    spanCount: spans.length,
+    sampleNames: spans.slice(0, 5).map((span) => span.span.name),
+    sampleTraceIds: spans.slice(0, 3).map((span) => bytesToHex(span.span.traceId)),
+  };
+}
+
+function formatSpanSummary(summary: SpanQuerySummary | null): string {
+  if (!summary) return 'none';
+  const names = summary.sampleNames.length > 0 ? summary.sampleNames.join(', ') : 'none';
+  const traceIds = summary.sampleTraceIds.length > 0 ? summary.sampleTraceIds.join(', ') : 'none';
+  return `spanCount=${summary.spanCount}, sampleNames=[${names}], sampleTraceIds=[${traceIds}]`;
+}
+
+function formatSpanError(error: unknown): string {
+  if (error instanceof ConnectError) {
+    return `${error.code}: ${error.message}`;
+  }
+  if (error instanceof Error) {
+    return error.message;
+  }
+  return String(error);
 }
 
 function msToNanos(ms: number): bigint {

@@ -25,6 +25,21 @@ functions:
     else
       echo "WARNING: ArgoCD Application 'tracing-app' not found in argocd namespace."
     fi
+  dump_seed_failure_logs: |-
+    echo "=== GATEWAY LOGS ==="
+    kubectl logs -n ${APP_NAMESPACE} -l app.kubernetes.io/name=gateway --all-containers --tail=200 || true
+    echo "=== TRACING LOGS ==="
+    kubectl logs -n ${APP_NAMESPACE} -l app.kubernetes.io/name=tracing --all-containers --tail=200 || true
+    echo "=== AGENTS-ORCHESTRATOR LOGS ==="
+    kubectl logs -n ${APP_NAMESPACE} -l app.kubernetes.io/name=agents-orchestrator --all-containers --tail=200 || true
+    echo "=== AGENT WORKLOAD PODS (agyn-workloads) ==="
+    kubectl get pods -n agyn-workloads -o wide 2>/dev/null || true
+    echo "=== AGENT WORKLOAD LOGS ==="
+    for pod in $(kubectl get pods -n agyn-workloads -o name 2>/dev/null); do
+      echo "--- $pod ---"
+      kubectl logs "$pod" -n agyn-workloads --all-containers --tail=50 2>/dev/null || true
+    done
+    echo "=== END DIAGNOSTIC LOGS ==="
 
 deployments:
   e2e-runner:
@@ -85,7 +100,7 @@ pipelines:
         export E2E_IDENTITY_GRPC_BASE_URL="http://identity.${APP_NAMESPACE}.svc.cluster.local:50051"
       fi
       if [ -z "${E2E_TRACING_ADDRESS}" ]; then
-        export E2E_TRACING_ADDRESS="tracing.${APP_NAMESPACE}.svc.cluster.local:50051"
+        export E2E_TRACING_ADDRESS="tracing.ziti:443"
       fi
       create_deployments e2e-runner
       start_dev e2e-runner &
@@ -155,6 +170,9 @@ pipelines:
           exit $EXIT_CODE
         '
       EXIT_CODE=$?
+      if [ "$EXIT_CODE" -ne 0 ]; then
+        dump_seed_failure_logs || true
+      fi
       stop_dev e2e-runner
       purge_deployments e2e-runner
       exit $EXIT_CODE
