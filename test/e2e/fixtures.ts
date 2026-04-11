@@ -15,8 +15,8 @@ import { bytesToHex, flattenResourceSpans, getStringAttr } from '../../src/api/s
 const DEFAULT_TESTLLM_ENDPOINT = 'https://testllm.dev/v1/org/agynio/suite/codex/responses';
 const DEFAULT_TESTLLM_MODEL = 'simple-hello';
 const DEFAULT_AGENT_IMAGE = 'alpine:3.21';
-const DEFAULT_INIT_IMAGE = 'ghcr.io/agynio/agent-init-codex:latest';
-const DEFAULT_TRACING_ADDRESS = 'tracing.ziti:443';
+const DEFAULT_INIT_IMAGE = 'ghcr.io/agynio/agent-init-agn:v0.3.0';
+const DEFAULT_TRACING_ADDRESS = 'tracing.platform.svc.cluster.local:50051';
 const SEED_MESSAGE_PREFIX = 'hello';
 const SEED_ENV_NAME = 'E2E_TRACING';
 const SEED_ENV_VALUE = 'tracing-app';
@@ -47,6 +47,7 @@ export type SeededRun = {
   llmEventId: string;
   messageText: string;
   llmResponseText: string;
+  status: TraceStatus;
 };
 
 type GatewayClients = ReturnType<typeof createGatewayClients>;
@@ -102,7 +103,7 @@ function resolveConfig(): E2EConfig {
     testllmEndpoint: process.env.E2E_TESTLLM_ENDPOINT ?? DEFAULT_TESTLLM_ENDPOINT,
     testllmModel: process.env.E2E_TESTLLM_MODEL_REMOTE_NAME ?? DEFAULT_TESTLLM_MODEL,
     initImage: process.env.E2E_AGENT_INIT_IMAGE ?? DEFAULT_INIT_IMAGE,
-    tracingAddress: resolveTracingAddress(),
+    tracingAddress: resolveTracingAddress(normalizedIdentityBaseUrl),
   };
 }
 
@@ -125,9 +126,27 @@ function normalizeBaseUrl(value: string): string {
   return normalized.endsWith('/') ? normalized.slice(0, -1) : normalized;
 }
 
-function resolveTracingAddress(): string {
+function resolveTracingAddress(identityGrpcBaseUrl?: string): string {
   const explicit = resolveOptionalEnv('E2E_TRACING_ADDRESS');
-  return explicit ?? DEFAULT_TRACING_ADDRESS;
+  if (explicit) return explicit;
+  const derived = identityGrpcBaseUrl ? deriveTracingAddress(identityGrpcBaseUrl) : null;
+  return derived ?? DEFAULT_TRACING_ADDRESS;
+}
+
+function deriveTracingAddress(identityGrpcBaseUrl: string): string | null {
+  let url: URL;
+  try {
+    url = new URL(identityGrpcBaseUrl);
+  } catch (error) {
+    console.warn('Failed to parse E2E_IDENTITY_GRPC_BASE_URL for tracing address derivation.', error);
+    return null;
+  }
+  if (!url.hostname) return null;
+  const hostParts = url.hostname.split('.');
+  if (hostParts.length === 0) return null;
+  hostParts[0] = 'tracing';
+  const port = url.port || '50051';
+  return `${hostParts.join('.')}:${port}`;
 }
 
 function createGatewayClients() {
@@ -263,7 +282,7 @@ async function seedTracingRun(): Promise<SeededRun> {
     'LLM span missing response text',
   );
 
-  await waitForTraceCompletion(tracingClient, messageSpan.span.traceId);
+  const traceStatus = await waitForTraceCompletion(tracingClient, messageSpan.span.traceId);
 
   return {
     threadId,
@@ -272,6 +291,7 @@ async function seedTracingRun(): Promise<SeededRun> {
     llmEventId,
     messageText,
     llmResponseText,
+    status: traceStatus,
   };
 }
 
@@ -363,16 +383,21 @@ async function waitForSpan(
   );
 }
 
-async function waitForTraceCompletion(tracingClient: TracingClient, traceId: Uint8Array): Promise<void> {
+async function waitForTraceCompletion(tracingClient: TracingClient, traceId: Uint8Array): Promise<TraceStatus> {
   const deadline = Date.now() + TRACE_STATUS_WAIT_TIMEOUT_MS;
+  let lastStatus: TraceStatus | null = null;
   while (Date.now() < deadline) {
     const summary = await tracingClient.getTraceSummary({ traceId });
+    lastStatus = summary.status;
     if (summary.status === TraceStatus.COMPLETED || summary.status === TraceStatus.ERROR) {
-      return;
+      return summary.status;
     }
     await sleep(SPAN_WAIT_INTERVAL_MS);
   }
-  throw new Error(`Timed out waiting for trace ${bytesToHex(traceId)} to complete`);
+  const statusLabel = formatTraceStatus(lastStatus);
+  throw new Error(
+    `Timed out waiting for trace ${bytesToHex(traceId)} to complete (last status: ${statusLabel})`,
+  );
 }
 
 function requireString(value: string | undefined | null, message: string): string {
@@ -453,6 +478,11 @@ function formatSpanError(error: unknown): string {
     return error.message;
   }
   return String(error);
+}
+
+function formatTraceStatus(status: TraceStatus | null): string {
+  if (status === null) return 'unknown';
+  return TraceStatus[status] ?? `unknown(${status})`;
 }
 
 function msToNanos(ms: number): bigint {

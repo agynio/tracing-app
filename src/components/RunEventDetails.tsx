@@ -631,7 +631,7 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
         <div className="grid grid-cols-2 gap-4 flex-1 min-h-0">
           <div className="flex flex-col min-h-0 min-w-0">
             {provider && (
-              <div className="flex-shrink-0 mb-4">
+              <div className="flex-shrink-0 mb-4" data-testid="run-event-details-provider">
                 <div className="flex items-center gap-2 mb-3 h-8">
                   <span className="text-sm text-[var(--agyn-gray)]">Provider</span>
                   <IconButton icon={<Copy className="w-3 h-3" />} size="sm" variant="ghost" />
@@ -640,7 +640,7 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
               </div>
             )}
             {model && (
-              <div className="flex-shrink-0 mb-4">
+              <div className="flex-shrink-0 mb-4" data-testid="run-event-details-model">
                 <div className="flex items-center gap-2 mb-3 h-8">
                   <span className="text-sm text-[var(--agyn-gray)]">Model</span>
                   <IconButton icon={<Copy className="w-3 h-3" />} size="sm" variant="ghost" />
@@ -696,7 +696,7 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
 
           <div className="flex flex-col min-h-0 min-w-0">
             {reasoningTokens !== undefined && (
-              <div className="flex-shrink-0 mb-4">
+              <div className="flex-shrink-0 mb-4" data-testid="run-event-details-reasoning">
                 <div className="flex items-center gap-2 mb-3 h-8">
                   <span className="text-sm text-[var(--agyn-gray)]">Reasoning</span>
                 </div>
@@ -722,7 +722,7 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
               )}
             </div>
             {toolCalls.length > 0 && (
-              <div className="mt-4">
+              <div className="mt-4" data-testid="run-event-details-tools">
                 <div className="flex items-center gap-2 mb-3 h-8 flex-shrink-0">
                   <span className="text-sm text-[var(--agyn-gray)]">Invoked tools</span>
                 </div>

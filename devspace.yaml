@@ -30,6 +30,8 @@ functions:
     kubectl logs -n ${APP_NAMESPACE} -l app.kubernetes.io/name=gateway --all-containers --tail=200 || true
     echo "=== TRACING LOGS ==="
     kubectl logs -n ${APP_NAMESPACE} -l app.kubernetes.io/name=tracing --all-containers --tail=200 || true
+    echo "=== K8S RUNNER LOGS ==="
+    kubectl logs -n ${APP_NAMESPACE} -l app.kubernetes.io/name=k8s-runner --all-containers --tail=200 || true
     echo "=== AGENTS-ORCHESTRATOR LOGS ==="
     kubectl logs -n ${APP_NAMESPACE} -l app.kubernetes.io/name=agents-orchestrator --all-containers --tail=200 || true
     echo "=== AGENT WORKLOAD PODS (agyn-workloads) ==="
@@ -100,11 +102,12 @@ pipelines:
         export E2E_IDENTITY_GRPC_BASE_URL="http://identity.${APP_NAMESPACE}.svc.cluster.local:50051"
       fi
       if [ -z "${E2E_TRACING_ADDRESS}" ]; then
-        export E2E_TRACING_ADDRESS="tracing.ziti:443"
+        export E2E_TRACING_ADDRESS="tracing.${APP_NAMESPACE}.svc.cluster.local:50051"
       fi
       create_deployments e2e-runner
       start_dev e2e-runner &
       sleep 5
+      set +e
       exec_container \
         --label-selector "app.kubernetes.io/name=tracing-app-e2e" \
         -n ${APP_NAMESPACE} \
@@ -170,6 +173,7 @@ pipelines:
           exit $EXIT_CODE
         '
       EXIT_CODE=$?
+      set -e
       if [ "$EXIT_CODE" -ne 0 ]; then
         dump_seed_failure_logs || true
       fi
