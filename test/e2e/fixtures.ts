@@ -233,9 +233,11 @@ async function exportSeedTrace(payload: SeedTracePayload): Promise<SeedTraceResu
   const exporter = new OTLPTraceExporter({
     url: resolveOtlpEndpoint(config.tracingAddress),
   });
-  const provider = new BasicTracerProvider();
-  provider.addSpanProcessor(new SimpleSpanProcessor(exporter));
-  provider.register();
+  const previousProvider = trace.getTracerProvider();
+  const provider = new BasicTracerProvider({
+    spanProcessors: [new SimpleSpanProcessor(exporter)],
+  });
+  trace.setGlobalTracerProvider(provider);
 
   const tracer = provider.getTracer('tracing-app-e2e');
   const messageSpan = tracer.startSpan('invocation.message', {
@@ -276,6 +278,7 @@ async function exportSeedTrace(payload: SeedTracePayload): Promise<SeedTraceResu
 
   await provider.forceFlush();
   await provider.shutdown();
+  trace.setGlobalTracerProvider(previousProvider);
 
   return {
     traceId: messageSpan.spanContext().traceId,
