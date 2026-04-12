@@ -1,263 +1,75 @@
-import { Buffer } from 'node:buffer';
-import { test as base, type Page, type Route } from '@playwright/test';
-import {
-  llmEvent,
-  messageEvent,
-  runContext,
-  runEvents,
-  runSummary,
-  summarizationEvent,
-  timelineForEvent,
-  toolEvent,
-  toolOutputSnippet,
-  type RunContext,
-  type RunEventSummary,
-  type RunSummary,
-} from './mock-data';
+import { ConnectError, createClient, type Interceptor } from '@connectrpc/connect';
+import { createConnectTransport } from '@connectrpc/connect-web';
+import { context, SpanStatusCode, trace } from '@opentelemetry/api';
+import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-grpc';
+import { BasicTracerProvider, SimpleSpanProcessor } from '@opentelemetry/sdk-trace-base';
+import { test as base, type Page } from '@playwright/test';
+import { randomUUID } from 'node:crypto';
+import { bytesToHex, flattenResourceSpans, getStringAttr, hexToBytes } from '../../src/api/spanToEvent';
+import { TracingGateway } from '../../src/gen/agynio/api/gateway/v1/tracing_pb';
+import { ListSpansOrderBy, TraceStatus } from '../../src/gen/agynio/api/tracing/v1/tracing_pb';
 
-type AttributeJson = {
-  key: string;
-  value: {
-    stringValue?: string;
-    intValue?: string;
-    doubleValue?: number;
-  };
+const DEFAULT_TESTLLM_MODEL = 'simple-hello';
+const DEFAULT_GATEWAY_BASE_URL = 'http://gateway-gateway.platform.svc.cluster.local:8080';
+const DEFAULT_TRACING_ADDRESS = 'tracing.platform.svc.cluster.local:50051';
+const SEED_MESSAGE_PREFIX = 'hello';
+const SEED_RUN_TIMEOUT_MS = 420000;
+const SPAN_START_GRACE_MS = 300000;
+
+const SPAN_WAIT_TIMEOUT_MS = 300000;
+const SPAN_WAIT_INTERVAL_MS = 2000;
+const TRACE_STATUS_WAIT_TIMEOUT_MS = 300000;
+
+type E2EConfig = {
+  gatewayBaseUrl: string;
+  identityGrpcBaseUrl?: string;
+  authToken?: string;
+  testllmModel: string;
+  tracingAddress: string;
 };
 
-type SpanJson = {
-  traceId: string;
-  spanId: string;
-  name: string;
-  startTimeUnixNano: string;
-  endTimeUnixNano: string;
-  attributes: AttributeJson[];
-  status: {
-    code: number;
-  };
-  events?: Array<{
-    name: string;
-    timeUnixNano: string;
-    attributes: AttributeJson[];
-  }>;
+export type SeededRun = {
+  threadId: string;
+  runId: string;
+  messageEventId: string;
+  llmEventId: string;
+  messageText: string;
+  llmResponseText: string;
+  status: TraceStatus;
 };
 
-type ResourceSpansJson = {
-  resource: {
-    attributes: AttributeJson[];
-  };
-  scopeSpans: Array<{
-    scope: {
-      name: string;
-    };
-    spans: SpanJson[];
-  }>;
+type GatewayClients = ReturnType<typeof createGatewayClients>;
+type TracingClient = GatewayClients['tracingClient'];
+type ListSpansRequest = Parameters<TracingClient['listSpans']>[0];
+type FlattenedSpan = ReturnType<typeof flattenResourceSpans>[number];
+
+const config = resolveConfig();
+
+const authInterceptor: Interceptor = (next) => async (req) => {
+  if (config.authToken) {
+    req.header.set('Authorization', `Bearer ${config.authToken}`);
+  }
+  return next(req);
 };
 
-const traceIdBase64 = toBase64(runContext.runId);
-const baseTimeNs = 1700000000000000000n;
-const spanDurationNs = 500000000n;
-
-const spans: SpanJson[] = [
-  buildSpan({
-    spanId: messageEvent.id,
-    name: 'invocation.message',
-    startNs: baseTimeNs + 1_000_000_000n,
-    endNs: baseTimeNs + 1_000_000_000n + spanDurationNs,
-    attributes: [
-      stringAttr('agyn.message.text', messageEvent.messageText ?? ''),
-      stringAttr('agyn.message.role', 'user'),
-      stringAttr('agyn.message.kind', 'source'),
-    ],
-  }),
-  buildSpan({
-    spanId: llmEvent.id,
-    name: 'llm.call',
-    startNs: baseTimeNs + 2_000_000_000n,
-    endNs: baseTimeNs + 2_000_000_000n + spanDurationNs,
-    attributes: [
-      stringAttr('gen_ai.system', 'openai'),
-      stringAttr('gen_ai.request.model', 'gpt-4'),
-      stringAttr('gen_ai.response.finish_reason', 'stop'),
-      stringAttr('agyn.llm.response_text', llmEvent.responseText ?? ''),
-      intAttr('gen_ai.usage.input_tokens', 10),
-      intAttr('gen_ai.usage.output_tokens', 20),
-      intAttr('gen_ai.usage.cache_read.input_tokens', 0),
-      intAttr('agyn.usage.reasoning_tokens', 0),
-    ],
-  }),
-  buildSpan({
-    spanId: toolEvent.id,
-    name: 'tool.execution',
-    startNs: baseTimeNs + 3_000_000_000n,
-    endNs: baseTimeNs + 3_000_000_000n + spanDurationNs,
-    attributes: [
-      stringAttr('agyn.tool.name', toolEvent.toolName ?? 'tool'),
-      stringAttr('agyn.tool.input', JSON.stringify({ command: 'pnpm install', cwd: '/workspace' })),
-      stringAttr('agyn.tool.output', JSON.stringify(toolEvent.outputText ?? '')),
-    ],
-  }),
-  buildSpan({
-    spanId: summarizationEvent.id,
-    name: 'summarization',
-    startNs: baseTimeNs + 4_000_000_000n,
-    endNs: baseTimeNs + 4_000_000_000n + spanDurationNs,
-    attributes: [
-      stringAttr('agyn.summarization.text', 'Summary completed.'),
-      intAttr('agyn.summarization.new_context_count', 1),
-      intAttr('agyn.summarization.old_context_tokens', 5),
-    ],
-  }),
-];
-
-const baseResourceAttributes = [stringAttr('agyn.thread.id', runContext.threadId)];
-
-const resourceSpans = buildResourceSpans(spans);
-const spanById = new Map(spans.map((span) => [span.spanId, span]));
-
-const traceSummaryResponse = {
-  traceId: traceIdBase64,
-  status: 1,
-  firstSpanStartTime: (baseTimeNs + 1_000_000_000n).toString(),
-  lastSpanStartTime: (baseTimeNs + 4_000_000_000n).toString(),
-  lastSpanEndTime: (baseTimeNs + 4_000_000_000n + spanDurationNs).toString(),
-  countsByName: {
-    'invocation.message': '1',
-    'llm.call': '1',
-    'tool.execution': '1',
-    summarization: '1',
-  },
-  countsByStatus: {
-    SPAN_STATUS_OK: '4',
-  },
-  totalSpans: '4',
-};
-
-const spanTotalsResponse = {
-  spanCount: '4',
-  tokenUsage: {
-    inputTokens: '10',
-    outputTokens: '20',
-    cacheReadInputTokens: '0',
-    reasoningTokens: '0',
-    totalTokens: '30',
-  },
-};
-
-export const test = base.extend<Record<string, never>>({
-  page: async ({ page }, run) => {
-    await setupTracingMocks(page);
-    await run(page);
+export const test = base.extend<{ seededRun: SeededRun }>({
+  seededRun: [
+    async ({ browserName: _browserName }, runFixture) => {
+      const seededRun = await seedTracingRun();
+      await runFixture(seededRun);
+    },
+    { scope: 'worker', timeout: SEED_RUN_TIMEOUT_MS },
+  ],
+  page: async ({ page }, runFixture) => {
+    await setupTracingProxy(page);
+    await runFixture(page);
   },
 });
+
 export { expect } from '@playwright/test';
 
-export type { RunContext, RunEventSummary, RunSummary };
-export {
-  llmEvent,
-  messageEvent,
-  runContext,
-  runEvents,
-  runSummary,
-  summarizationEvent,
-  timelineForEvent,
-  toolEvent,
-  toolOutputSnippet,
-};
-
-function toBase64(hexValue: string): string {
-  return Buffer.from(hexValue, 'hex').toString('base64');
-}
-
-function stringAttr(key: string, value: string): AttributeJson {
-  return { key, value: { stringValue: value } };
-}
-
-function intAttr(key: string, value: number): AttributeJson {
-  return { key, value: { intValue: value.toString() } };
-}
-
-function buildSpan(params: {
-  spanId: string;
-  name: string;
-  startNs: bigint;
-  endNs: bigint;
-  attributes: AttributeJson[];
-}): SpanJson {
-  return {
-    traceId: traceIdBase64,
-    spanId: toBase64(params.spanId),
-    name: params.name,
-    startTimeUnixNano: params.startNs.toString(),
-    endTimeUnixNano: params.endNs.toString(),
-    attributes: params.attributes,
-    status: { code: 1 },
-  };
-}
-
-function buildResourceSpans(spansToInclude: SpanJson[]): ResourceSpansJson[] {
-  return [
-    {
-      resource: {
-        attributes: baseResourceAttributes,
-      },
-      scopeSpans: [
-        {
-          scope: { name: 'e2e' },
-          spans: spansToInclude,
-        },
-      ],
-    },
-  ];
-}
-
-function parseRequestBody(route: Route): Record<string, unknown> {
-  const payload = route.request().postData();
-  if (!payload) return {};
-  try {
-    return JSON.parse(payload) as Record<string, unknown>;
-  } catch {
-    return {};
-  }
-}
-
-async function respondJson(route: Route, body: unknown): Promise<void> {
-  await route.fulfill({
-    status: 200,
-    contentType: 'application/json',
-    body: JSON.stringify(body),
-  });
-}
-
-async function handleTracingRoute(route: Route): Promise<void> {
-  const url = new URL(route.request().url());
-  const method = url.pathname.split('/').pop();
-
-  switch (method) {
-    case 'GetTraceSummary':
-      await respondJson(route, traceSummaryResponse);
-      return;
-    case 'ListSpans':
-      await respondJson(route, { resourceSpans, nextPageToken: '' });
-      return;
-    case 'GetTraceSpanTotals':
-      await respondJson(route, spanTotalsResponse);
-      return;
-    case 'GetSpan': {
-      const body = parseRequestBody(route);
-      const spanId = typeof body.spanId === 'string' ? body.spanId : null;
-      const span = spanId ? spanById.get(spanId) : undefined;
-      const responseResourceSpans = span ? buildResourceSpans([span]) : [];
-      await respondJson(route, { resourceSpans: responseResourceSpans });
-      return;
-    }
-    default:
-      await route.fulfill({ status: 404, body: 'Not Found' });
-  }
-}
-
-async function setupTracingMocks(page: Page): Promise<void> {
-  await page.route('**/agynio.api.gateway.v1.TracingGateway/*', handleTracingRoute);
-}
+export const timelineForEvent = (context: SeededRun, eventId: string) =>
+  `/agents/threads/${context.threadId}/runs/${context.runId}/timeline?eventId=${encodeURIComponent(eventId)}&follow=false`;
 
 export function formatSnippet(value: string | null | undefined): string | null {
   if (!value) return null;
@@ -267,4 +79,515 @@ export function formatSnippet(value: string | null | undefined): string | null {
     if (trimmed.length > 0) return trimmed;
   }
   return null;
+}
+
+function resolveConfig(): E2EConfig {
+  const identityBaseUrl = resolveOptionalEnv('E2E_IDENTITY_GRPC_BASE_URL');
+  const normalizedIdentityBaseUrl = identityBaseUrl ? normalizeBaseUrl(identityBaseUrl) : undefined;
+  return {
+    gatewayBaseUrl: normalizeBaseUrl(resolveOptionalEnv('E2E_GATEWAY_BASE_URL') ?? DEFAULT_GATEWAY_BASE_URL),
+    identityGrpcBaseUrl: normalizedIdentityBaseUrl,
+    authToken: resolveOptionalEnv('E2E_AUTH_TOKEN'),
+    testllmModel: process.env.E2E_TESTLLM_MODEL_REMOTE_NAME ?? DEFAULT_TESTLLM_MODEL,
+    tracingAddress: resolveTracingAddress(normalizedIdentityBaseUrl),
+  };
+}
+
+function resolveOptionalEnv(name: string): string | undefined {
+  const value = process.env[name];
+  return value && value.length > 0 ? value : undefined;
+}
+
+function normalizeBaseUrl(value: string): string {
+  const url = new URL(value);
+  const normalized = url.toString();
+  return normalized.endsWith('/') ? normalized.slice(0, -1) : normalized;
+}
+
+function resolveTracingAddress(identityGrpcBaseUrl?: string): string {
+  const explicit = resolveOptionalEnv('E2E_TRACING_ADDRESS');
+  if (explicit) return explicit;
+  const derived = identityGrpcBaseUrl ? deriveTracingAddress(identityGrpcBaseUrl) : null;
+  return derived ?? DEFAULT_TRACING_ADDRESS;
+}
+
+function deriveTracingAddress(identityGrpcBaseUrl: string): string | null {
+  let url: URL;
+  try {
+    url = new URL(identityGrpcBaseUrl);
+  } catch (error) {
+    console.warn('Failed to parse E2E_IDENTITY_GRPC_BASE_URL for tracing address derivation.', error);
+    return null;
+  }
+  if (!url.hostname) return null;
+  const hostParts = url.hostname.split('.');
+  if (hostParts.length === 0) return null;
+  hostParts[0] = 'tracing';
+  const port = url.port || '50051';
+  return `${hostParts.join('.')}:${port}`;
+}
+
+function createGatewayClients() {
+  const transport = createConnectTransport({
+    baseUrl: config.gatewayBaseUrl,
+    interceptors: [authInterceptor],
+  });
+
+  return {
+    tracingClient: createClient(TracingGateway, transport),
+  };
+}
+
+type SeedTracePayload = {
+  threadId: string;
+  messageText: string;
+  llmResponseText: string;
+  modelName: string;
+};
+
+type SeedTraceResult = {
+  traceId: string;
+  messageSpanId: string;
+  llmSpanId: string;
+};
+
+async function seedTracingRun(): Promise<SeededRun> {
+  const { tracingClient } = createGatewayClients();
+  const now = Date.now();
+  const threadId = randomUUID();
+  const seedMessageText = `${SEED_MESSAGE_PREFIX}-${now}`;
+  const seedLlmResponse = `E2E response for ${seedMessageText}`;
+
+  const seededTrace = await exportSeedTrace({
+    threadId,
+    messageText: seedMessageText,
+    llmResponseText: seedLlmResponse,
+    modelName: config.testllmModel,
+  });
+
+  const messageStartTimeMin = resolveSpanStartTimeMin(undefined);
+  const traceIdBytes = hexToBytes(seededTrace.traceId);
+
+  const messageSpan = await waitForSpan(
+    tracingClient,
+    {
+      filter: { traceId: traceIdBytes, names: ['invocation.message'], startTimeMin: messageStartTimeMin },
+      pageSize: 200,
+      pageToken: '',
+      orderBy: ListSpansOrderBy.START_TIME_DESC,
+    },
+    (span) => {
+      const spanId = bytesToHex(span.span.spanId);
+      return spanId === seededTrace.messageSpanId;
+    },
+    `invocation.message span for trace ${seededTrace.traceId} (message: ${seedMessageText})`,
+  );
+
+  const runId = bytesToHex(messageSpan.span.traceId);
+  const messageEventId = bytesToHex(messageSpan.span.spanId);
+  const messageText = requireString(
+    getStringAttr(messageSpan.span.attributes, 'agyn.message.text'),
+    'Message span missing text',
+  );
+
+  const llmSpan = await waitForSpan(
+    tracingClient,
+    {
+      filter: { traceId: traceIdBytes, names: ['llm.call'] },
+      pageSize: 200,
+      pageToken: '',
+      orderBy: ListSpansOrderBy.START_TIME_DESC,
+    },
+    (span) => {
+      const spanId = bytesToHex(span.span.spanId);
+      return span.span.name === 'llm.call' && spanId === seededTrace.llmSpanId;
+    },
+    `llm.call span for run ${runId}`,
+  );
+
+  const llmEventId = bytesToHex(llmSpan.span.spanId);
+  const llmResponseText = requireString(
+    getStringAttr(llmSpan.span.attributes, 'agyn.llm.response_text'),
+    'LLM span missing response text',
+  );
+
+  const traceStatus = await waitForTraceCompletion(tracingClient, messageSpan.span.traceId);
+
+  return {
+    threadId,
+    runId,
+    messageEventId,
+    llmEventId,
+    messageText,
+    llmResponseText,
+    status: traceStatus,
+  };
+}
+
+async function exportSeedTrace(payload: SeedTracePayload): Promise<SeedTraceResult> {
+  const exporter = new OTLPTraceExporter({
+    url: resolveOtlpEndpoint(config.tracingAddress),
+  });
+  const previousProvider = trace.getTracerProvider();
+  const provider = new BasicTracerProvider({
+    spanProcessors: [new SimpleSpanProcessor(exporter)],
+  });
+  trace.setGlobalTracerProvider(provider);
+
+  const tracer = provider.getTracer('tracing-app-e2e');
+  const messageSpan = tracer.startSpan('invocation.message', {
+    attributes: {
+      'agyn.thread.id': payload.threadId,
+      'agyn.message.role': 'user',
+      'agyn.message.kind': 'invocation',
+      'agyn.message.text': payload.messageText,
+    },
+  });
+  messageSpan.setStatus({ code: SpanStatusCode.OK });
+
+  const llmSpan = tracer.startSpan(
+    'llm.call',
+    {
+      attributes: {
+        'agyn.thread.id': payload.threadId,
+        'agyn.llm.response_text': payload.llmResponseText,
+        'gen_ai.system': 'testllm',
+        'gen_ai.request.model': payload.modelName,
+        'gen_ai.response.finish_reason': 'stop',
+        'gen_ai.usage.input_tokens': 5,
+        'gen_ai.usage.output_tokens': 7,
+      },
+    },
+    trace.setSpan(context.active(), messageSpan),
+  );
+
+  llmSpan.addEvent('agyn.llm.context_item', {
+    'agyn.context.role': 'user',
+    'agyn.context.text': payload.messageText,
+    'agyn.context.is_new': 'true',
+    'agyn.context.size_bytes': payload.messageText.length,
+  });
+  llmSpan.setStatus({ code: SpanStatusCode.OK });
+  llmSpan.end();
+  messageSpan.end();
+
+  await provider.forceFlush();
+  await provider.shutdown();
+  trace.setGlobalTracerProvider(previousProvider);
+
+  return {
+    traceId: messageSpan.spanContext().traceId,
+    messageSpanId: messageSpan.spanContext().spanId,
+    llmSpanId: llmSpan.spanContext().spanId,
+  };
+}
+
+function resolveOtlpEndpoint(address: string): string {
+  const trimmed = address.trim();
+  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+    return trimmed;
+  }
+  return `http://${trimmed}`;
+}
+
+async function waitForSpan(
+  tracingClient: TracingClient,
+  request: ListSpansRequest,
+  predicate: (span: FlattenedSpan) => boolean,
+  label: string,
+): Promise<FlattenedSpan> {
+  const deadline = Date.now() + SPAN_WAIT_TIMEOUT_MS;
+  const requestBase = { ...request };
+  let lastSummary: SpanQuerySummary | null = null;
+  let lastError: string | null = null;
+  while (Date.now() < deadline) {
+    let pageToken = requestBase.pageToken;
+    const collected: FlattenedSpan[] = [];
+    let hadError = false;
+    do {
+      try {
+        const response = await tracingClient.listSpans({ ...requestBase, pageToken });
+        const spans = flattenResourceSpans(response.resourceSpans);
+        collected.push(...spans);
+        const match = spans.find(predicate);
+        if (match) return match;
+        pageToken = response.nextPageToken;
+      } catch (error) {
+        lastError = formatSpanError(error);
+        hadError = true;
+        break;
+      }
+    } while (pageToken);
+    if (!hadError) {
+      lastSummary = summarizeSpanResponse(collected);
+      lastError = null;
+    }
+    await sleep(SPAN_WAIT_INTERVAL_MS);
+  }
+  const summary = formatSpanSummary(lastSummary);
+  const error = lastError ?? 'none';
+  let diagnostics: string | null = null;
+  if (!lastError && (!lastSummary || lastSummary.spanCount === 0)) {
+    try {
+      diagnostics = await collectSpanDiagnostics(tracingClient, requestBase);
+    } catch (diagnosticError) {
+      diagnostics = `failed to collect diagnostics: ${formatSpanError(diagnosticError)}`;
+    }
+  }
+  const diagnosticSuffix = diagnostics ? ` Diagnostics: ${diagnostics}` : '';
+  throw new Error(
+    `Timed out waiting for ${label}. Last listSpans summary: ${summary}. Last listSpans error: ${error}.${diagnosticSuffix}`,
+  );
+}
+
+async function waitForTraceCompletion(tracingClient: TracingClient, traceId: Uint8Array): Promise<TraceStatus> {
+  const deadline = Date.now() + TRACE_STATUS_WAIT_TIMEOUT_MS;
+  let lastStatus: TraceStatus | null = null;
+  while (Date.now() < deadline) {
+    const summary = await tracingClient.getTraceSummary({ traceId });
+    lastStatus = summary.status;
+    if (summary.status === TraceStatus.COMPLETED || summary.status === TraceStatus.ERROR) {
+      return summary.status;
+    }
+    await sleep(SPAN_WAIT_INTERVAL_MS);
+  }
+  const statusLabel = formatTraceStatus(lastStatus);
+  throw new Error(
+    `Timed out waiting for trace ${bytesToHex(traceId)} to complete (last status: ${statusLabel})`,
+  );
+}
+
+function requireString(value: string | undefined | null, message: string): string {
+  if (!value) {
+    throw new Error(message);
+  }
+  return value;
+}
+
+async function setupTracingProxy(page: Page): Promise<void> {
+  await page.route('**/api/agynio.api.gateway.v1.TracingGateway/*', async (route) => {
+    const request = route.request();
+    const proxyUrl = buildGatewayUrl(request.url());
+    const headers = {
+      ...request.headers(),
+    };
+    if (config.authToken) {
+      headers.authorization = `Bearer ${config.authToken}`;
+    }
+    delete headers.host;
+    delete headers['content-length'];
+
+    const response = await route.fetch({
+      url: proxyUrl,
+      method: request.method(),
+      headers,
+      postData: request.postDataBuffer() ?? undefined,
+    });
+    await route.fulfill({ response });
+  });
+}
+
+function buildGatewayUrl(requestUrl: string): string {
+  const request = new URL(requestUrl);
+  const target = new URL(config.gatewayBaseUrl);
+  target.pathname = request.pathname.replace(/^\/api\/?/, '/');
+  target.search = request.search;
+  return target.toString();
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function resolveSpanStartTimeMin(createdAt: { seconds: bigint; nanos: number } | undefined): bigint {
+  if (!createdAt) {
+    return msToNanos(Math.max(0, Date.now() - SPAN_START_GRACE_MS));
+  }
+  const graceNanos = msToNanos(SPAN_START_GRACE_MS);
+  const createdAtNanos = timestampToNanos(createdAt);
+  return createdAtNanos > graceNanos ? createdAtNanos - graceNanos : 0n;
+}
+
+type SpanQuerySummary = {
+  spanCount: number;
+  sampleNames: string[];
+  sampleTraceIds: string[];
+};
+
+function summarizeSpanResponse(spans: FlattenedSpan[]): SpanQuerySummary {
+  return {
+    spanCount: spans.length,
+    sampleNames: spans.slice(0, 5).map((span) => span.span.name),
+    sampleTraceIds: spans.slice(0, 3).map((span) => bytesToHex(span.span.traceId)),
+  };
+}
+
+function formatSpanSummary(summary: SpanQuerySummary | null): string {
+  if (!summary) return 'none';
+  const names = summary.sampleNames.length > 0 ? summary.sampleNames.join(', ') : 'none';
+  const traceIds = summary.sampleTraceIds.length > 0 ? summary.sampleTraceIds.join(', ') : 'none';
+  return `spanCount=${summary.spanCount}, sampleNames=[${names}], sampleTraceIds=[${traceIds}]`;
+}
+
+type SpanSummaryResult = {
+  label: string;
+  summary: SpanQuerySummary | null;
+  error: string | null;
+};
+
+async function collectSpanDiagnostics(
+  tracingClient: TracingClient,
+  requestBase: ListSpansRequest,
+): Promise<string> {
+  const diagnosticRequests: SpanSummaryResult[] = [];
+  const orderBy = requestBase.orderBy ?? ListSpansOrderBy.START_TIME_DESC;
+  const baseRequest = {
+    pageSize: 50,
+    pageToken: '',
+    orderBy,
+  };
+  diagnosticRequests.push(
+    await safeSpanSummary(tracingClient, 'timeWindowSummary', {
+      ...baseRequest,
+      filter: buildDiagnosticFilter(requestBase.filter),
+    }),
+  );
+  diagnosticRequests.push(
+    await safeSpanSummary(tracingClient, 'invocationSummary', {
+      ...baseRequest,
+      filter: { names: ['invocation.message'] },
+    }),
+  );
+  const allSummary = await safeSpanSummary(tracingClient, 'allSummary', baseRequest);
+  diagnosticRequests.push(allSummary);
+
+  const parts = [`config=${formatSeedConfig()}`, `filter=${formatSpanFilter(requestBase.filter)}`];
+  parts.push(...diagnosticRequests.map(formatSpanSummaryResult));
+
+  if (allSummary.summary?.sampleTraceIds.length) {
+    const traceStatuses = await summarizeTraceStatuses(tracingClient, allSummary.summary.sampleTraceIds);
+    if (traceStatuses) {
+      parts.push(`traceStatuses=${traceStatuses}`);
+    }
+  }
+
+  return parts.join('. ');
+}
+
+async function safeSpanSummary(
+  tracingClient: TracingClient,
+  label: string,
+  request: ListSpansRequest,
+): Promise<SpanSummaryResult> {
+  try {
+    const summary = await summarizeListSpans(tracingClient, request);
+    return { label, summary, error: null };
+  } catch (error) {
+    return { label, summary: null, error: formatSpanError(error) };
+  }
+}
+
+async function summarizeListSpans(
+  tracingClient: TracingClient,
+  request: ListSpansRequest,
+): Promise<SpanQuerySummary> {
+  const response = await tracingClient.listSpans(request);
+  const spans = flattenResourceSpans(response.resourceSpans);
+  return summarizeSpanResponse(spans);
+}
+
+function formatSpanSummaryResult(result: SpanSummaryResult): string {
+  if (result.error) return `${result.label}=error(${result.error})`;
+  return `${result.label}=${formatSpanSummary(result.summary)}`;
+}
+
+function buildDiagnosticFilter(filter: ListSpansRequest['filter'] | undefined): ListSpansRequest['filter'] | undefined {
+  if (!filter) return undefined;
+  const diagnostic: ListSpansRequest['filter'] = {};
+  if (filter.traceId && filter.traceId.length > 0) {
+    diagnostic.traceId = filter.traceId;
+  }
+  if (filter.startTimeMin !== undefined) {
+    diagnostic.startTimeMin = filter.startTimeMin;
+  }
+  if (filter.startTimeMax !== undefined) {
+    diagnostic.startTimeMax = filter.startTimeMax;
+  }
+  return diagnostic;
+}
+
+function formatSpanFilter(filter: ListSpansRequest['filter'] | undefined): string {
+  if (!filter) return 'none';
+  const parts: string[] = [];
+  if (filter.traceId && filter.traceId.length > 0) {
+    parts.push(`traceId=${bytesToHex(filter.traceId)}`);
+  }
+  if (filter.parentSpanId && filter.parentSpanId.length > 0) {
+    parts.push(`parentSpanId=${bytesToHex(filter.parentSpanId)}`);
+  }
+  if (filter.names && filter.names.length > 0) {
+    parts.push(`names=[${filter.names.join(', ')}]`);
+  }
+  if (filter.name) {
+    parts.push(`name=${filter.name}`);
+  }
+  if (filter.startTimeMin !== undefined) {
+    parts.push(`startTimeMin=${filter.startTimeMin.toString()}`);
+  }
+  if (filter.startTimeMax !== undefined) {
+    parts.push(`startTimeMax=${filter.startTimeMax.toString()}`);
+  }
+  if (typeof filter.inProgress === 'boolean') {
+    parts.push(`inProgress=${filter.inProgress}`);
+  }
+  if (filter.statuses && filter.statuses.length > 0) {
+    parts.push(`statuses=[${filter.statuses.join(', ')}]`);
+  }
+  if (filter.kind && filter.kind !== 0) {
+    parts.push(`kind=${filter.kind}`);
+  }
+  return parts.length ? parts.join(', ') : 'empty';
+}
+
+function formatSeedConfig(): string {
+  const identityBase = config.identityGrpcBaseUrl ?? 'none';
+  return `gateway=${config.gatewayBaseUrl}, tracing=${config.tracingAddress}, identityGrpc=${identityBase}, model=${config.testllmModel}, seedMode=otlp`;
+}
+
+async function summarizeTraceStatuses(tracingClient: TracingClient, traceIds: string[]): Promise<string | null> {
+  const uniqueIds = [...new Set(traceIds.filter((traceId) => traceId.length > 0))].slice(0, 3);
+  if (uniqueIds.length === 0) return null;
+  const statuses: string[] = [];
+  for (const traceId of uniqueIds) {
+    try {
+      const summary = await tracingClient.getTraceSummary({ traceId: hexToBytes(traceId) });
+      statuses.push(`${traceId}:${formatTraceStatus(summary.status)}`);
+    } catch (error) {
+      statuses.push(`${traceId}:error(${formatSpanError(error)})`);
+    }
+  }
+  return statuses.join(', ');
+}
+
+function formatSpanError(error: unknown): string {
+  if (error instanceof ConnectError) {
+    return `${error.code}: ${error.message}`;
+  }
+  if (error instanceof Error) {
+    return error.message;
+  }
+  return String(error);
+}
+
+function formatTraceStatus(status: TraceStatus | null): string {
+  if (status === null) return 'unknown';
+  return TraceStatus[status] ?? `unknown(${status})`;
+}
+
+function msToNanos(ms: number): bigint {
+  return BigInt(ms) * 1_000_000n;
+}
+
+function timestampToNanos(timestamp: { seconds: bigint; nanos: number }): bigint {
+  return timestamp.seconds * 1_000_000_000n + BigInt(timestamp.nanos);
 }

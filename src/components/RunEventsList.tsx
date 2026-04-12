@@ -98,6 +98,7 @@ export function RunEventsList({
     
     return (
       <button
+        data-testid={`run-event-${event.id}`}
         onClick={() => onSelectEvent(event.id)}
         className={`w-full px-4 py-3 border-b border-[var(--agyn-border-subtle)] hover:bg-[var(--agyn-bg-light)] transition-colors text-left relative ${
           isSelected ? 'bg-[var(--agyn-bg-light)]' : ''
@@ -117,7 +118,9 @@ export function RunEventsList({
                 {getEventLabel(event)}
               </div>
               {event.status && (
-                <StatusIndicator status={event.status} size="sm" showTooltip={false} />
+                <span data-run-event-status="true">
+                  <StatusIndicator status={event.status} size="sm" showTooltip={false} />
+                </span>
               )}
             </div>
             {subtitle && (
@@ -125,7 +128,7 @@ export function RunEventsList({
                 {subtitle}
               </div>
             )}
-            <div className="text-xs text-[var(--agyn-gray)]">
+            <div className="text-xs text-[var(--agyn-gray)]" data-testid="run-event-meta">
               {event.timestamp}
               {event.duration && ` • ${event.duration}`}
             </div>
@@ -172,7 +175,7 @@ export function RunEventsList({
   }, [events.length]);
 
   return (
-    <div className="bg-white overflow-hidden h-full flex flex-col">
+    <div className="bg-white overflow-hidden h-full flex flex-col" data-testid="run-events-list">
       <div ref={scrollRef} className="flex-1 overflow-y-auto" onScroll={handleScroll}>
         {header}
         {events.map((event) => (

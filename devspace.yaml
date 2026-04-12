@@ -25,6 +25,39 @@ functions:
     else
       echo "WARNING: ArgoCD Application 'tracing-app' not found in argocd namespace."
     fi
+  dump_seed_failure_logs: |-
+    echo "=== GATEWAY LOGS ==="
+    kubectl logs -n ${APP_NAMESPACE} -l app.kubernetes.io/name=gateway --all-containers --tail=200 || true
+    echo "=== TRACING LOGS ==="
+    kubectl logs -n ${APP_NAMESPACE} -l app.kubernetes.io/name=tracing --all-containers --tail=200 || true
+    echo "=== TRACING SERVICE ==="
+    kubectl get svc -n ${APP_NAMESPACE} tracing -o wide 2>/dev/null || true
+    kubectl get endpoints -n ${APP_NAMESPACE} tracing -o wide 2>/dev/null || true
+    echo "=== TRACING PODS ==="
+    kubectl get pods -n ${APP_NAMESPACE} -l app.kubernetes.io/name=tracing -o wide 2>/dev/null || true
+    for pod in $(kubectl get pods -n ${APP_NAMESPACE} -l app.kubernetes.io/name=tracing -o name 2>/dev/null); do
+      echo "--- ${pod} ---"
+      kubectl describe -n ${APP_NAMESPACE} "${pod}" 2>/dev/null || true
+    done
+    echo "=== K8S RUNNER LOGS ==="
+    kubectl logs -n ${APP_NAMESPACE} -l app.kubernetes.io/name=k8s-runner --all-containers --tail=200 || true
+    echo "=== AGENTS-ORCHESTRATOR LOGS ==="
+    kubectl logs -n ${APP_NAMESPACE} -l app.kubernetes.io/name=agents-orchestrator --all-containers --tail=200 || true
+    echo "=== AGENT WORKLOAD PODS (agyn-workloads) ==="
+    kubectl get pods -n agyn-workloads -o wide 2>/dev/null || true
+    echo "=== AGENT WORKLOAD EVENTS (agyn-workloads) ==="
+    kubectl get events -n agyn-workloads --sort-by='.lastTimestamp' 2>/dev/null || true
+    echo "=== AGENT WORKLOAD POD DESCRIBES (agyn-workloads) ==="
+    for pod in $(kubectl get pods -n agyn-workloads -o name 2>/dev/null); do
+      echo "--- ${pod} ---"
+      kubectl describe -n agyn-workloads "${pod}" 2>/dev/null || true
+    done
+    echo "=== AGENT WORKLOAD LOGS ==="
+    for pod in $(kubectl get pods -n agyn-workloads -o name 2>/dev/null); do
+      echo "--- $pod ---"
+      kubectl logs "$pod" -n agyn-workloads --all-containers --tail=50 2>/dev/null || true
+    done
+    echo "=== END DIAGNOSTIC LOGS ==="
 
 deployments:
   e2e-runner:
@@ -75,6 +108,7 @@ pipelines:
       create_deployments e2e-runner
       start_dev e2e-runner &
       sleep 5
+      set +e
       exec_container \
         --label-selector "app.kubernetes.io/name=tracing-app-e2e" \
         -n ${APP_NAMESPACE} \
@@ -86,11 +120,12 @@ pipelines:
             /opt/app/data/index.html
             /opt/app/data/test/e2e/fixtures.ts
             /opt/app/data/src/App.tsx
+            /opt/app/data/src/pages/AgentsRunScreen.tsx
             /opt/app/data/src/main.tsx
             /opt/app/data/src/index.css
             /opt/app/data/src/styles/shadcn-compat.css
           )
-          for i in $(seq 1 60); do
+          for i in $(seq 1 120); do
             missing=0
             for file in "${required_files[@]}"; do
               if [ ! -f "$file" ]; then
@@ -116,6 +151,7 @@ pipelines:
           sleep 10
           cd /opt/app/data
           corepack enable
+          corepack prepare pnpm@10.33.0 --activate
           pnpm install --frozen-lockfile
           VITE_API_BASE_URL=/api pnpm build
           pnpm preview --host 0.0.0.0 --port 3000 > /tmp/preview.log 2>&1 &
@@ -138,6 +174,10 @@ pipelines:
           exit $EXIT_CODE
         '
       EXIT_CODE=$?
+      set -e
+      if [ "$EXIT_CODE" -ne 0 ]; then
+        dump_seed_failure_logs || true
+      fi
       stop_dev e2e-runner
       purge_deployments e2e-runner
       exit $EXIT_CODE
