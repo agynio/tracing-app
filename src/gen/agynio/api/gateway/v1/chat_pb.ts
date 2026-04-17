@@ -4,14 +4,14 @@
 
 import type { GenFile, GenService } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { CreateChatRequestSchema, CreateChatResponseSchema, GetChatsRequestSchema, GetChatsResponseSchema, GetMessagesRequestSchema, GetMessagesResponseSchema, MarkAsReadRequestSchema, MarkAsReadResponseSchema, SendMessageRequestSchema, SendMessageResponseSchema } from "../../chat/v1/chat_pb";
+import type { CreateChatRequestSchema, CreateChatResponseSchema, GetChatsRequestSchema, GetChatsResponseSchema, GetMessagesRequestSchema, GetMessagesResponseSchema, MarkAsReadRequestSchema, MarkAsReadResponseSchema, SendMessageRequestSchema, SendMessageResponseSchema, UpdateChatRequestSchema, UpdateChatResponseSchema } from "../../chat/v1/chat_pb";
 import { file_agynio_api_chat_v1_chat } from "../../chat/v1/chat_pb";
 
 /**
  * Describes the file agynio/api/gateway/v1/chat.proto.
  */
 export const file_agynio_api_gateway_v1_chat: GenFile = /*@__PURE__*/
-  fileDesc("CiBhZ3luaW8vYXBpL2dhdGV3YXkvdjEvY2hhdC5wcm90bxIVYWd5bmlvLmFwaS5nYXRld2F5LnYxMt4DCgtDaGF0R2F0ZXdheRJbCgpDcmVhdGVDaGF0EiUuYWd5bmlvLmFwaS5jaGF0LnYxLkNyZWF0ZUNoYXRSZXF1ZXN0GiYuYWd5bmlvLmFwaS5jaGF0LnYxLkNyZWF0ZUNoYXRSZXNwb25zZRJVCghHZXRDaGF0cxIjLmFneW5pby5hcGkuY2hhdC52MS5HZXRDaGF0c1JlcXVlc3QaJC5hZ3luaW8uYXBpLmNoYXQudjEuR2V0Q2hhdHNSZXNwb25zZRJeCgtHZXRNZXNzYWdlcxImLmFneW5pby5hcGkuY2hhdC52MS5HZXRNZXNzYWdlc1JlcXVlc3QaJy5hZ3luaW8uYXBpLmNoYXQudjEuR2V0TWVzc2FnZXNSZXNwb25zZRJeCgtTZW5kTWVzc2FnZRImLmFneW5pby5hcGkuY2hhdC52MS5TZW5kTWVzc2FnZVJlcXVlc3QaJy5hZ3luaW8uYXBpLmNoYXQudjEuU2VuZE1lc3NhZ2VSZXNwb25zZRJbCgpNYXJrQXNSZWFkEiUuYWd5bmlvLmFwaS5jaGF0LnYxLk1hcmtBc1JlYWRSZXF1ZXN0GiYuYWd5bmlvLmFwaS5jaGF0LnYxLk1hcmtBc1JlYWRSZXNwb25zZUI7WjlnaXRodWIuY29tL2FneW5pby9hcGkvZ2VuL2FneW5pby9hcGkvZ2F0ZXdheS92MTtnYXRld2F5djFiBnByb3RvMw", [file_agynio_api_chat_v1_chat]);
+  fileDesc("CiBhZ3luaW8vYXBpL2dhdGV3YXkvdjEvY2hhdC5wcm90bxIVYWd5bmlvLmFwaS5nYXRld2F5LnYxMrsECgtDaGF0R2F0ZXdheRJbCgpDcmVhdGVDaGF0EiUuYWd5bmlvLmFwaS5jaGF0LnYxLkNyZWF0ZUNoYXRSZXF1ZXN0GiYuYWd5bmlvLmFwaS5jaGF0LnYxLkNyZWF0ZUNoYXRSZXNwb25zZRJVCghHZXRDaGF0cxIjLmFneW5pby5hcGkuY2hhdC52MS5HZXRDaGF0c1JlcXVlc3QaJC5hZ3luaW8uYXBpLmNoYXQudjEuR2V0Q2hhdHNSZXNwb25zZRJbCgpVcGRhdGVDaGF0EiUuYWd5bmlvLmFwaS5jaGF0LnYxLlVwZGF0ZUNoYXRSZXF1ZXN0GiYuYWd5bmlvLmFwaS5jaGF0LnYxLlVwZGF0ZUNoYXRSZXNwb25zZRJeCgtHZXRNZXNzYWdlcxImLmFneW5pby5hcGkuY2hhdC52MS5HZXRNZXNzYWdlc1JlcXVlc3QaJy5hZ3luaW8uYXBpLmNoYXQudjEuR2V0TWVzc2FnZXNSZXNwb25zZRJeCgtTZW5kTWVzc2FnZRImLmFneW5pby5hcGkuY2hhdC52MS5TZW5kTWVzc2FnZVJlcXVlc3QaJy5hZ3luaW8uYXBpLmNoYXQudjEuU2VuZE1lc3NhZ2VSZXNwb25zZRJbCgpNYXJrQXNSZWFkEiUuYWd5bmlvLmFwaS5jaGF0LnYxLk1hcmtBc1JlYWRSZXF1ZXN0GiYuYWd5bmlvLmFwaS5jaGF0LnYxLk1hcmtBc1JlYWRSZXNwb25zZUI7WjlnaXRodWIuY29tL2FneW5pby9hcGkvZ2VuL2FneW5pby9hcGkvZ2F0ZXdheS92MTtnYXRld2F5djFiBnByb3RvMw", [file_agynio_api_chat_v1_chat]);
 
 /**
  * @generated from service agynio.api.gateway.v1.ChatGateway
@@ -32,6 +32,14 @@ export const ChatGateway: GenService<{
     methodKind: "unary";
     input: typeof GetChatsRequestSchema;
     output: typeof GetChatsResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.ChatGateway.UpdateChat
+   */
+  updateChat: {
+    methodKind: "unary";
+    input: typeof UpdateChatRequestSchema;
+    output: typeof UpdateChatResponseSchema;
   },
   /**
    * @generated from rpc agynio.api.gateway.v1.ChatGateway.GetMessages

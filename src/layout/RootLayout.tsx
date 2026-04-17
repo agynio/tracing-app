@@ -1,52 +1,43 @@
-import { useCallback, useMemo } from 'react';
-import { Activity, ScrollText } from 'lucide-react';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { MainLayout } from '@/components/layouts/MainLayout';
-import type { MenuItem } from '@/components/Sidebar';
+import { useMemo } from 'react';
+import { Outlet, useLocation, useParams } from 'react-router-dom';
+import { useAccessibleOrganizations } from '@/api/hooks/organizations';
+import { MainLayout, type BreadcrumbItem } from '@/components/layouts/MainLayout';
 
-export const DEFAULT_THREAD_ID = 'thread-demo';
-export const DEFAULT_RUN_ID = '0123456789abcdef0123456789abcdef';
-export const DEFAULT_TIMELINE_PATH = `/agents/threads/${DEFAULT_THREAD_ID}/runs/${DEFAULT_RUN_ID}/timeline`;
+const SHORT_ID_LENGTH = 8;
 
-const MENU_ITEMS: MenuItem[] = [
-  {
-    id: 'tracing',
-    label: 'Tracing',
-    icon: <Activity className="w-4 h-4" />,
-    items: [
-      {
-        id: 'timeline',
-        label: 'Timeline',
-        icon: <ScrollText className="w-4 h-4" />,
-      },
-    ],
-  },
-];
-
-function isTimelinePath(pathname: string): boolean {
-  return pathname.includes('/agents/threads/') && pathname.includes('/runs/') && pathname.endsWith('/timeline');
+function formatId(value: string): string {
+  if (value.length <= SHORT_ID_LENGTH) return value;
+  return `${value.slice(0, SHORT_ID_LENGTH)}...`;
 }
 
 export function RootLayout() {
   const location = useLocation();
-  const navigate = useNavigate();
-  const timelinePath = useMemo(
-    () => (isTimelinePath(location.pathname) ? location.pathname : DEFAULT_TIMELINE_PATH),
-    [location.pathname],
-  );
+  const params = useParams<{ orgId?: string; runId?: string; messageId?: string }>();
+  const searchParams = useMemo(() => new URLSearchParams(location.search), [location.search]);
+  const queryOrgId = searchParams.get('orgId')?.trim() || undefined;
+  const organizationId = params.orgId ?? queryOrgId;
 
-  const handleMenuItemSelect = useCallback(
-    (itemId: string) => {
-      if (itemId !== 'timeline') return;
-      if (location.pathname !== timelinePath) {
-        navigate(timelinePath);
-      }
-    },
-    [location.pathname, navigate, timelinePath],
-  );
+  const orgQuery = useAccessibleOrganizations(undefined, { enabled: Boolean(organizationId) });
+  const organizationLabel = organizationId
+    ? orgQuery.data?.find((org) => org.id === organizationId)?.name ?? formatId(organizationId)
+    : null;
+
+  const breadcrumbs = useMemo<BreadcrumbItem[]>(() => {
+    const items: BreadcrumbItem[] = [{ label: 'Home', to: '/' }];
+    if (organizationId && organizationLabel) {
+      items.push({ label: organizationLabel, to: `/${organizationId}` });
+    }
+    if (params.runId && organizationId) {
+      items.push({ label: `Run ${formatId(params.runId)}`, to: `/${organizationId}/runs/${params.runId}` });
+    }
+    if (params.messageId) {
+      items.push({ label: `Message ${formatId(params.messageId)}` });
+    }
+    return items;
+  }, [organizationId, organizationLabel, params.messageId, params.runId]);
 
   return (
-    <MainLayout menuItems={MENU_ITEMS} selectedMenuItem="timeline" onMenuItemSelect={handleMenuItemSelect}>
+    <MainLayout breadcrumbs={breadcrumbs}>
       <Outlet />
     </MainLayout>
   );

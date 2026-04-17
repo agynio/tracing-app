@@ -2,8 +2,8 @@
 // @generated from file agynio/api/users/v1/users.proto (package agynio.api.users.v1, syntax proto3)
 /* eslint-disable */
 
-import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
-import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
+import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
+import { enumDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
 import type { Timestamp } from "@bufbuild/protobuf/wkt";
 import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
 import type { Message } from "@bufbuild/protobuf";
@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file agynio/api/users/v1/users.proto.
  */
 export const file_agynio_api_users_v1_users: GenFile = /*@__PURE__*/
-  fileDesc("Ch9hZ3luaW8vYXBpL3VzZXJzL3YxL3VzZXJzLnByb3RvEhNhZ3luaW8uYXBpLnVzZXJzLnYxIngKCkVudGl0eU1ldGESCgoCaWQYASABKAkSLgoKY3JlYXRlZF9hdBgCIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKdXBkYXRlZF9hdBgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAiewoEVXNlchItCgRtZXRhGAEgASgLMh8uYWd5bmlvLmFwaS51c2Vycy52MS5FbnRpdHlNZXRhEhQKDG9pZGNfc3ViamVjdBgCIAEoCRIMCgRuYW1lGAMgASgJEg0KBWVtYWlsGAQgASgJEhEKCXBob3RvX3VybBgFIAEoCSJiChpSZXNvbHZlT3JDcmVhdGVVc2VyUmVxdWVzdBIUCgxvaWRjX3N1YmplY3QYASABKAkSDAoEbmFtZRgCIAEoCRINCgVlbWFpbBgDIAEoCRIRCglwaG90b191cmwYBCABKAkiVwobUmVzb2x2ZU9yQ3JlYXRlVXNlclJlc3BvbnNlEicKBHVzZXIYASABKAsyGS5hZ3luaW8uYXBpLnVzZXJzLnYxLlVzZXISDwoHY3JlYXRlZBgCIAEoCCIlCg5HZXRVc2VyUmVxdWVzdBITCgtpZGVudGl0eV9pZBgBIAEoCSI6Cg9HZXRVc2VyUmVzcG9uc2USJwoEdXNlchgBIAEoCzIZLmFneW5pby5hcGkudXNlcnMudjEuVXNlciIzChtHZXRVc2VyQnlPSURDU3ViamVjdFJlcXVlc3QSFAoMb2lkY19zdWJqZWN0GAEgASgJIkcKHEdldFVzZXJCeU9JRENTdWJqZWN0UmVzcG9uc2USJwoEdXNlchgBIAEoCzIZLmFneW5pby5hcGkudXNlcnMudjEuVXNlciIsChRCYXRjaEdldFVzZXJzUmVxdWVzdBIUCgxpZGVudGl0eV9pZHMYASADKAkiQQoVQmF0Y2hHZXRVc2Vyc1Jlc3BvbnNlEigKBXVzZXJzGAEgAygLMhkuYWd5bmlvLmFwaS51c2Vycy52MS5Vc2VyIogBChFVcGRhdGVVc2VyUmVxdWVzdBITCgtpZGVudGl0eV9pZBgBIAEoCRIRCgRuYW1lGAIgASgJSACIAQESEgoFZW1haWwYAyABKAlIAYgBARIWCglwaG90b191cmwYBCABKAlIAogBAUIHCgVfbmFtZUIICgZfZW1haWxCDAoKX3Bob3RvX3VybCI9ChJVcGRhdGVVc2VyUmVzcG9uc2USJwoEdXNlchgBIAEoCzIZLmFneW5pby5hcGkudXNlcnMudjEuVXNlciLhAQoIQVBJVG9rZW4SCgoCaWQYASABKAkSEwoLaWRlbnRpdHlfaWQYAiABKAkSDAoEbmFtZRgDIAEoCRIUCgx0b2tlbl9wcmVmaXgYBCABKAkSLgoKZXhwaXJlc19hdBgFIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKY3JlYXRlZF9hdBgGIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASMAoMbGFzdF91c2VkX2F0GAcgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCJVChVDcmVhdGVBUElUb2tlblJlcXVlc3QSDAoEbmFtZRgBIAEoCRIuCgpleHBpcmVzX2F0GAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCJfChZDcmVhdGVBUElUb2tlblJlc3BvbnNlEiwKBXRva2VuGAEgASgLMh0uYWd5bmlvLmFwaS51c2Vycy52MS5BUElUb2tlbhIXCg9wbGFpbnRleHRfdG9rZW4YAiABKAkiFgoUTGlzdEFQSVRva2Vuc1JlcXVlc3QiRgoVTGlzdEFQSVRva2Vuc1Jlc3BvbnNlEi0KBnRva2VucxgBIAMoCzIdLmFneW5pby5hcGkudXNlcnMudjEuQVBJVG9rZW4iKQoVUmV2b2tlQVBJVG9rZW5SZXF1ZXN0EhAKCHRva2VuX2lkGAEgASgJIhgKFlJldm9rZUFQSVRva2VuUmVzcG9uc2UiLAoWUmVzb2x2ZUFQSVRva2VuUmVxdWVzdBISCgp0b2tlbl9oYXNoGAEgASgJIlwKF1Jlc29sdmVBUElUb2tlblJlc3BvbnNlEhMKC2lkZW50aXR5X2lkGAEgASgJEiwKBXRva2VuGAIgASgLMh0uYWd5bmlvLmFwaS51c2Vycy52MS5BUElUb2tlbjLOBwoMVXNlcnNTZXJ2aWNlEngKE1Jlc29sdmVPckNyZWF0ZVVzZXISLy5hZ3luaW8uYXBpLnVzZXJzLnYxLlJlc29sdmVPckNyZWF0ZVVzZXJSZXF1ZXN0GjAuYWd5bmlvLmFwaS51c2Vycy52MS5SZXNvbHZlT3JDcmVhdGVVc2VyUmVzcG9uc2USVAoHR2V0VXNlchIjLmFneW5pby5hcGkudXNlcnMudjEuR2V0VXNlclJlcXVlc3QaJC5hZ3luaW8uYXBpLnVzZXJzLnYxLkdldFVzZXJSZXNwb25zZRJ7ChRHZXRVc2VyQnlPSURDU3ViamVjdBIwLmFneW5pby5hcGkudXNlcnMudjEuR2V0VXNlckJ5T0lEQ1N1YmplY3RSZXF1ZXN0GjEuYWd5bmlvLmFwaS51c2Vycy52MS5HZXRVc2VyQnlPSURDU3ViamVjdFJlc3BvbnNlEmYKDUJhdGNoR2V0VXNlcnMSKS5hZ3luaW8uYXBpLnVzZXJzLnYxLkJhdGNoR2V0VXNlcnNSZXF1ZXN0GiouYWd5bmlvLmFwaS51c2Vycy52MS5CYXRjaEdldFVzZXJzUmVzcG9uc2USXQoKVXBkYXRlVXNlchImLmFneW5pby5hcGkudXNlcnMudjEuVXBkYXRlVXNlclJlcXVlc3QaJy5hZ3luaW8uYXBpLnVzZXJzLnYxLlVwZGF0ZVVzZXJSZXNwb25zZRJpCg5DcmVhdGVBUElUb2tlbhIqLmFneW5pby5hcGkudXNlcnMudjEuQ3JlYXRlQVBJVG9rZW5SZXF1ZXN0GisuYWd5bmlvLmFwaS51c2Vycy52MS5DcmVhdGVBUElUb2tlblJlc3BvbnNlEmYKDUxpc3RBUElUb2tlbnMSKS5hZ3luaW8uYXBpLnVzZXJzLnYxLkxpc3RBUElUb2tlbnNSZXF1ZXN0GiouYWd5bmlvLmFwaS51c2Vycy52MS5MaXN0QVBJVG9rZW5zUmVzcG9uc2USaQoOUmV2b2tlQVBJVG9rZW4SKi5hZ3luaW8uYXBpLnVzZXJzLnYxLlJldm9rZUFQSVRva2VuUmVxdWVzdBorLmFneW5pby5hcGkudXNlcnMudjEuUmV2b2tlQVBJVG9rZW5SZXNwb25zZRJsCg9SZXNvbHZlQVBJVG9rZW4SKy5hZ3luaW8uYXBpLnVzZXJzLnYxLlJlc29sdmVBUElUb2tlblJlcXVlc3QaLC5hZ3luaW8uYXBpLnVzZXJzLnYxLlJlc29sdmVBUElUb2tlblJlc3BvbnNlQjdaNWdpdGh1Yi5jb20vYWd5bmlvL2FwaS9nZW4vYWd5bmlvL2FwaS91c2Vycy92MTt1c2Vyc3YxYgZwcm90bzM", [file_google_protobuf_timestamp]);
+  fileDesc("Ch9hZ3luaW8vYXBpL3VzZXJzL3YxL3VzZXJzLnByb3RvEhNhZ3luaW8uYXBpLnVzZXJzLnYxIngKCkVudGl0eU1ldGESCgoCaWQYASABKAkSLgoKY3JlYXRlZF9hdBgCIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKdXBkYXRlZF9hdBgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAijQEKBFVzZXISLQoEbWV0YRgBIAEoCzIfLmFneW5pby5hcGkudXNlcnMudjEuRW50aXR5TWV0YRIUCgxvaWRjX3N1YmplY3QYAiABKAkSDAoEbmFtZRgDIAEoCRINCgVlbWFpbBgEIAEoCRIRCglwaG90b191cmwYBSABKAkSEAoIbmlja25hbWUYBiABKAkisAEKBkRldmljZRItCgRtZXRhGAEgASgLMh8uYWd5bmlvLmFwaS51c2Vycy52MS5FbnRpdHlNZXRhEhgKEHVzZXJfaWRlbnRpdHlfaWQYAiABKAkSDAoEbmFtZRgDIAEoCRIcChRvcGVueml0aV9pZGVudGl0eV9pZBgEIAEoCRIxCgZzdGF0dXMYBSABKA4yIS5hZ3luaW8uYXBpLnVzZXJzLnYxLkRldmljZVN0YXR1cyJiChpSZXNvbHZlT3JDcmVhdGVVc2VyUmVxdWVzdBIUCgxvaWRjX3N1YmplY3QYASABKAkSDAoEbmFtZRgCIAEoCRINCgVlbWFpbBgDIAEoCRIRCglwaG90b191cmwYBCABKAkiVwobUmVzb2x2ZU9yQ3JlYXRlVXNlclJlc3BvbnNlEicKBHVzZXIYASABKAsyGS5hZ3luaW8uYXBpLnVzZXJzLnYxLlVzZXISDwoHY3JlYXRlZBgCIAEoCCIlCg5HZXRVc2VyUmVxdWVzdBITCgtpZGVudGl0eV9pZBgBIAEoCSJyCg9HZXRVc2VyUmVzcG9uc2USJwoEdXNlchgBIAEoCzIZLmFneW5pby5hcGkudXNlcnMudjEuVXNlchI2CgxjbHVzdGVyX3JvbGUYAiABKA4yIC5hZ3luaW8uYXBpLnVzZXJzLnYxLkNsdXN0ZXJSb2xlIjMKG0dldFVzZXJCeU9JRENTdWJqZWN0UmVxdWVzdBIUCgxvaWRjX3N1YmplY3QYASABKAkiRwocR2V0VXNlckJ5T0lEQ1N1YmplY3RSZXNwb25zZRInCgR1c2VyGAEgASgLMhkuYWd5bmlvLmFwaS51c2Vycy52MS5Vc2VyIiwKFEJhdGNoR2V0VXNlcnNSZXF1ZXN0EhQKDGlkZW50aXR5X2lkcxgBIAMoCSJBChVCYXRjaEdldFVzZXJzUmVzcG9uc2USKAoFdXNlcnMYASADKAsyGS5hZ3luaW8uYXBpLnVzZXJzLnYxLlVzZXIi+gEKEVVwZGF0ZVVzZXJSZXF1ZXN0EhMKC2lkZW50aXR5X2lkGAEgASgJEhEKBG5hbWUYAiABKAlIAIgBARISCgVlbWFpbBgDIAEoCUgBiAEBEhYKCXBob3RvX3VybBgEIAEoCUgCiAEBEhUKCG5pY2tuYW1lGAUgASgJSAOIAQESOwoMY2x1c3Rlcl9yb2xlGAYgASgOMiAuYWd5bmlvLmFwaS51c2Vycy52MS5DbHVzdGVyUm9sZUgEiAEBQgcKBV9uYW1lQggKBl9lbWFpbEIMCgpfcGhvdG9fdXJsQgsKCV9uaWNrbmFtZUIPCg1fY2x1c3Rlcl9yb2xlIj0KElVwZGF0ZVVzZXJSZXNwb25zZRInCgR1c2VyGAEgASgLMhkuYWd5bmlvLmFwaS51c2Vycy52MS5Vc2VyIg4KDEdldE1lUmVxdWVzdCJwCg1HZXRNZVJlc3BvbnNlEicKBHVzZXIYASABKAsyGS5hZ3luaW8uYXBpLnVzZXJzLnYxLlVzZXISNgoMY2x1c3Rlcl9yb2xlGAIgASgOMiAuYWd5bmlvLmFwaS51c2Vycy52MS5DbHVzdGVyUm9sZSI5ChBMaXN0VXNlcnNSZXF1ZXN0EhEKCXBhZ2Vfc2l6ZRgBIAEoBRISCgpwYWdlX3Rva2VuGAIgASgJIlYKEUxpc3RVc2Vyc1Jlc3BvbnNlEigKBXVzZXJzGAEgAygLMhkuYWd5bmlvLmFwaS51c2Vycy52MS5Vc2VyEhcKD25leHRfcGFnZV90b2tlbhgCIAEoCSLHAQoRQ3JlYXRlVXNlclJlcXVlc3QSFAoMb2lkY19zdWJqZWN0GAEgASgJEhEKBG5hbWUYAiABKAlIAIgBARIVCghuaWNrbmFtZRgDIAEoCUgBiAEBEhYKCXBob3RvX3VybBgEIAEoCUgCiAEBEjYKDGNsdXN0ZXJfcm9sZRgFIAEoDjIgLmFneW5pby5hcGkudXNlcnMudjEuQ2x1c3RlclJvbGVCBwoFX25hbWVCCwoJX25pY2tuYW1lQgwKCl9waG90b191cmwiPQoSQ3JlYXRlVXNlclJlc3BvbnNlEicKBHVzZXIYASABKAsyGS5hZ3luaW8uYXBpLnVzZXJzLnYxLlVzZXIiKAoRRGVsZXRlVXNlclJlcXVlc3QSEwoLaWRlbnRpdHlfaWQYASABKAkiFAoSRGVsZXRlVXNlclJlc3BvbnNlIuEBCghBUElUb2tlbhIKCgJpZBgBIAEoCRITCgtpZGVudGl0eV9pZBgCIAEoCRIMCgRuYW1lGAMgASgJEhQKDHRva2VuX3ByZWZpeBgEIAEoCRIuCgpleHBpcmVzX2F0GAUgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgpjcmVhdGVkX2F0GAYgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIwCgxsYXN0X3VzZWRfYXQYByABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIlUKFUNyZWF0ZUFQSVRva2VuUmVxdWVzdBIMCgRuYW1lGAEgASgJEi4KCmV4cGlyZXNfYXQYAiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIl8KFkNyZWF0ZUFQSVRva2VuUmVzcG9uc2USLAoFdG9rZW4YASABKAsyHS5hZ3luaW8uYXBpLnVzZXJzLnYxLkFQSVRva2VuEhcKD3BsYWludGV4dF90b2tlbhgCIAEoCSIWChRMaXN0QVBJVG9rZW5zUmVxdWVzdCJGChVMaXN0QVBJVG9rZW5zUmVzcG9uc2USLQoGdG9rZW5zGAEgAygLMh0uYWd5bmlvLmFwaS51c2Vycy52MS5BUElUb2tlbiIpChVSZXZva2VBUElUb2tlblJlcXVlc3QSEAoIdG9rZW5faWQYASABKAkiGAoWUmV2b2tlQVBJVG9rZW5SZXNwb25zZSIsChZSZXNvbHZlQVBJVG9rZW5SZXF1ZXN0EhIKCnRva2VuX2hhc2gYASABKAkiXAoXUmVzb2x2ZUFQSVRva2VuUmVzcG9uc2USEwoLaWRlbnRpdHlfaWQYASABKAkSLAoFdG9rZW4YAiABKAsyHS5hZ3luaW8uYXBpLnVzZXJzLnYxLkFQSVRva2VuIiMKE0NyZWF0ZURldmljZVJlcXVlc3QSDAoEbmFtZRgBIAEoCSJbChRDcmVhdGVEZXZpY2VSZXNwb25zZRIrCgZkZXZpY2UYASABKAsyGy5hZ3luaW8uYXBpLnVzZXJzLnYxLkRldmljZRIWCg5lbnJvbGxtZW50X2p3dBgCIAEoCSI7ChJMaXN0RGV2aWNlc1JlcXVlc3QSEQoJcGFnZV9zaXplGAEgASgFEhIKCnBhZ2VfdG9rZW4YAiABKAkiXAoTTGlzdERldmljZXNSZXNwb25zZRIsCgdkZXZpY2VzGAEgAygLMhsuYWd5bmlvLmFwaS51c2Vycy52MS5EZXZpY2USFwoPbmV4dF9wYWdlX3Rva2VuGAIgASgJIiEKE0RlbGV0ZURldmljZVJlcXVlc3QSCgoCaWQYASABKAkiFgoURGVsZXRlRGV2aWNlUmVzcG9uc2UqQwoLQ2x1c3RlclJvbGUSHAoYQ0xVU1RFUl9ST0xFX1VOU1BFQ0lGSUVEEAASFgoSQ0xVU1RFUl9ST0xFX0FETUlOEAEqZAoMRGV2aWNlU3RhdHVzEh0KGURFVklDRV9TVEFUVVNfVU5TUEVDSUZJRUQQABIZChVERVZJQ0VfU1RBVFVTX1BFTkRJTkcQARIaChZERVZJQ0VfU1RBVFVTX0VOUk9MTEVEEAIy5AwKDFVzZXJzU2VydmljZRJ4ChNSZXNvbHZlT3JDcmVhdGVVc2VyEi8uYWd5bmlvLmFwaS51c2Vycy52MS5SZXNvbHZlT3JDcmVhdGVVc2VyUmVxdWVzdBowLmFneW5pby5hcGkudXNlcnMudjEuUmVzb2x2ZU9yQ3JlYXRlVXNlclJlc3BvbnNlElQKB0dldFVzZXISIy5hZ3luaW8uYXBpLnVzZXJzLnYxLkdldFVzZXJSZXF1ZXN0GiQuYWd5bmlvLmFwaS51c2Vycy52MS5HZXRVc2VyUmVzcG9uc2USewoUR2V0VXNlckJ5T0lEQ1N1YmplY3QSMC5hZ3luaW8uYXBpLnVzZXJzLnYxLkdldFVzZXJCeU9JRENTdWJqZWN0UmVxdWVzdBoxLmFneW5pby5hcGkudXNlcnMudjEuR2V0VXNlckJ5T0lEQ1N1YmplY3RSZXNwb25zZRJmCg1CYXRjaEdldFVzZXJzEikuYWd5bmlvLmFwaS51c2Vycy52MS5CYXRjaEdldFVzZXJzUmVxdWVzdBoqLmFneW5pby5hcGkudXNlcnMudjEuQmF0Y2hHZXRVc2Vyc1Jlc3BvbnNlEl0KClVwZGF0ZVVzZXISJi5hZ3luaW8uYXBpLnVzZXJzLnYxLlVwZGF0ZVVzZXJSZXF1ZXN0GicuYWd5bmlvLmFwaS51c2Vycy52MS5VcGRhdGVVc2VyUmVzcG9uc2USaQoOQ3JlYXRlQVBJVG9rZW4SKi5hZ3luaW8uYXBpLnVzZXJzLnYxLkNyZWF0ZUFQSVRva2VuUmVxdWVzdBorLmFneW5pby5hcGkudXNlcnMudjEuQ3JlYXRlQVBJVG9rZW5SZXNwb25zZRJmCg1MaXN0QVBJVG9rZW5zEikuYWd5bmlvLmFwaS51c2Vycy52MS5MaXN0QVBJVG9rZW5zUmVxdWVzdBoqLmFneW5pby5hcGkudXNlcnMudjEuTGlzdEFQSVRva2Vuc1Jlc3BvbnNlEmkKDlJldm9rZUFQSVRva2VuEiouYWd5bmlvLmFwaS51c2Vycy52MS5SZXZva2VBUElUb2tlblJlcXVlc3QaKy5hZ3luaW8uYXBpLnVzZXJzLnYxLlJldm9rZUFQSVRva2VuUmVzcG9uc2USbAoPUmVzb2x2ZUFQSVRva2VuEisuYWd5bmlvLmFwaS51c2Vycy52MS5SZXNvbHZlQVBJVG9rZW5SZXF1ZXN0GiwuYWd5bmlvLmFwaS51c2Vycy52MS5SZXNvbHZlQVBJVG9rZW5SZXNwb25zZRJOCgVHZXRNZRIhLmFneW5pby5hcGkudXNlcnMudjEuR2V0TWVSZXF1ZXN0GiIuYWd5bmlvLmFwaS51c2Vycy52MS5HZXRNZVJlc3BvbnNlEloKCUxpc3RVc2VycxIlLmFneW5pby5hcGkudXNlcnMudjEuTGlzdFVzZXJzUmVxdWVzdBomLmFneW5pby5hcGkudXNlcnMudjEuTGlzdFVzZXJzUmVzcG9uc2USXQoKQ3JlYXRlVXNlchImLmFneW5pby5hcGkudXNlcnMudjEuQ3JlYXRlVXNlclJlcXVlc3QaJy5hZ3luaW8uYXBpLnVzZXJzLnYxLkNyZWF0ZVVzZXJSZXNwb25zZRJdCgpEZWxldGVVc2VyEiYuYWd5bmlvLmFwaS51c2Vycy52MS5EZWxldGVVc2VyUmVxdWVzdBonLmFneW5pby5hcGkudXNlcnMudjEuRGVsZXRlVXNlclJlc3BvbnNlEmMKDENyZWF0ZURldmljZRIoLmFneW5pby5hcGkudXNlcnMudjEuQ3JlYXRlRGV2aWNlUmVxdWVzdBopLmFneW5pby5hcGkudXNlcnMudjEuQ3JlYXRlRGV2aWNlUmVzcG9uc2USYAoLTGlzdERldmljZXMSJy5hZ3luaW8uYXBpLnVzZXJzLnYxLkxpc3REZXZpY2VzUmVxdWVzdBooLmFneW5pby5hcGkudXNlcnMudjEuTGlzdERldmljZXNSZXNwb25zZRJjCgxEZWxldGVEZXZpY2USKC5hZ3luaW8uYXBpLnVzZXJzLnYxLkRlbGV0ZURldmljZVJlcXVlc3QaKS5hZ3luaW8uYXBpLnVzZXJzLnYxLkRlbGV0ZURldmljZVJlc3BvbnNlQjdaNWdpdGh1Yi5jb20vYWd5bmlvL2FwaS9nZW4vYWd5bmlvL2FwaS91c2Vycy92MTt1c2Vyc3YxYgZwcm90bzM", [file_google_protobuf_timestamp]);
 
 /**
  * @generated from message agynio.api.users.v1.EntityMeta
@@ -69,6 +69,11 @@ export type User = Message<"agynio.api.users.v1.User"> & {
    * @generated from field: string photo_url = 5;
    */
   photoUrl: string;
+
+  /**
+   * @generated from field: string nickname = 6;
+   */
+  nickname: string;
 };
 
 /**
@@ -77,6 +82,43 @@ export type User = Message<"agynio.api.users.v1.User"> & {
  */
 export const UserSchema: GenMessage<User> = /*@__PURE__*/
   messageDesc(file_agynio_api_users_v1_users, 1);
+
+/**
+ * @generated from message agynio.api.users.v1.Device
+ */
+export type Device = Message<"agynio.api.users.v1.Device"> & {
+  /**
+   * @generated from field: agynio.api.users.v1.EntityMeta meta = 1;
+   */
+  meta?: EntityMeta;
+
+  /**
+   * @generated from field: string user_identity_id = 2;
+   */
+  userIdentityId: string;
+
+  /**
+   * @generated from field: string name = 3;
+   */
+  name: string;
+
+  /**
+   * @generated from field: string openziti_identity_id = 4;
+   */
+  openzitiIdentityId: string;
+
+  /**
+   * @generated from field: agynio.api.users.v1.DeviceStatus status = 5;
+   */
+  status: DeviceStatus;
+};
+
+/**
+ * Describes the message agynio.api.users.v1.Device.
+ * Use `create(DeviceSchema)` to create a new message.
+ */
+export const DeviceSchema: GenMessage<Device> = /*@__PURE__*/
+  messageDesc(file_agynio_api_users_v1_users, 2);
 
 /**
  * @generated from message agynio.api.users.v1.ResolveOrCreateUserRequest
@@ -108,7 +150,7 @@ export type ResolveOrCreateUserRequest = Message<"agynio.api.users.v1.ResolveOrC
  * Use `create(ResolveOrCreateUserRequestSchema)` to create a new message.
  */
 export const ResolveOrCreateUserRequestSchema: GenMessage<ResolveOrCreateUserRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 2);
+  messageDesc(file_agynio_api_users_v1_users, 3);
 
 /**
  * @generated from message agynio.api.users.v1.ResolveOrCreateUserResponse
@@ -130,7 +172,7 @@ export type ResolveOrCreateUserResponse = Message<"agynio.api.users.v1.ResolveOr
  * Use `create(ResolveOrCreateUserResponseSchema)` to create a new message.
  */
 export const ResolveOrCreateUserResponseSchema: GenMessage<ResolveOrCreateUserResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 3);
+  messageDesc(file_agynio_api_users_v1_users, 4);
 
 /**
  * @generated from message agynio.api.users.v1.GetUserRequest
@@ -147,7 +189,7 @@ export type GetUserRequest = Message<"agynio.api.users.v1.GetUserRequest"> & {
  * Use `create(GetUserRequestSchema)` to create a new message.
  */
 export const GetUserRequestSchema: GenMessage<GetUserRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 4);
+  messageDesc(file_agynio_api_users_v1_users, 5);
 
 /**
  * @generated from message agynio.api.users.v1.GetUserResponse
@@ -157,6 +199,11 @@ export type GetUserResponse = Message<"agynio.api.users.v1.GetUserResponse"> & {
    * @generated from field: agynio.api.users.v1.User user = 1;
    */
   user?: User;
+
+  /**
+   * @generated from field: agynio.api.users.v1.ClusterRole cluster_role = 2;
+   */
+  clusterRole: ClusterRole;
 };
 
 /**
@@ -164,7 +211,7 @@ export type GetUserResponse = Message<"agynio.api.users.v1.GetUserResponse"> & {
  * Use `create(GetUserResponseSchema)` to create a new message.
  */
 export const GetUserResponseSchema: GenMessage<GetUserResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 5);
+  messageDesc(file_agynio_api_users_v1_users, 6);
 
 /**
  * @generated from message agynio.api.users.v1.GetUserByOIDCSubjectRequest
@@ -181,7 +228,7 @@ export type GetUserByOIDCSubjectRequest = Message<"agynio.api.users.v1.GetUserBy
  * Use `create(GetUserByOIDCSubjectRequestSchema)` to create a new message.
  */
 export const GetUserByOIDCSubjectRequestSchema: GenMessage<GetUserByOIDCSubjectRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 6);
+  messageDesc(file_agynio_api_users_v1_users, 7);
 
 /**
  * @generated from message agynio.api.users.v1.GetUserByOIDCSubjectResponse
@@ -198,7 +245,7 @@ export type GetUserByOIDCSubjectResponse = Message<"agynio.api.users.v1.GetUserB
  * Use `create(GetUserByOIDCSubjectResponseSchema)` to create a new message.
  */
 export const GetUserByOIDCSubjectResponseSchema: GenMessage<GetUserByOIDCSubjectResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 7);
+  messageDesc(file_agynio_api_users_v1_users, 8);
 
 /**
  * @generated from message agynio.api.users.v1.BatchGetUsersRequest
@@ -215,7 +262,7 @@ export type BatchGetUsersRequest = Message<"agynio.api.users.v1.BatchGetUsersReq
  * Use `create(BatchGetUsersRequestSchema)` to create a new message.
  */
 export const BatchGetUsersRequestSchema: GenMessage<BatchGetUsersRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 8);
+  messageDesc(file_agynio_api_users_v1_users, 9);
 
 /**
  * @generated from message agynio.api.users.v1.BatchGetUsersResponse
@@ -232,7 +279,7 @@ export type BatchGetUsersResponse = Message<"agynio.api.users.v1.BatchGetUsersRe
  * Use `create(BatchGetUsersResponseSchema)` to create a new message.
  */
 export const BatchGetUsersResponseSchema: GenMessage<BatchGetUsersResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 9);
+  messageDesc(file_agynio_api_users_v1_users, 10);
 
 /**
  * @generated from message agynio.api.users.v1.UpdateUserRequest
@@ -257,6 +304,16 @@ export type UpdateUserRequest = Message<"agynio.api.users.v1.UpdateUserRequest">
    * @generated from field: optional string photo_url = 4;
    */
   photoUrl?: string;
+
+  /**
+   * @generated from field: optional string nickname = 5;
+   */
+  nickname?: string;
+
+  /**
+   * @generated from field: optional agynio.api.users.v1.ClusterRole cluster_role = 6;
+   */
+  clusterRole?: ClusterRole;
 };
 
 /**
@@ -264,7 +321,7 @@ export type UpdateUserRequest = Message<"agynio.api.users.v1.UpdateUserRequest">
  * Use `create(UpdateUserRequestSchema)` to create a new message.
  */
 export const UpdateUserRequestSchema: GenMessage<UpdateUserRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 10);
+  messageDesc(file_agynio_api_users_v1_users, 11);
 
 /**
  * @generated from message agynio.api.users.v1.UpdateUserResponse
@@ -281,7 +338,170 @@ export type UpdateUserResponse = Message<"agynio.api.users.v1.UpdateUserResponse
  * Use `create(UpdateUserResponseSchema)` to create a new message.
  */
 export const UpdateUserResponseSchema: GenMessage<UpdateUserResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 11);
+  messageDesc(file_agynio_api_users_v1_users, 12);
+
+/**
+ * @generated from message agynio.api.users.v1.GetMeRequest
+ */
+export type GetMeRequest = Message<"agynio.api.users.v1.GetMeRequest"> & {
+};
+
+/**
+ * Describes the message agynio.api.users.v1.GetMeRequest.
+ * Use `create(GetMeRequestSchema)` to create a new message.
+ */
+export const GetMeRequestSchema: GenMessage<GetMeRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_users_v1_users, 13);
+
+/**
+ * @generated from message agynio.api.users.v1.GetMeResponse
+ */
+export type GetMeResponse = Message<"agynio.api.users.v1.GetMeResponse"> & {
+  /**
+   * @generated from field: agynio.api.users.v1.User user = 1;
+   */
+  user?: User;
+
+  /**
+   * @generated from field: agynio.api.users.v1.ClusterRole cluster_role = 2;
+   */
+  clusterRole: ClusterRole;
+};
+
+/**
+ * Describes the message agynio.api.users.v1.GetMeResponse.
+ * Use `create(GetMeResponseSchema)` to create a new message.
+ */
+export const GetMeResponseSchema: GenMessage<GetMeResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_users_v1_users, 14);
+
+/**
+ * @generated from message agynio.api.users.v1.ListUsersRequest
+ */
+export type ListUsersRequest = Message<"agynio.api.users.v1.ListUsersRequest"> & {
+  /**
+   * @generated from field: int32 page_size = 1;
+   */
+  pageSize: number;
+
+  /**
+   * @generated from field: string page_token = 2;
+   */
+  pageToken: string;
+};
+
+/**
+ * Describes the message agynio.api.users.v1.ListUsersRequest.
+ * Use `create(ListUsersRequestSchema)` to create a new message.
+ */
+export const ListUsersRequestSchema: GenMessage<ListUsersRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_users_v1_users, 15);
+
+/**
+ * @generated from message agynio.api.users.v1.ListUsersResponse
+ */
+export type ListUsersResponse = Message<"agynio.api.users.v1.ListUsersResponse"> & {
+  /**
+   * @generated from field: repeated agynio.api.users.v1.User users = 1;
+   */
+  users: User[];
+
+  /**
+   * @generated from field: string next_page_token = 2;
+   */
+  nextPageToken: string;
+};
+
+/**
+ * Describes the message agynio.api.users.v1.ListUsersResponse.
+ * Use `create(ListUsersResponseSchema)` to create a new message.
+ */
+export const ListUsersResponseSchema: GenMessage<ListUsersResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_users_v1_users, 16);
+
+/**
+ * @generated from message agynio.api.users.v1.CreateUserRequest
+ */
+export type CreateUserRequest = Message<"agynio.api.users.v1.CreateUserRequest"> & {
+  /**
+   * @generated from field: string oidc_subject = 1;
+   */
+  oidcSubject: string;
+
+  /**
+   * @generated from field: optional string name = 2;
+   */
+  name?: string;
+
+  /**
+   * @generated from field: optional string nickname = 3;
+   */
+  nickname?: string;
+
+  /**
+   * @generated from field: optional string photo_url = 4;
+   */
+  photoUrl?: string;
+
+  /**
+   * @generated from field: agynio.api.users.v1.ClusterRole cluster_role = 5;
+   */
+  clusterRole: ClusterRole;
+};
+
+/**
+ * Describes the message agynio.api.users.v1.CreateUserRequest.
+ * Use `create(CreateUserRequestSchema)` to create a new message.
+ */
+export const CreateUserRequestSchema: GenMessage<CreateUserRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_users_v1_users, 17);
+
+/**
+ * @generated from message agynio.api.users.v1.CreateUserResponse
+ */
+export type CreateUserResponse = Message<"agynio.api.users.v1.CreateUserResponse"> & {
+  /**
+   * @generated from field: agynio.api.users.v1.User user = 1;
+   */
+  user?: User;
+};
+
+/**
+ * Describes the message agynio.api.users.v1.CreateUserResponse.
+ * Use `create(CreateUserResponseSchema)` to create a new message.
+ */
+export const CreateUserResponseSchema: GenMessage<CreateUserResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_users_v1_users, 18);
+
+/**
+ * @generated from message agynio.api.users.v1.DeleteUserRequest
+ */
+export type DeleteUserRequest = Message<"agynio.api.users.v1.DeleteUserRequest"> & {
+  /**
+   * @generated from field: string identity_id = 1;
+   */
+  identityId: string;
+};
+
+/**
+ * Describes the message agynio.api.users.v1.DeleteUserRequest.
+ * Use `create(DeleteUserRequestSchema)` to create a new message.
+ */
+export const DeleteUserRequestSchema: GenMessage<DeleteUserRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_users_v1_users, 19);
+
+/**
+ * @generated from message agynio.api.users.v1.DeleteUserResponse
+ */
+export type DeleteUserResponse = Message<"agynio.api.users.v1.DeleteUserResponse"> & {
+};
+
+/**
+ * Describes the message agynio.api.users.v1.DeleteUserResponse.
+ * Use `create(DeleteUserResponseSchema)` to create a new message.
+ */
+export const DeleteUserResponseSchema: GenMessage<DeleteUserResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_users_v1_users, 20);
 
 /**
  * @generated from message agynio.api.users.v1.APIToken
@@ -328,7 +548,7 @@ export type APIToken = Message<"agynio.api.users.v1.APIToken"> & {
  * Use `create(APITokenSchema)` to create a new message.
  */
 export const APITokenSchema: GenMessage<APIToken> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 12);
+  messageDesc(file_agynio_api_users_v1_users, 21);
 
 /**
  * @generated from message agynio.api.users.v1.CreateAPITokenRequest
@@ -350,7 +570,7 @@ export type CreateAPITokenRequest = Message<"agynio.api.users.v1.CreateAPITokenR
  * Use `create(CreateAPITokenRequestSchema)` to create a new message.
  */
 export const CreateAPITokenRequestSchema: GenMessage<CreateAPITokenRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 13);
+  messageDesc(file_agynio_api_users_v1_users, 22);
 
 /**
  * @generated from message agynio.api.users.v1.CreateAPITokenResponse
@@ -372,7 +592,7 @@ export type CreateAPITokenResponse = Message<"agynio.api.users.v1.CreateAPIToken
  * Use `create(CreateAPITokenResponseSchema)` to create a new message.
  */
 export const CreateAPITokenResponseSchema: GenMessage<CreateAPITokenResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 14);
+  messageDesc(file_agynio_api_users_v1_users, 23);
 
 /**
  * @generated from message agynio.api.users.v1.ListAPITokensRequest
@@ -385,7 +605,7 @@ export type ListAPITokensRequest = Message<"agynio.api.users.v1.ListAPITokensReq
  * Use `create(ListAPITokensRequestSchema)` to create a new message.
  */
 export const ListAPITokensRequestSchema: GenMessage<ListAPITokensRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 15);
+  messageDesc(file_agynio_api_users_v1_users, 24);
 
 /**
  * @generated from message agynio.api.users.v1.ListAPITokensResponse
@@ -402,7 +622,7 @@ export type ListAPITokensResponse = Message<"agynio.api.users.v1.ListAPITokensRe
  * Use `create(ListAPITokensResponseSchema)` to create a new message.
  */
 export const ListAPITokensResponseSchema: GenMessage<ListAPITokensResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 16);
+  messageDesc(file_agynio_api_users_v1_users, 25);
 
 /**
  * @generated from message agynio.api.users.v1.RevokeAPITokenRequest
@@ -419,7 +639,7 @@ export type RevokeAPITokenRequest = Message<"agynio.api.users.v1.RevokeAPITokenR
  * Use `create(RevokeAPITokenRequestSchema)` to create a new message.
  */
 export const RevokeAPITokenRequestSchema: GenMessage<RevokeAPITokenRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 17);
+  messageDesc(file_agynio_api_users_v1_users, 26);
 
 /**
  * @generated from message agynio.api.users.v1.RevokeAPITokenResponse
@@ -432,7 +652,7 @@ export type RevokeAPITokenResponse = Message<"agynio.api.users.v1.RevokeAPIToken
  * Use `create(RevokeAPITokenResponseSchema)` to create a new message.
  */
 export const RevokeAPITokenResponseSchema: GenMessage<RevokeAPITokenResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 18);
+  messageDesc(file_agynio_api_users_v1_users, 27);
 
 /**
  * @generated from message agynio.api.users.v1.ResolveAPITokenRequest
@@ -449,7 +669,7 @@ export type ResolveAPITokenRequest = Message<"agynio.api.users.v1.ResolveAPIToke
  * Use `create(ResolveAPITokenRequestSchema)` to create a new message.
  */
 export const ResolveAPITokenRequestSchema: GenMessage<ResolveAPITokenRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 19);
+  messageDesc(file_agynio_api_users_v1_users, 28);
 
 /**
  * @generated from message agynio.api.users.v1.ResolveAPITokenResponse
@@ -471,7 +691,169 @@ export type ResolveAPITokenResponse = Message<"agynio.api.users.v1.ResolveAPITok
  * Use `create(ResolveAPITokenResponseSchema)` to create a new message.
  */
 export const ResolveAPITokenResponseSchema: GenMessage<ResolveAPITokenResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 20);
+  messageDesc(file_agynio_api_users_v1_users, 29);
+
+/**
+ * @generated from message agynio.api.users.v1.CreateDeviceRequest
+ */
+export type CreateDeviceRequest = Message<"agynio.api.users.v1.CreateDeviceRequest"> & {
+  /**
+   * @generated from field: string name = 1;
+   */
+  name: string;
+};
+
+/**
+ * Describes the message agynio.api.users.v1.CreateDeviceRequest.
+ * Use `create(CreateDeviceRequestSchema)` to create a new message.
+ */
+export const CreateDeviceRequestSchema: GenMessage<CreateDeviceRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_users_v1_users, 30);
+
+/**
+ * @generated from message agynio.api.users.v1.CreateDeviceResponse
+ */
+export type CreateDeviceResponse = Message<"agynio.api.users.v1.CreateDeviceResponse"> & {
+  /**
+   * @generated from field: agynio.api.users.v1.Device device = 1;
+   */
+  device?: Device;
+
+  /**
+   * Enrollment JWT shown once to the user. Cannot be retrieved again.
+   *
+   * @generated from field: string enrollment_jwt = 2;
+   */
+  enrollmentJwt: string;
+};
+
+/**
+ * Describes the message agynio.api.users.v1.CreateDeviceResponse.
+ * Use `create(CreateDeviceResponseSchema)` to create a new message.
+ */
+export const CreateDeviceResponseSchema: GenMessage<CreateDeviceResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_users_v1_users, 31);
+
+/**
+ * @generated from message agynio.api.users.v1.ListDevicesRequest
+ */
+export type ListDevicesRequest = Message<"agynio.api.users.v1.ListDevicesRequest"> & {
+  /**
+   * @generated from field: int32 page_size = 1;
+   */
+  pageSize: number;
+
+  /**
+   * @generated from field: string page_token = 2;
+   */
+  pageToken: string;
+};
+
+/**
+ * Describes the message agynio.api.users.v1.ListDevicesRequest.
+ * Use `create(ListDevicesRequestSchema)` to create a new message.
+ */
+export const ListDevicesRequestSchema: GenMessage<ListDevicesRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_users_v1_users, 32);
+
+/**
+ * @generated from message agynio.api.users.v1.ListDevicesResponse
+ */
+export type ListDevicesResponse = Message<"agynio.api.users.v1.ListDevicesResponse"> & {
+  /**
+   * @generated from field: repeated agynio.api.users.v1.Device devices = 1;
+   */
+  devices: Device[];
+
+  /**
+   * @generated from field: string next_page_token = 2;
+   */
+  nextPageToken: string;
+};
+
+/**
+ * Describes the message agynio.api.users.v1.ListDevicesResponse.
+ * Use `create(ListDevicesResponseSchema)` to create a new message.
+ */
+export const ListDevicesResponseSchema: GenMessage<ListDevicesResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_users_v1_users, 33);
+
+/**
+ * @generated from message agynio.api.users.v1.DeleteDeviceRequest
+ */
+export type DeleteDeviceRequest = Message<"agynio.api.users.v1.DeleteDeviceRequest"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+};
+
+/**
+ * Describes the message agynio.api.users.v1.DeleteDeviceRequest.
+ * Use `create(DeleteDeviceRequestSchema)` to create a new message.
+ */
+export const DeleteDeviceRequestSchema: GenMessage<DeleteDeviceRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_users_v1_users, 34);
+
+/**
+ * @generated from message agynio.api.users.v1.DeleteDeviceResponse
+ */
+export type DeleteDeviceResponse = Message<"agynio.api.users.v1.DeleteDeviceResponse"> & {
+};
+
+/**
+ * Describes the message agynio.api.users.v1.DeleteDeviceResponse.
+ * Use `create(DeleteDeviceResponseSchema)` to create a new message.
+ */
+export const DeleteDeviceResponseSchema: GenMessage<DeleteDeviceResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_users_v1_users, 35);
+
+/**
+ * @generated from enum agynio.api.users.v1.ClusterRole
+ */
+export enum ClusterRole {
+  /**
+   * @generated from enum value: CLUSTER_ROLE_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: CLUSTER_ROLE_ADMIN = 1;
+   */
+  ADMIN = 1,
+}
+
+/**
+ * Describes the enum agynio.api.users.v1.ClusterRole.
+ */
+export const ClusterRoleSchema: GenEnum<ClusterRole> = /*@__PURE__*/
+  enumDesc(file_agynio_api_users_v1_users, 0);
+
+/**
+ * @generated from enum agynio.api.users.v1.DeviceStatus
+ */
+export enum DeviceStatus {
+  /**
+   * @generated from enum value: DEVICE_STATUS_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: DEVICE_STATUS_PENDING = 1;
+   */
+  PENDING = 1,
+
+  /**
+   * @generated from enum value: DEVICE_STATUS_ENROLLED = 2;
+   */
+  ENROLLED = 2,
+}
+
+/**
+ * Describes the enum agynio.api.users.v1.DeviceStatus.
+ */
+export const DeviceStatusSchema: GenEnum<DeviceStatus> = /*@__PURE__*/
+  enumDesc(file_agynio_api_users_v1_users, 1);
 
 /**
  * @generated from service agynio.api.users.v1.UsersService
@@ -548,6 +930,68 @@ export const UsersService: GenService<{
     methodKind: "unary";
     input: typeof ResolveAPITokenRequestSchema;
     output: typeof ResolveAPITokenResponseSchema;
+  },
+  /**
+   * --- Current User ---
+   *
+   * @generated from rpc agynio.api.users.v1.UsersService.GetMe
+   */
+  getMe: {
+    methodKind: "unary";
+    input: typeof GetMeRequestSchema;
+    output: typeof GetMeResponseSchema;
+  },
+  /**
+   * --- Admin User Management ---
+   *
+   * @generated from rpc agynio.api.users.v1.UsersService.ListUsers
+   */
+  listUsers: {
+    methodKind: "unary";
+    input: typeof ListUsersRequestSchema;
+    output: typeof ListUsersResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.users.v1.UsersService.CreateUser
+   */
+  createUser: {
+    methodKind: "unary";
+    input: typeof CreateUserRequestSchema;
+    output: typeof CreateUserResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.users.v1.UsersService.DeleteUser
+   */
+  deleteUser: {
+    methodKind: "unary";
+    input: typeof DeleteUserRequestSchema;
+    output: typeof DeleteUserResponseSchema;
+  },
+  /**
+   * --- Devices ---
+   *
+   * @generated from rpc agynio.api.users.v1.UsersService.CreateDevice
+   */
+  createDevice: {
+    methodKind: "unary";
+    input: typeof CreateDeviceRequestSchema;
+    output: typeof CreateDeviceResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.users.v1.UsersService.ListDevices
+   */
+  listDevices: {
+    methodKind: "unary";
+    input: typeof ListDevicesRequestSchema;
+    output: typeof ListDevicesResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.users.v1.UsersService.DeleteDevice
+   */
+  deleteDevice: {
+    methodKind: "unary";
+    input: typeof DeleteDeviceRequestSchema;
+    output: typeof DeleteDeviceResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_agynio_api_users_v1_users, 0);

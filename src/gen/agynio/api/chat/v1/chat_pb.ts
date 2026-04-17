@@ -2,8 +2,8 @@
 // @generated from file agynio/api/chat/v1/chat.proto (package agynio.api.chat.v1, syntax proto3)
 /* eslint-disable */
 
-import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
-import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
+import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
+import { enumDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
 import type { Timestamp } from "@bufbuild/protobuf/wkt";
 import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
 import type { Message } from "@bufbuild/protobuf";
@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file agynio/api/chat/v1/chat.proto.
  */
 export const file_agynio_api_chat_v1_chat: GenFile = /*@__PURE__*/
-  fileDesc("Ch1hZ3luaW8vYXBpL2NoYXQvdjEvY2hhdC5wcm90bxISYWd5bmlvLmFwaS5jaGF0LnYxIsYBCgRDaGF0EgoKAmlkGAEgASgJEjkKDHBhcnRpY2lwYW50cxgCIAMoCzIjLmFneW5pby5hcGkuY2hhdC52MS5DaGF0UGFydGljaXBhbnQSLgoKY3JlYXRlZF9hdBgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKdXBkYXRlZF9hdBgEIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASFwoPb3JnYW5pemF0aW9uX2lkGAUgASgJIkwKD0NoYXRQYXJ0aWNpcGFudBIKCgJpZBgBIAEoCRItCglqb2luZWRfYXQYAiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIo0BCgtDaGF0TWVzc2FnZRIKCgJpZBgBIAEoCRIPCgdjaGF0X2lkGAIgASgJEhEKCXNlbmRlcl9pZBgDIAEoCRIMCgRib2R5GAQgASgJEhAKCGZpbGVfaWRzGAUgAygJEi4KCmNyZWF0ZWRfYXQYBiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIkUKEUNyZWF0ZUNoYXRSZXF1ZXN0EhcKD3BhcnRpY2lwYW50X2lkcxgBIAMoCRIXCg9vcmdhbml6YXRpb25faWQYAiABKAkiPAoSQ3JlYXRlQ2hhdFJlc3BvbnNlEiYKBGNoYXQYASABKAsyGC5hZ3luaW8uYXBpLmNoYXQudjEuQ2hhdCJRCg9HZXRDaGF0c1JlcXVlc3QSEQoJcGFnZV9zaXplGAEgASgFEhIKCnBhZ2VfdG9rZW4YAiABKAkSFwoPb3JnYW5pemF0aW9uX2lkGAMgASgJIlQKEEdldENoYXRzUmVzcG9uc2USJwoFY2hhdHMYASADKAsyGC5hZ3luaW8uYXBpLmNoYXQudjEuQ2hhdBIXCg9uZXh0X3BhZ2VfdG9rZW4YAiABKAkiTAoSR2V0TWVzc2FnZXNSZXF1ZXN0Eg8KB2NoYXRfaWQYASABKAkSEQoJcGFnZV9zaXplGAIgASgFEhIKCnBhZ2VfdG9rZW4YAyABKAkidwoTR2V0TWVzc2FnZXNSZXNwb25zZRIxCghtZXNzYWdlcxgBIAMoCzIfLmFneW5pby5hcGkuY2hhdC52MS5DaGF0TWVzc2FnZRIXCg9uZXh0X3BhZ2VfdG9rZW4YAiABKAkSFAoMdW5yZWFkX2NvdW50GAMgASgFIkUKElNlbmRNZXNzYWdlUmVxdWVzdBIPCgdjaGF0X2lkGAEgASgJEgwKBGJvZHkYAiABKAkSEAoIZmlsZV9pZHMYAyADKAkiRwoTU2VuZE1lc3NhZ2VSZXNwb25zZRIwCgdtZXNzYWdlGAEgASgLMh8uYWd5bmlvLmFwaS5jaGF0LnYxLkNoYXRNZXNzYWdlIjkKEU1hcmtBc1JlYWRSZXF1ZXN0Eg8KB2NoYXRfaWQYASABKAkSEwoLbWVzc2FnZV9pZHMYAiADKAkiKAoSTWFya0FzUmVhZFJlc3BvbnNlEhIKCnJlYWRfY291bnQYASABKAUy3gMKC0NoYXRTZXJ2aWNlElsKCkNyZWF0ZUNoYXQSJS5hZ3luaW8uYXBpLmNoYXQudjEuQ3JlYXRlQ2hhdFJlcXVlc3QaJi5hZ3luaW8uYXBpLmNoYXQudjEuQ3JlYXRlQ2hhdFJlc3BvbnNlElUKCEdldENoYXRzEiMuYWd5bmlvLmFwaS5jaGF0LnYxLkdldENoYXRzUmVxdWVzdBokLmFneW5pby5hcGkuY2hhdC52MS5HZXRDaGF0c1Jlc3BvbnNlEl4KC0dldE1lc3NhZ2VzEiYuYWd5bmlvLmFwaS5jaGF0LnYxLkdldE1lc3NhZ2VzUmVxdWVzdBonLmFneW5pby5hcGkuY2hhdC52MS5HZXRNZXNzYWdlc1Jlc3BvbnNlEl4KC1NlbmRNZXNzYWdlEiYuYWd5bmlvLmFwaS5jaGF0LnYxLlNlbmRNZXNzYWdlUmVxdWVzdBonLmFneW5pby5hcGkuY2hhdC52MS5TZW5kTWVzc2FnZVJlc3BvbnNlElsKCk1hcmtBc1JlYWQSJS5hZ3luaW8uYXBpLmNoYXQudjEuTWFya0FzUmVhZFJlcXVlc3QaJi5hZ3luaW8uYXBpLmNoYXQudjEuTWFya0FzUmVhZFJlc3BvbnNlQjVaM2dpdGh1Yi5jb20vYWd5bmlvL2FwaS9nZW4vYWd5bmlvL2FwaS9jaGF0L3YxO2NoYXR2MWIGcHJvdG8z", [file_google_protobuf_timestamp]);
+  fileDesc("Ch1hZ3luaW8vYXBpL2NoYXQvdjEvY2hhdC5wcm90bxISYWd5bmlvLmFwaS5jaGF0LnYxIpgCCgRDaGF0EgoKAmlkGAEgASgJEjkKDHBhcnRpY2lwYW50cxgCIAMoCzIjLmFneW5pby5hcGkuY2hhdC52MS5DaGF0UGFydGljaXBhbnQSLgoKY3JlYXRlZF9hdBgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKdXBkYXRlZF9hdBgEIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASFwoPb3JnYW5pemF0aW9uX2lkGAUgASgJEi4KBnN0YXR1cxgGIAEoDjIeLmFneW5pby5hcGkuY2hhdC52MS5DaGF0U3RhdHVzEhQKB3N1bW1hcnkYByABKAlIAIgBAUIKCghfc3VtbWFyeSJMCg9DaGF0UGFydGljaXBhbnQSCgoCaWQYASABKAkSLQoJam9pbmVkX2F0GAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCKNAQoLQ2hhdE1lc3NhZ2USCgoCaWQYASABKAkSDwoHY2hhdF9pZBgCIAEoCRIRCglzZW5kZXJfaWQYAyABKAkSDAoEYm9keRgEIAEoCRIQCghmaWxlX2lkcxgFIAMoCRIuCgpjcmVhdGVkX2F0GAYgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCJFChFDcmVhdGVDaGF0UmVxdWVzdBIXCg9wYXJ0aWNpcGFudF9pZHMYASADKAkSFwoPb3JnYW5pemF0aW9uX2lkGAIgASgJIjwKEkNyZWF0ZUNoYXRSZXNwb25zZRImCgRjaGF0GAEgASgLMhguYWd5bmlvLmFwaS5jaGF0LnYxLkNoYXQigQEKD0dldENoYXRzUmVxdWVzdBIRCglwYWdlX3NpemUYASABKAUSEgoKcGFnZV90b2tlbhgCIAEoCRIXCg9vcmdhbml6YXRpb25faWQYAyABKAkSLgoGc3RhdHVzGAQgASgOMh4uYWd5bmlvLmFwaS5jaGF0LnYxLkNoYXRTdGF0dXMiVAoQR2V0Q2hhdHNSZXNwb25zZRInCgVjaGF0cxgBIAMoCzIYLmFneW5pby5hcGkuY2hhdC52MS5DaGF0EhcKD25leHRfcGFnZV90b2tlbhgCIAEoCSJ2ChFVcGRhdGVDaGF0UmVxdWVzdBIPCgdjaGF0X2lkGAEgASgJEi4KBnN0YXR1cxgCIAEoDjIeLmFneW5pby5hcGkuY2hhdC52MS5DaGF0U3RhdHVzEhQKB3N1bW1hcnkYAyABKAlIAIgBAUIKCghfc3VtbWFyeSI8ChJVcGRhdGVDaGF0UmVzcG9uc2USJgoEY2hhdBgBIAEoCzIYLmFneW5pby5hcGkuY2hhdC52MS5DaGF0IkwKEkdldE1lc3NhZ2VzUmVxdWVzdBIPCgdjaGF0X2lkGAEgASgJEhEKCXBhZ2Vfc2l6ZRgCIAEoBRISCgpwYWdlX3Rva2VuGAMgASgJIncKE0dldE1lc3NhZ2VzUmVzcG9uc2USMQoIbWVzc2FnZXMYASADKAsyHy5hZ3luaW8uYXBpLmNoYXQudjEuQ2hhdE1lc3NhZ2USFwoPbmV4dF9wYWdlX3Rva2VuGAIgASgJEhQKDHVucmVhZF9jb3VudBgDIAEoBSJFChJTZW5kTWVzc2FnZVJlcXVlc3QSDwoHY2hhdF9pZBgBIAEoCRIMCgRib2R5GAIgASgJEhAKCGZpbGVfaWRzGAMgAygJIkcKE1NlbmRNZXNzYWdlUmVzcG9uc2USMAoHbWVzc2FnZRgBIAEoCzIfLmFneW5pby5hcGkuY2hhdC52MS5DaGF0TWVzc2FnZSI5ChFNYXJrQXNSZWFkUmVxdWVzdBIPCgdjaGF0X2lkGAEgASgJEhMKC21lc3NhZ2VfaWRzGAIgAygJIigKEk1hcmtBc1JlYWRSZXNwb25zZRISCgpyZWFkX2NvdW50GAEgASgFKlcKCkNoYXRTdGF0dXMSGwoXQ0hBVF9TVEFUVVNfVU5TUEVDSUZJRUQQABIUChBDSEFUX1NUQVRVU19PUEVOEAESFgoSQ0hBVF9TVEFUVVNfQ0xPU0VEEAIyuwQKC0NoYXRTZXJ2aWNlElsKCkNyZWF0ZUNoYXQSJS5hZ3luaW8uYXBpLmNoYXQudjEuQ3JlYXRlQ2hhdFJlcXVlc3QaJi5hZ3luaW8uYXBpLmNoYXQudjEuQ3JlYXRlQ2hhdFJlc3BvbnNlElUKCEdldENoYXRzEiMuYWd5bmlvLmFwaS5jaGF0LnYxLkdldENoYXRzUmVxdWVzdBokLmFneW5pby5hcGkuY2hhdC52MS5HZXRDaGF0c1Jlc3BvbnNlElsKClVwZGF0ZUNoYXQSJS5hZ3luaW8uYXBpLmNoYXQudjEuVXBkYXRlQ2hhdFJlcXVlc3QaJi5hZ3luaW8uYXBpLmNoYXQudjEuVXBkYXRlQ2hhdFJlc3BvbnNlEl4KC0dldE1lc3NhZ2VzEiYuYWd5bmlvLmFwaS5jaGF0LnYxLkdldE1lc3NhZ2VzUmVxdWVzdBonLmFneW5pby5hcGkuY2hhdC52MS5HZXRNZXNzYWdlc1Jlc3BvbnNlEl4KC1NlbmRNZXNzYWdlEiYuYWd5bmlvLmFwaS5jaGF0LnYxLlNlbmRNZXNzYWdlUmVxdWVzdBonLmFneW5pby5hcGkuY2hhdC52MS5TZW5kTWVzc2FnZVJlc3BvbnNlElsKCk1hcmtBc1JlYWQSJS5hZ3luaW8uYXBpLmNoYXQudjEuTWFya0FzUmVhZFJlcXVlc3QaJi5hZ3luaW8uYXBpLmNoYXQudjEuTWFya0FzUmVhZFJlc3BvbnNlQjVaM2dpdGh1Yi5jb20vYWd5bmlvL2FwaS9nZW4vYWd5bmlvL2FwaS9jaGF0L3YxO2NoYXR2MWIGcHJvdG8z", [file_google_protobuf_timestamp]);
 
 /**
  * A chat thread between participants.
@@ -48,6 +48,16 @@ export type Chat = Message<"agynio.api.chat.v1.Chat"> & {
    * @generated from field: string organization_id = 5;
    */
   organizationId: string;
+
+  /**
+   * @generated from field: agynio.api.chat.v1.ChatStatus status = 6;
+   */
+  status: ChatStatus;
+
+  /**
+   * @generated from field: optional string summary = 7;
+   */
+  summary?: string;
 };
 
 /**
@@ -201,6 +211,13 @@ export type GetChatsRequest = Message<"agynio.api.chat.v1.GetChatsRequest"> & {
    * @generated from field: string organization_id = 3;
    */
   organizationId: string;
+
+  /**
+   * UNSPECIFIED = no filter
+   *
+   * @generated from field: agynio.api.chat.v1.ChatStatus status = 4;
+   */
+  status: ChatStatus;
 };
 
 /**
@@ -233,6 +250,56 @@ export const GetChatsResponseSchema: GenMessage<GetChatsResponse> = /*@__PURE__*
   messageDesc(file_agynio_api_chat_v1_chat, 6);
 
 /**
+ * @generated from message agynio.api.chat.v1.UpdateChatRequest
+ */
+export type UpdateChatRequest = Message<"agynio.api.chat.v1.UpdateChatRequest"> & {
+  /**
+   * UUID
+   *
+   * @generated from field: string chat_id = 1;
+   */
+  chatId: string;
+
+  /**
+   * UNSPECIFIED = don't change
+   *
+   * @generated from field: agynio.api.chat.v1.ChatStatus status = 2;
+   */
+  status: ChatStatus;
+
+  /**
+   * absent = don't change; empty = clear
+   *
+   * @generated from field: optional string summary = 3;
+   */
+  summary?: string;
+};
+
+/**
+ * Describes the message agynio.api.chat.v1.UpdateChatRequest.
+ * Use `create(UpdateChatRequestSchema)` to create a new message.
+ */
+export const UpdateChatRequestSchema: GenMessage<UpdateChatRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_chat_v1_chat, 7);
+
+/**
+ * @generated from message agynio.api.chat.v1.UpdateChatResponse
+ */
+export type UpdateChatResponse = Message<"agynio.api.chat.v1.UpdateChatResponse"> & {
+  /**
+   * @generated from field: agynio.api.chat.v1.Chat chat = 1;
+   */
+  chat?: Chat;
+};
+
+/**
+ * Describes the message agynio.api.chat.v1.UpdateChatResponse.
+ * Use `create(UpdateChatResponseSchema)` to create a new message.
+ */
+export const UpdateChatResponseSchema: GenMessage<UpdateChatResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_chat_v1_chat, 8);
+
+/**
  * @generated from message agynio.api.chat.v1.GetMessagesRequest
  */
 export type GetMessagesRequest = Message<"agynio.api.chat.v1.GetMessagesRequest"> & {
@@ -259,7 +326,7 @@ export type GetMessagesRequest = Message<"agynio.api.chat.v1.GetMessagesRequest"
  * Use `create(GetMessagesRequestSchema)` to create a new message.
  */
 export const GetMessagesRequestSchema: GenMessage<GetMessagesRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_chat_v1_chat, 7);
+  messageDesc(file_agynio_api_chat_v1_chat, 9);
 
 /**
  * @generated from message agynio.api.chat.v1.GetMessagesResponse
@@ -289,7 +356,7 @@ export type GetMessagesResponse = Message<"agynio.api.chat.v1.GetMessagesRespons
  * Use `create(GetMessagesResponseSchema)` to create a new message.
  */
 export const GetMessagesResponseSchema: GenMessage<GetMessagesResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_chat_v1_chat, 8);
+  messageDesc(file_agynio_api_chat_v1_chat, 10);
 
 /**
  * @generated from message agynio.api.chat.v1.SendMessageRequest
@@ -324,7 +391,7 @@ export type SendMessageRequest = Message<"agynio.api.chat.v1.SendMessageRequest"
  * Use `create(SendMessageRequestSchema)` to create a new message.
  */
 export const SendMessageRequestSchema: GenMessage<SendMessageRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_chat_v1_chat, 9);
+  messageDesc(file_agynio_api_chat_v1_chat, 11);
 
 /**
  * @generated from message agynio.api.chat.v1.SendMessageResponse
@@ -341,7 +408,7 @@ export type SendMessageResponse = Message<"agynio.api.chat.v1.SendMessageRespons
  * Use `create(SendMessageResponseSchema)` to create a new message.
  */
 export const SendMessageResponseSchema: GenMessage<SendMessageResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_chat_v1_chat, 10);
+  messageDesc(file_agynio_api_chat_v1_chat, 12);
 
 /**
  * @generated from message agynio.api.chat.v1.MarkAsReadRequest
@@ -367,7 +434,7 @@ export type MarkAsReadRequest = Message<"agynio.api.chat.v1.MarkAsReadRequest"> 
  * Use `create(MarkAsReadRequestSchema)` to create a new message.
  */
 export const MarkAsReadRequestSchema: GenMessage<MarkAsReadRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_chat_v1_chat, 11);
+  messageDesc(file_agynio_api_chat_v1_chat, 13);
 
 /**
  * @generated from message agynio.api.chat.v1.MarkAsReadResponse
@@ -387,7 +454,33 @@ export type MarkAsReadResponse = Message<"agynio.api.chat.v1.MarkAsReadResponse"
  * Use `create(MarkAsReadResponseSchema)` to create a new message.
  */
 export const MarkAsReadResponseSchema: GenMessage<MarkAsReadResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_chat_v1_chat, 12);
+  messageDesc(file_agynio_api_chat_v1_chat, 14);
+
+/**
+ * @generated from enum agynio.api.chat.v1.ChatStatus
+ */
+export enum ChatStatus {
+  /**
+   * @generated from enum value: CHAT_STATUS_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: CHAT_STATUS_OPEN = 1;
+   */
+  OPEN = 1,
+
+  /**
+   * @generated from enum value: CHAT_STATUS_CLOSED = 2;
+   */
+  CLOSED = 2,
+}
+
+/**
+ * Describes the enum agynio.api.chat.v1.ChatStatus.
+ */
+export const ChatStatusSchema: GenEnum<ChatStatus> = /*@__PURE__*/
+  enumDesc(file_agynio_api_chat_v1_chat, 0);
 
 /**
  * ChatService implements the built-in web and mobile app chat experience
@@ -423,6 +516,17 @@ export const ChatService: GenService<{
     methodKind: "unary";
     input: typeof GetChatsRequestSchema;
     output: typeof GetChatsResponseSchema;
+  },
+  /**
+   * Update a chat's status or summary.
+   * Delegates to Threads.UpdateThread using the authenticated identity_id.
+   *
+   * @generated from rpc agynio.api.chat.v1.ChatService.UpdateChat
+   */
+  updateChat: {
+    methodKind: "unary";
+    input: typeof UpdateChatRequestSchema;
+    output: typeof UpdateChatResponseSchema;
   },
   /**
    * List messages in a chat with pagination.

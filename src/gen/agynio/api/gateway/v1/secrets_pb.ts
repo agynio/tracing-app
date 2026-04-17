@@ -4,26 +4,162 @@
 
 import type { GenFile, GenService } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { ResolveSecretRequestSchema, ResolveSecretResponseSchema } from "../../secrets/v1/secrets_pb";
+import type { CreateImagePullSecretRequestSchema, CreateImagePullSecretResponseSchema, CreateSecretProviderRequestSchema, CreateSecretProviderResponseSchema, CreateSecretRequestSchema, CreateSecretResponseSchema, DeleteImagePullSecretRequestSchema, DeleteImagePullSecretResponseSchema, DeleteSecretProviderRequestSchema, DeleteSecretProviderResponseSchema, DeleteSecretRequestSchema, DeleteSecretResponseSchema, GetImagePullSecretRequestSchema, GetImagePullSecretResponseSchema, GetSecretProviderRequestSchema, GetSecretProviderResponseSchema, GetSecretRequestSchema, GetSecretResponseSchema, ListImagePullSecretsRequestSchema, ListImagePullSecretsResponseSchema, ListSecretProvidersRequestSchema, ListSecretProvidersResponseSchema, ListSecretsRequestSchema, ListSecretsResponseSchema, ResolveImagePullSecretRequestSchema, ResolveImagePullSecretResponseSchema, ResolveSecretRequestSchema, ResolveSecretResponseSchema, UpdateImagePullSecretRequestSchema, UpdateImagePullSecretResponseSchema, UpdateSecretProviderRequestSchema, UpdateSecretProviderResponseSchema, UpdateSecretRequestSchema, UpdateSecretResponseSchema } from "../../secrets/v1/secrets_pb";
 import { file_agynio_api_secrets_v1_secrets } from "../../secrets/v1/secrets_pb";
 
 /**
  * Describes the file agynio/api/gateway/v1/secrets.proto.
  */
 export const file_agynio_api_gateway_v1_secrets: GenFile = /*@__PURE__*/
-  fileDesc("CiNhZ3luaW8vYXBpL2dhdGV3YXkvdjEvc2VjcmV0cy5wcm90bxIVYWd5bmlvLmFwaS5nYXRld2F5LnYxMnwKDlNlY3JldHNHYXRld2F5EmoKDVJlc29sdmVTZWNyZXQSKy5hZ3luaW8uYXBpLnNlY3JldHMudjEuUmVzb2x2ZVNlY3JldFJlcXVlc3QaLC5hZ3luaW8uYXBpLnNlY3JldHMudjEuUmVzb2x2ZVNlY3JldFJlc3BvbnNlQjtaOWdpdGh1Yi5jb20vYWd5bmlvL2FwaS9nZW4vYWd5bmlvL2FwaS9nYXRld2F5L3YxO2dhdGV3YXl2MWIGcHJvdG8z", [file_agynio_api_secrets_v1_secrets]);
+  fileDesc("CiNhZ3luaW8vYXBpL2dhdGV3YXkvdjEvc2VjcmV0cy5wcm90bxIVYWd5bmlvLmFwaS5nYXRld2F5LnYxMokQCg5TZWNyZXRzR2F0ZXdheRJ/ChRDcmVhdGVTZWNyZXRQcm92aWRlchIyLmFneW5pby5hcGkuc2VjcmV0cy52MS5DcmVhdGVTZWNyZXRQcm92aWRlclJlcXVlc3QaMy5hZ3luaW8uYXBpLnNlY3JldHMudjEuQ3JlYXRlU2VjcmV0UHJvdmlkZXJSZXNwb25zZRJ2ChFHZXRTZWNyZXRQcm92aWRlchIvLmFneW5pby5hcGkuc2VjcmV0cy52MS5HZXRTZWNyZXRQcm92aWRlclJlcXVlc3QaMC5hZ3luaW8uYXBpLnNlY3JldHMudjEuR2V0U2VjcmV0UHJvdmlkZXJSZXNwb25zZRJ/ChRVcGRhdGVTZWNyZXRQcm92aWRlchIyLmFneW5pby5hcGkuc2VjcmV0cy52MS5VcGRhdGVTZWNyZXRQcm92aWRlclJlcXVlc3QaMy5hZ3luaW8uYXBpLnNlY3JldHMudjEuVXBkYXRlU2VjcmV0UHJvdmlkZXJSZXNwb25zZRJ/ChREZWxldGVTZWNyZXRQcm92aWRlchIyLmFneW5pby5hcGkuc2VjcmV0cy52MS5EZWxldGVTZWNyZXRQcm92aWRlclJlcXVlc3QaMy5hZ3luaW8uYXBpLnNlY3JldHMudjEuRGVsZXRlU2VjcmV0UHJvdmlkZXJSZXNwb25zZRJ8ChNMaXN0U2VjcmV0UHJvdmlkZXJzEjEuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLkxpc3RTZWNyZXRQcm92aWRlcnNSZXF1ZXN0GjIuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLkxpc3RTZWNyZXRQcm92aWRlcnNSZXNwb25zZRJnCgxDcmVhdGVTZWNyZXQSKi5hZ3luaW8uYXBpLnNlY3JldHMudjEuQ3JlYXRlU2VjcmV0UmVxdWVzdBorLmFneW5pby5hcGkuc2VjcmV0cy52MS5DcmVhdGVTZWNyZXRSZXNwb25zZRJeCglHZXRTZWNyZXQSJy5hZ3luaW8uYXBpLnNlY3JldHMudjEuR2V0U2VjcmV0UmVxdWVzdBooLmFneW5pby5hcGkuc2VjcmV0cy52MS5HZXRTZWNyZXRSZXNwb25zZRJnCgxVcGRhdGVTZWNyZXQSKi5hZ3luaW8uYXBpLnNlY3JldHMudjEuVXBkYXRlU2VjcmV0UmVxdWVzdBorLmFneW5pby5hcGkuc2VjcmV0cy52MS5VcGRhdGVTZWNyZXRSZXNwb25zZRJnCgxEZWxldGVTZWNyZXQSKi5hZ3luaW8uYXBpLnNlY3JldHMudjEuRGVsZXRlU2VjcmV0UmVxdWVzdBorLmFneW5pby5hcGkuc2VjcmV0cy52MS5EZWxldGVTZWNyZXRSZXNwb25zZRJkCgtMaXN0U2VjcmV0cxIpLmFneW5pby5hcGkuc2VjcmV0cy52MS5MaXN0U2VjcmV0c1JlcXVlc3QaKi5hZ3luaW8uYXBpLnNlY3JldHMudjEuTGlzdFNlY3JldHNSZXNwb25zZRJqCg1SZXNvbHZlU2VjcmV0EisuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLlJlc29sdmVTZWNyZXRSZXF1ZXN0GiwuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLlJlc29sdmVTZWNyZXRSZXNwb25zZRKCAQoVQ3JlYXRlSW1hZ2VQdWxsU2VjcmV0EjMuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLkNyZWF0ZUltYWdlUHVsbFNlY3JldFJlcXVlc3QaNC5hZ3luaW8uYXBpLnNlY3JldHMudjEuQ3JlYXRlSW1hZ2VQdWxsU2VjcmV0UmVzcG9uc2USeQoSR2V0SW1hZ2VQdWxsU2VjcmV0EjAuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLkdldEltYWdlUHVsbFNlY3JldFJlcXVlc3QaMS5hZ3luaW8uYXBpLnNlY3JldHMudjEuR2V0SW1hZ2VQdWxsU2VjcmV0UmVzcG9uc2USggEKFVVwZGF0ZUltYWdlUHVsbFNlY3JldBIzLmFneW5pby5hcGkuc2VjcmV0cy52MS5VcGRhdGVJbWFnZVB1bGxTZWNyZXRSZXF1ZXN0GjQuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLlVwZGF0ZUltYWdlUHVsbFNlY3JldFJlc3BvbnNlEoIBChVEZWxldGVJbWFnZVB1bGxTZWNyZXQSMy5hZ3luaW8uYXBpLnNlY3JldHMudjEuRGVsZXRlSW1hZ2VQdWxsU2VjcmV0UmVxdWVzdBo0LmFneW5pby5hcGkuc2VjcmV0cy52MS5EZWxldGVJbWFnZVB1bGxTZWNyZXRSZXNwb25zZRJ/ChRMaXN0SW1hZ2VQdWxsU2VjcmV0cxIyLmFneW5pby5hcGkuc2VjcmV0cy52MS5MaXN0SW1hZ2VQdWxsU2VjcmV0c1JlcXVlc3QaMy5hZ3luaW8uYXBpLnNlY3JldHMudjEuTGlzdEltYWdlUHVsbFNlY3JldHNSZXNwb25zZRKFAQoWUmVzb2x2ZUltYWdlUHVsbFNlY3JldBI0LmFneW5pby5hcGkuc2VjcmV0cy52MS5SZXNvbHZlSW1hZ2VQdWxsU2VjcmV0UmVxdWVzdBo1LmFneW5pby5hcGkuc2VjcmV0cy52MS5SZXNvbHZlSW1hZ2VQdWxsU2VjcmV0UmVzcG9uc2VCO1o5Z2l0aHViLmNvbS9hZ3luaW8vYXBpL2dlbi9hZ3luaW8vYXBpL2dhdGV3YXkvdjE7Z2F0ZXdheXYxYgZwcm90bzM", [file_agynio_api_secrets_v1_secrets]);
 
 /**
  * @generated from service agynio.api.gateway.v1.SecretsGateway
  */
 export const SecretsGateway: GenService<{
   /**
+   * --- Secret Providers ---
+   *
+   * @generated from rpc agynio.api.gateway.v1.SecretsGateway.CreateSecretProvider
+   */
+  createSecretProvider: {
+    methodKind: "unary";
+    input: typeof CreateSecretProviderRequestSchema;
+    output: typeof CreateSecretProviderResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.SecretsGateway.GetSecretProvider
+   */
+  getSecretProvider: {
+    methodKind: "unary";
+    input: typeof GetSecretProviderRequestSchema;
+    output: typeof GetSecretProviderResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.SecretsGateway.UpdateSecretProvider
+   */
+  updateSecretProvider: {
+    methodKind: "unary";
+    input: typeof UpdateSecretProviderRequestSchema;
+    output: typeof UpdateSecretProviderResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.SecretsGateway.DeleteSecretProvider
+   */
+  deleteSecretProvider: {
+    methodKind: "unary";
+    input: typeof DeleteSecretProviderRequestSchema;
+    output: typeof DeleteSecretProviderResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.SecretsGateway.ListSecretProviders
+   */
+  listSecretProviders: {
+    methodKind: "unary";
+    input: typeof ListSecretProvidersRequestSchema;
+    output: typeof ListSecretProvidersResponseSchema;
+  },
+  /**
+   * --- Secrets ---
+   *
+   * @generated from rpc agynio.api.gateway.v1.SecretsGateway.CreateSecret
+   */
+  createSecret: {
+    methodKind: "unary";
+    input: typeof CreateSecretRequestSchema;
+    output: typeof CreateSecretResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.SecretsGateway.GetSecret
+   */
+  getSecret: {
+    methodKind: "unary";
+    input: typeof GetSecretRequestSchema;
+    output: typeof GetSecretResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.SecretsGateway.UpdateSecret
+   */
+  updateSecret: {
+    methodKind: "unary";
+    input: typeof UpdateSecretRequestSchema;
+    output: typeof UpdateSecretResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.SecretsGateway.DeleteSecret
+   */
+  deleteSecret: {
+    methodKind: "unary";
+    input: typeof DeleteSecretRequestSchema;
+    output: typeof DeleteSecretResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.SecretsGateway.ListSecrets
+   */
+  listSecrets: {
+    methodKind: "unary";
+    input: typeof ListSecretsRequestSchema;
+    output: typeof ListSecretsResponseSchema;
+  },
+  /**
+   * --- Resolution ---
+   *
    * @generated from rpc agynio.api.gateway.v1.SecretsGateway.ResolveSecret
    */
   resolveSecret: {
     methodKind: "unary";
     input: typeof ResolveSecretRequestSchema;
     output: typeof ResolveSecretResponseSchema;
+  },
+  /**
+   * --- Image Pull Secrets ---
+   *
+   * @generated from rpc agynio.api.gateway.v1.SecretsGateway.CreateImagePullSecret
+   */
+  createImagePullSecret: {
+    methodKind: "unary";
+    input: typeof CreateImagePullSecretRequestSchema;
+    output: typeof CreateImagePullSecretResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.SecretsGateway.GetImagePullSecret
+   */
+  getImagePullSecret: {
+    methodKind: "unary";
+    input: typeof GetImagePullSecretRequestSchema;
+    output: typeof GetImagePullSecretResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.SecretsGateway.UpdateImagePullSecret
+   */
+  updateImagePullSecret: {
+    methodKind: "unary";
+    input: typeof UpdateImagePullSecretRequestSchema;
+    output: typeof UpdateImagePullSecretResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.SecretsGateway.DeleteImagePullSecret
+   */
+  deleteImagePullSecret: {
+    methodKind: "unary";
+    input: typeof DeleteImagePullSecretRequestSchema;
+    output: typeof DeleteImagePullSecretResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.SecretsGateway.ListImagePullSecrets
+   */
+  listImagePullSecrets: {
+    methodKind: "unary";
+    input: typeof ListImagePullSecretsRequestSchema;
+    output: typeof ListImagePullSecretsResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.SecretsGateway.ResolveImagePullSecret
+   */
+  resolveImagePullSecret: {
+    methodKind: "unary";
+    input: typeof ResolveImagePullSecretRequestSchema;
+    output: typeof ResolveImagePullSecretResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_agynio_api_gateway_v1_secrets, 0);

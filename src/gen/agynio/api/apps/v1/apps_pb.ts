@@ -2,17 +2,17 @@
 // @generated from file agynio/api/apps/v1/apps.proto (package agynio.api.apps.v1, syntax proto3)
 /* eslint-disable */
 
-import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
-import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
+import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
+import { enumDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
 import type { Timestamp } from "@bufbuild/protobuf/wkt";
-import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
-import type { Message } from "@bufbuild/protobuf";
+import { file_google_protobuf_struct, file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
+import type { JsonObject, Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file agynio/api/apps/v1/apps.proto.
  */
 export const file_agynio_api_apps_v1_apps: GenFile = /*@__PURE__*/
-  fileDesc("Ch1hZ3luaW8vYXBpL2FwcHMvdjEvYXBwcy5wcm90bxISYWd5bmlvLmFwaS5hcHBzLnYxIngKCkVudGl0eU1ldGESCgoCaWQYASABKAkSLgoKY3JlYXRlZF9hdBgCIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKdXBkYXRlZF9hdBgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAiugEKA0FwcBIsCgRtZXRhGAEgASgLMh4uYWd5bmlvLmFwaS5hcHBzLnYxLkVudGl0eU1ldGESDAoEc2x1ZxgCIAEoCRIMCgRuYW1lGAMgASgJEhMKC2Rlc2NyaXB0aW9uGAQgASgJEgwKBGljb24YBSABKAkSEwoLaWRlbnRpdHlfaWQYBiABKAkSGAoQeml0aV9pZGVudGl0eV9pZBgHIAEoCRIXCg96aXRpX3NlcnZpY2VfaWQYCCABKAkiVwoKQXBwUHJvZmlsZRIKCgJpZBgBIAEoCRIMCgRzbHVnGAIgASgJEgwKBG5hbWUYAyABKAkSEwoLZGVzY3JpcHRpb24YBCABKAkSDAoEaWNvbhgFIAEoCSJTChJSZWdpc3RlckFwcFJlcXVlc3QSDAoEc2x1ZxgBIAEoCRIMCgRuYW1lGAIgASgJEhMKC2Rlc2NyaXB0aW9uGAMgASgJEgwKBGljb24YBCABKAkiUgoTUmVnaXN0ZXJBcHBSZXNwb25zZRIkCgNhcHAYASABKAsyFy5hZ3luaW8uYXBpLmFwcHMudjEuQXBwEhUKDXNlcnZpY2VfdG9rZW4YAiABKAkiGwoNR2V0QXBwUmVxdWVzdBIKCgJpZBgBIAEoCSI2Cg5HZXRBcHBSZXNwb25zZRIkCgNhcHAYASABKAsyFy5hZ3luaW8uYXBpLmFwcHMudjEuQXBwIiMKE0dldEFwcEJ5U2x1Z1JlcXVlc3QSDAoEc2x1ZxgBIAEoCSI8ChRHZXRBcHBCeVNsdWdSZXNwb25zZRIkCgNhcHAYASABKAsyFy5hZ3luaW8uYXBpLmFwcHMudjEuQXBwIjgKD0xpc3RBcHBzUmVxdWVzdBIRCglwYWdlX3NpemUYASABKAUSEgoKcGFnZV90b2tlbhgCIAEoCSJSChBMaXN0QXBwc1Jlc3BvbnNlEiUKBGFwcHMYASADKAsyFy5hZ3luaW8uYXBpLmFwcHMudjEuQXBwEhcKD25leHRfcGFnZV90b2tlbhgCIAEoCSIeChBEZWxldGVBcHBSZXF1ZXN0EgoKAmlkGAEgASgJIhMKEURlbGV0ZUFwcFJlc3BvbnNlIisKFEdldEFwcFByb2ZpbGVSZXF1ZXN0EhMKC2lkZW50aXR5X2lkGAEgASgJIkgKFUdldEFwcFByb2ZpbGVSZXNwb25zZRIvCgdwcm9maWxlGAEgASgLMh4uYWd5bmlvLmFwaS5hcHBzLnYxLkFwcFByb2ZpbGUiMQobVmFsaWRhdGVTZXJ2aWNlVG9rZW5SZXF1ZXN0EhIKCnRva2VuX2hhc2gYASABKAkiRAocVmFsaWRhdGVTZXJ2aWNlVG9rZW5SZXNwb25zZRIkCgNhcHAYASABKAsyFy5hZ3luaW8uYXBpLmFwcHMudjEuQXBwIikKEEVucm9sbEFwcFJlcXVlc3QSFQoNc2VydmljZV90b2tlbhgBIAEoCSI/ChFFbnJvbGxBcHBSZXNwb25zZRIVCg1pZGVudGl0eV9qc29uGAEgASgMEhMKC2lkZW50aXR5X2lkGAIgASgJMo0GCgtBcHBzU2VydmljZRJeCgtSZWdpc3RlckFwcBImLmFneW5pby5hcGkuYXBwcy52MS5SZWdpc3RlckFwcFJlcXVlc3QaJy5hZ3luaW8uYXBpLmFwcHMudjEuUmVnaXN0ZXJBcHBSZXNwb25zZRJPCgZHZXRBcHASIS5hZ3luaW8uYXBpLmFwcHMudjEuR2V0QXBwUmVxdWVzdBoiLmFneW5pby5hcGkuYXBwcy52MS5HZXRBcHBSZXNwb25zZRJhCgxHZXRBcHBCeVNsdWcSJy5hZ3luaW8uYXBpLmFwcHMudjEuR2V0QXBwQnlTbHVnUmVxdWVzdBooLmFneW5pby5hcGkuYXBwcy52MS5HZXRBcHBCeVNsdWdSZXNwb25zZRJVCghMaXN0QXBwcxIjLmFneW5pby5hcGkuYXBwcy52MS5MaXN0QXBwc1JlcXVlc3QaJC5hZ3luaW8uYXBpLmFwcHMudjEuTGlzdEFwcHNSZXNwb25zZRJYCglEZWxldGVBcHASJC5hZ3luaW8uYXBpLmFwcHMudjEuRGVsZXRlQXBwUmVxdWVzdBolLmFneW5pby5hcGkuYXBwcy52MS5EZWxldGVBcHBSZXNwb25zZRJkCg1HZXRBcHBQcm9maWxlEiguYWd5bmlvLmFwaS5hcHBzLnYxLkdldEFwcFByb2ZpbGVSZXF1ZXN0GikuYWd5bmlvLmFwaS5hcHBzLnYxLkdldEFwcFByb2ZpbGVSZXNwb25zZRJ5ChRWYWxpZGF0ZVNlcnZpY2VUb2tlbhIvLmFneW5pby5hcGkuYXBwcy52MS5WYWxpZGF0ZVNlcnZpY2VUb2tlblJlcXVlc3QaMC5hZ3luaW8uYXBpLmFwcHMudjEuVmFsaWRhdGVTZXJ2aWNlVG9rZW5SZXNwb25zZRJYCglFbnJvbGxBcHASJC5hZ3luaW8uYXBpLmFwcHMudjEuRW5yb2xsQXBwUmVxdWVzdBolLmFneW5pby5hcGkuYXBwcy52MS5FbnJvbGxBcHBSZXNwb25zZUI1WjNnaXRodWIuY29tL2FneW5pby9hcGkvZ2VuL2FneW5pby9hcGkvYXBwcy92MTthcHBzdjFiBnByb3RvMw", [file_google_protobuf_timestamp]);
+  fileDesc("Ch1hZ3luaW8vYXBpL2FwcHMvdjEvYXBwcy5wcm90bxISYWd5bmlvLmFwaS5hcHBzLnYxIngKCkVudGl0eU1ldGESCgoCaWQYASABKAkSLgoKY3JlYXRlZF9hdBgCIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKdXBkYXRlZF9hdBgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAinwIKA0FwcBIsCgRtZXRhGAEgASgLMh4uYWd5bmlvLmFwaS5hcHBzLnYxLkVudGl0eU1ldGESDAoEc2x1ZxgCIAEoCRIMCgRuYW1lGAMgASgJEhMKC2Rlc2NyaXB0aW9uGAQgASgJEgwKBGljb24YBSABKAkSEwoLaWRlbnRpdHlfaWQYBiABKAkSGAoQeml0aV9pZGVudGl0eV9pZBgHIAEoCRIXCg96aXRpX3NlcnZpY2VfaWQYCCABKAkSFwoPb3JnYW5pemF0aW9uX2lkGAkgASgJEjUKCnZpc2liaWxpdHkYCiABKA4yIS5hZ3luaW8uYXBpLmFwcHMudjEuQXBwVmlzaWJpbGl0eRITCgtwZXJtaXNzaW9ucxgLIAMoCSJXCgpBcHBQcm9maWxlEgoKAmlkGAEgASgJEgwKBHNsdWcYAiABKAkSDAoEbmFtZRgDIAEoCRITCgtkZXNjcmlwdGlvbhgEIAEoCRIMCgRpY29uGAUgASgJIqMBCgxJbnN0YWxsYXRpb24SLAoEbWV0YRgBIAEoCzIeLmFneW5pby5hcGkuYXBwcy52MS5FbnRpdHlNZXRhEg4KBmFwcF9pZBgCIAEoCRIXCg9vcmdhbml6YXRpb25faWQYAyABKAkSDAoEc2x1ZxgEIAEoCRIuCg1jb25maWd1cmF0aW9uGAUgASgLMhcuZ29vZ2xlLnByb3RvYnVmLlN0cnVjdCK2AQoQQ3JlYXRlQXBwUmVxdWVzdBIXCg9vcmdhbml6YXRpb25faWQYASABKAkSDAoEc2x1ZxgCIAEoCRIMCgRuYW1lGAMgASgJEhMKC2Rlc2NyaXB0aW9uGAQgASgJEgwKBGljb24YBSABKAkSNQoKdmlzaWJpbGl0eRgGIAEoDjIhLmFneW5pby5hcGkuYXBwcy52MS5BcHBWaXNpYmlsaXR5EhMKC3Blcm1pc3Npb25zGAcgAygJIlAKEUNyZWF0ZUFwcFJlc3BvbnNlEiQKA2FwcBgBIAEoCzIXLmFneW5pby5hcGkuYXBwcy52MS5BcHASFQoNc2VydmljZV90b2tlbhgCIAEoCSIbCg1HZXRBcHBSZXF1ZXN0EgoKAmlkGAEgASgJIjYKDkdldEFwcFJlc3BvbnNlEiQKA2FwcBgBIAEoCzIXLmFneW5pby5hcGkuYXBwcy52MS5BcHAiywEKEFVwZGF0ZUFwcFJlcXVlc3QSCgoCaWQYASABKAkSEQoEbmFtZRgCIAEoCUgAiAEBEhgKC2Rlc2NyaXB0aW9uGAMgASgJSAGIAQESEQoEaWNvbhgEIAEoCUgCiAEBEjoKCnZpc2liaWxpdHkYBSABKA4yIS5hZ3luaW8uYXBpLmFwcHMudjEuQXBwVmlzaWJpbGl0eUgDiAEBQgcKBV9uYW1lQg4KDF9kZXNjcmlwdGlvbkIHCgVfaWNvbkINCgtfdmlzaWJpbGl0eSI5ChFVcGRhdGVBcHBSZXNwb25zZRIkCgNhcHAYASABKAsyFy5hZ3luaW8uYXBpLmFwcHMudjEuQXBwIjwKE0dldEFwcEJ5U2x1Z1JlcXVlc3QSFwoPb3JnYW5pemF0aW9uX2lkGAEgASgJEgwKBHNsdWcYAiABKAkiPAoUR2V0QXBwQnlTbHVnUmVzcG9uc2USJAoDYXBwGAEgASgLMhcuYWd5bmlvLmFwaS5hcHBzLnYxLkFwcCKIAQoPTGlzdEFwcHNSZXF1ZXN0EhEKCXBhZ2Vfc2l6ZRgBIAEoBRISCgpwYWdlX3Rva2VuGAIgASgJEhcKD29yZ2FuaXphdGlvbl9pZBgDIAEoCRI1Cgp2aXNpYmlsaXR5GAQgASgOMiEuYWd5bmlvLmFwaS5hcHBzLnYxLkFwcFZpc2liaWxpdHkiUgoQTGlzdEFwcHNSZXNwb25zZRIlCgRhcHBzGAEgAygLMhcuYWd5bmlvLmFwaS5hcHBzLnYxLkFwcBIXCg9uZXh0X3BhZ2VfdG9rZW4YAiABKAkiHgoQRGVsZXRlQXBwUmVxdWVzdBIKCgJpZBgBIAEoCSITChFEZWxldGVBcHBSZXNwb25zZSIrChRHZXRBcHBQcm9maWxlUmVxdWVzdBITCgtpZGVudGl0eV9pZBgBIAEoCSJIChVHZXRBcHBQcm9maWxlUmVzcG9uc2USLwoHcHJvZmlsZRgBIAEoCzIeLmFneW5pby5hcGkuYXBwcy52MS5BcHBQcm9maWxlIjEKG1ZhbGlkYXRlU2VydmljZVRva2VuUmVxdWVzdBISCgp0b2tlbl9oYXNoGAEgASgJIkQKHFZhbGlkYXRlU2VydmljZVRva2VuUmVzcG9uc2USJAoDYXBwGAEgASgLMhcuYWd5bmlvLmFwaS5hcHBzLnYxLkFwcCIpChBFbnJvbGxBcHBSZXF1ZXN0EhUKDXNlcnZpY2VfdG9rZW4YASABKAkiPwoRRW5yb2xsQXBwUmVzcG9uc2USFQoNaWRlbnRpdHlfanNvbhgBIAEoDBITCgtpZGVudGl0eV9pZBgCIAEoCSJ6ChFJbnN0YWxsQXBwUmVxdWVzdBIOCgZhcHBfaWQYASABKAkSFwoPb3JnYW5pemF0aW9uX2lkGAIgASgJEgwKBHNsdWcYAyABKAkSLgoNY29uZmlndXJhdGlvbhgEIAEoCzIXLmdvb2dsZS5wcm90b2J1Zi5TdHJ1Y3QiTAoSSW5zdGFsbEFwcFJlc3BvbnNlEjYKDGluc3RhbGxhdGlvbhgBIAEoCzIgLmFneW5pby5hcGkuYXBwcy52MS5JbnN0YWxsYXRpb24iJAoWR2V0SW5zdGFsbGF0aW9uUmVxdWVzdBIKCgJpZBgBIAEoCSJRChdHZXRJbnN0YWxsYXRpb25SZXNwb25zZRI2CgxpbnN0YWxsYXRpb24YASABKAsyIC5hZ3luaW8uYXBpLmFwcHMudjEuSW5zdGFsbGF0aW9uIkUKHEdldEluc3RhbGxhdGlvbkJ5U2x1Z1JlcXVlc3QSFwoPb3JnYW5pemF0aW9uX2lkGAEgASgJEgwKBHNsdWcYAiABKAkiVwodR2V0SW5zdGFsbGF0aW9uQnlTbHVnUmVzcG9uc2USNgoMaW5zdGFsbGF0aW9uGAEgASgLMiAuYWd5bmlvLmFwaS5hcHBzLnYxLkluc3RhbGxhdGlvbiJqChhMaXN0SW5zdGFsbGF0aW9uc1JlcXVlc3QSEQoJcGFnZV9zaXplGAEgASgFEhIKCnBhZ2VfdG9rZW4YAiABKAkSFwoPb3JnYW5pemF0aW9uX2lkGAMgASgJEg4KBmFwcF9pZBgEIAEoCSJtChlMaXN0SW5zdGFsbGF0aW9uc1Jlc3BvbnNlEjcKDWluc3RhbGxhdGlvbnMYASADKAsyIC5hZ3luaW8uYXBpLmFwcHMudjEuSW5zdGFsbGF0aW9uEhcKD25leHRfcGFnZV90b2tlbhgCIAEoCSKKAQoZVXBkYXRlSW5zdGFsbGF0aW9uUmVxdWVzdBIKCgJpZBgBIAEoCRIRCgRzbHVnGAIgASgJSACIAQESMwoNY29uZmlndXJhdGlvbhgDIAEoCzIXLmdvb2dsZS5wcm90b2J1Zi5TdHJ1Y3RIAYgBAUIHCgVfc2x1Z0IQCg5fY29uZmlndXJhdGlvbiJUChpVcGRhdGVJbnN0YWxsYXRpb25SZXNwb25zZRI2CgxpbnN0YWxsYXRpb24YASABKAsyIC5hZ3luaW8uYXBpLmFwcHMudjEuSW5zdGFsbGF0aW9uIiEKE1VuaW5zdGFsbEFwcFJlcXVlc3QSCgoCaWQYASABKAkiFgoUVW5pbnN0YWxsQXBwUmVzcG9uc2UiMQojR2V0SW5zdGFsbGF0aW9uQ29uZmlndXJhdGlvblJlcXVlc3QSCgoCaWQYASABKAkiVgokR2V0SW5zdGFsbGF0aW9uQ29uZmlndXJhdGlvblJlc3BvbnNlEi4KDWNvbmZpZ3VyYXRpb24YASABKAsyFy5nb29nbGUucHJvdG9idWYuU3RydWN0KmcKDUFwcFZpc2liaWxpdHkSHgoaQVBQX1ZJU0lCSUxJVFlfVU5TUEVDSUZJRUQQABIZChVBUFBfVklTSUJJTElUWV9QVUJMSUMQARIbChdBUFBfVklTSUJJTElUWV9JTlRFUk5BTBACMoYNCgtBcHBzU2VydmljZRJYCglDcmVhdGVBcHASJC5hZ3luaW8uYXBpLmFwcHMudjEuQ3JlYXRlQXBwUmVxdWVzdBolLmFneW5pby5hcGkuYXBwcy52MS5DcmVhdGVBcHBSZXNwb25zZRJYCglVcGRhdGVBcHASJC5hZ3luaW8uYXBpLmFwcHMudjEuVXBkYXRlQXBwUmVxdWVzdBolLmFneW5pby5hcGkuYXBwcy52MS5VcGRhdGVBcHBSZXNwb25zZRJPCgZHZXRBcHASIS5hZ3luaW8uYXBpLmFwcHMudjEuR2V0QXBwUmVxdWVzdBoiLmFneW5pby5hcGkuYXBwcy52MS5HZXRBcHBSZXNwb25zZRJhCgxHZXRBcHBCeVNsdWcSJy5hZ3luaW8uYXBpLmFwcHMudjEuR2V0QXBwQnlTbHVnUmVxdWVzdBooLmFneW5pby5hcGkuYXBwcy52MS5HZXRBcHBCeVNsdWdSZXNwb25zZRJVCghMaXN0QXBwcxIjLmFneW5pby5hcGkuYXBwcy52MS5MaXN0QXBwc1JlcXVlc3QaJC5hZ3luaW8uYXBpLmFwcHMudjEuTGlzdEFwcHNSZXNwb25zZRJYCglEZWxldGVBcHASJC5hZ3luaW8uYXBpLmFwcHMudjEuRGVsZXRlQXBwUmVxdWVzdBolLmFneW5pby5hcGkuYXBwcy52MS5EZWxldGVBcHBSZXNwb25zZRJkCg1HZXRBcHBQcm9maWxlEiguYWd5bmlvLmFwaS5hcHBzLnYxLkdldEFwcFByb2ZpbGVSZXF1ZXN0GikuYWd5bmlvLmFwaS5hcHBzLnYxLkdldEFwcFByb2ZpbGVSZXNwb25zZRJ5ChRWYWxpZGF0ZVNlcnZpY2VUb2tlbhIvLmFneW5pby5hcGkuYXBwcy52MS5WYWxpZGF0ZVNlcnZpY2VUb2tlblJlcXVlc3QaMC5hZ3luaW8uYXBpLmFwcHMudjEuVmFsaWRhdGVTZXJ2aWNlVG9rZW5SZXNwb25zZRJYCglFbnJvbGxBcHASJC5hZ3luaW8uYXBpLmFwcHMudjEuRW5yb2xsQXBwUmVxdWVzdBolLmFneW5pby5hcGkuYXBwcy52MS5FbnJvbGxBcHBSZXNwb25zZRJbCgpJbnN0YWxsQXBwEiUuYWd5bmlvLmFwaS5hcHBzLnYxLkluc3RhbGxBcHBSZXF1ZXN0GiYuYWd5bmlvLmFwaS5hcHBzLnYxLkluc3RhbGxBcHBSZXNwb25zZRJqCg9HZXRJbnN0YWxsYXRpb24SKi5hZ3luaW8uYXBpLmFwcHMudjEuR2V0SW5zdGFsbGF0aW9uUmVxdWVzdBorLmFneW5pby5hcGkuYXBwcy52MS5HZXRJbnN0YWxsYXRpb25SZXNwb25zZRJ8ChVHZXRJbnN0YWxsYXRpb25CeVNsdWcSMC5hZ3luaW8uYXBpLmFwcHMudjEuR2V0SW5zdGFsbGF0aW9uQnlTbHVnUmVxdWVzdBoxLmFneW5pby5hcGkuYXBwcy52MS5HZXRJbnN0YWxsYXRpb25CeVNsdWdSZXNwb25zZRJwChFMaXN0SW5zdGFsbGF0aW9ucxIsLmFneW5pby5hcGkuYXBwcy52MS5MaXN0SW5zdGFsbGF0aW9uc1JlcXVlc3QaLS5hZ3luaW8uYXBpLmFwcHMudjEuTGlzdEluc3RhbGxhdGlvbnNSZXNwb25zZRJzChJVcGRhdGVJbnN0YWxsYXRpb24SLS5hZ3luaW8uYXBpLmFwcHMudjEuVXBkYXRlSW5zdGFsbGF0aW9uUmVxdWVzdBouLmFneW5pby5hcGkuYXBwcy52MS5VcGRhdGVJbnN0YWxsYXRpb25SZXNwb25zZRJhCgxVbmluc3RhbGxBcHASJy5hZ3luaW8uYXBpLmFwcHMudjEuVW5pbnN0YWxsQXBwUmVxdWVzdBooLmFneW5pby5hcGkuYXBwcy52MS5Vbmluc3RhbGxBcHBSZXNwb25zZRKRAQocR2V0SW5zdGFsbGF0aW9uQ29uZmlndXJhdGlvbhI3LmFneW5pby5hcGkuYXBwcy52MS5HZXRJbnN0YWxsYXRpb25Db25maWd1cmF0aW9uUmVxdWVzdBo4LmFneW5pby5hcGkuYXBwcy52MS5HZXRJbnN0YWxsYXRpb25Db25maWd1cmF0aW9uUmVzcG9uc2VCNVozZ2l0aHViLmNvbS9hZ3luaW8vYXBpL2dlbi9hZ3luaW8vYXBpL2FwcHMvdjE7YXBwc3YxYgZwcm90bzM", [file_google_protobuf_struct, file_google_protobuf_timestamp]);
 
 /**
  * @generated from message agynio.api.apps.v1.EntityMeta
@@ -84,6 +84,21 @@ export type App = Message<"agynio.api.apps.v1.App"> & {
    * @generated from field: string ziti_service_id = 8;
    */
   zitiServiceId: string;
+
+  /**
+   * @generated from field: string organization_id = 9;
+   */
+  organizationId: string;
+
+  /**
+   * @generated from field: agynio.api.apps.v1.AppVisibility visibility = 10;
+   */
+  visibility: AppVisibility;
+
+  /**
+   * @generated from field: repeated string permissions = 11;
+   */
+  permissions: string[];
 };
 
 /**
@@ -131,41 +146,93 @@ export const AppProfileSchema: GenMessage<AppProfile> = /*@__PURE__*/
   messageDesc(file_agynio_api_apps_v1_apps, 2);
 
 /**
- * @generated from message agynio.api.apps.v1.RegisterAppRequest
+ * @generated from message agynio.api.apps.v1.Installation
  */
-export type RegisterAppRequest = Message<"agynio.api.apps.v1.RegisterAppRequest"> & {
+export type Installation = Message<"agynio.api.apps.v1.Installation"> & {
   /**
-   * @generated from field: string slug = 1;
+   * @generated from field: agynio.api.apps.v1.EntityMeta meta = 1;
+   */
+  meta?: EntityMeta;
+
+  /**
+   * @generated from field: string app_id = 2;
+   */
+  appId: string;
+
+  /**
+   * @generated from field: string organization_id = 3;
+   */
+  organizationId: string;
+
+  /**
+   * @generated from field: string slug = 4;
    */
   slug: string;
 
   /**
-   * @generated from field: string name = 2;
+   * @generated from field: google.protobuf.Struct configuration = 5;
+   */
+  configuration?: JsonObject;
+};
+
+/**
+ * Describes the message agynio.api.apps.v1.Installation.
+ * Use `create(InstallationSchema)` to create a new message.
+ */
+export const InstallationSchema: GenMessage<Installation> = /*@__PURE__*/
+  messageDesc(file_agynio_api_apps_v1_apps, 3);
+
+/**
+ * @generated from message agynio.api.apps.v1.CreateAppRequest
+ */
+export type CreateAppRequest = Message<"agynio.api.apps.v1.CreateAppRequest"> & {
+  /**
+   * @generated from field: string organization_id = 1;
+   */
+  organizationId: string;
+
+  /**
+   * @generated from field: string slug = 2;
+   */
+  slug: string;
+
+  /**
+   * @generated from field: string name = 3;
    */
   name: string;
 
   /**
-   * @generated from field: string description = 3;
+   * @generated from field: string description = 4;
    */
   description: string;
 
   /**
-   * @generated from field: string icon = 4;
+   * @generated from field: string icon = 5;
    */
   icon: string;
+
+  /**
+   * @generated from field: agynio.api.apps.v1.AppVisibility visibility = 6;
+   */
+  visibility: AppVisibility;
+
+  /**
+   * @generated from field: repeated string permissions = 7;
+   */
+  permissions: string[];
 };
 
 /**
- * Describes the message agynio.api.apps.v1.RegisterAppRequest.
- * Use `create(RegisterAppRequestSchema)` to create a new message.
+ * Describes the message agynio.api.apps.v1.CreateAppRequest.
+ * Use `create(CreateAppRequestSchema)` to create a new message.
  */
-export const RegisterAppRequestSchema: GenMessage<RegisterAppRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_apps_v1_apps, 3);
+export const CreateAppRequestSchema: GenMessage<CreateAppRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_apps_v1_apps, 4);
 
 /**
- * @generated from message agynio.api.apps.v1.RegisterAppResponse
+ * @generated from message agynio.api.apps.v1.CreateAppResponse
  */
-export type RegisterAppResponse = Message<"agynio.api.apps.v1.RegisterAppResponse"> & {
+export type CreateAppResponse = Message<"agynio.api.apps.v1.CreateAppResponse"> & {
   /**
    * @generated from field: agynio.api.apps.v1.App app = 1;
    */
@@ -178,11 +245,11 @@ export type RegisterAppResponse = Message<"agynio.api.apps.v1.RegisterAppRespons
 };
 
 /**
- * Describes the message agynio.api.apps.v1.RegisterAppResponse.
- * Use `create(RegisterAppResponseSchema)` to create a new message.
+ * Describes the message agynio.api.apps.v1.CreateAppResponse.
+ * Use `create(CreateAppResponseSchema)` to create a new message.
  */
-export const RegisterAppResponseSchema: GenMessage<RegisterAppResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_apps_v1_apps, 4);
+export const CreateAppResponseSchema: GenMessage<CreateAppResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_apps_v1_apps, 5);
 
 /**
  * @generated from message agynio.api.apps.v1.GetAppRequest
@@ -199,7 +266,7 @@ export type GetAppRequest = Message<"agynio.api.apps.v1.GetAppRequest"> & {
  * Use `create(GetAppRequestSchema)` to create a new message.
  */
 export const GetAppRequestSchema: GenMessage<GetAppRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_apps_v1_apps, 5);
+  messageDesc(file_agynio_api_apps_v1_apps, 6);
 
 /**
  * @generated from message agynio.api.apps.v1.GetAppResponse
@@ -216,14 +283,73 @@ export type GetAppResponse = Message<"agynio.api.apps.v1.GetAppResponse"> & {
  * Use `create(GetAppResponseSchema)` to create a new message.
  */
 export const GetAppResponseSchema: GenMessage<GetAppResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_apps_v1_apps, 6);
+  messageDesc(file_agynio_api_apps_v1_apps, 7);
+
+/**
+ * @generated from message agynio.api.apps.v1.UpdateAppRequest
+ */
+export type UpdateAppRequest = Message<"agynio.api.apps.v1.UpdateAppRequest"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+
+  /**
+   * @generated from field: optional string name = 2;
+   */
+  name?: string;
+
+  /**
+   * @generated from field: optional string description = 3;
+   */
+  description?: string;
+
+  /**
+   * @generated from field: optional string icon = 4;
+   */
+  icon?: string;
+
+  /**
+   * @generated from field: optional agynio.api.apps.v1.AppVisibility visibility = 5;
+   */
+  visibility?: AppVisibility;
+};
+
+/**
+ * Describes the message agynio.api.apps.v1.UpdateAppRequest.
+ * Use `create(UpdateAppRequestSchema)` to create a new message.
+ */
+export const UpdateAppRequestSchema: GenMessage<UpdateAppRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_apps_v1_apps, 8);
+
+/**
+ * @generated from message agynio.api.apps.v1.UpdateAppResponse
+ */
+export type UpdateAppResponse = Message<"agynio.api.apps.v1.UpdateAppResponse"> & {
+  /**
+   * @generated from field: agynio.api.apps.v1.App app = 1;
+   */
+  app?: App;
+};
+
+/**
+ * Describes the message agynio.api.apps.v1.UpdateAppResponse.
+ * Use `create(UpdateAppResponseSchema)` to create a new message.
+ */
+export const UpdateAppResponseSchema: GenMessage<UpdateAppResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_apps_v1_apps, 9);
 
 /**
  * @generated from message agynio.api.apps.v1.GetAppBySlugRequest
  */
 export type GetAppBySlugRequest = Message<"agynio.api.apps.v1.GetAppBySlugRequest"> & {
   /**
-   * @generated from field: string slug = 1;
+   * @generated from field: string organization_id = 1;
+   */
+  organizationId: string;
+
+  /**
+   * @generated from field: string slug = 2;
    */
   slug: string;
 };
@@ -233,7 +359,7 @@ export type GetAppBySlugRequest = Message<"agynio.api.apps.v1.GetAppBySlugReques
  * Use `create(GetAppBySlugRequestSchema)` to create a new message.
  */
 export const GetAppBySlugRequestSchema: GenMessage<GetAppBySlugRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_apps_v1_apps, 7);
+  messageDesc(file_agynio_api_apps_v1_apps, 10);
 
 /**
  * @generated from message agynio.api.apps.v1.GetAppBySlugResponse
@@ -250,7 +376,7 @@ export type GetAppBySlugResponse = Message<"agynio.api.apps.v1.GetAppBySlugRespo
  * Use `create(GetAppBySlugResponseSchema)` to create a new message.
  */
 export const GetAppBySlugResponseSchema: GenMessage<GetAppBySlugResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_apps_v1_apps, 8);
+  messageDesc(file_agynio_api_apps_v1_apps, 11);
 
 /**
  * @generated from message agynio.api.apps.v1.ListAppsRequest
@@ -265,6 +391,16 @@ export type ListAppsRequest = Message<"agynio.api.apps.v1.ListAppsRequest"> & {
    * @generated from field: string page_token = 2;
    */
   pageToken: string;
+
+  /**
+   * @generated from field: string organization_id = 3;
+   */
+  organizationId: string;
+
+  /**
+   * @generated from field: agynio.api.apps.v1.AppVisibility visibility = 4;
+   */
+  visibility: AppVisibility;
 };
 
 /**
@@ -272,7 +408,7 @@ export type ListAppsRequest = Message<"agynio.api.apps.v1.ListAppsRequest"> & {
  * Use `create(ListAppsRequestSchema)` to create a new message.
  */
 export const ListAppsRequestSchema: GenMessage<ListAppsRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_apps_v1_apps, 9);
+  messageDesc(file_agynio_api_apps_v1_apps, 12);
 
 /**
  * @generated from message agynio.api.apps.v1.ListAppsResponse
@@ -294,7 +430,7 @@ export type ListAppsResponse = Message<"agynio.api.apps.v1.ListAppsResponse"> & 
  * Use `create(ListAppsResponseSchema)` to create a new message.
  */
 export const ListAppsResponseSchema: GenMessage<ListAppsResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_apps_v1_apps, 10);
+  messageDesc(file_agynio_api_apps_v1_apps, 13);
 
 /**
  * @generated from message agynio.api.apps.v1.DeleteAppRequest
@@ -311,7 +447,7 @@ export type DeleteAppRequest = Message<"agynio.api.apps.v1.DeleteAppRequest"> & 
  * Use `create(DeleteAppRequestSchema)` to create a new message.
  */
 export const DeleteAppRequestSchema: GenMessage<DeleteAppRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_apps_v1_apps, 11);
+  messageDesc(file_agynio_api_apps_v1_apps, 14);
 
 /**
  * @generated from message agynio.api.apps.v1.DeleteAppResponse
@@ -324,7 +460,7 @@ export type DeleteAppResponse = Message<"agynio.api.apps.v1.DeleteAppResponse"> 
  * Use `create(DeleteAppResponseSchema)` to create a new message.
  */
 export const DeleteAppResponseSchema: GenMessage<DeleteAppResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_apps_v1_apps, 12);
+  messageDesc(file_agynio_api_apps_v1_apps, 15);
 
 /**
  * @generated from message agynio.api.apps.v1.GetAppProfileRequest
@@ -341,7 +477,7 @@ export type GetAppProfileRequest = Message<"agynio.api.apps.v1.GetAppProfileRequ
  * Use `create(GetAppProfileRequestSchema)` to create a new message.
  */
 export const GetAppProfileRequestSchema: GenMessage<GetAppProfileRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_apps_v1_apps, 13);
+  messageDesc(file_agynio_api_apps_v1_apps, 16);
 
 /**
  * @generated from message agynio.api.apps.v1.GetAppProfileResponse
@@ -358,7 +494,7 @@ export type GetAppProfileResponse = Message<"agynio.api.apps.v1.GetAppProfileRes
  * Use `create(GetAppProfileResponseSchema)` to create a new message.
  */
 export const GetAppProfileResponseSchema: GenMessage<GetAppProfileResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_apps_v1_apps, 14);
+  messageDesc(file_agynio_api_apps_v1_apps, 17);
 
 /**
  * @generated from message agynio.api.apps.v1.ValidateServiceTokenRequest
@@ -375,7 +511,7 @@ export type ValidateServiceTokenRequest = Message<"agynio.api.apps.v1.ValidateSe
  * Use `create(ValidateServiceTokenRequestSchema)` to create a new message.
  */
 export const ValidateServiceTokenRequestSchema: GenMessage<ValidateServiceTokenRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_apps_v1_apps, 15);
+  messageDesc(file_agynio_api_apps_v1_apps, 18);
 
 /**
  * @generated from message agynio.api.apps.v1.ValidateServiceTokenResponse
@@ -392,14 +528,14 @@ export type ValidateServiceTokenResponse = Message<"agynio.api.apps.v1.ValidateS
  * Use `create(ValidateServiceTokenResponseSchema)` to create a new message.
  */
 export const ValidateServiceTokenResponseSchema: GenMessage<ValidateServiceTokenResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_apps_v1_apps, 16);
+  messageDesc(file_agynio_api_apps_v1_apps, 19);
 
 /**
  * @generated from message agynio.api.apps.v1.EnrollAppRequest
  */
 export type EnrollAppRequest = Message<"agynio.api.apps.v1.EnrollAppRequest"> & {
   /**
-   * The raw service token issued during RegisterApp.
+   * The raw service token issued during CreateApp.
    *
    * @generated from field: string service_token = 1;
    */
@@ -411,7 +547,7 @@ export type EnrollAppRequest = Message<"agynio.api.apps.v1.EnrollAppRequest"> & 
  * Use `create(EnrollAppRequestSchema)` to create a new message.
  */
 export const EnrollAppRequestSchema: GenMessage<EnrollAppRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_apps_v1_apps, 17);
+  messageDesc(file_agynio_api_apps_v1_apps, 20);
 
 /**
  * @generated from message agynio.api.apps.v1.EnrollAppResponse
@@ -437,21 +573,339 @@ export type EnrollAppResponse = Message<"agynio.api.apps.v1.EnrollAppResponse"> 
  * Use `create(EnrollAppResponseSchema)` to create a new message.
  */
 export const EnrollAppResponseSchema: GenMessage<EnrollAppResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_apps_v1_apps, 18);
+  messageDesc(file_agynio_api_apps_v1_apps, 21);
 
 /**
- * AppsService manages app registrations and metadata.
+ * @generated from message agynio.api.apps.v1.InstallAppRequest
+ */
+export type InstallAppRequest = Message<"agynio.api.apps.v1.InstallAppRequest"> & {
+  /**
+   * @generated from field: string app_id = 1;
+   */
+  appId: string;
+
+  /**
+   * @generated from field: string organization_id = 2;
+   */
+  organizationId: string;
+
+  /**
+   * @generated from field: string slug = 3;
+   */
+  slug: string;
+
+  /**
+   * @generated from field: google.protobuf.Struct configuration = 4;
+   */
+  configuration?: JsonObject;
+};
+
+/**
+ * Describes the message agynio.api.apps.v1.InstallAppRequest.
+ * Use `create(InstallAppRequestSchema)` to create a new message.
+ */
+export const InstallAppRequestSchema: GenMessage<InstallAppRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_apps_v1_apps, 22);
+
+/**
+ * @generated from message agynio.api.apps.v1.InstallAppResponse
+ */
+export type InstallAppResponse = Message<"agynio.api.apps.v1.InstallAppResponse"> & {
+  /**
+   * @generated from field: agynio.api.apps.v1.Installation installation = 1;
+   */
+  installation?: Installation;
+};
+
+/**
+ * Describes the message agynio.api.apps.v1.InstallAppResponse.
+ * Use `create(InstallAppResponseSchema)` to create a new message.
+ */
+export const InstallAppResponseSchema: GenMessage<InstallAppResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_apps_v1_apps, 23);
+
+/**
+ * @generated from message agynio.api.apps.v1.GetInstallationRequest
+ */
+export type GetInstallationRequest = Message<"agynio.api.apps.v1.GetInstallationRequest"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+};
+
+/**
+ * Describes the message agynio.api.apps.v1.GetInstallationRequest.
+ * Use `create(GetInstallationRequestSchema)` to create a new message.
+ */
+export const GetInstallationRequestSchema: GenMessage<GetInstallationRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_apps_v1_apps, 24);
+
+/**
+ * @generated from message agynio.api.apps.v1.GetInstallationResponse
+ */
+export type GetInstallationResponse = Message<"agynio.api.apps.v1.GetInstallationResponse"> & {
+  /**
+   * @generated from field: agynio.api.apps.v1.Installation installation = 1;
+   */
+  installation?: Installation;
+};
+
+/**
+ * Describes the message agynio.api.apps.v1.GetInstallationResponse.
+ * Use `create(GetInstallationResponseSchema)` to create a new message.
+ */
+export const GetInstallationResponseSchema: GenMessage<GetInstallationResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_apps_v1_apps, 25);
+
+/**
+ * @generated from message agynio.api.apps.v1.GetInstallationBySlugRequest
+ */
+export type GetInstallationBySlugRequest = Message<"agynio.api.apps.v1.GetInstallationBySlugRequest"> & {
+  /**
+   * @generated from field: string organization_id = 1;
+   */
+  organizationId: string;
+
+  /**
+   * @generated from field: string slug = 2;
+   */
+  slug: string;
+};
+
+/**
+ * Describes the message agynio.api.apps.v1.GetInstallationBySlugRequest.
+ * Use `create(GetInstallationBySlugRequestSchema)` to create a new message.
+ */
+export const GetInstallationBySlugRequestSchema: GenMessage<GetInstallationBySlugRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_apps_v1_apps, 26);
+
+/**
+ * @generated from message agynio.api.apps.v1.GetInstallationBySlugResponse
+ */
+export type GetInstallationBySlugResponse = Message<"agynio.api.apps.v1.GetInstallationBySlugResponse"> & {
+  /**
+   * @generated from field: agynio.api.apps.v1.Installation installation = 1;
+   */
+  installation?: Installation;
+};
+
+/**
+ * Describes the message agynio.api.apps.v1.GetInstallationBySlugResponse.
+ * Use `create(GetInstallationBySlugResponseSchema)` to create a new message.
+ */
+export const GetInstallationBySlugResponseSchema: GenMessage<GetInstallationBySlugResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_apps_v1_apps, 27);
+
+/**
+ * @generated from message agynio.api.apps.v1.ListInstallationsRequest
+ */
+export type ListInstallationsRequest = Message<"agynio.api.apps.v1.ListInstallationsRequest"> & {
+  /**
+   * @generated from field: int32 page_size = 1;
+   */
+  pageSize: number;
+
+  /**
+   * @generated from field: string page_token = 2;
+   */
+  pageToken: string;
+
+  /**
+   * @generated from field: string organization_id = 3;
+   */
+  organizationId: string;
+
+  /**
+   * @generated from field: string app_id = 4;
+   */
+  appId: string;
+};
+
+/**
+ * Describes the message agynio.api.apps.v1.ListInstallationsRequest.
+ * Use `create(ListInstallationsRequestSchema)` to create a new message.
+ */
+export const ListInstallationsRequestSchema: GenMessage<ListInstallationsRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_apps_v1_apps, 28);
+
+/**
+ * @generated from message agynio.api.apps.v1.ListInstallationsResponse
+ */
+export type ListInstallationsResponse = Message<"agynio.api.apps.v1.ListInstallationsResponse"> & {
+  /**
+   * @generated from field: repeated agynio.api.apps.v1.Installation installations = 1;
+   */
+  installations: Installation[];
+
+  /**
+   * @generated from field: string next_page_token = 2;
+   */
+  nextPageToken: string;
+};
+
+/**
+ * Describes the message agynio.api.apps.v1.ListInstallationsResponse.
+ * Use `create(ListInstallationsResponseSchema)` to create a new message.
+ */
+export const ListInstallationsResponseSchema: GenMessage<ListInstallationsResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_apps_v1_apps, 29);
+
+/**
+ * @generated from message agynio.api.apps.v1.UpdateInstallationRequest
+ */
+export type UpdateInstallationRequest = Message<"agynio.api.apps.v1.UpdateInstallationRequest"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+
+  /**
+   * @generated from field: optional string slug = 2;
+   */
+  slug?: string;
+
+  /**
+   * @generated from field: optional google.protobuf.Struct configuration = 3;
+   */
+  configuration?: JsonObject;
+};
+
+/**
+ * Describes the message agynio.api.apps.v1.UpdateInstallationRequest.
+ * Use `create(UpdateInstallationRequestSchema)` to create a new message.
+ */
+export const UpdateInstallationRequestSchema: GenMessage<UpdateInstallationRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_apps_v1_apps, 30);
+
+/**
+ * @generated from message agynio.api.apps.v1.UpdateInstallationResponse
+ */
+export type UpdateInstallationResponse = Message<"agynio.api.apps.v1.UpdateInstallationResponse"> & {
+  /**
+   * @generated from field: agynio.api.apps.v1.Installation installation = 1;
+   */
+  installation?: Installation;
+};
+
+/**
+ * Describes the message agynio.api.apps.v1.UpdateInstallationResponse.
+ * Use `create(UpdateInstallationResponseSchema)` to create a new message.
+ */
+export const UpdateInstallationResponseSchema: GenMessage<UpdateInstallationResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_apps_v1_apps, 31);
+
+/**
+ * @generated from message agynio.api.apps.v1.UninstallAppRequest
+ */
+export type UninstallAppRequest = Message<"agynio.api.apps.v1.UninstallAppRequest"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+};
+
+/**
+ * Describes the message agynio.api.apps.v1.UninstallAppRequest.
+ * Use `create(UninstallAppRequestSchema)` to create a new message.
+ */
+export const UninstallAppRequestSchema: GenMessage<UninstallAppRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_apps_v1_apps, 32);
+
+/**
+ * @generated from message agynio.api.apps.v1.UninstallAppResponse
+ */
+export type UninstallAppResponse = Message<"agynio.api.apps.v1.UninstallAppResponse"> & {
+};
+
+/**
+ * Describes the message agynio.api.apps.v1.UninstallAppResponse.
+ * Use `create(UninstallAppResponseSchema)` to create a new message.
+ */
+export const UninstallAppResponseSchema: GenMessage<UninstallAppResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_apps_v1_apps, 33);
+
+/**
+ * @generated from message agynio.api.apps.v1.GetInstallationConfigurationRequest
+ */
+export type GetInstallationConfigurationRequest = Message<"agynio.api.apps.v1.GetInstallationConfigurationRequest"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+};
+
+/**
+ * Describes the message agynio.api.apps.v1.GetInstallationConfigurationRequest.
+ * Use `create(GetInstallationConfigurationRequestSchema)` to create a new message.
+ */
+export const GetInstallationConfigurationRequestSchema: GenMessage<GetInstallationConfigurationRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_apps_v1_apps, 34);
+
+/**
+ * @generated from message agynio.api.apps.v1.GetInstallationConfigurationResponse
+ */
+export type GetInstallationConfigurationResponse = Message<"agynio.api.apps.v1.GetInstallationConfigurationResponse"> & {
+  /**
+   * @generated from field: google.protobuf.Struct configuration = 1;
+   */
+  configuration?: JsonObject;
+};
+
+/**
+ * Describes the message agynio.api.apps.v1.GetInstallationConfigurationResponse.
+ * Use `create(GetInstallationConfigurationResponseSchema)` to create a new message.
+ */
+export const GetInstallationConfigurationResponseSchema: GenMessage<GetInstallationConfigurationResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_apps_v1_apps, 35);
+
+/**
+ * @generated from enum agynio.api.apps.v1.AppVisibility
+ */
+export enum AppVisibility {
+  /**
+   * @generated from enum value: APP_VISIBILITY_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: APP_VISIBILITY_PUBLIC = 1;
+   */
+  PUBLIC = 1,
+
+  /**
+   * @generated from enum value: APP_VISIBILITY_INTERNAL = 2;
+   */
+  INTERNAL = 2,
+}
+
+/**
+ * Describes the enum agynio.api.apps.v1.AppVisibility.
+ */
+export const AppVisibilitySchema: GenEnum<AppVisibility> = /*@__PURE__*/
+  enumDesc(file_agynio_api_apps_v1_apps, 0);
+
+/**
+ * AppsService manages apps, installations, and related metadata.
  *
  * @generated from service agynio.api.apps.v1.AppsService
  */
 export const AppsService: GenService<{
   /**
-   * @generated from rpc agynio.api.apps.v1.AppsService.RegisterApp
+   * @generated from rpc agynio.api.apps.v1.AppsService.CreateApp
    */
-  registerApp: {
+  createApp: {
     methodKind: "unary";
-    input: typeof RegisterAppRequestSchema;
-    output: typeof RegisterAppResponseSchema;
+    input: typeof CreateAppRequestSchema;
+    output: typeof CreateAppResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.apps.v1.AppsService.UpdateApp
+   */
+  updateApp: {
+    methodKind: "unary";
+    input: typeof UpdateAppRequestSchema;
+    output: typeof UpdateAppResponseSchema;
   },
   /**
    * @generated from rpc agynio.api.apps.v1.AppsService.GetApp
@@ -518,6 +972,76 @@ export const AppsService: GenService<{
     methodKind: "unary";
     input: typeof EnrollAppRequestSchema;
     output: typeof EnrollAppResponseSchema;
+  },
+  /**
+   * Install an app for an organization.
+   *
+   * @generated from rpc agynio.api.apps.v1.AppsService.InstallApp
+   */
+  installApp: {
+    methodKind: "unary";
+    input: typeof InstallAppRequestSchema;
+    output: typeof InstallAppResponseSchema;
+  },
+  /**
+   * Fetch an installation by ID.
+   *
+   * @generated from rpc agynio.api.apps.v1.AppsService.GetInstallation
+   */
+  getInstallation: {
+    methodKind: "unary";
+    input: typeof GetInstallationRequestSchema;
+    output: typeof GetInstallationResponseSchema;
+  },
+  /**
+   * Resolve an installation by slug within an organization.
+   *
+   * @generated from rpc agynio.api.apps.v1.AppsService.GetInstallationBySlug
+   */
+  getInstallationBySlug: {
+    methodKind: "unary";
+    input: typeof GetInstallationBySlugRequestSchema;
+    output: typeof GetInstallationBySlugResponseSchema;
+  },
+  /**
+   * List installations with optional filters.
+   *
+   * @generated from rpc agynio.api.apps.v1.AppsService.ListInstallations
+   */
+  listInstallations: {
+    methodKind: "unary";
+    input: typeof ListInstallationsRequestSchema;
+    output: typeof ListInstallationsResponseSchema;
+  },
+  /**
+   * Update an installation's metadata.
+   *
+   * @generated from rpc agynio.api.apps.v1.AppsService.UpdateInstallation
+   */
+  updateInstallation: {
+    methodKind: "unary";
+    input: typeof UpdateInstallationRequestSchema;
+    output: typeof UpdateInstallationResponseSchema;
+  },
+  /**
+   * Uninstall an app by installation ID.
+   *
+   * @generated from rpc agynio.api.apps.v1.AppsService.UninstallApp
+   */
+  uninstallApp: {
+    methodKind: "unary";
+    input: typeof UninstallAppRequestSchema;
+    output: typeof UninstallAppResponseSchema;
+  },
+  /**
+   * Fetch only the installation configuration for scoped access.
+   *
+   * @generated from rpc agynio.api.apps.v1.AppsService.GetInstallationConfiguration
+   */
+  getInstallationConfiguration: {
+    methodKind: "unary";
+    input: typeof GetInstallationConfigurationRequestSchema;
+    output: typeof GetInstallationConfigurationResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_agynio_api_apps_v1_apps, 0);

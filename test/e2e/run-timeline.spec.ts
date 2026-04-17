@@ -2,7 +2,7 @@ import { argosScreenshot } from '@argos-ci/playwright';
 import { expect, test, type SeededRun } from './fixtures';
 
 const timelinePath = (context: SeededRun) =>
-  `/agents/threads/${context.threadId}/runs/${context.runId}/timeline`;
+  `/${context.organizationId}/runs/${context.runId}`;
 
 const timelineMask = (page: Parameters<typeof argosScreenshot>[0]) => [
   page.getByTestId('run-event-meta'),
@@ -32,11 +32,4 @@ test.describe('run timeline', () => {
     await argosScreenshot(page, 'run-timeline-summary', { mask: timelineMask(page) });
   });
 
-  test('redirects unknown paths to default timeline', async ({ page, seededRun }) => {
-    await page.goto(`/agents/threads/${seededRun.threadId}/runs/${seededRun.runId}/timeline/unknown`);
-
-    await expect(page).toHaveURL(
-      new RegExp(`/agents/threads/${seededRun.threadId}/runs/${seededRun.runId}/timeline`),
-    );
-  });
 });

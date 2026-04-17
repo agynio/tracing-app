@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file agynio/api/llm/v1/llm.proto.
  */
 export const file_agynio_api_llm_v1_llm: GenFile = /*@__PURE__*/
-  fileDesc("ChthZ3luaW8vYXBpL2xsbS92MS9sbG0ucHJvdG8SEWFneW5pby5hcGkubGxtLnYxIngKCkVudGl0eU1ldGESCgoCaWQYASABKAkSLgoKY3JlYXRlZF9hdBgCIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKdXBkYXRlZF9hdBgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAimQEKC0xMTVByb3ZpZGVyEisKBG1ldGEYASABKAsyHS5hZ3luaW8uYXBpLmxsbS52MS5FbnRpdHlNZXRhEhAKCGVuZHBvaW50GAIgASgJEjIKC2F1dGhfbWV0aG9kGAMgASgOMh0uYWd5bmlvLmFwaS5sbG0udjEuQXV0aE1ldGhvZBIXCg9vcmdhbml6YXRpb25faWQYBCABKAkiiAEKGENyZWF0ZUxMTVByb3ZpZGVyUmVxdWVzdBIQCghlbmRwb2ludBgBIAEoCRIyCgthdXRoX21ldGhvZBgCIAEoDjIdLmFneW5pby5hcGkubGxtLnYxLkF1dGhNZXRob2QSDQoFdG9rZW4YAyABKAkSFwoPb3JnYW5pemF0aW9uX2lkGAQgASgJIk0KGUNyZWF0ZUxMTVByb3ZpZGVyUmVzcG9uc2USMAoIcHJvdmlkZXIYASABKAsyHi5hZ3luaW8uYXBpLmxsbS52MS5MTE1Qcm92aWRlciIjChVHZXRMTE1Qcm92aWRlclJlcXVlc3QSCgoCaWQYASABKAkiSgoWR2V0TExNUHJvdmlkZXJSZXNwb25zZRIwCghwcm92aWRlchgBIAEoCzIeLmFneW5pby5hcGkubGxtLnYxLkxMTVByb3ZpZGVyIrEBChhVcGRhdGVMTE1Qcm92aWRlclJlcXVlc3QSCgoCaWQYASABKAkSFQoIZW5kcG9pbnQYAiABKAlIAIgBARI3CgthdXRoX21ldGhvZBgDIAEoDjIdLmFneW5pby5hcGkubGxtLnYxLkF1dGhNZXRob2RIAYgBARISCgV0b2tlbhgEIAEoCUgCiAEBQgsKCV9lbmRwb2ludEIOCgxfYXV0aF9tZXRob2RCCAoGX3Rva2VuIk0KGVVwZGF0ZUxMTVByb3ZpZGVyUmVzcG9uc2USMAoIcHJvdmlkZXIYASABKAsyHi5hZ3luaW8uYXBpLmxsbS52MS5MTE1Qcm92aWRlciImChhEZWxldGVMTE1Qcm92aWRlclJlcXVlc3QSCgoCaWQYASABKAkiGwoZRGVsZXRlTExNUHJvdmlkZXJSZXNwb25zZSJZChdMaXN0TExNUHJvdmlkZXJzUmVxdWVzdBIRCglwYWdlX3NpemUYASABKAUSEgoKcGFnZV90b2tlbhgCIAEoCRIXCg9vcmdhbml6YXRpb25faWQYAyABKAkiZgoYTGlzdExMTVByb3ZpZGVyc1Jlc3BvbnNlEjEKCXByb3ZpZGVycxgBIAMoCzIeLmFneW5pby5hcGkubGxtLnYxLkxMTVByb3ZpZGVyEhcKD25leHRfcGFnZV90b2tlbhgCIAEoCSJwCgVNb2RlbBIrCgRtZXRhGAEgASgLMh0uYWd5bmlvLmFwaS5sbG0udjEuRW50aXR5TWV0YRIMCgRuYW1lGAIgASgJEhcKD2xsbV9wcm92aWRlcl9pZBgDIAEoCRITCgtyZW1vdGVfbmFtZRgEIAEoCSJpChJDcmVhdGVNb2RlbFJlcXVlc3QSDAoEbmFtZRgBIAEoCRIXCg9sbG1fcHJvdmlkZXJfaWQYAiABKAkSEwoLcmVtb3RlX25hbWUYAyABKAkSFwoPb3JnYW5pemF0aW9uX2lkGAQgASgJIj4KE0NyZWF0ZU1vZGVsUmVzcG9uc2USJwoFbW9kZWwYASABKAsyGC5hZ3luaW8uYXBpLmxsbS52MS5Nb2RlbCIdCg9HZXRNb2RlbFJlcXVlc3QSCgoCaWQYASABKAkiOwoQR2V0TW9kZWxSZXNwb25zZRInCgVtb2RlbBgBIAEoCzIYLmFneW5pby5hcGkubGxtLnYxLk1vZGVsIpgBChJVcGRhdGVNb2RlbFJlcXVlc3QSCgoCaWQYASABKAkSEQoEbmFtZRgCIAEoCUgAiAEBEhwKD2xsbV9wcm92aWRlcl9pZBgDIAEoCUgBiAEBEhgKC3JlbW90ZV9uYW1lGAQgASgJSAKIAQFCBwoFX25hbWVCEgoQX2xsbV9wcm92aWRlcl9pZEIOCgxfcmVtb3RlX25hbWUiPgoTVXBkYXRlTW9kZWxSZXNwb25zZRInCgVtb2RlbBgBIAEoCzIYLmFneW5pby5hcGkubGxtLnYxLk1vZGVsIiAKEkRlbGV0ZU1vZGVsUmVxdWVzdBIKCgJpZBgBIAEoCSIVChNEZWxldGVNb2RlbFJlc3BvbnNlImwKEUxpc3RNb2RlbHNSZXF1ZXN0EhEKCXBhZ2Vfc2l6ZRgBIAEoBRISCgpwYWdlX3Rva2VuGAIgASgJEhcKD2xsbV9wcm92aWRlcl9pZBgDIAEoCRIXCg9vcmdhbml6YXRpb25faWQYBCABKAkiVwoSTGlzdE1vZGVsc1Jlc3BvbnNlEigKBm1vZGVscxgBIAMoCzIYLmFneW5pby5hcGkubGxtLnYxLk1vZGVsEhcKD25leHRfcGFnZV90b2tlbhgCIAEoCSInChNSZXNvbHZlTW9kZWxSZXF1ZXN0EhAKCG1vZGVsX2lkGAEgASgJImUKFFJlc29sdmVNb2RlbFJlc3BvbnNlEhAKCGVuZHBvaW50GAEgASgJEg0KBXRva2VuGAIgASgJEhMKC3JlbW90ZV9uYW1lGAMgASgJEhcKD29yZ2FuaXphdGlvbl9pZBgEIAEoCSpBCgpBdXRoTWV0aG9kEhsKF0FVVEhfTUVUSE9EX1VOU1BFQ0lGSUVEEAASFgoSQVVUSF9NRVRIT0RfQkVBUkVSEAEy2wgKCkxMTVNlcnZpY2USbgoRQ3JlYXRlTExNUHJvdmlkZXISKy5hZ3luaW8uYXBpLmxsbS52MS5DcmVhdGVMTE1Qcm92aWRlclJlcXVlc3QaLC5hZ3luaW8uYXBpLmxsbS52MS5DcmVhdGVMTE1Qcm92aWRlclJlc3BvbnNlEmUKDkdldExMTVByb3ZpZGVyEiguYWd5bmlvLmFwaS5sbG0udjEuR2V0TExNUHJvdmlkZXJSZXF1ZXN0GikuYWd5bmlvLmFwaS5sbG0udjEuR2V0TExNUHJvdmlkZXJSZXNwb25zZRJuChFVcGRhdGVMTE1Qcm92aWRlchIrLmFneW5pby5hcGkubGxtLnYxLlVwZGF0ZUxMTVByb3ZpZGVyUmVxdWVzdBosLmFneW5pby5hcGkubGxtLnYxLlVwZGF0ZUxMTVByb3ZpZGVyUmVzcG9uc2USbgoRRGVsZXRlTExNUHJvdmlkZXISKy5hZ3luaW8uYXBpLmxsbS52MS5EZWxldGVMTE1Qcm92aWRlclJlcXVlc3QaLC5hZ3luaW8uYXBpLmxsbS52MS5EZWxldGVMTE1Qcm92aWRlclJlc3BvbnNlEmsKEExpc3RMTE1Qcm92aWRlcnMSKi5hZ3luaW8uYXBpLmxsbS52MS5MaXN0TExNUHJvdmlkZXJzUmVxdWVzdBorLmFneW5pby5hcGkubGxtLnYxLkxpc3RMTE1Qcm92aWRlcnNSZXNwb25zZRJcCgtDcmVhdGVNb2RlbBIlLmFneW5pby5hcGkubGxtLnYxLkNyZWF0ZU1vZGVsUmVxdWVzdBomLmFneW5pby5hcGkubGxtLnYxLkNyZWF0ZU1vZGVsUmVzcG9uc2USUwoIR2V0TW9kZWwSIi5hZ3luaW8uYXBpLmxsbS52MS5HZXRNb2RlbFJlcXVlc3QaIy5hZ3luaW8uYXBpLmxsbS52MS5HZXRNb2RlbFJlc3BvbnNlElwKC1VwZGF0ZU1vZGVsEiUuYWd5bmlvLmFwaS5sbG0udjEuVXBkYXRlTW9kZWxSZXF1ZXN0GiYuYWd5bmlvLmFwaS5sbG0udjEuVXBkYXRlTW9kZWxSZXNwb25zZRJcCgtEZWxldGVNb2RlbBIlLmFneW5pby5hcGkubGxtLnYxLkRlbGV0ZU1vZGVsUmVxdWVzdBomLmFneW5pby5hcGkubGxtLnYxLkRlbGV0ZU1vZGVsUmVzcG9uc2USWQoKTGlzdE1vZGVscxIkLmFneW5pby5hcGkubGxtLnYxLkxpc3RNb2RlbHNSZXF1ZXN0GiUuYWd5bmlvLmFwaS5sbG0udjEuTGlzdE1vZGVsc1Jlc3BvbnNlEl8KDFJlc29sdmVNb2RlbBImLmFneW5pby5hcGkubGxtLnYxLlJlc29sdmVNb2RlbFJlcXVlc3QaJy5hZ3luaW8uYXBpLmxsbS52MS5SZXNvbHZlTW9kZWxSZXNwb25zZUIzWjFnaXRodWIuY29tL2FneW5pby9hcGkvZ2VuL2FneW5pby9hcGkvbGxtL3YxO2xsbXYxYgZwcm90bzM", [file_google_protobuf_timestamp]);
+  fileDesc("ChthZ3luaW8vYXBpL2xsbS92MS9sbG0ucHJvdG8SEWFneW5pby5hcGkubGxtLnYxIngKCkVudGl0eU1ldGESCgoCaWQYASABKAkSLgoKY3JlYXRlZF9hdBgCIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKdXBkYXRlZF9hdBgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAiyAEKC0xMTVByb3ZpZGVyEisKBG1ldGEYASABKAsyHS5hZ3luaW8uYXBpLmxsbS52MS5FbnRpdHlNZXRhEhAKCGVuZHBvaW50GAIgASgJEjIKC2F1dGhfbWV0aG9kGAMgASgOMh0uYWd5bmlvLmFwaS5sbG0udjEuQXV0aE1ldGhvZBIXCg9vcmdhbml6YXRpb25faWQYBCABKAkSLQoIcHJvdG9jb2wYBSABKA4yGy5hZ3luaW8uYXBpLmxsbS52MS5Qcm90b2NvbCK3AQoYQ3JlYXRlTExNUHJvdmlkZXJSZXF1ZXN0EhAKCGVuZHBvaW50GAEgASgJEjIKC2F1dGhfbWV0aG9kGAIgASgOMh0uYWd5bmlvLmFwaS5sbG0udjEuQXV0aE1ldGhvZBINCgV0b2tlbhgDIAEoCRIXCg9vcmdhbml6YXRpb25faWQYBCABKAkSLQoIcHJvdG9jb2wYBSABKA4yGy5hZ3luaW8uYXBpLmxsbS52MS5Qcm90b2NvbCJNChlDcmVhdGVMTE1Qcm92aWRlclJlc3BvbnNlEjAKCHByb3ZpZGVyGAEgASgLMh4uYWd5bmlvLmFwaS5sbG0udjEuTExNUHJvdmlkZXIiIwoVR2V0TExNUHJvdmlkZXJSZXF1ZXN0EgoKAmlkGAEgASgJIkoKFkdldExMTVByb3ZpZGVyUmVzcG9uc2USMAoIcHJvdmlkZXIYASABKAsyHi5hZ3luaW8uYXBpLmxsbS52MS5MTE1Qcm92aWRlciLyAQoYVXBkYXRlTExNUHJvdmlkZXJSZXF1ZXN0EgoKAmlkGAEgASgJEhUKCGVuZHBvaW50GAIgASgJSACIAQESNwoLYXV0aF9tZXRob2QYAyABKA4yHS5hZ3luaW8uYXBpLmxsbS52MS5BdXRoTWV0aG9kSAGIAQESEgoFdG9rZW4YBCABKAlIAogBARIyCghwcm90b2NvbBgFIAEoDjIbLmFneW5pby5hcGkubGxtLnYxLlByb3RvY29sSAOIAQFCCwoJX2VuZHBvaW50Qg4KDF9hdXRoX21ldGhvZEIICgZfdG9rZW5CCwoJX3Byb3RvY29sIk0KGVVwZGF0ZUxMTVByb3ZpZGVyUmVzcG9uc2USMAoIcHJvdmlkZXIYASABKAsyHi5hZ3luaW8uYXBpLmxsbS52MS5MTE1Qcm92aWRlciImChhEZWxldGVMTE1Qcm92aWRlclJlcXVlc3QSCgoCaWQYASABKAkiGwoZRGVsZXRlTExNUHJvdmlkZXJSZXNwb25zZSJZChdMaXN0TExNUHJvdmlkZXJzUmVxdWVzdBIRCglwYWdlX3NpemUYASABKAUSEgoKcGFnZV90b2tlbhgCIAEoCRIXCg9vcmdhbml6YXRpb25faWQYAyABKAkiZgoYTGlzdExMTVByb3ZpZGVyc1Jlc3BvbnNlEjEKCXByb3ZpZGVycxgBIAMoCzIeLmFneW5pby5hcGkubGxtLnYxLkxMTVByb3ZpZGVyEhcKD25leHRfcGFnZV90b2tlbhgCIAEoCSJwCgVNb2RlbBIrCgRtZXRhGAEgASgLMh0uYWd5bmlvLmFwaS5sbG0udjEuRW50aXR5TWV0YRIMCgRuYW1lGAIgASgJEhcKD2xsbV9wcm92aWRlcl9pZBgDIAEoCRITCgtyZW1vdGVfbmFtZRgEIAEoCSJpChJDcmVhdGVNb2RlbFJlcXVlc3QSDAoEbmFtZRgBIAEoCRIXCg9sbG1fcHJvdmlkZXJfaWQYAiABKAkSEwoLcmVtb3RlX25hbWUYAyABKAkSFwoPb3JnYW5pemF0aW9uX2lkGAQgASgJIj4KE0NyZWF0ZU1vZGVsUmVzcG9uc2USJwoFbW9kZWwYASABKAsyGC5hZ3luaW8uYXBpLmxsbS52MS5Nb2RlbCIdCg9HZXRNb2RlbFJlcXVlc3QSCgoCaWQYASABKAkiOwoQR2V0TW9kZWxSZXNwb25zZRInCgVtb2RlbBgBIAEoCzIYLmFneW5pby5hcGkubGxtLnYxLk1vZGVsIpgBChJVcGRhdGVNb2RlbFJlcXVlc3QSCgoCaWQYASABKAkSEQoEbmFtZRgCIAEoCUgAiAEBEhwKD2xsbV9wcm92aWRlcl9pZBgDIAEoCUgBiAEBEhgKC3JlbW90ZV9uYW1lGAQgASgJSAKIAQFCBwoFX25hbWVCEgoQX2xsbV9wcm92aWRlcl9pZEIOCgxfcmVtb3RlX25hbWUiPgoTVXBkYXRlTW9kZWxSZXNwb25zZRInCgVtb2RlbBgBIAEoCzIYLmFneW5pby5hcGkubGxtLnYxLk1vZGVsIiAKEkRlbGV0ZU1vZGVsUmVxdWVzdBIKCgJpZBgBIAEoCSIVChNEZWxldGVNb2RlbFJlc3BvbnNlImwKEUxpc3RNb2RlbHNSZXF1ZXN0EhEKCXBhZ2Vfc2l6ZRgBIAEoBRISCgpwYWdlX3Rva2VuGAIgASgJEhcKD2xsbV9wcm92aWRlcl9pZBgDIAEoCRIXCg9vcmdhbml6YXRpb25faWQYBCABKAkiVwoSTGlzdE1vZGVsc1Jlc3BvbnNlEigKBm1vZGVscxgBIAMoCzIYLmFneW5pby5hcGkubGxtLnYxLk1vZGVsEhcKD25leHRfcGFnZV90b2tlbhgCIAEoCSIkChBUZXN0TW9kZWxSZXF1ZXN0EhAKCG1vZGVsX2lkGAEgASgJIigKEVRlc3RNb2RlbFJlc3BvbnNlEhMKC291dHB1dF90ZXh0GAEgASgJIicKE1Jlc29sdmVNb2RlbFJlcXVlc3QSEAoIbW9kZWxfaWQYASABKAkiyAEKFFJlc29sdmVNb2RlbFJlc3BvbnNlEhAKCGVuZHBvaW50GAEgASgJEg0KBXRva2VuGAIgASgJEhMKC3JlbW90ZV9uYW1lGAMgASgJEhcKD29yZ2FuaXphdGlvbl9pZBgEIAEoCRItCghwcm90b2NvbBgFIAEoDjIbLmFneW5pby5hcGkubGxtLnYxLlByb3RvY29sEjIKC2F1dGhfbWV0aG9kGAYgASgOMh0uYWd5bmlvLmFwaS5sbG0udjEuQXV0aE1ldGhvZCpcCgpBdXRoTWV0aG9kEhsKF0FVVEhfTUVUSE9EX1VOU1BFQ0lGSUVEEAASFgoSQVVUSF9NRVRIT0RfQkVBUkVSEAESGQoVQVVUSF9NRVRIT0RfWF9BUElfS0VZEAIqXQoIUHJvdG9jb2wSGAoUUFJPVE9DT0xfVU5TUEVDSUZJRUQQABIWChJQUk9UT0NPTF9SRVNQT05TRVMQARIfChtQUk9UT0NPTF9BTlRIUk9QSUNfTUVTU0FHRVMQAjKzCQoKTExNU2VydmljZRJuChFDcmVhdGVMTE1Qcm92aWRlchIrLmFneW5pby5hcGkubGxtLnYxLkNyZWF0ZUxMTVByb3ZpZGVyUmVxdWVzdBosLmFneW5pby5hcGkubGxtLnYxLkNyZWF0ZUxMTVByb3ZpZGVyUmVzcG9uc2USZQoOR2V0TExNUHJvdmlkZXISKC5hZ3luaW8uYXBpLmxsbS52MS5HZXRMTE1Qcm92aWRlclJlcXVlc3QaKS5hZ3luaW8uYXBpLmxsbS52MS5HZXRMTE1Qcm92aWRlclJlc3BvbnNlEm4KEVVwZGF0ZUxMTVByb3ZpZGVyEisuYWd5bmlvLmFwaS5sbG0udjEuVXBkYXRlTExNUHJvdmlkZXJSZXF1ZXN0GiwuYWd5bmlvLmFwaS5sbG0udjEuVXBkYXRlTExNUHJvdmlkZXJSZXNwb25zZRJuChFEZWxldGVMTE1Qcm92aWRlchIrLmFneW5pby5hcGkubGxtLnYxLkRlbGV0ZUxMTVByb3ZpZGVyUmVxdWVzdBosLmFneW5pby5hcGkubGxtLnYxLkRlbGV0ZUxMTVByb3ZpZGVyUmVzcG9uc2USawoQTGlzdExMTVByb3ZpZGVycxIqLmFneW5pby5hcGkubGxtLnYxLkxpc3RMTE1Qcm92aWRlcnNSZXF1ZXN0GisuYWd5bmlvLmFwaS5sbG0udjEuTGlzdExMTVByb3ZpZGVyc1Jlc3BvbnNlElwKC0NyZWF0ZU1vZGVsEiUuYWd5bmlvLmFwaS5sbG0udjEuQ3JlYXRlTW9kZWxSZXF1ZXN0GiYuYWd5bmlvLmFwaS5sbG0udjEuQ3JlYXRlTW9kZWxSZXNwb25zZRJTCghHZXRNb2RlbBIiLmFneW5pby5hcGkubGxtLnYxLkdldE1vZGVsUmVxdWVzdBojLmFneW5pby5hcGkubGxtLnYxLkdldE1vZGVsUmVzcG9uc2USXAoLVXBkYXRlTW9kZWwSJS5hZ3luaW8uYXBpLmxsbS52MS5VcGRhdGVNb2RlbFJlcXVlc3QaJi5hZ3luaW8uYXBpLmxsbS52MS5VcGRhdGVNb2RlbFJlc3BvbnNlElwKC0RlbGV0ZU1vZGVsEiUuYWd5bmlvLmFwaS5sbG0udjEuRGVsZXRlTW9kZWxSZXF1ZXN0GiYuYWd5bmlvLmFwaS5sbG0udjEuRGVsZXRlTW9kZWxSZXNwb25zZRJZCgpMaXN0TW9kZWxzEiQuYWd5bmlvLmFwaS5sbG0udjEuTGlzdE1vZGVsc1JlcXVlc3QaJS5hZ3luaW8uYXBpLmxsbS52MS5MaXN0TW9kZWxzUmVzcG9uc2USVgoJVGVzdE1vZGVsEiMuYWd5bmlvLmFwaS5sbG0udjEuVGVzdE1vZGVsUmVxdWVzdBokLmFneW5pby5hcGkubGxtLnYxLlRlc3RNb2RlbFJlc3BvbnNlEl8KDFJlc29sdmVNb2RlbBImLmFneW5pby5hcGkubGxtLnYxLlJlc29sdmVNb2RlbFJlcXVlc3QaJy5hZ3luaW8uYXBpLmxsbS52MS5SZXNvbHZlTW9kZWxSZXNwb25zZUIzWjFnaXRodWIuY29tL2FneW5pby9hcGkvZ2VuL2FneW5pby9hcGkvbGxtL3YxO2xsbXYxYgZwcm90bzM", [file_google_protobuf_timestamp]);
 
 /**
  * @generated from message agynio.api.llm.v1.EntityMeta
@@ -68,6 +68,11 @@ export type LLMProvider = Message<"agynio.api.llm.v1.LLMProvider"> & {
    * @generated from field: string organization_id = 4;
    */
   organizationId: string;
+
+  /**
+   * @generated from field: agynio.api.llm.v1.Protocol protocol = 5;
+   */
+  protocol: Protocol;
 };
 
 /**
@@ -100,6 +105,11 @@ export type CreateLLMProviderRequest = Message<"agynio.api.llm.v1.CreateLLMProvi
    * @generated from field: string organization_id = 4;
    */
   organizationId: string;
+
+  /**
+   * @generated from field: agynio.api.llm.v1.Protocol protocol = 5;
+   */
+  protocol: Protocol;
 };
 
 /**
@@ -187,6 +197,11 @@ export type UpdateLLMProviderRequest = Message<"agynio.api.llm.v1.UpdateLLMProvi
    * @generated from field: optional string token = 4;
    */
   token?: string;
+
+  /**
+   * @generated from field: optional agynio.api.llm.v1.Protocol protocol = 5;
+   */
+  protocol?: Protocol;
 };
 
 /**
@@ -557,6 +572,42 @@ export const ListModelsResponseSchema: GenMessage<ListModelsResponse> = /*@__PUR
   messageDesc(file_agynio_api_llm_v1_llm, 22);
 
 /**
+ * @generated from message agynio.api.llm.v1.TestModelRequest
+ */
+export type TestModelRequest = Message<"agynio.api.llm.v1.TestModelRequest"> & {
+  /**
+   * UUID
+   *
+   * @generated from field: string model_id = 1;
+   */
+  modelId: string;
+};
+
+/**
+ * Describes the message agynio.api.llm.v1.TestModelRequest.
+ * Use `create(TestModelRequestSchema)` to create a new message.
+ */
+export const TestModelRequestSchema: GenMessage<TestModelRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_llm_v1_llm, 23);
+
+/**
+ * @generated from message agynio.api.llm.v1.TestModelResponse
+ */
+export type TestModelResponse = Message<"agynio.api.llm.v1.TestModelResponse"> & {
+  /**
+   * @generated from field: string output_text = 1;
+   */
+  outputText: string;
+};
+
+/**
+ * Describes the message agynio.api.llm.v1.TestModelResponse.
+ * Use `create(TestModelResponseSchema)` to create a new message.
+ */
+export const TestModelResponseSchema: GenMessage<TestModelResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_llm_v1_llm, 24);
+
+/**
  * @generated from message agynio.api.llm.v1.ResolveModelRequest
  */
 export type ResolveModelRequest = Message<"agynio.api.llm.v1.ResolveModelRequest"> & {
@@ -573,7 +624,7 @@ export type ResolveModelRequest = Message<"agynio.api.llm.v1.ResolveModelRequest
  * Use `create(ResolveModelRequestSchema)` to create a new message.
  */
 export const ResolveModelRequestSchema: GenMessage<ResolveModelRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_llm_v1_llm, 23);
+  messageDesc(file_agynio_api_llm_v1_llm, 25);
 
 /**
  * @generated from message agynio.api.llm.v1.ResolveModelResponse
@@ -600,6 +651,16 @@ export type ResolveModelResponse = Message<"agynio.api.llm.v1.ResolveModelRespon
    * @generated from field: string organization_id = 4;
    */
   organizationId: string;
+
+  /**
+   * @generated from field: agynio.api.llm.v1.Protocol protocol = 5;
+   */
+  protocol: Protocol;
+
+  /**
+   * @generated from field: agynio.api.llm.v1.AuthMethod auth_method = 6;
+   */
+  authMethod: AuthMethod;
 };
 
 /**
@@ -607,7 +668,7 @@ export type ResolveModelResponse = Message<"agynio.api.llm.v1.ResolveModelRespon
  * Use `create(ResolveModelResponseSchema)` to create a new message.
  */
 export const ResolveModelResponseSchema: GenMessage<ResolveModelResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_llm_v1_llm, 24);
+  messageDesc(file_agynio_api_llm_v1_llm, 26);
 
 /**
  * @generated from enum agynio.api.llm.v1.AuthMethod
@@ -622,6 +683,11 @@ export enum AuthMethod {
    * @generated from enum value: AUTH_METHOD_BEARER = 1;
    */
   BEARER = 1,
+
+  /**
+   * @generated from enum value: AUTH_METHOD_X_API_KEY = 2;
+   */
+  X_API_KEY = 2,
 }
 
 /**
@@ -629,6 +695,32 @@ export enum AuthMethod {
  */
 export const AuthMethodSchema: GenEnum<AuthMethod> = /*@__PURE__*/
   enumDesc(file_agynio_api_llm_v1_llm, 0);
+
+/**
+ * @generated from enum agynio.api.llm.v1.Protocol
+ */
+export enum Protocol {
+  /**
+   * @generated from enum value: PROTOCOL_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: PROTOCOL_RESPONSES = 1;
+   */
+  RESPONSES = 1,
+
+  /**
+   * @generated from enum value: PROTOCOL_ANTHROPIC_MESSAGES = 2;
+   */
+  ANTHROPIC_MESSAGES = 2,
+}
+
+/**
+ * Describes the enum agynio.api.llm.v1.Protocol.
+ */
+export const ProtocolSchema: GenEnum<Protocol> = /*@__PURE__*/
+  enumDesc(file_agynio_api_llm_v1_llm, 1);
 
 /**
  * LLMService manages provider and model resources and resolves models.
@@ -719,6 +811,16 @@ export const LLMService: GenService<{
     methodKind: "unary";
     input: typeof ListModelsRequestSchema;
     output: typeof ListModelsResponseSchema;
+  },
+  /**
+   * --- Test ---
+   *
+   * @generated from rpc agynio.api.llm.v1.LLMService.TestModel
+   */
+  testModel: {
+    methodKind: "unary";
+    input: typeof TestModelRequestSchema;
+    output: typeof TestModelResponseSchema;
   },
   /**
    * --- Resolution ---

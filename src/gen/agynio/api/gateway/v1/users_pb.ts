@@ -4,19 +4,71 @@
 
 import type { GenFile, GenService } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { BatchGetUsersRequestSchema, BatchGetUsersResponseSchema, CreateAPITokenRequestSchema, CreateAPITokenResponseSchema, ListAPITokensRequestSchema, ListAPITokensResponseSchema, RevokeAPITokenRequestSchema, RevokeAPITokenResponseSchema } from "../../users/v1/users_pb";
+import type { BatchGetUsersRequestSchema, BatchGetUsersResponseSchema, CreateAPITokenRequestSchema, CreateAPITokenResponseSchema, CreateDeviceRequestSchema, CreateDeviceResponseSchema, CreateUserRequestSchema, CreateUserResponseSchema, DeleteDeviceRequestSchema, DeleteDeviceResponseSchema, DeleteUserRequestSchema, DeleteUserResponseSchema, GetMeRequestSchema, GetMeResponseSchema, GetUserRequestSchema, GetUserResponseSchema, ListAPITokensRequestSchema, ListAPITokensResponseSchema, ListDevicesRequestSchema, ListDevicesResponseSchema, ListUsersRequestSchema, ListUsersResponseSchema, RevokeAPITokenRequestSchema, RevokeAPITokenResponseSchema, UpdateUserRequestSchema, UpdateUserResponseSchema } from "../../users/v1/users_pb";
 import { file_agynio_api_users_v1_users } from "../../users/v1/users_pb";
 
 /**
  * Describes the file agynio/api/gateway/v1/users.proto.
  */
 export const file_agynio_api_gateway_v1_users: GenFile = /*@__PURE__*/
-  fileDesc("CiFhZ3luaW8vYXBpL2dhdGV3YXkvdjEvdXNlcnMucHJvdG8SFWFneW5pby5hcGkuZ2F0ZXdheS52MTK0AwoMVXNlcnNHYXRld2F5EmkKDkNyZWF0ZUFQSVRva2VuEiouYWd5bmlvLmFwaS51c2Vycy52MS5DcmVhdGVBUElUb2tlblJlcXVlc3QaKy5hZ3luaW8uYXBpLnVzZXJzLnYxLkNyZWF0ZUFQSVRva2VuUmVzcG9uc2USZgoNTGlzdEFQSVRva2VucxIpLmFneW5pby5hcGkudXNlcnMudjEuTGlzdEFQSVRva2Vuc1JlcXVlc3QaKi5hZ3luaW8uYXBpLnVzZXJzLnYxLkxpc3RBUElUb2tlbnNSZXNwb25zZRJpCg5SZXZva2VBUElUb2tlbhIqLmFneW5pby5hcGkudXNlcnMudjEuUmV2b2tlQVBJVG9rZW5SZXF1ZXN0GisuYWd5bmlvLmFwaS51c2Vycy52MS5SZXZva2VBUElUb2tlblJlc3BvbnNlEmYKDUJhdGNoR2V0VXNlcnMSKS5hZ3luaW8uYXBpLnVzZXJzLnYxLkJhdGNoR2V0VXNlcnNSZXF1ZXN0GiouYWd5bmlvLmFwaS51c2Vycy52MS5CYXRjaEdldFVzZXJzUmVzcG9uc2VCO1o5Z2l0aHViLmNvbS9hZ3luaW8vYXBpL2dlbi9hZ3luaW8vYXBpL2dhdGV3YXkvdjE7Z2F0ZXdheXYxYgZwcm90bzM", [file_agynio_api_users_v1_users]);
+  fileDesc("CiFhZ3luaW8vYXBpL2dhdGV3YXkvdjEvdXNlcnMucHJvdG8SFWFneW5pby5hcGkuZ2F0ZXdheS52MTL/CQoMVXNlcnNHYXRld2F5Ek4KBUdldE1lEiEuYWd5bmlvLmFwaS51c2Vycy52MS5HZXRNZVJlcXVlc3QaIi5hZ3luaW8uYXBpLnVzZXJzLnYxLkdldE1lUmVzcG9uc2USXQoKQ3JlYXRlVXNlchImLmFneW5pby5hcGkudXNlcnMudjEuQ3JlYXRlVXNlclJlcXVlc3QaJy5hZ3luaW8uYXBpLnVzZXJzLnYxLkNyZWF0ZVVzZXJSZXNwb25zZRJUCgdHZXRVc2VyEiMuYWd5bmlvLmFwaS51c2Vycy52MS5HZXRVc2VyUmVxdWVzdBokLmFneW5pby5hcGkudXNlcnMudjEuR2V0VXNlclJlc3BvbnNlEloKCUxpc3RVc2VycxIlLmFneW5pby5hcGkudXNlcnMudjEuTGlzdFVzZXJzUmVxdWVzdBomLmFneW5pby5hcGkudXNlcnMudjEuTGlzdFVzZXJzUmVzcG9uc2USXQoKVXBkYXRlVXNlchImLmFneW5pby5hcGkudXNlcnMudjEuVXBkYXRlVXNlclJlcXVlc3QaJy5hZ3luaW8uYXBpLnVzZXJzLnYxLlVwZGF0ZVVzZXJSZXNwb25zZRJdCgpEZWxldGVVc2VyEiYuYWd5bmlvLmFwaS51c2Vycy52MS5EZWxldGVVc2VyUmVxdWVzdBonLmFneW5pby5hcGkudXNlcnMudjEuRGVsZXRlVXNlclJlc3BvbnNlEmkKDkNyZWF0ZUFQSVRva2VuEiouYWd5bmlvLmFwaS51c2Vycy52MS5DcmVhdGVBUElUb2tlblJlcXVlc3QaKy5hZ3luaW8uYXBpLnVzZXJzLnYxLkNyZWF0ZUFQSVRva2VuUmVzcG9uc2USZgoNTGlzdEFQSVRva2VucxIpLmFneW5pby5hcGkudXNlcnMudjEuTGlzdEFQSVRva2Vuc1JlcXVlc3QaKi5hZ3luaW8uYXBpLnVzZXJzLnYxLkxpc3RBUElUb2tlbnNSZXNwb25zZRJpCg5SZXZva2VBUElUb2tlbhIqLmFneW5pby5hcGkudXNlcnMudjEuUmV2b2tlQVBJVG9rZW5SZXF1ZXN0GisuYWd5bmlvLmFwaS51c2Vycy52MS5SZXZva2VBUElUb2tlblJlc3BvbnNlEmYKDUJhdGNoR2V0VXNlcnMSKS5hZ3luaW8uYXBpLnVzZXJzLnYxLkJhdGNoR2V0VXNlcnNSZXF1ZXN0GiouYWd5bmlvLmFwaS51c2Vycy52MS5CYXRjaEdldFVzZXJzUmVzcG9uc2USYwoMQ3JlYXRlRGV2aWNlEiguYWd5bmlvLmFwaS51c2Vycy52MS5DcmVhdGVEZXZpY2VSZXF1ZXN0GikuYWd5bmlvLmFwaS51c2Vycy52MS5DcmVhdGVEZXZpY2VSZXNwb25zZRJgCgtMaXN0RGV2aWNlcxInLmFneW5pby5hcGkudXNlcnMudjEuTGlzdERldmljZXNSZXF1ZXN0GiguYWd5bmlvLmFwaS51c2Vycy52MS5MaXN0RGV2aWNlc1Jlc3BvbnNlEmMKDERlbGV0ZURldmljZRIoLmFneW5pby5hcGkudXNlcnMudjEuRGVsZXRlRGV2aWNlUmVxdWVzdBopLmFneW5pby5hcGkudXNlcnMudjEuRGVsZXRlRGV2aWNlUmVzcG9uc2VCO1o5Z2l0aHViLmNvbS9hZ3luaW8vYXBpL2dlbi9hZ3luaW8vYXBpL2dhdGV3YXkvdjE7Z2F0ZXdheXYxYgZwcm90bzM", [file_agynio_api_users_v1_users]);
 
 /**
  * @generated from service agynio.api.gateway.v1.UsersGateway
  */
 export const UsersGateway: GenService<{
+  /**
+   * --- Current User ---
+   *
+   * @generated from rpc agynio.api.gateway.v1.UsersGateway.GetMe
+   */
+  getMe: {
+    methodKind: "unary";
+    input: typeof GetMeRequestSchema;
+    output: typeof GetMeResponseSchema;
+  },
+  /**
+   * --- Admin User Management ---
+   *
+   * @generated from rpc agynio.api.gateway.v1.UsersGateway.CreateUser
+   */
+  createUser: {
+    methodKind: "unary";
+    input: typeof CreateUserRequestSchema;
+    output: typeof CreateUserResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.UsersGateway.GetUser
+   */
+  getUser: {
+    methodKind: "unary";
+    input: typeof GetUserRequestSchema;
+    output: typeof GetUserResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.UsersGateway.ListUsers
+   */
+  listUsers: {
+    methodKind: "unary";
+    input: typeof ListUsersRequestSchema;
+    output: typeof ListUsersResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.UsersGateway.UpdateUser
+   */
+  updateUser: {
+    methodKind: "unary";
+    input: typeof UpdateUserRequestSchema;
+    output: typeof UpdateUserResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.UsersGateway.DeleteUser
+   */
+  deleteUser: {
+    methodKind: "unary";
+    input: typeof DeleteUserRequestSchema;
+    output: typeof DeleteUserResponseSchema;
+  },
   /**
    * --- API Tokens ---
    *
@@ -50,6 +102,32 @@ export const UsersGateway: GenService<{
     methodKind: "unary";
     input: typeof BatchGetUsersRequestSchema;
     output: typeof BatchGetUsersResponseSchema;
+  },
+  /**
+   * --- Devices ---
+   *
+   * @generated from rpc agynio.api.gateway.v1.UsersGateway.CreateDevice
+   */
+  createDevice: {
+    methodKind: "unary";
+    input: typeof CreateDeviceRequestSchema;
+    output: typeof CreateDeviceResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.UsersGateway.ListDevices
+   */
+  listDevices: {
+    methodKind: "unary";
+    input: typeof ListDevicesRequestSchema;
+    output: typeof ListDevicesResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.UsersGateway.DeleteDevice
+   */
+  deleteDevice: {
+    methodKind: "unary";
+    input: typeof DeleteDeviceRequestSchema;
+    output: typeof DeleteDeviceResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_agynio_api_gateway_v1_users, 0);

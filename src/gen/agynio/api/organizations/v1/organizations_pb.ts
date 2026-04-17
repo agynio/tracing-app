@@ -2,8 +2,8 @@
 // @generated from file agynio/api/organizations/v1/organizations.proto (package agynio.api.organizations.v1, syntax proto3)
 /* eslint-disable */
 
-import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
-import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
+import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
+import { enumDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
 import type { Timestamp } from "@bufbuild/protobuf/wkt";
 import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
 import type { Message } from "@bufbuild/protobuf";
@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file agynio/api/organizations/v1/organizations.proto.
  */
 export const file_agynio_api_organizations_v1_organizations: GenFile = /*@__PURE__*/
-  fileDesc("Ci9hZ3luaW8vYXBpL29yZ2FuaXphdGlvbnMvdjEvb3JnYW5pemF0aW9ucy5wcm90bxIbYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxIogBCgxPcmdhbml6YXRpb24SCgoCaWQYASABKAkSDAoEbmFtZRgCIAEoCRIuCgpjcmVhdGVkX2F0GAMgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgp1cGRhdGVkX2F0GAQgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCIpChlDcmVhdGVPcmdhbml6YXRpb25SZXF1ZXN0EgwKBG5hbWUYASABKAkiXQoaQ3JlYXRlT3JnYW5pemF0aW9uUmVzcG9uc2USPwoMb3JnYW5pemF0aW9uGAEgASgLMikuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLk9yZ2FuaXphdGlvbiIkChZHZXRPcmdhbml6YXRpb25SZXF1ZXN0EgoKAmlkGAEgASgJIloKF0dldE9yZ2FuaXphdGlvblJlc3BvbnNlEj8KDG9yZ2FuaXphdGlvbhgBIAEoCzIpLmFneW5pby5hcGkub3JnYW5pemF0aW9ucy52MS5Pcmdhbml6YXRpb24iQwoZVXBkYXRlT3JnYW5pemF0aW9uUmVxdWVzdBIKCgJpZBgBIAEoCRIRCgRuYW1lGAIgASgJSACIAQFCBwoFX25hbWUiXQoaVXBkYXRlT3JnYW5pemF0aW9uUmVzcG9uc2USPwoMb3JnYW5pemF0aW9uGAEgASgLMikuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLk9yZ2FuaXphdGlvbiInChlEZWxldGVPcmdhbml6YXRpb25SZXF1ZXN0EgoKAmlkGAEgASgJIhwKGkRlbGV0ZU9yZ2FuaXphdGlvblJlc3BvbnNlIkEKGExpc3RPcmdhbml6YXRpb25zUmVxdWVzdBIRCglwYWdlX3NpemUYASABKAUSEgoKcGFnZV90b2tlbhgCIAEoCSJ2ChlMaXN0T3JnYW5pemF0aW9uc1Jlc3BvbnNlEkAKDW9yZ2FuaXphdGlvbnMYASADKAsyKS5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuT3JnYW5pemF0aW9uEhcKD25leHRfcGFnZV90b2tlbhgCIAEoCSI5CiJMaXN0QWNjZXNzaWJsZU9yZ2FuaXphdGlvbnNSZXF1ZXN0EhMKC2lkZW50aXR5X2lkGAEgASgJImcKI0xpc3RBY2Nlc3NpYmxlT3JnYW5pemF0aW9uc1Jlc3BvbnNlEkAKDW9yZ2FuaXphdGlvbnMYASADKAsyKS5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuT3JnYW5pemF0aW9uMtQGChRPcmdhbml6YXRpb25zU2VydmljZRKFAQoSQ3JlYXRlT3JnYW5pemF0aW9uEjYuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLkNyZWF0ZU9yZ2FuaXphdGlvblJlcXVlc3QaNy5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuQ3JlYXRlT3JnYW5pemF0aW9uUmVzcG9uc2USfAoPR2V0T3JnYW5pemF0aW9uEjMuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLkdldE9yZ2FuaXphdGlvblJlcXVlc3QaNC5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuR2V0T3JnYW5pemF0aW9uUmVzcG9uc2UShQEKElVwZGF0ZU9yZ2FuaXphdGlvbhI2LmFneW5pby5hcGkub3JnYW5pemF0aW9ucy52MS5VcGRhdGVPcmdhbml6YXRpb25SZXF1ZXN0GjcuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLlVwZGF0ZU9yZ2FuaXphdGlvblJlc3BvbnNlEoUBChJEZWxldGVPcmdhbml6YXRpb24SNi5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuRGVsZXRlT3JnYW5pemF0aW9uUmVxdWVzdBo3LmFneW5pby5hcGkub3JnYW5pemF0aW9ucy52MS5EZWxldGVPcmdhbml6YXRpb25SZXNwb25zZRKCAQoRTGlzdE9yZ2FuaXphdGlvbnMSNS5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuTGlzdE9yZ2FuaXphdGlvbnNSZXF1ZXN0GjYuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLkxpc3RPcmdhbml6YXRpb25zUmVzcG9uc2USoAEKG0xpc3RBY2Nlc3NpYmxlT3JnYW5pemF0aW9ucxI/LmFneW5pby5hcGkub3JnYW5pemF0aW9ucy52MS5MaXN0QWNjZXNzaWJsZU9yZ2FuaXphdGlvbnNSZXF1ZXN0GkAuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLkxpc3RBY2Nlc3NpYmxlT3JnYW5pemF0aW9uc1Jlc3BvbnNlQkdaRWdpdGh1Yi5jb20vYWd5bmlvL2FwaS9nZW4vYWd5bmlvL2FwaS9vcmdhbml6YXRpb25zL3YxO29yZ2FuaXphdGlvbnN2MWIGcHJvdG8z", [file_google_protobuf_timestamp]);
+  fileDesc("Ci9hZ3luaW8vYXBpL29yZ2FuaXphdGlvbnMvdjEvb3JnYW5pemF0aW9ucy5wcm90bxIbYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxIogBCgxPcmdhbml6YXRpb24SCgoCaWQYASABKAkSDAoEbmFtZRgCIAEoCRIuCgpjcmVhdGVkX2F0GAMgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgp1cGRhdGVkX2F0GAQgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCIpChlDcmVhdGVPcmdhbml6YXRpb25SZXF1ZXN0EgwKBG5hbWUYASABKAkiXQoaQ3JlYXRlT3JnYW5pemF0aW9uUmVzcG9uc2USPwoMb3JnYW5pemF0aW9uGAEgASgLMikuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLk9yZ2FuaXphdGlvbiIkChZHZXRPcmdhbml6YXRpb25SZXF1ZXN0EgoKAmlkGAEgASgJIloKF0dldE9yZ2FuaXphdGlvblJlc3BvbnNlEj8KDG9yZ2FuaXphdGlvbhgBIAEoCzIpLmFneW5pby5hcGkub3JnYW5pemF0aW9ucy52MS5Pcmdhbml6YXRpb24iQwoZVXBkYXRlT3JnYW5pemF0aW9uUmVxdWVzdBIKCgJpZBgBIAEoCRIRCgRuYW1lGAIgASgJSACIAQFCBwoFX25hbWUiXQoaVXBkYXRlT3JnYW5pemF0aW9uUmVzcG9uc2USPwoMb3JnYW5pemF0aW9uGAEgASgLMikuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLk9yZ2FuaXphdGlvbiInChlEZWxldGVPcmdhbml6YXRpb25SZXF1ZXN0EgoKAmlkGAEgASgJIhwKGkRlbGV0ZU9yZ2FuaXphdGlvblJlc3BvbnNlIkEKGExpc3RPcmdhbml6YXRpb25zUmVxdWVzdBIRCglwYWdlX3NpemUYASABKAUSEgoKcGFnZV90b2tlbhgCIAEoCSJ2ChlMaXN0T3JnYW5pemF0aW9uc1Jlc3BvbnNlEkAKDW9yZ2FuaXphdGlvbnMYASADKAsyKS5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuT3JnYW5pemF0aW9uEhcKD25leHRfcGFnZV90b2tlbhgCIAEoCSI5CiJMaXN0QWNjZXNzaWJsZU9yZ2FuaXphdGlvbnNSZXF1ZXN0EhMKC2lkZW50aXR5X2lkGAEgASgJImcKI0xpc3RBY2Nlc3NpYmxlT3JnYW5pemF0aW9uc1Jlc3BvbnNlEkAKDW9yZ2FuaXphdGlvbnMYASADKAsyKS5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuT3JnYW5pemF0aW9uIuQCCgpNZW1iZXJzaGlwEgoKAmlkGAEgASgJEhcKD29yZ2FuaXphdGlvbl9pZBgCIAEoCRITCgtpZGVudGl0eV9pZBgDIAEoCRI5CgRyb2xlGAQgASgOMisuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLk1lbWJlcnNoaXBSb2xlEj0KBnN0YXR1cxgFIAEoDjItLmFneW5pby5hcGkub3JnYW5pemF0aW9ucy52MS5NZW1iZXJzaGlwU3RhdHVzEjMKCmV4cGlyZXNfYXQYBiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wSACIAQESLgoKY3JlYXRlZF9hdBgHIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKdXBkYXRlZF9hdBgIIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBCDQoLX2V4cGlyZXNfYXQixgEKF0NyZWF0ZU1lbWJlcnNoaXBSZXF1ZXN0EhcKD29yZ2FuaXphdGlvbl9pZBgBIAEoCRITCgtpZGVudGl0eV9pZBgCIAEoCRI5CgRyb2xlGAMgASgOMisuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLk1lbWJlcnNoaXBSb2xlEjMKCmV4cGlyZXNfYXQYBCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wSACIAQFCDQoLX2V4cGlyZXNfYXQiVwoYQ3JlYXRlTWVtYmVyc2hpcFJlc3BvbnNlEjsKCm1lbWJlcnNoaXAYASABKAsyJy5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuTWVtYmVyc2hpcCIwChdBY2NlcHRNZW1iZXJzaGlwUmVxdWVzdBIVCg1tZW1iZXJzaGlwX2lkGAEgASgJIlcKGEFjY2VwdE1lbWJlcnNoaXBSZXNwb25zZRI7CgptZW1iZXJzaGlwGAEgASgLMicuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLk1lbWJlcnNoaXAiMQoYRGVjbGluZU1lbWJlcnNoaXBSZXF1ZXN0EhUKDW1lbWJlcnNoaXBfaWQYASABKAkiGwoZRGVjbGluZU1lbWJlcnNoaXBSZXNwb25zZSIwChdSZW1vdmVNZW1iZXJzaGlwUmVxdWVzdBIVCg1tZW1iZXJzaGlwX2lkGAEgASgJIhoKGFJlbW92ZU1lbWJlcnNoaXBSZXNwb25zZSJvChtVcGRhdGVNZW1iZXJzaGlwUm9sZVJlcXVlc3QSFQoNbWVtYmVyc2hpcF9pZBgBIAEoCRI5CgRyb2xlGAIgASgOMisuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLk1lbWJlcnNoaXBSb2xlIlsKHFVwZGF0ZU1lbWJlcnNoaXBSb2xlUmVzcG9uc2USOwoKbWVtYmVyc2hpcBgBIAEoCzInLmFneW5pby5hcGkub3JnYW5pemF0aW9ucy52MS5NZW1iZXJzaGlwIpMBChJMaXN0TWVtYmVyc1JlcXVlc3QSFwoPb3JnYW5pemF0aW9uX2lkGAEgASgJEj0KBnN0YXR1cxgCIAEoDjItLmFneW5pby5hcGkub3JnYW5pemF0aW9ucy52MS5NZW1iZXJzaGlwU3RhdHVzEhEKCXBhZ2Vfc2l6ZRgDIAEoBRISCgpwYWdlX3Rva2VuGAQgASgJImwKE0xpc3RNZW1iZXJzUmVzcG9uc2USPAoLbWVtYmVyc2hpcHMYASADKAsyJy5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuTWVtYmVyc2hpcBIXCg9uZXh0X3BhZ2VfdG9rZW4YAiABKAkigAEKGExpc3RNeU1lbWJlcnNoaXBzUmVxdWVzdBI9CgZzdGF0dXMYASABKA4yLS5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuTWVtYmVyc2hpcFN0YXR1cxIRCglwYWdlX3NpemUYAiABKAUSEgoKcGFnZV90b2tlbhgDIAEoCSJyChlMaXN0TXlNZW1iZXJzaGlwc1Jlc3BvbnNlEjwKC21lbWJlcnNoaXBzGAEgAygLMicuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLk1lbWJlcnNoaXASFwoPbmV4dF9wYWdlX3Rva2VuGAIgASgJKmgKDk1lbWJlcnNoaXBSb2xlEh8KG01FTUJFUlNISVBfUk9MRV9VTlNQRUNJRklFRBAAEhkKFU1FTUJFUlNISVBfUk9MRV9PV05FUhABEhoKFk1FTUJFUlNISVBfUk9MRV9NRU1CRVIQAipyChBNZW1iZXJzaGlwU3RhdHVzEiEKHU1FTUJFUlNISVBfU1RBVFVTX1VOU1BFQ0lGSUVEEAASHQoZTUVNQkVSU0hJUF9TVEFUVVNfUEVORElORxABEhwKGE1FTUJFUlNISVBfU1RBVFVTX0FDVElWRRACMuENChRPcmdhbml6YXRpb25zU2VydmljZRKFAQoSQ3JlYXRlT3JnYW5pemF0aW9uEjYuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLkNyZWF0ZU9yZ2FuaXphdGlvblJlcXVlc3QaNy5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuQ3JlYXRlT3JnYW5pemF0aW9uUmVzcG9uc2USfAoPR2V0T3JnYW5pemF0aW9uEjMuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLkdldE9yZ2FuaXphdGlvblJlcXVlc3QaNC5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuR2V0T3JnYW5pemF0aW9uUmVzcG9uc2UShQEKElVwZGF0ZU9yZ2FuaXphdGlvbhI2LmFneW5pby5hcGkub3JnYW5pemF0aW9ucy52MS5VcGRhdGVPcmdhbml6YXRpb25SZXF1ZXN0GjcuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLlVwZGF0ZU9yZ2FuaXphdGlvblJlc3BvbnNlEoUBChJEZWxldGVPcmdhbml6YXRpb24SNi5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuRGVsZXRlT3JnYW5pemF0aW9uUmVxdWVzdBo3LmFneW5pby5hcGkub3JnYW5pemF0aW9ucy52MS5EZWxldGVPcmdhbml6YXRpb25SZXNwb25zZRKCAQoRTGlzdE9yZ2FuaXphdGlvbnMSNS5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuTGlzdE9yZ2FuaXphdGlvbnNSZXF1ZXN0GjYuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLkxpc3RPcmdhbml6YXRpb25zUmVzcG9uc2USoAEKG0xpc3RBY2Nlc3NpYmxlT3JnYW5pemF0aW9ucxI/LmFneW5pby5hcGkub3JnYW5pemF0aW9ucy52MS5MaXN0QWNjZXNzaWJsZU9yZ2FuaXphdGlvbnNSZXF1ZXN0GkAuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLkxpc3RBY2Nlc3NpYmxlT3JnYW5pemF0aW9uc1Jlc3BvbnNlEn8KEENyZWF0ZU1lbWJlcnNoaXASNC5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuQ3JlYXRlTWVtYmVyc2hpcFJlcXVlc3QaNS5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuQ3JlYXRlTWVtYmVyc2hpcFJlc3BvbnNlEn8KEEFjY2VwdE1lbWJlcnNoaXASNC5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuQWNjZXB0TWVtYmVyc2hpcFJlcXVlc3QaNS5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuQWNjZXB0TWVtYmVyc2hpcFJlc3BvbnNlEoIBChFEZWNsaW5lTWVtYmVyc2hpcBI1LmFneW5pby5hcGkub3JnYW5pemF0aW9ucy52MS5EZWNsaW5lTWVtYmVyc2hpcFJlcXVlc3QaNi5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuRGVjbGluZU1lbWJlcnNoaXBSZXNwb25zZRJ/ChBSZW1vdmVNZW1iZXJzaGlwEjQuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLlJlbW92ZU1lbWJlcnNoaXBSZXF1ZXN0GjUuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLlJlbW92ZU1lbWJlcnNoaXBSZXNwb25zZRKLAQoUVXBkYXRlTWVtYmVyc2hpcFJvbGUSOC5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuVXBkYXRlTWVtYmVyc2hpcFJvbGVSZXF1ZXN0GjkuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLlVwZGF0ZU1lbWJlcnNoaXBSb2xlUmVzcG9uc2UScAoLTGlzdE1lbWJlcnMSLy5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuTGlzdE1lbWJlcnNSZXF1ZXN0GjAuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLkxpc3RNZW1iZXJzUmVzcG9uc2USggEKEUxpc3RNeU1lbWJlcnNoaXBzEjUuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLkxpc3RNeU1lbWJlcnNoaXBzUmVxdWVzdBo2LmFneW5pby5hcGkub3JnYW5pemF0aW9ucy52MS5MaXN0TXlNZW1iZXJzaGlwc1Jlc3BvbnNlQkdaRWdpdGh1Yi5jb20vYWd5bmlvL2FwaS9nZW4vYWd5bmlvL2FwaS9vcmdhbml6YXRpb25zL3YxO29yZ2FuaXphdGlvbnN2MWIGcHJvdG8z", [file_google_protobuf_timestamp]);
 
 /**
  * @generated from message agynio.api.organizations.v1.Organization
@@ -272,6 +272,419 @@ export const ListAccessibleOrganizationsResponseSchema: GenMessage<ListAccessibl
   messageDesc(file_agynio_api_organizations_v1_organizations, 12);
 
 /**
+ * @generated from message agynio.api.organizations.v1.Membership
+ */
+export type Membership = Message<"agynio.api.organizations.v1.Membership"> & {
+  /**
+   * UUID
+   *
+   * @generated from field: string id = 1;
+   */
+  id: string;
+
+  /**
+   * UUID
+   *
+   * @generated from field: string organization_id = 2;
+   */
+  organizationId: string;
+
+  /**
+   * UUID
+   *
+   * @generated from field: string identity_id = 3;
+   */
+  identityId: string;
+
+  /**
+   * @generated from field: agynio.api.organizations.v1.MembershipRole role = 4;
+   */
+  role: MembershipRole;
+
+  /**
+   * @generated from field: agynio.api.organizations.v1.MembershipStatus status = 5;
+   */
+  status: MembershipStatus;
+
+  /**
+   * @generated from field: optional google.protobuf.Timestamp expires_at = 6;
+   */
+  expiresAt?: Timestamp;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp created_at = 7;
+   */
+  createdAt?: Timestamp;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp updated_at = 8;
+   */
+  updatedAt?: Timestamp;
+};
+
+/**
+ * Describes the message agynio.api.organizations.v1.Membership.
+ * Use `create(MembershipSchema)` to create a new message.
+ */
+export const MembershipSchema: GenMessage<Membership> = /*@__PURE__*/
+  messageDesc(file_agynio_api_organizations_v1_organizations, 13);
+
+/**
+ * @generated from message agynio.api.organizations.v1.CreateMembershipRequest
+ */
+export type CreateMembershipRequest = Message<"agynio.api.organizations.v1.CreateMembershipRequest"> & {
+  /**
+   * UUID
+   *
+   * @generated from field: string organization_id = 1;
+   */
+  organizationId: string;
+
+  /**
+   * UUID
+   *
+   * @generated from field: string identity_id = 2;
+   */
+  identityId: string;
+
+  /**
+   * @generated from field: agynio.api.organizations.v1.MembershipRole role = 3;
+   */
+  role: MembershipRole;
+
+  /**
+   * @generated from field: optional google.protobuf.Timestamp expires_at = 4;
+   */
+  expiresAt?: Timestamp;
+};
+
+/**
+ * Describes the message agynio.api.organizations.v1.CreateMembershipRequest.
+ * Use `create(CreateMembershipRequestSchema)` to create a new message.
+ */
+export const CreateMembershipRequestSchema: GenMessage<CreateMembershipRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_organizations_v1_organizations, 14);
+
+/**
+ * @generated from message agynio.api.organizations.v1.CreateMembershipResponse
+ */
+export type CreateMembershipResponse = Message<"agynio.api.organizations.v1.CreateMembershipResponse"> & {
+  /**
+   * @generated from field: agynio.api.organizations.v1.Membership membership = 1;
+   */
+  membership?: Membership;
+};
+
+/**
+ * Describes the message agynio.api.organizations.v1.CreateMembershipResponse.
+ * Use `create(CreateMembershipResponseSchema)` to create a new message.
+ */
+export const CreateMembershipResponseSchema: GenMessage<CreateMembershipResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_organizations_v1_organizations, 15);
+
+/**
+ * @generated from message agynio.api.organizations.v1.AcceptMembershipRequest
+ */
+export type AcceptMembershipRequest = Message<"agynio.api.organizations.v1.AcceptMembershipRequest"> & {
+  /**
+   * UUID
+   *
+   * @generated from field: string membership_id = 1;
+   */
+  membershipId: string;
+};
+
+/**
+ * Describes the message agynio.api.organizations.v1.AcceptMembershipRequest.
+ * Use `create(AcceptMembershipRequestSchema)` to create a new message.
+ */
+export const AcceptMembershipRequestSchema: GenMessage<AcceptMembershipRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_organizations_v1_organizations, 16);
+
+/**
+ * @generated from message agynio.api.organizations.v1.AcceptMembershipResponse
+ */
+export type AcceptMembershipResponse = Message<"agynio.api.organizations.v1.AcceptMembershipResponse"> & {
+  /**
+   * @generated from field: agynio.api.organizations.v1.Membership membership = 1;
+   */
+  membership?: Membership;
+};
+
+/**
+ * Describes the message agynio.api.organizations.v1.AcceptMembershipResponse.
+ * Use `create(AcceptMembershipResponseSchema)` to create a new message.
+ */
+export const AcceptMembershipResponseSchema: GenMessage<AcceptMembershipResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_organizations_v1_organizations, 17);
+
+/**
+ * @generated from message agynio.api.organizations.v1.DeclineMembershipRequest
+ */
+export type DeclineMembershipRequest = Message<"agynio.api.organizations.v1.DeclineMembershipRequest"> & {
+  /**
+   * UUID
+   *
+   * @generated from field: string membership_id = 1;
+   */
+  membershipId: string;
+};
+
+/**
+ * Describes the message agynio.api.organizations.v1.DeclineMembershipRequest.
+ * Use `create(DeclineMembershipRequestSchema)` to create a new message.
+ */
+export const DeclineMembershipRequestSchema: GenMessage<DeclineMembershipRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_organizations_v1_organizations, 18);
+
+/**
+ * @generated from message agynio.api.organizations.v1.DeclineMembershipResponse
+ */
+export type DeclineMembershipResponse = Message<"agynio.api.organizations.v1.DeclineMembershipResponse"> & {
+};
+
+/**
+ * Describes the message agynio.api.organizations.v1.DeclineMembershipResponse.
+ * Use `create(DeclineMembershipResponseSchema)` to create a new message.
+ */
+export const DeclineMembershipResponseSchema: GenMessage<DeclineMembershipResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_organizations_v1_organizations, 19);
+
+/**
+ * @generated from message agynio.api.organizations.v1.RemoveMembershipRequest
+ */
+export type RemoveMembershipRequest = Message<"agynio.api.organizations.v1.RemoveMembershipRequest"> & {
+  /**
+   * UUID
+   *
+   * @generated from field: string membership_id = 1;
+   */
+  membershipId: string;
+};
+
+/**
+ * Describes the message agynio.api.organizations.v1.RemoveMembershipRequest.
+ * Use `create(RemoveMembershipRequestSchema)` to create a new message.
+ */
+export const RemoveMembershipRequestSchema: GenMessage<RemoveMembershipRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_organizations_v1_organizations, 20);
+
+/**
+ * @generated from message agynio.api.organizations.v1.RemoveMembershipResponse
+ */
+export type RemoveMembershipResponse = Message<"agynio.api.organizations.v1.RemoveMembershipResponse"> & {
+};
+
+/**
+ * Describes the message agynio.api.organizations.v1.RemoveMembershipResponse.
+ * Use `create(RemoveMembershipResponseSchema)` to create a new message.
+ */
+export const RemoveMembershipResponseSchema: GenMessage<RemoveMembershipResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_organizations_v1_organizations, 21);
+
+/**
+ * @generated from message agynio.api.organizations.v1.UpdateMembershipRoleRequest
+ */
+export type UpdateMembershipRoleRequest = Message<"agynio.api.organizations.v1.UpdateMembershipRoleRequest"> & {
+  /**
+   * UUID
+   *
+   * @generated from field: string membership_id = 1;
+   */
+  membershipId: string;
+
+  /**
+   * @generated from field: agynio.api.organizations.v1.MembershipRole role = 2;
+   */
+  role: MembershipRole;
+};
+
+/**
+ * Describes the message agynio.api.organizations.v1.UpdateMembershipRoleRequest.
+ * Use `create(UpdateMembershipRoleRequestSchema)` to create a new message.
+ */
+export const UpdateMembershipRoleRequestSchema: GenMessage<UpdateMembershipRoleRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_organizations_v1_organizations, 22);
+
+/**
+ * @generated from message agynio.api.organizations.v1.UpdateMembershipRoleResponse
+ */
+export type UpdateMembershipRoleResponse = Message<"agynio.api.organizations.v1.UpdateMembershipRoleResponse"> & {
+  /**
+   * @generated from field: agynio.api.organizations.v1.Membership membership = 1;
+   */
+  membership?: Membership;
+};
+
+/**
+ * Describes the message agynio.api.organizations.v1.UpdateMembershipRoleResponse.
+ * Use `create(UpdateMembershipRoleResponseSchema)` to create a new message.
+ */
+export const UpdateMembershipRoleResponseSchema: GenMessage<UpdateMembershipRoleResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_organizations_v1_organizations, 23);
+
+/**
+ * @generated from message agynio.api.organizations.v1.ListMembersRequest
+ */
+export type ListMembersRequest = Message<"agynio.api.organizations.v1.ListMembersRequest"> & {
+  /**
+   * UUID
+   *
+   * @generated from field: string organization_id = 1;
+   */
+  organizationId: string;
+
+  /**
+   * optional filter; UNSPECIFIED means all
+   *
+   * @generated from field: agynio.api.organizations.v1.MembershipStatus status = 2;
+   */
+  status: MembershipStatus;
+
+  /**
+   * @generated from field: int32 page_size = 3;
+   */
+  pageSize: number;
+
+  /**
+   * @generated from field: string page_token = 4;
+   */
+  pageToken: string;
+};
+
+/**
+ * Describes the message agynio.api.organizations.v1.ListMembersRequest.
+ * Use `create(ListMembersRequestSchema)` to create a new message.
+ */
+export const ListMembersRequestSchema: GenMessage<ListMembersRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_organizations_v1_organizations, 24);
+
+/**
+ * @generated from message agynio.api.organizations.v1.ListMembersResponse
+ */
+export type ListMembersResponse = Message<"agynio.api.organizations.v1.ListMembersResponse"> & {
+  /**
+   * @generated from field: repeated agynio.api.organizations.v1.Membership memberships = 1;
+   */
+  memberships: Membership[];
+
+  /**
+   * @generated from field: string next_page_token = 2;
+   */
+  nextPageToken: string;
+};
+
+/**
+ * Describes the message agynio.api.organizations.v1.ListMembersResponse.
+ * Use `create(ListMembersResponseSchema)` to create a new message.
+ */
+export const ListMembersResponseSchema: GenMessage<ListMembersResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_organizations_v1_organizations, 25);
+
+/**
+ * @generated from message agynio.api.organizations.v1.ListMyMembershipsRequest
+ */
+export type ListMyMembershipsRequest = Message<"agynio.api.organizations.v1.ListMyMembershipsRequest"> & {
+  /**
+   * optional filter; UNSPECIFIED means all
+   *
+   * @generated from field: agynio.api.organizations.v1.MembershipStatus status = 1;
+   */
+  status: MembershipStatus;
+
+  /**
+   * @generated from field: int32 page_size = 2;
+   */
+  pageSize: number;
+
+  /**
+   * @generated from field: string page_token = 3;
+   */
+  pageToken: string;
+};
+
+/**
+ * Describes the message agynio.api.organizations.v1.ListMyMembershipsRequest.
+ * Use `create(ListMyMembershipsRequestSchema)` to create a new message.
+ */
+export const ListMyMembershipsRequestSchema: GenMessage<ListMyMembershipsRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_organizations_v1_organizations, 26);
+
+/**
+ * @generated from message agynio.api.organizations.v1.ListMyMembershipsResponse
+ */
+export type ListMyMembershipsResponse = Message<"agynio.api.organizations.v1.ListMyMembershipsResponse"> & {
+  /**
+   * @generated from field: repeated agynio.api.organizations.v1.Membership memberships = 1;
+   */
+  memberships: Membership[];
+
+  /**
+   * @generated from field: string next_page_token = 2;
+   */
+  nextPageToken: string;
+};
+
+/**
+ * Describes the message agynio.api.organizations.v1.ListMyMembershipsResponse.
+ * Use `create(ListMyMembershipsResponseSchema)` to create a new message.
+ */
+export const ListMyMembershipsResponseSchema: GenMessage<ListMyMembershipsResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_organizations_v1_organizations, 27);
+
+/**
+ * @generated from enum agynio.api.organizations.v1.MembershipRole
+ */
+export enum MembershipRole {
+  /**
+   * @generated from enum value: MEMBERSHIP_ROLE_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: MEMBERSHIP_ROLE_OWNER = 1;
+   */
+  OWNER = 1,
+
+  /**
+   * @generated from enum value: MEMBERSHIP_ROLE_MEMBER = 2;
+   */
+  MEMBER = 2,
+}
+
+/**
+ * Describes the enum agynio.api.organizations.v1.MembershipRole.
+ */
+export const MembershipRoleSchema: GenEnum<MembershipRole> = /*@__PURE__*/
+  enumDesc(file_agynio_api_organizations_v1_organizations, 0);
+
+/**
+ * @generated from enum agynio.api.organizations.v1.MembershipStatus
+ */
+export enum MembershipStatus {
+  /**
+   * @generated from enum value: MEMBERSHIP_STATUS_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: MEMBERSHIP_STATUS_PENDING = 1;
+   */
+  PENDING = 1,
+
+  /**
+   * @generated from enum value: MEMBERSHIP_STATUS_ACTIVE = 2;
+   */
+  ACTIVE = 2,
+}
+
+/**
+ * Describes the enum agynio.api.organizations.v1.MembershipStatus.
+ */
+export const MembershipStatusSchema: GenEnum<MembershipStatus> = /*@__PURE__*/
+  enumDesc(file_agynio_api_organizations_v1_organizations, 1);
+
+/**
  * OrganizationsService manages organization definitions.
  *
  * This is a control-plane service. It stores desired state;
@@ -327,6 +740,64 @@ export const OrganizationsService: GenService<{
     methodKind: "unary";
     input: typeof ListAccessibleOrganizationsRequestSchema;
     output: typeof ListAccessibleOrganizationsResponseSchema;
+  },
+  /**
+   * --- Members Management ---
+   *
+   * @generated from rpc agynio.api.organizations.v1.OrganizationsService.CreateMembership
+   */
+  createMembership: {
+    methodKind: "unary";
+    input: typeof CreateMembershipRequestSchema;
+    output: typeof CreateMembershipResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.organizations.v1.OrganizationsService.AcceptMembership
+   */
+  acceptMembership: {
+    methodKind: "unary";
+    input: typeof AcceptMembershipRequestSchema;
+    output: typeof AcceptMembershipResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.organizations.v1.OrganizationsService.DeclineMembership
+   */
+  declineMembership: {
+    methodKind: "unary";
+    input: typeof DeclineMembershipRequestSchema;
+    output: typeof DeclineMembershipResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.organizations.v1.OrganizationsService.RemoveMembership
+   */
+  removeMembership: {
+    methodKind: "unary";
+    input: typeof RemoveMembershipRequestSchema;
+    output: typeof RemoveMembershipResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.organizations.v1.OrganizationsService.UpdateMembershipRole
+   */
+  updateMembershipRole: {
+    methodKind: "unary";
+    input: typeof UpdateMembershipRoleRequestSchema;
+    output: typeof UpdateMembershipRoleResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.organizations.v1.OrganizationsService.ListMembers
+   */
+  listMembers: {
+    methodKind: "unary";
+    input: typeof ListMembersRequestSchema;
+    output: typeof ListMembersResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.organizations.v1.OrganizationsService.ListMyMemberships
+   */
+  listMyMemberships: {
+    methodKind: "unary";
+    input: typeof ListMyMembershipsRequestSchema;
+    output: typeof ListMyMembershipsResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_agynio_api_organizations_v1_organizations, 0);

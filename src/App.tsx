@@ -1,22 +1,15 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Navigate, Route, Routes, useParams } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import { TooltipProvider } from './components/ui/tooltip';
-import { RootLayout, DEFAULT_TIMELINE_PATH } from './layout/RootLayout';
+import { RootLayout } from './layout/RootLayout';
 import { AgentsRunScreen } from './pages/AgentsRunScreen';
+import { HomeScreen } from './pages/HomeScreen';
+import { MessageRedirectScreen } from './pages/MessageRedirectScreen';
+import { NotFoundScreen } from './pages/NotFoundScreen';
+import { OrganizationRunsScreen } from './pages/OrganizationRunsScreen';
 
 const queryClient = new QueryClient();
-
-const buildTimelinePath = (threadId: string, runId: string) =>
-  `/agents/threads/${threadId}/runs/${runId}/timeline`;
-
-function TimelineRedirect() {
-  const params = useParams<{ threadId: string; runId: string }>();
-  if (!params.threadId || !params.runId) {
-    return <Navigate to={DEFAULT_TIMELINE_PATH} replace />;
-  }
-  return <Navigate to={buildTimelinePath(params.threadId, params.runId)} replace />;
-}
 
 function App() {
   return (
@@ -25,13 +18,14 @@ function App() {
         <Toaster position="top-right" richColors />
         <Routes>
           <Route element={<RootLayout />}>
-            <Route path="/agents/threads/:threadId/runs/:runId/timeline" element={<AgentsRunScreen />} />
-            <Route
-              path="/agents/threads/:threadId/runs/:runId/timeline/*"
-              element={<TimelineRedirect />}
-            />
+            <Route index element={<HomeScreen />} />
+            <Route path="message/:messageId" element={<MessageRedirectScreen />} />
+            <Route path=":orgId">
+              <Route index element={<OrganizationRunsScreen />} />
+              <Route path="runs/:runId" element={<AgentsRunScreen />} />
+            </Route>
+            <Route path="*" element={<NotFoundScreen />} />
           </Route>
-          <Route path="*" element={<Navigate to={DEFAULT_TIMELINE_PATH} replace />} />
         </Routes>
       </TooltipProvider>
     </QueryClientProvider>

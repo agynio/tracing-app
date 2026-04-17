@@ -14,6 +14,7 @@ import { matchesFilters } from '@/lib/eventFiltering';
 import { notificationStream } from '@/lib/graph/socket';
 
 type UseTimelinePaginationOptions = {
+  organizationId: string | undefined;
   runId: string | undefined;
   apiTypes: RunEventType[];
   apiStatuses: RunEventStatus[];
@@ -82,6 +83,7 @@ function toCursor(event: RunTimelineEvent): RunTimelineEventsCursor {
 }
 
 export function useTimelinePagination({
+  organizationId,
   runId,
   apiTypes,
   apiStatuses,
@@ -99,13 +101,13 @@ export function useTimelinePagination({
   const olderCursorRef = useRef<RunTimelineEventsCursor | null>(null);
   const loadingOlderRef = useRef(false);
   const replaceEventsRef = useRef(false);
-  const lastRunIdRef = useRef<string | undefined>(undefined);
+  const lastRunKeyRef = useRef<string | undefined>(undefined);
   const lastFilterKeyRef = useRef<string>('');
   const reachedHistoryEndRef = useRef(false);
   const apiTypesRef = useRef(apiTypes);
   const apiStatusesRef = useRef(apiStatuses);
 
-  const eventsQuery = useRunTimelineEvents(runId, {
+  const eventsQuery = useRunTimelineEvents(organizationId, runId, {
     types: apiTypes,
     statuses: apiStatuses,
     limit: 100,
@@ -161,19 +163,20 @@ export function useTimelinePagination({
 
   useEffect(() => {
     const currentFilterKey = JSON.stringify([apiTypes, apiStatuses]);
-    const previousRunId = lastRunIdRef.current;
+    const currentRunKey = organizationId && runId ? `${organizationId}:${runId}` : undefined;
+    const previousRunKey = lastRunKeyRef.current;
     const previousFilterKey = lastFilterKeyRef.current;
 
-    lastRunIdRef.current = runId;
+    lastRunKeyRef.current = currentRunKey;
     lastFilterKeyRef.current = currentFilterKey;
 
-    if (!runId) {
+    if (!runId || !organizationId) {
       setAllEvents([]);
       setEvents([]);
       return;
     }
 
-    if (previousRunId !== runId) {
+    if (previousRunKey !== currentRunKey) {
       replaceEventsRef.current = true;
       reachedHistoryEndRef.current = false;
       setLoadOlderError(null);
@@ -192,7 +195,7 @@ export function useTimelinePagination({
       loadingOlderRef.current = false;
       updateOlderCursor(null);
     }
-  }, [runId, apiTypes, apiStatuses, updateOlderCursor]);
+  }, [runId, organizationId, apiTypes, apiStatuses, updateOlderCursor]);
 
   useEffect(() => {
     if (!eventsQuery.data) return;
@@ -221,7 +224,7 @@ export function useTimelinePagination({
   }, [eventsQuery.data, updateEventsState, updateOlderCursor]);
 
   const loadOlderEvents = useCallback(async () => {
-    if (!runId) return;
+    if (!runId || !organizationId) return;
     const cursor = olderCursorRef.current;
     if (!cursor || loadingOlderRef.current) return;
     loadingOlderRef.current = true;
@@ -231,7 +234,7 @@ export function useTimelinePagination({
     const currentApiStatuses = apiStatusesRef.current;
 
     try {
-      const response = await runs.timelineEvents(runId, {
+      const response = await runs.timelineEvents(organizationId, runId, {
         types: currentApiTypes.length > 0 ? currentApiTypes.join(',') : undefined,
         statuses: currentApiStatuses.length > 0 ? currentApiStatuses.join(',') : undefined,
         limit: 100,
@@ -261,10 +264,10 @@ export function useTimelinePagination({
       loadingOlderRef.current = false;
       setLoadingOlder(false);
     }
-  }, [runId, updateOlderCursor, updateEventsState]);
+  }, [organizationId, runId, updateOlderCursor, updateEventsState]);
 
   useEffect(() => {
-    if (!runId) return;
+    if (!runId || !organizationId) return;
     notificationStream.connect(runId);
     const offEvent = notificationStream.onSpanEvent((traceId, spanId) => {
       if (traceId !== runId) return;
@@ -292,7 +295,7 @@ export function useTimelinePagination({
       offReconnect();
       notificationStream.disconnect();
     };
-  }, [runId, updateEventsState, refetchEvents, onRunEvent, onReconnect]);
+  }, [runId, organizationId, updateEventsState, refetchEvents, onRunEvent, onReconnect]);
 
   const error = useMemo(() => (eventsQuery.error as Error | null) ?? null, [eventsQuery.error]);
 
