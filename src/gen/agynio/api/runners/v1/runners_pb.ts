@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file agynio/api/runners/v1/runners.proto.
  */
 export const file_agynio_api_runners_v1_runners: GenFile = /*@__PURE__*/
-  fileDesc("CiNhZ3luaW8vYXBpL3J1bm5lcnMvdjEvcnVubmVycy5wcm90bxIVYWd5bmlvLmFwaS5ydW5uZXJzLnYxIngKCkVudGl0eU1ldGESCgoCaWQYASABKAkSLgoKY3JlYXRlZF9hdBgCIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKdXBkYXRlZF9hdBgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAiwwEKBlJ1bm5lchIvCgRtZXRhGAEgASgLMiEuYWd5bmlvLmFwaS5ydW5uZXJzLnYxLkVudGl0eU1ldGESDAoEbmFtZRgCIAEoCRIcCg9vcmdhbml6YXRpb25faWQYAyABKAlIAIgBARITCgtpZGVudGl0eV9pZBgEIAEoCRIzCgZzdGF0dXMYBSABKA4yIy5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuUnVubmVyU3RhdHVzQhIKEF9vcmdhbml6YXRpb25faWQiVwoVUmVnaXN0ZXJSdW5uZXJSZXF1ZXN0EgwKBG5hbWUYASABKAkSHAoPb3JnYW5pemF0aW9uX2lkGAIgASgJSACIAQFCEgoQX29yZ2FuaXphdGlvbl9pZCJeChZSZWdpc3RlclJ1bm5lclJlc3BvbnNlEi0KBnJ1bm5lchgBIAEoCzIdLmFneW5pby5hcGkucnVubmVycy52MS5SdW5uZXISFQoNc2VydmljZV90b2tlbhgCIAEoCSIeChBHZXRSdW5uZXJSZXF1ZXN0EgoKAmlkGAEgASgJIkIKEUdldFJ1bm5lclJlc3BvbnNlEi0KBnJ1bm5lchgBIAEoCzIdLmFneW5pby5hcGkucnVubmVycy52MS5SdW5uZXIibQoSTGlzdFJ1bm5lcnNSZXF1ZXN0EhEKCXBhZ2Vfc2l6ZRgBIAEoBRISCgpwYWdlX3Rva2VuGAIgASgJEhwKD29yZ2FuaXphdGlvbl9pZBgDIAEoCUgAiAEBQhIKEF9vcmdhbml6YXRpb25faWQiXgoTTGlzdFJ1bm5lcnNSZXNwb25zZRIuCgdydW5uZXJzGAEgAygLMh0uYWd5bmlvLmFwaS5ydW5uZXJzLnYxLlJ1bm5lchIXCg9uZXh0X3BhZ2VfdG9rZW4YAiABKAkiIQoTRGVsZXRlUnVubmVyUmVxdWVzdBIKCgJpZBgBIAEoCSIWChREZWxldGVSdW5uZXJSZXNwb25zZSIxChtWYWxpZGF0ZVNlcnZpY2VUb2tlblJlcXVlc3QSEgoKdG9rZW5faGFzaBgBIAEoCSJNChxWYWxpZGF0ZVNlcnZpY2VUb2tlblJlc3BvbnNlEi0KBnJ1bm5lchgBIAEoCzIdLmFneW5pby5hcGkucnVubmVycy52MS5SdW5uZXIiqgEKCUNvbnRhaW5lchIUCgxjb250YWluZXJfaWQYASABKAkSDAoEbmFtZRgCIAEoCRIyCgRyb2xlGAMgASgOMiQuYWd5bmlvLmFwaS5ydW5uZXJzLnYxLkNvbnRhaW5lclJvbGUSDQoFaW1hZ2UYBCABKAkSNgoGc3RhdHVzGAUgASgOMiYuYWd5bmlvLmFwaS5ydW5uZXJzLnYxLkNvbnRhaW5lclN0YXR1cyKTAgoIV29ya2xvYWQSLwoEbWV0YRgBIAEoCzIhLmFneW5pby5hcGkucnVubmVycy52MS5FbnRpdHlNZXRhEhEKCXJ1bm5lcl9pZBgCIAEoCRIRCgl0aHJlYWRfaWQYAyABKAkSEAoIYWdlbnRfaWQYBCABKAkSFwoPb3JnYW5pemF0aW9uX2lkGAUgASgJEjUKBnN0YXR1cxgGIAEoDjIlLmFneW5pby5hcGkucnVubmVycy52MS5Xb3JrbG9hZFN0YXR1cxI0Cgpjb250YWluZXJzGAcgAygLMiAuYWd5bmlvLmFwaS5ydW5uZXJzLnYxLkNvbnRhaW5lchIYChB6aXRpX2lkZW50aXR5X2lkGAggASgJIvsBChVDcmVhdGVXb3JrbG9hZFJlcXVlc3QSCgoCaWQYASABKAkSEQoJcnVubmVyX2lkGAIgASgJEhEKCXRocmVhZF9pZBgDIAEoCRIQCghhZ2VudF9pZBgEIAEoCRIXCg9vcmdhbml6YXRpb25faWQYBSABKAkSNQoGc3RhdHVzGAYgASgOMiUuYWd5bmlvLmFwaS5ydW5uZXJzLnYxLldvcmtsb2FkU3RhdHVzEjQKCmNvbnRhaW5lcnMYByADKAsyIC5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuQ29udGFpbmVyEhgKEHppdGlfaWRlbnRpdHlfaWQYCCABKAkiSwoWQ3JlYXRlV29ya2xvYWRSZXNwb25zZRIxCgh3b3JrbG9hZBgBIAEoCzIfLmFneW5pby5hcGkucnVubmVycy52MS5Xb3JrbG9hZCKWAQobVXBkYXRlV29ya2xvYWRTdGF0dXNSZXF1ZXN0EgoKAmlkGAEgASgJEjUKBnN0YXR1cxgCIAEoDjIlLmFneW5pby5hcGkucnVubmVycy52MS5Xb3JrbG9hZFN0YXR1cxI0Cgpjb250YWluZXJzGAMgAygLMiAuYWd5bmlvLmFwaS5ydW5uZXJzLnYxLkNvbnRhaW5lciJRChxVcGRhdGVXb3JrbG9hZFN0YXR1c1Jlc3BvbnNlEjEKCHdvcmtsb2FkGAEgASgLMh8uYWd5bmlvLmFwaS5ydW5uZXJzLnYxLldvcmtsb2FkIiMKFURlbGV0ZVdvcmtsb2FkUmVxdWVzdBIKCgJpZBgBIAEoCSIYChZEZWxldGVXb3JrbG9hZFJlc3BvbnNlIiAKEkdldFdvcmtsb2FkUmVxdWVzdBIKCgJpZBgBIAEoCSJIChNHZXRXb3JrbG9hZFJlc3BvbnNlEjEKCHdvcmtsb2FkGAEgASgLMh8uYWd5bmlvLmFwaS5ydW5uZXJzLnYxLldvcmtsb2FkIlgKHExpc3RXb3JrbG9hZHNCeVRocmVhZFJlcXVlc3QSEQoJdGhyZWFkX2lkGAEgASgJEhEKCXBhZ2Vfc2l6ZRgCIAEoBRISCgpwYWdlX3Rva2VuGAMgASgJImwKHUxpc3RXb3JrbG9hZHNCeVRocmVhZFJlc3BvbnNlEjIKCXdvcmtsb2FkcxgBIAMoCzIfLmFneW5pby5hcGkucnVubmVycy52MS5Xb3JrbG9hZBIXCg9uZXh0X3BhZ2VfdG9rZW4YAiABKAkidgoUTGlzdFdvcmtsb2Fkc1JlcXVlc3QSEQoJcGFnZV9zaXplGAEgASgFEhIKCnBhZ2VfdG9rZW4YAiABKAkSNwoIc3RhdHVzZXMYAyADKA4yJS5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuV29ya2xvYWRTdGF0dXMiZAoVTGlzdFdvcmtsb2Fkc1Jlc3BvbnNlEjIKCXdvcmtsb2FkcxgBIAMoCzIfLmFneW5pby5hcGkucnVubmVycy52MS5Xb3JrbG9hZBIXCg9uZXh0X3BhZ2VfdG9rZW4YAiABKAkqfwoMUnVubmVyU3RhdHVzEh0KGVJVTk5FUl9TVEFUVVNfVU5TUEVDSUZJRUQQABIZChVSVU5ORVJfU1RBVFVTX1BFTkRJTkcQARIaChZSVU5ORVJfU1RBVFVTX0VOUk9MTEVEEAISGQoVUlVOTkVSX1NUQVRVU19PRkZMSU5FEAMqwwEKDldvcmtsb2FkU3RhdHVzEh8KG1dPUktMT0FEX1NUQVRVU19VTlNQRUNJRklFRBAAEhwKGFdPUktMT0FEX1NUQVRVU19TVEFSVElORxABEhsKF1dPUktMT0FEX1NUQVRVU19SVU5OSU5HEAISHAoYV09SS0xPQURfU1RBVFVTX1NUT1BQSU5HEAMSGwoXV09SS0xPQURfU1RBVFVTX1NUT1BQRUQQBBIaChZXT1JLTE9BRF9TVEFUVVNfRkFJTEVEEAUqfQoNQ29udGFpbmVyUm9sZRIeChpDT05UQUlORVJfUk9MRV9VTlNQRUNJRklFRBAAEhcKE0NPTlRBSU5FUl9ST0xFX01BSU4QARIaChZDT05UQUlORVJfUk9MRV9TSURFQ0FSEAISFwoTQ09OVEFJTkVSX1JPTEVfSU5JVBADKpABCg9Db250YWluZXJTdGF0dXMSIAocQ09OVEFJTkVSX1NUQVRVU19VTlNQRUNJRklFRBAAEhwKGENPTlRBSU5FUl9TVEFUVVNfUlVOTklORxABEh8KG0NPTlRBSU5FUl9TVEFUVVNfVEVSTUlOQVRFRBACEhwKGENPTlRBSU5FUl9TVEFUVVNfV0FJVElORxADMuUJCg5SdW5uZXJzU2VydmljZRJtCg5SZWdpc3RlclJ1bm5lchIsLmFneW5pby5hcGkucnVubmVycy52MS5SZWdpc3RlclJ1bm5lclJlcXVlc3QaLS5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuUmVnaXN0ZXJSdW5uZXJSZXNwb25zZRJeCglHZXRSdW5uZXISJy5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuR2V0UnVubmVyUmVxdWVzdBooLmFneW5pby5hcGkucnVubmVycy52MS5HZXRSdW5uZXJSZXNwb25zZRJkCgtMaXN0UnVubmVycxIpLmFneW5pby5hcGkucnVubmVycy52MS5MaXN0UnVubmVyc1JlcXVlc3QaKi5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuTGlzdFJ1bm5lcnNSZXNwb25zZRJnCgxEZWxldGVSdW5uZXISKi5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuRGVsZXRlUnVubmVyUmVxdWVzdBorLmFneW5pby5hcGkucnVubmVycy52MS5EZWxldGVSdW5uZXJSZXNwb25zZRJ/ChRWYWxpZGF0ZVNlcnZpY2VUb2tlbhIyLmFneW5pby5hcGkucnVubmVycy52MS5WYWxpZGF0ZVNlcnZpY2VUb2tlblJlcXVlc3QaMy5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuVmFsaWRhdGVTZXJ2aWNlVG9rZW5SZXNwb25zZRJtCg5DcmVhdGVXb3JrbG9hZBIsLmFneW5pby5hcGkucnVubmVycy52MS5DcmVhdGVXb3JrbG9hZFJlcXVlc3QaLS5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuQ3JlYXRlV29ya2xvYWRSZXNwb25zZRJ/ChRVcGRhdGVXb3JrbG9hZFN0YXR1cxIyLmFneW5pby5hcGkucnVubmVycy52MS5VcGRhdGVXb3JrbG9hZFN0YXR1c1JlcXVlc3QaMy5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuVXBkYXRlV29ya2xvYWRTdGF0dXNSZXNwb25zZRJtCg5EZWxldGVXb3JrbG9hZBIsLmFneW5pby5hcGkucnVubmVycy52MS5EZWxldGVXb3JrbG9hZFJlcXVlc3QaLS5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuRGVsZXRlV29ya2xvYWRSZXNwb25zZRJkCgtHZXRXb3JrbG9hZBIpLmFneW5pby5hcGkucnVubmVycy52MS5HZXRXb3JrbG9hZFJlcXVlc3QaKi5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuR2V0V29ya2xvYWRSZXNwb25zZRKCAQoVTGlzdFdvcmtsb2Fkc0J5VGhyZWFkEjMuYWd5bmlvLmFwaS5ydW5uZXJzLnYxLkxpc3RXb3JrbG9hZHNCeVRocmVhZFJlcXVlc3QaNC5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuTGlzdFdvcmtsb2Fkc0J5VGhyZWFkUmVzcG9uc2USagoNTGlzdFdvcmtsb2FkcxIrLmFneW5pby5hcGkucnVubmVycy52MS5MaXN0V29ya2xvYWRzUmVxdWVzdBosLmFneW5pby5hcGkucnVubmVycy52MS5MaXN0V29ya2xvYWRzUmVzcG9uc2VCO1o5Z2l0aHViLmNvbS9hZ3luaW8vYXBpL2dlbi9hZ3luaW8vYXBpL3J1bm5lcnMvdjE7cnVubmVyc3YxYgZwcm90bzM", [file_google_protobuf_timestamp]);
+  fileDesc("CiNhZ3luaW8vYXBpL3J1bm5lcnMvdjEvcnVubmVycy5wcm90bxIVYWd5bmlvLmFwaS5ydW5uZXJzLnYxIngKCkVudGl0eU1ldGESCgoCaWQYASABKAkSLgoKY3JlYXRlZF9hdBgCIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKdXBkYXRlZF9hdBgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAiTAoOU2FtcGxlZEF0RW50cnkSCgoCaWQYASABKAkSLgoKc2FtcGxlZF9hdBgCIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAi4gIKBlJ1bm5lchIvCgRtZXRhGAEgASgLMiEuYWd5bmlvLmFwaS5ydW5uZXJzLnYxLkVudGl0eU1ldGESDAoEbmFtZRgCIAEoCRIcCg9vcmdhbml6YXRpb25faWQYAyABKAlIAIgBARITCgtpZGVudGl0eV9pZBgEIAEoCRIzCgZzdGF0dXMYBSABKA4yIy5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuUnVubmVyU3RhdHVzEjkKBmxhYmVscxgGIAMoCzIpLmFneW5pby5hcGkucnVubmVycy52MS5SdW5uZXIuTGFiZWxzRW50cnkSHQoVb3BlbnppdGlfc2VydmljZV9uYW1lGAcgASgJEhQKDGNhcGFiaWxpdGllcxgIIAMoCRotCgtMYWJlbHNFbnRyeRILCgNrZXkYASABKAkSDQoFdmFsdWUYAiABKAk6AjgBQhIKEF9vcmdhbml6YXRpb25faWQi5gEKFVJlZ2lzdGVyUnVubmVyUmVxdWVzdBIMCgRuYW1lGAEgASgJEhwKD29yZ2FuaXphdGlvbl9pZBgCIAEoCUgAiAEBEkgKBmxhYmVscxgDIAMoCzI4LmFneW5pby5hcGkucnVubmVycy52MS5SZWdpc3RlclJ1bm5lclJlcXVlc3QuTGFiZWxzRW50cnkSFAoMY2FwYWJpbGl0aWVzGAQgAygJGi0KC0xhYmVsc0VudHJ5EgsKA2tleRgBIAEoCRINCgV2YWx1ZRgCIAEoCToCOAFCEgoQX29yZ2FuaXphdGlvbl9pZCJeChZSZWdpc3RlclJ1bm5lclJlc3BvbnNlEi0KBnJ1bm5lchgBIAEoCzIdLmFneW5pby5hcGkucnVubmVycy52MS5SdW5uZXISFQoNc2VydmljZV90b2tlbhgCIAEoCSIeChBHZXRSdW5uZXJSZXF1ZXN0EgoKAmlkGAEgASgJIkIKEUdldFJ1bm5lclJlc3BvbnNlEi0KBnJ1bm5lchgBIAEoCzIdLmFneW5pby5hcGkucnVubmVycy52MS5SdW5uZXIibQoSTGlzdFJ1bm5lcnNSZXF1ZXN0EhEKCXBhZ2Vfc2l6ZRgBIAEoBRISCgpwYWdlX3Rva2VuGAIgASgJEhwKD29yZ2FuaXphdGlvbl9pZBgDIAEoCUgAiAEBQhIKEF9vcmdhbml6YXRpb25faWQiXgoTTGlzdFJ1bm5lcnNSZXNwb25zZRIuCgdydW5uZXJzGAEgAygLMh0uYWd5bmlvLmFwaS5ydW5uZXJzLnYxLlJ1bm5lchIXCg9uZXh0X3BhZ2VfdG9rZW4YAiABKAkiygEKE1VwZGF0ZVJ1bm5lclJlcXVlc3QSCgoCaWQYASABKAkSEQoEbmFtZRgCIAEoCUgAiAEBEkYKBmxhYmVscxgDIAMoCzI2LmFneW5pby5hcGkucnVubmVycy52MS5VcGRhdGVSdW5uZXJSZXF1ZXN0LkxhYmVsc0VudHJ5EhQKDGNhcGFiaWxpdGllcxgEIAMoCRotCgtMYWJlbHNFbnRyeRILCgNrZXkYASABKAkSDQoFdmFsdWUYAiABKAk6AjgBQgcKBV9uYW1lIkUKFFVwZGF0ZVJ1bm5lclJlc3BvbnNlEi0KBnJ1bm5lchgBIAEoCzIdLmFneW5pby5hcGkucnVubmVycy52MS5SdW5uZXIiIQoTRGVsZXRlUnVubmVyUmVxdWVzdBIKCgJpZBgBIAEoCSIWChREZWxldGVSdW5uZXJSZXNwb25zZSIxChtWYWxpZGF0ZVNlcnZpY2VUb2tlblJlcXVlc3QSEgoKdG9rZW5faGFzaBgBIAEoCSJNChxWYWxpZGF0ZVNlcnZpY2VUb2tlblJlc3BvbnNlEi0KBnJ1bm5lchgBIAEoCzIdLmFneW5pby5hcGkucnVubmVycy52MS5SdW5uZXIiLAoTRW5yb2xsUnVubmVyUmVxdWVzdBIVCg1zZXJ2aWNlX3Rva2VuGAEgASgJIlgKFEVucm9sbFJ1bm5lclJlc3BvbnNlEhUKDWlkZW50aXR5X2pzb24YASABKAwSFAoMc2VydmljZV9uYW1lGAIgASgJEhMKC2lkZW50aXR5X2lkGAMgASgJIqoBCglDb250YWluZXISFAoMY29udGFpbmVyX2lkGAEgASgJEgwKBG5hbWUYAiABKAkSMgoEcm9sZRgDIAEoDjIkLmFneW5pby5hcGkucnVubmVycy52MS5Db250YWluZXJSb2xlEg0KBWltYWdlGAQgASgJEjYKBnN0YXR1cxgFIAEoDjImLmFneW5pby5hcGkucnVubmVycy52MS5Db250YWluZXJTdGF0dXMi1gQKCFdvcmtsb2FkEi8KBG1ldGEYASABKAsyIS5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuRW50aXR5TWV0YRIRCglydW5uZXJfaWQYAiABKAkSEQoJdGhyZWFkX2lkGAMgASgJEhAKCGFnZW50X2lkGAQgASgJEhcKD29yZ2FuaXphdGlvbl9pZBgFIAEoCRI1CgZzdGF0dXMYBiABKA4yJS5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuV29ya2xvYWRTdGF0dXMSNAoKY29udGFpbmVycxgHIAMoCzIgLmFneW5pby5hcGkucnVubmVycy52MS5Db250YWluZXISGAoQeml0aV9pZGVudGl0eV9pZBgIIAEoCRIYCgtpbnN0YW5jZV9pZBgJIAEoCUgAiAEBEjQKEGxhc3RfYWN0aXZpdHlfYXQYCiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEkEKGGxhc3RfbWV0ZXJpbmdfc2FtcGxlZF9hdBgLIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBIAYgBARIzCgpyZW1vdmVkX2F0GAwgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcEgCiAEBEiAKGGFsbG9jYXRlZF9jcHVfbWlsbGljb3JlcxgNIAEoBRIbChNhbGxvY2F0ZWRfcmFtX2J5dGVzGA4gASgDQg4KDF9pbnN0YW5jZV9pZEIbChlfbGFzdF9tZXRlcmluZ19zYW1wbGVkX2F0Qg0KC19yZW1vdmVkX2F0IroCChVDcmVhdGVXb3JrbG9hZFJlcXVlc3QSCgoCaWQYASABKAkSEQoJcnVubmVyX2lkGAIgASgJEhEKCXRocmVhZF9pZBgDIAEoCRIQCghhZ2VudF9pZBgEIAEoCRIXCg9vcmdhbml6YXRpb25faWQYBSABKAkSNQoGc3RhdHVzGAYgASgOMiUuYWd5bmlvLmFwaS5ydW5uZXJzLnYxLldvcmtsb2FkU3RhdHVzEjQKCmNvbnRhaW5lcnMYByADKAsyIC5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuQ29udGFpbmVyEhgKEHppdGlfaWRlbnRpdHlfaWQYCCABKAkSIAoYYWxsb2NhdGVkX2NwdV9taWxsaWNvcmVzGAkgASgFEhsKE2FsbG9jYXRlZF9yYW1fYnl0ZXMYCiABKAMiSwoWQ3JlYXRlV29ya2xvYWRSZXNwb25zZRIxCgh3b3JrbG9hZBgBIAEoCzIfLmFneW5pby5hcGkucnVubmVycy52MS5Xb3JrbG9hZCLuAgoVVXBkYXRlV29ya2xvYWRSZXF1ZXN0EgoKAmlkGAEgASgJEjoKBnN0YXR1cxgCIAEoDjIlLmFneW5pby5hcGkucnVubmVycy52MS5Xb3JrbG9hZFN0YXR1c0gAiAEBEjQKCmNvbnRhaW5lcnMYAyADKAsyIC5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuQ29udGFpbmVyEhgKC2luc3RhbmNlX2lkGAQgASgJSAGIAQESMwoKcmVtb3ZlZF9hdBgFIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBIAogBARJBChhsYXN0X21ldGVyaW5nX3NhbXBsZWRfYXQYBiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wSAOIAQFCCQoHX3N0YXR1c0IOCgxfaW5zdGFuY2VfaWRCDQoLX3JlbW92ZWRfYXRCGwoZX2xhc3RfbWV0ZXJpbmdfc2FtcGxlZF9hdCJLChZVcGRhdGVXb3JrbG9hZFJlc3BvbnNlEjEKCHdvcmtsb2FkGAEgASgLMh8uYWd5bmlvLmFwaS5ydW5uZXJzLnYxLldvcmtsb2FkIpYBChtVcGRhdGVXb3JrbG9hZFN0YXR1c1JlcXVlc3QSCgoCaWQYASABKAkSNQoGc3RhdHVzGAIgASgOMiUuYWd5bmlvLmFwaS5ydW5uZXJzLnYxLldvcmtsb2FkU3RhdHVzEjQKCmNvbnRhaW5lcnMYAyADKAsyIC5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuQ29udGFpbmVyIlEKHFVwZGF0ZVdvcmtsb2FkU3RhdHVzUmVzcG9uc2USMQoId29ya2xvYWQYASABKAsyHy5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuV29ya2xvYWQiIgoUVG91Y2hXb3JrbG9hZFJlcXVlc3QSCgoCaWQYASABKAkiFwoVVG91Y2hXb3JrbG9hZFJlc3BvbnNlIiMKFURlbGV0ZVdvcmtsb2FkUmVxdWVzdBIKCgJpZBgBIAEoCSIYChZEZWxldGVXb3JrbG9hZFJlc3BvbnNlIiAKEkdldFdvcmtsb2FkUmVxdWVzdBIKCgJpZBgBIAEoCSJIChNHZXRXb3JrbG9hZFJlc3BvbnNlEjEKCHdvcmtsb2FkGAEgASgLMh8uYWd5bmlvLmFwaS5ydW5uZXJzLnYxLldvcmtsb2FkIlgKHExpc3RXb3JrbG9hZHNCeVRocmVhZFJlcXVlc3QSEQoJdGhyZWFkX2lkGAEgASgJEhEKCXBhZ2Vfc2l6ZRgCIAEoBRISCgpwYWdlX3Rva2VuGAMgASgJImwKHUxpc3RXb3JrbG9hZHNCeVRocmVhZFJlc3BvbnNlEjIKCXdvcmtsb2FkcxgBIAMoCzIfLmFneW5pby5hcGkucnVubmVycy52MS5Xb3JrbG9hZBIXCg9uZXh0X3BhZ2VfdG9rZW4YAiABKAki/gEKFExpc3RXb3JrbG9hZHNSZXF1ZXN0EhEKCXBhZ2Vfc2l6ZRgBIAEoBRISCgpwYWdlX3Rva2VuGAIgASgJEjcKCHN0YXR1c2VzGAMgAygOMiUuYWd5bmlvLmFwaS5ydW5uZXJzLnYxLldvcmtsb2FkU3RhdHVzEhwKD29yZ2FuaXphdGlvbl9pZBgEIAEoCUgAiAEBEhYKCXJ1bm5lcl9pZBgFIAEoCUgBiAEBEhsKDnBlbmRpbmdfc2FtcGxlGAYgASgISAKIAQFCEgoQX29yZ2FuaXphdGlvbl9pZEIMCgpfcnVubmVyX2lkQhEKD19wZW5kaW5nX3NhbXBsZSJkChVMaXN0V29ya2xvYWRzUmVzcG9uc2USMgoJd29ya2xvYWRzGAEgAygLMh8uYWd5bmlvLmFwaS5ydW5uZXJzLnYxLldvcmtsb2FkEhcKD25leHRfcGFnZV90b2tlbhgCIAEoCSJdCiNCYXRjaFVwZGF0ZVdvcmtsb2FkU2FtcGxlZEF0UmVxdWVzdBI2CgdlbnRyaWVzGAEgAygLMiUuYWd5bmlvLmFwaS5ydW5uZXJzLnYxLlNhbXBsZWRBdEVudHJ5IiYKJEJhdGNoVXBkYXRlV29ya2xvYWRTYW1wbGVkQXRSZXNwb25zZSKxAwoGVm9sdW1lEi8KBG1ldGEYASABKAsyIS5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuRW50aXR5TWV0YRIYCgtpbnN0YW5jZV9pZBgCIAEoCUgAiAEBEhEKCXZvbHVtZV9pZBgDIAEoCRIRCgl0aHJlYWRfaWQYBCABKAkSEQoJcnVubmVyX2lkGAUgASgJEhAKCGFnZW50X2lkGAYgASgJEhcKD29yZ2FuaXphdGlvbl9pZBgHIAEoCRIPCgdzaXplX2diGAggASgJEjMKBnN0YXR1cxgJIAEoDjIjLmFneW5pby5hcGkucnVubmVycy52MS5Wb2x1bWVTdGF0dXMSMwoKcmVtb3ZlZF9hdBgKIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBIAYgBARJBChhsYXN0X21ldGVyaW5nX3NhbXBsZWRfYXQYCyABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wSAKIAQFCDgoMX2luc3RhbmNlX2lkQg0KC19yZW1vdmVkX2F0QhsKGV9sYXN0X21ldGVyaW5nX3NhbXBsZWRfYXQiywEKE0NyZWF0ZVZvbHVtZVJlcXVlc3QSCgoCaWQYASABKAkSEQoJdm9sdW1lX2lkGAIgASgJEhEKCXRocmVhZF9pZBgDIAEoCRIRCglydW5uZXJfaWQYBCABKAkSEAoIYWdlbnRfaWQYBSABKAkSFwoPb3JnYW5pemF0aW9uX2lkGAYgASgJEg8KB3NpemVfZ2IYByABKAkSMwoGc3RhdHVzGAggASgOMiMuYWd5bmlvLmFwaS5ydW5uZXJzLnYxLlZvbHVtZVN0YXR1cyJFChRDcmVhdGVWb2x1bWVSZXNwb25zZRItCgZ2b2x1bWUYASABKAsyHS5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuVm9sdW1lIrQCChNVcGRhdGVWb2x1bWVSZXF1ZXN0EgoKAmlkGAEgASgJEjgKBnN0YXR1cxgCIAEoDjIjLmFneW5pby5hcGkucnVubmVycy52MS5Wb2x1bWVTdGF0dXNIAIgBARIYCgtpbnN0YW5jZV9pZBgDIAEoCUgBiAEBEjMKCnJlbW92ZWRfYXQYBCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wSAKIAQESQQoYbGFzdF9tZXRlcmluZ19zYW1wbGVkX2F0GAUgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcEgDiAEBQgkKB19zdGF0dXNCDgoMX2luc3RhbmNlX2lkQg0KC19yZW1vdmVkX2F0QhsKGV9sYXN0X21ldGVyaW5nX3NhbXBsZWRfYXQiRQoUVXBkYXRlVm9sdW1lUmVzcG9uc2USLQoGdm9sdW1lGAEgASgLMh0uYWd5bmlvLmFwaS5ydW5uZXJzLnYxLlZvbHVtZSIeChBHZXRWb2x1bWVSZXF1ZXN0EgoKAmlkGAEgASgJIkIKEUdldFZvbHVtZVJlc3BvbnNlEi0KBnZvbHVtZRgBIAEoCzIdLmFneW5pby5hcGkucnVubmVycy52MS5Wb2x1bWUi+gEKEkxpc3RWb2x1bWVzUmVxdWVzdBIRCglwYWdlX3NpemUYASABKAUSEgoKcGFnZV90b2tlbhgCIAEoCRI1CghzdGF0dXNlcxgDIAMoDjIjLmFneW5pby5hcGkucnVubmVycy52MS5Wb2x1bWVTdGF0dXMSHAoPb3JnYW5pemF0aW9uX2lkGAQgASgJSACIAQESFgoJcnVubmVyX2lkGAUgASgJSAGIAQESGwoOcGVuZGluZ19zYW1wbGUYBiABKAhIAogBAUISChBfb3JnYW5pemF0aW9uX2lkQgwKCl9ydW5uZXJfaWRCEQoPX3BlbmRpbmdfc2FtcGxlIl4KE0xpc3RWb2x1bWVzUmVzcG9uc2USLgoHdm9sdW1lcxgBIAMoCzIdLmFneW5pby5hcGkucnVubmVycy52MS5Wb2x1bWUSFwoPbmV4dF9wYWdlX3Rva2VuGAIgASgJIlYKGkxpc3RWb2x1bWVzQnlUaHJlYWRSZXF1ZXN0EhEKCXRocmVhZF9pZBgBIAEoCRIRCglwYWdlX3NpemUYAiABKAUSEgoKcGFnZV90b2tlbhgDIAEoCSJmChtMaXN0Vm9sdW1lc0J5VGhyZWFkUmVzcG9uc2USLgoHdm9sdW1lcxgBIAMoCzIdLmFneW5pby5hcGkucnVubmVycy52MS5Wb2x1bWUSFwoPbmV4dF9wYWdlX3Rva2VuGAIgASgJIlsKIUJhdGNoVXBkYXRlVm9sdW1lU2FtcGxlZEF0UmVxdWVzdBI2CgdlbnRyaWVzGAEgAygLMiUuYWd5bmlvLmFwaS5ydW5uZXJzLnYxLlNhbXBsZWRBdEVudHJ5IiQKIkJhdGNoVXBkYXRlVm9sdW1lU2FtcGxlZEF0UmVzcG9uc2UqfwoMUnVubmVyU3RhdHVzEh0KGVJVTk5FUl9TVEFUVVNfVU5TUEVDSUZJRUQQABIZChVSVU5ORVJfU1RBVFVTX1BFTkRJTkcQARIaChZSVU5ORVJfU1RBVFVTX0VOUk9MTEVEEAISGQoVUlVOTkVSX1NUQVRVU19PRkZMSU5FEAMqwwEKDldvcmtsb2FkU3RhdHVzEh8KG1dPUktMT0FEX1NUQVRVU19VTlNQRUNJRklFRBAAEhwKGFdPUktMT0FEX1NUQVRVU19TVEFSVElORxABEhsKF1dPUktMT0FEX1NUQVRVU19SVU5OSU5HEAISHAoYV09SS0xPQURfU1RBVFVTX1NUT1BQSU5HEAMSGwoXV09SS0xPQURfU1RBVFVTX1NUT1BQRUQQBBIaChZXT1JLTE9BRF9TVEFUVVNfRkFJTEVEEAUqfQoNQ29udGFpbmVyUm9sZRIeChpDT05UQUlORVJfUk9MRV9VTlNQRUNJRklFRBAAEhcKE0NPTlRBSU5FUl9ST0xFX01BSU4QARIaChZDT05UQUlORVJfUk9MRV9TSURFQ0FSEAISFwoTQ09OVEFJTkVSX1JPTEVfSU5JVBADKpABCg9Db250YWluZXJTdGF0dXMSIAocQ09OVEFJTkVSX1NUQVRVU19VTlNQRUNJRklFRBAAEhwKGENPTlRBSU5FUl9TVEFUVVNfUlVOTklORxABEh8KG0NPTlRBSU5FUl9TVEFUVVNfVEVSTUlOQVRFRBACEhwKGENPTlRBSU5FUl9TVEFUVVNfV0FJVElORxADKr4BCgxWb2x1bWVTdGF0dXMSHQoZVk9MVU1FX1NUQVRVU19VTlNQRUNJRklFRBAAEh4KGlZPTFVNRV9TVEFUVVNfUFJPVklTSU9OSU5HEAESGAoUVk9MVU1FX1NUQVRVU19BQ1RJVkUQAhIgChxWT0xVTUVfU1RBVFVTX0RFUFJPVklTSU9OSU5HEAMSGQoVVk9MVU1FX1NUQVRVU19ERUxFVEVEEAQSGAoUVk9MVU1FX1NUQVRVU19GQUlMRUQQBTLWEwoOUnVubmVyc1NlcnZpY2USbQoOUmVnaXN0ZXJSdW5uZXISLC5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuUmVnaXN0ZXJSdW5uZXJSZXF1ZXN0Gi0uYWd5bmlvLmFwaS5ydW5uZXJzLnYxLlJlZ2lzdGVyUnVubmVyUmVzcG9uc2USXgoJR2V0UnVubmVyEicuYWd5bmlvLmFwaS5ydW5uZXJzLnYxLkdldFJ1bm5lclJlcXVlc3QaKC5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuR2V0UnVubmVyUmVzcG9uc2USZAoLTGlzdFJ1bm5lcnMSKS5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuTGlzdFJ1bm5lcnNSZXF1ZXN0GiouYWd5bmlvLmFwaS5ydW5uZXJzLnYxLkxpc3RSdW5uZXJzUmVzcG9uc2USZwoMVXBkYXRlUnVubmVyEiouYWd5bmlvLmFwaS5ydW5uZXJzLnYxLlVwZGF0ZVJ1bm5lclJlcXVlc3QaKy5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuVXBkYXRlUnVubmVyUmVzcG9uc2USZwoMRGVsZXRlUnVubmVyEiouYWd5bmlvLmFwaS5ydW5uZXJzLnYxLkRlbGV0ZVJ1bm5lclJlcXVlc3QaKy5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuRGVsZXRlUnVubmVyUmVzcG9uc2USfwoUVmFsaWRhdGVTZXJ2aWNlVG9rZW4SMi5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuVmFsaWRhdGVTZXJ2aWNlVG9rZW5SZXF1ZXN0GjMuYWd5bmlvLmFwaS5ydW5uZXJzLnYxLlZhbGlkYXRlU2VydmljZVRva2VuUmVzcG9uc2USZwoMRW5yb2xsUnVubmVyEiouYWd5bmlvLmFwaS5ydW5uZXJzLnYxLkVucm9sbFJ1bm5lclJlcXVlc3QaKy5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuRW5yb2xsUnVubmVyUmVzcG9uc2USbQoOQ3JlYXRlV29ya2xvYWQSLC5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuQ3JlYXRlV29ya2xvYWRSZXF1ZXN0Gi0uYWd5bmlvLmFwaS5ydW5uZXJzLnYxLkNyZWF0ZVdvcmtsb2FkUmVzcG9uc2USbQoOVXBkYXRlV29ya2xvYWQSLC5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuVXBkYXRlV29ya2xvYWRSZXF1ZXN0Gi0uYWd5bmlvLmFwaS5ydW5uZXJzLnYxLlVwZGF0ZVdvcmtsb2FkUmVzcG9uc2USfwoUVXBkYXRlV29ya2xvYWRTdGF0dXMSMi5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuVXBkYXRlV29ya2xvYWRTdGF0dXNSZXF1ZXN0GjMuYWd5bmlvLmFwaS5ydW5uZXJzLnYxLlVwZGF0ZVdvcmtsb2FkU3RhdHVzUmVzcG9uc2USagoNVG91Y2hXb3JrbG9hZBIrLmFneW5pby5hcGkucnVubmVycy52MS5Ub3VjaFdvcmtsb2FkUmVxdWVzdBosLmFneW5pby5hcGkucnVubmVycy52MS5Ub3VjaFdvcmtsb2FkUmVzcG9uc2USbQoORGVsZXRlV29ya2xvYWQSLC5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuRGVsZXRlV29ya2xvYWRSZXF1ZXN0Gi0uYWd5bmlvLmFwaS5ydW5uZXJzLnYxLkRlbGV0ZVdvcmtsb2FkUmVzcG9uc2USZAoLR2V0V29ya2xvYWQSKS5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuR2V0V29ya2xvYWRSZXF1ZXN0GiouYWd5bmlvLmFwaS5ydW5uZXJzLnYxLkdldFdvcmtsb2FkUmVzcG9uc2USggEKFUxpc3RXb3JrbG9hZHNCeVRocmVhZBIzLmFneW5pby5hcGkucnVubmVycy52MS5MaXN0V29ya2xvYWRzQnlUaHJlYWRSZXF1ZXN0GjQuYWd5bmlvLmFwaS5ydW5uZXJzLnYxLkxpc3RXb3JrbG9hZHNCeVRocmVhZFJlc3BvbnNlEmoKDUxpc3RXb3JrbG9hZHMSKy5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuTGlzdFdvcmtsb2Fkc1JlcXVlc3QaLC5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuTGlzdFdvcmtsb2Fkc1Jlc3BvbnNlEpcBChxCYXRjaFVwZGF0ZVdvcmtsb2FkU2FtcGxlZEF0EjouYWd5bmlvLmFwaS5ydW5uZXJzLnYxLkJhdGNoVXBkYXRlV29ya2xvYWRTYW1wbGVkQXRSZXF1ZXN0GjsuYWd5bmlvLmFwaS5ydW5uZXJzLnYxLkJhdGNoVXBkYXRlV29ya2xvYWRTYW1wbGVkQXRSZXNwb25zZRJnCgxDcmVhdGVWb2x1bWUSKi5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuQ3JlYXRlVm9sdW1lUmVxdWVzdBorLmFneW5pby5hcGkucnVubmVycy52MS5DcmVhdGVWb2x1bWVSZXNwb25zZRJnCgxVcGRhdGVWb2x1bWUSKi5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuVXBkYXRlVm9sdW1lUmVxdWVzdBorLmFneW5pby5hcGkucnVubmVycy52MS5VcGRhdGVWb2x1bWVSZXNwb25zZRJeCglHZXRWb2x1bWUSJy5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuR2V0Vm9sdW1lUmVxdWVzdBooLmFneW5pby5hcGkucnVubmVycy52MS5HZXRWb2x1bWVSZXNwb25zZRJkCgtMaXN0Vm9sdW1lcxIpLmFneW5pby5hcGkucnVubmVycy52MS5MaXN0Vm9sdW1lc1JlcXVlc3QaKi5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuTGlzdFZvbHVtZXNSZXNwb25zZRJ8ChNMaXN0Vm9sdW1lc0J5VGhyZWFkEjEuYWd5bmlvLmFwaS5ydW5uZXJzLnYxLkxpc3RWb2x1bWVzQnlUaHJlYWRSZXF1ZXN0GjIuYWd5bmlvLmFwaS5ydW5uZXJzLnYxLkxpc3RWb2x1bWVzQnlUaHJlYWRSZXNwb25zZRKRAQoaQmF0Y2hVcGRhdGVWb2x1bWVTYW1wbGVkQXQSOC5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuQmF0Y2hVcGRhdGVWb2x1bWVTYW1wbGVkQXRSZXF1ZXN0GjkuYWd5bmlvLmFwaS5ydW5uZXJzLnYxLkJhdGNoVXBkYXRlVm9sdW1lU2FtcGxlZEF0UmVzcG9uc2VCO1o5Z2l0aHViLmNvbS9hZ3luaW8vYXBpL2dlbi9hZ3luaW8vYXBpL3J1bm5lcnMvdjE7cnVubmVyc3YxYgZwcm90bzM", [file_google_protobuf_timestamp]);
 
 /**
  * @generated from message agynio.api.runners.v1.EntityMeta
@@ -42,6 +42,28 @@ export const EntityMetaSchema: GenMessage<EntityMeta> = /*@__PURE__*/
   messageDesc(file_agynio_api_runners_v1_runners, 0);
 
 /**
+ * @generated from message agynio.api.runners.v1.SampledAtEntry
+ */
+export type SampledAtEntry = Message<"agynio.api.runners.v1.SampledAtEntry"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp sampled_at = 2;
+   */
+  sampledAt?: Timestamp;
+};
+
+/**
+ * Describes the message agynio.api.runners.v1.SampledAtEntry.
+ * Use `create(SampledAtEntrySchema)` to create a new message.
+ */
+export const SampledAtEntrySchema: GenMessage<SampledAtEntry> = /*@__PURE__*/
+  messageDesc(file_agynio_api_runners_v1_runners, 1);
+
+/**
  * @generated from message agynio.api.runners.v1.Runner
  */
 export type Runner = Message<"agynio.api.runners.v1.Runner"> & {
@@ -69,6 +91,25 @@ export type Runner = Message<"agynio.api.runners.v1.Runner"> & {
    * @generated from field: agynio.api.runners.v1.RunnerStatus status = 5;
    */
   status: RunnerStatus;
+
+  /**
+   * @generated from field: map<string, string> labels = 6;
+   */
+  labels: { [key: string]: string };
+
+  /**
+   * Per-runner OpenZiti service name (e.g. "runner-{id}")
+   *
+   * @generated from field: string openziti_service_name = 7;
+   */
+  openzitiServiceName: string;
+
+  /**
+   * Capabilities supported by this runner. Free-form strings (e.g., "privileged", "dind").
+   *
+   * @generated from field: repeated string capabilities = 8;
+   */
+  capabilities: string[];
 };
 
 /**
@@ -76,7 +117,7 @@ export type Runner = Message<"agynio.api.runners.v1.Runner"> & {
  * Use `create(RunnerSchema)` to create a new message.
  */
 export const RunnerSchema: GenMessage<Runner> = /*@__PURE__*/
-  messageDesc(file_agynio_api_runners_v1_runners, 1);
+  messageDesc(file_agynio_api_runners_v1_runners, 2);
 
 /**
  * @generated from message agynio.api.runners.v1.RegisterRunnerRequest
@@ -91,6 +132,18 @@ export type RegisterRunnerRequest = Message<"agynio.api.runners.v1.RegisterRunne
    * @generated from field: optional string organization_id = 2;
    */
   organizationId?: string;
+
+  /**
+   * @generated from field: map<string, string> labels = 3;
+   */
+  labels: { [key: string]: string };
+
+  /**
+   * Capabilities supported by this runner. Free-form strings (e.g., "privileged", "dind").
+   *
+   * @generated from field: repeated string capabilities = 4;
+   */
+  capabilities: string[];
 };
 
 /**
@@ -98,7 +151,7 @@ export type RegisterRunnerRequest = Message<"agynio.api.runners.v1.RegisterRunne
  * Use `create(RegisterRunnerRequestSchema)` to create a new message.
  */
 export const RegisterRunnerRequestSchema: GenMessage<RegisterRunnerRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_runners_v1_runners, 2);
+  messageDesc(file_agynio_api_runners_v1_runners, 3);
 
 /**
  * @generated from message agynio.api.runners.v1.RegisterRunnerResponse
@@ -120,7 +173,7 @@ export type RegisterRunnerResponse = Message<"agynio.api.runners.v1.RegisterRunn
  * Use `create(RegisterRunnerResponseSchema)` to create a new message.
  */
 export const RegisterRunnerResponseSchema: GenMessage<RegisterRunnerResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_runners_v1_runners, 3);
+  messageDesc(file_agynio_api_runners_v1_runners, 4);
 
 /**
  * @generated from message agynio.api.runners.v1.GetRunnerRequest
@@ -137,7 +190,7 @@ export type GetRunnerRequest = Message<"agynio.api.runners.v1.GetRunnerRequest">
  * Use `create(GetRunnerRequestSchema)` to create a new message.
  */
 export const GetRunnerRequestSchema: GenMessage<GetRunnerRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_runners_v1_runners, 4);
+  messageDesc(file_agynio_api_runners_v1_runners, 5);
 
 /**
  * @generated from message agynio.api.runners.v1.GetRunnerResponse
@@ -154,7 +207,7 @@ export type GetRunnerResponse = Message<"agynio.api.runners.v1.GetRunnerResponse
  * Use `create(GetRunnerResponseSchema)` to create a new message.
  */
 export const GetRunnerResponseSchema: GenMessage<GetRunnerResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_runners_v1_runners, 5);
+  messageDesc(file_agynio_api_runners_v1_runners, 6);
 
 /**
  * @generated from message agynio.api.runners.v1.ListRunnersRequest
@@ -181,7 +234,7 @@ export type ListRunnersRequest = Message<"agynio.api.runners.v1.ListRunnersReque
  * Use `create(ListRunnersRequestSchema)` to create a new message.
  */
 export const ListRunnersRequestSchema: GenMessage<ListRunnersRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_runners_v1_runners, 6);
+  messageDesc(file_agynio_api_runners_v1_runners, 7);
 
 /**
  * @generated from message agynio.api.runners.v1.ListRunnersResponse
@@ -203,7 +256,60 @@ export type ListRunnersResponse = Message<"agynio.api.runners.v1.ListRunnersResp
  * Use `create(ListRunnersResponseSchema)` to create a new message.
  */
 export const ListRunnersResponseSchema: GenMessage<ListRunnersResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_runners_v1_runners, 7);
+  messageDesc(file_agynio_api_runners_v1_runners, 8);
+
+/**
+ * @generated from message agynio.api.runners.v1.UpdateRunnerRequest
+ */
+export type UpdateRunnerRequest = Message<"agynio.api.runners.v1.UpdateRunnerRequest"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+
+  /**
+   * @generated from field: optional string name = 2;
+   */
+  name?: string;
+
+  /**
+   * Labels replace the existing map; omitted keys are removed.
+   *
+   * @generated from field: map<string, string> labels = 3;
+   */
+  labels: { [key: string]: string };
+
+  /**
+   * Capabilities replace the existing list; an empty list clears all capabilities.
+   *
+   * @generated from field: repeated string capabilities = 4;
+   */
+  capabilities: string[];
+};
+
+/**
+ * Describes the message agynio.api.runners.v1.UpdateRunnerRequest.
+ * Use `create(UpdateRunnerRequestSchema)` to create a new message.
+ */
+export const UpdateRunnerRequestSchema: GenMessage<UpdateRunnerRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_runners_v1_runners, 9);
+
+/**
+ * @generated from message agynio.api.runners.v1.UpdateRunnerResponse
+ */
+export type UpdateRunnerResponse = Message<"agynio.api.runners.v1.UpdateRunnerResponse"> & {
+  /**
+   * @generated from field: agynio.api.runners.v1.Runner runner = 1;
+   */
+  runner?: Runner;
+};
+
+/**
+ * Describes the message agynio.api.runners.v1.UpdateRunnerResponse.
+ * Use `create(UpdateRunnerResponseSchema)` to create a new message.
+ */
+export const UpdateRunnerResponseSchema: GenMessage<UpdateRunnerResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_runners_v1_runners, 10);
 
 /**
  * @generated from message agynio.api.runners.v1.DeleteRunnerRequest
@@ -220,7 +326,7 @@ export type DeleteRunnerRequest = Message<"agynio.api.runners.v1.DeleteRunnerReq
  * Use `create(DeleteRunnerRequestSchema)` to create a new message.
  */
 export const DeleteRunnerRequestSchema: GenMessage<DeleteRunnerRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_runners_v1_runners, 8);
+  messageDesc(file_agynio_api_runners_v1_runners, 11);
 
 /**
  * @generated from message agynio.api.runners.v1.DeleteRunnerResponse
@@ -233,7 +339,7 @@ export type DeleteRunnerResponse = Message<"agynio.api.runners.v1.DeleteRunnerRe
  * Use `create(DeleteRunnerResponseSchema)` to create a new message.
  */
 export const DeleteRunnerResponseSchema: GenMessage<DeleteRunnerResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_runners_v1_runners, 9);
+  messageDesc(file_agynio_api_runners_v1_runners, 12);
 
 /**
  * @generated from message agynio.api.runners.v1.ValidateServiceTokenRequest
@@ -250,7 +356,7 @@ export type ValidateServiceTokenRequest = Message<"agynio.api.runners.v1.Validat
  * Use `create(ValidateServiceTokenRequestSchema)` to create a new message.
  */
 export const ValidateServiceTokenRequestSchema: GenMessage<ValidateServiceTokenRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_runners_v1_runners, 10);
+  messageDesc(file_agynio_api_runners_v1_runners, 13);
 
 /**
  * @generated from message agynio.api.runners.v1.ValidateServiceTokenResponse
@@ -267,7 +373,51 @@ export type ValidateServiceTokenResponse = Message<"agynio.api.runners.v1.Valida
  * Use `create(ValidateServiceTokenResponseSchema)` to create a new message.
  */
 export const ValidateServiceTokenResponseSchema: GenMessage<ValidateServiceTokenResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_runners_v1_runners, 11);
+  messageDesc(file_agynio_api_runners_v1_runners, 14);
+
+/**
+ * @generated from message agynio.api.runners.v1.EnrollRunnerRequest
+ */
+export type EnrollRunnerRequest = Message<"agynio.api.runners.v1.EnrollRunnerRequest"> & {
+  /**
+   * @generated from field: string service_token = 1;
+   */
+  serviceToken: string;
+};
+
+/**
+ * Describes the message agynio.api.runners.v1.EnrollRunnerRequest.
+ * Use `create(EnrollRunnerRequestSchema)` to create a new message.
+ */
+export const EnrollRunnerRequestSchema: GenMessage<EnrollRunnerRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_runners_v1_runners, 15);
+
+/**
+ * @generated from message agynio.api.runners.v1.EnrollRunnerResponse
+ */
+export type EnrollRunnerResponse = Message<"agynio.api.runners.v1.EnrollRunnerResponse"> & {
+  /**
+   * @generated from field: bytes identity_json = 1;
+   */
+  identityJson: Uint8Array;
+
+  /**
+   * @generated from field: string service_name = 2;
+   */
+  serviceName: string;
+
+  /**
+   * @generated from field: string identity_id = 3;
+   */
+  identityId: string;
+};
+
+/**
+ * Describes the message agynio.api.runners.v1.EnrollRunnerResponse.
+ * Use `create(EnrollRunnerResponseSchema)` to create a new message.
+ */
+export const EnrollRunnerResponseSchema: GenMessage<EnrollRunnerResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_runners_v1_runners, 16);
 
 /**
  * @generated from message agynio.api.runners.v1.Container
@@ -304,7 +454,7 @@ export type Container = Message<"agynio.api.runners.v1.Container"> & {
  * Use `create(ContainerSchema)` to create a new message.
  */
 export const ContainerSchema: GenMessage<Container> = /*@__PURE__*/
-  messageDesc(file_agynio_api_runners_v1_runners, 12);
+  messageDesc(file_agynio_api_runners_v1_runners, 17);
 
 /**
  * @generated from message agynio.api.runners.v1.Workload
@@ -349,6 +499,36 @@ export type Workload = Message<"agynio.api.runners.v1.Workload"> & {
    * @generated from field: string ziti_identity_id = 8;
    */
   zitiIdentityId: string;
+
+  /**
+   * @generated from field: optional string instance_id = 9;
+   */
+  instanceId?: string;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp last_activity_at = 10;
+   */
+  lastActivityAt?: Timestamp;
+
+  /**
+   * @generated from field: optional google.protobuf.Timestamp last_metering_sampled_at = 11;
+   */
+  lastMeteringSampledAt?: Timestamp;
+
+  /**
+   * @generated from field: optional google.protobuf.Timestamp removed_at = 12;
+   */
+  removedAt?: Timestamp;
+
+  /**
+   * @generated from field: int32 allocated_cpu_millicores = 13;
+   */
+  allocatedCpuMillicores: number;
+
+  /**
+   * @generated from field: int64 allocated_ram_bytes = 14;
+   */
+  allocatedRamBytes: bigint;
 };
 
 /**
@@ -356,7 +536,7 @@ export type Workload = Message<"agynio.api.runners.v1.Workload"> & {
  * Use `create(WorkloadSchema)` to create a new message.
  */
 export const WorkloadSchema: GenMessage<Workload> = /*@__PURE__*/
-  messageDesc(file_agynio_api_runners_v1_runners, 13);
+  messageDesc(file_agynio_api_runners_v1_runners, 18);
 
 /**
  * @generated from message agynio.api.runners.v1.CreateWorkloadRequest
@@ -401,6 +581,16 @@ export type CreateWorkloadRequest = Message<"agynio.api.runners.v1.CreateWorkloa
    * @generated from field: string ziti_identity_id = 8;
    */
   zitiIdentityId: string;
+
+  /**
+   * @generated from field: int32 allocated_cpu_millicores = 9;
+   */
+  allocatedCpuMillicores: number;
+
+  /**
+   * @generated from field: int64 allocated_ram_bytes = 10;
+   */
+  allocatedRamBytes: bigint;
 };
 
 /**
@@ -408,7 +598,7 @@ export type CreateWorkloadRequest = Message<"agynio.api.runners.v1.CreateWorkloa
  * Use `create(CreateWorkloadRequestSchema)` to create a new message.
  */
 export const CreateWorkloadRequestSchema: GenMessage<CreateWorkloadRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_runners_v1_runners, 14);
+  messageDesc(file_agynio_api_runners_v1_runners, 19);
 
 /**
  * @generated from message agynio.api.runners.v1.CreateWorkloadResponse
@@ -425,7 +615,66 @@ export type CreateWorkloadResponse = Message<"agynio.api.runners.v1.CreateWorklo
  * Use `create(CreateWorkloadResponseSchema)` to create a new message.
  */
 export const CreateWorkloadResponseSchema: GenMessage<CreateWorkloadResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_runners_v1_runners, 15);
+  messageDesc(file_agynio_api_runners_v1_runners, 20);
+
+/**
+ * @generated from message agynio.api.runners.v1.UpdateWorkloadRequest
+ */
+export type UpdateWorkloadRequest = Message<"agynio.api.runners.v1.UpdateWorkloadRequest"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+
+  /**
+   * @generated from field: optional agynio.api.runners.v1.WorkloadStatus status = 2;
+   */
+  status?: WorkloadStatus;
+
+  /**
+   * @generated from field: repeated agynio.api.runners.v1.Container containers = 3;
+   */
+  containers: Container[];
+
+  /**
+   * @generated from field: optional string instance_id = 4;
+   */
+  instanceId?: string;
+
+  /**
+   * @generated from field: optional google.protobuf.Timestamp removed_at = 5;
+   */
+  removedAt?: Timestamp;
+
+  /**
+   * @generated from field: optional google.protobuf.Timestamp last_metering_sampled_at = 6;
+   */
+  lastMeteringSampledAt?: Timestamp;
+};
+
+/**
+ * Describes the message agynio.api.runners.v1.UpdateWorkloadRequest.
+ * Use `create(UpdateWorkloadRequestSchema)` to create a new message.
+ */
+export const UpdateWorkloadRequestSchema: GenMessage<UpdateWorkloadRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_runners_v1_runners, 21);
+
+/**
+ * @generated from message agynio.api.runners.v1.UpdateWorkloadResponse
+ */
+export type UpdateWorkloadResponse = Message<"agynio.api.runners.v1.UpdateWorkloadResponse"> & {
+  /**
+   * @generated from field: agynio.api.runners.v1.Workload workload = 1;
+   */
+  workload?: Workload;
+};
+
+/**
+ * Describes the message agynio.api.runners.v1.UpdateWorkloadResponse.
+ * Use `create(UpdateWorkloadResponseSchema)` to create a new message.
+ */
+export const UpdateWorkloadResponseSchema: GenMessage<UpdateWorkloadResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_runners_v1_runners, 22);
 
 /**
  * @generated from message agynio.api.runners.v1.UpdateWorkloadStatusRequest
@@ -452,7 +701,7 @@ export type UpdateWorkloadStatusRequest = Message<"agynio.api.runners.v1.UpdateW
  * Use `create(UpdateWorkloadStatusRequestSchema)` to create a new message.
  */
 export const UpdateWorkloadStatusRequestSchema: GenMessage<UpdateWorkloadStatusRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_runners_v1_runners, 16);
+  messageDesc(file_agynio_api_runners_v1_runners, 23);
 
 /**
  * @generated from message agynio.api.runners.v1.UpdateWorkloadStatusResponse
@@ -469,7 +718,37 @@ export type UpdateWorkloadStatusResponse = Message<"agynio.api.runners.v1.Update
  * Use `create(UpdateWorkloadStatusResponseSchema)` to create a new message.
  */
 export const UpdateWorkloadStatusResponseSchema: GenMessage<UpdateWorkloadStatusResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_runners_v1_runners, 17);
+  messageDesc(file_agynio_api_runners_v1_runners, 24);
+
+/**
+ * @generated from message agynio.api.runners.v1.TouchWorkloadRequest
+ */
+export type TouchWorkloadRequest = Message<"agynio.api.runners.v1.TouchWorkloadRequest"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+};
+
+/**
+ * Describes the message agynio.api.runners.v1.TouchWorkloadRequest.
+ * Use `create(TouchWorkloadRequestSchema)` to create a new message.
+ */
+export const TouchWorkloadRequestSchema: GenMessage<TouchWorkloadRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_runners_v1_runners, 25);
+
+/**
+ * @generated from message agynio.api.runners.v1.TouchWorkloadResponse
+ */
+export type TouchWorkloadResponse = Message<"agynio.api.runners.v1.TouchWorkloadResponse"> & {
+};
+
+/**
+ * Describes the message agynio.api.runners.v1.TouchWorkloadResponse.
+ * Use `create(TouchWorkloadResponseSchema)` to create a new message.
+ */
+export const TouchWorkloadResponseSchema: GenMessage<TouchWorkloadResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_runners_v1_runners, 26);
 
 /**
  * @generated from message agynio.api.runners.v1.DeleteWorkloadRequest
@@ -486,7 +765,7 @@ export type DeleteWorkloadRequest = Message<"agynio.api.runners.v1.DeleteWorkloa
  * Use `create(DeleteWorkloadRequestSchema)` to create a new message.
  */
 export const DeleteWorkloadRequestSchema: GenMessage<DeleteWorkloadRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_runners_v1_runners, 18);
+  messageDesc(file_agynio_api_runners_v1_runners, 27);
 
 /**
  * @generated from message agynio.api.runners.v1.DeleteWorkloadResponse
@@ -499,7 +778,7 @@ export type DeleteWorkloadResponse = Message<"agynio.api.runners.v1.DeleteWorklo
  * Use `create(DeleteWorkloadResponseSchema)` to create a new message.
  */
 export const DeleteWorkloadResponseSchema: GenMessage<DeleteWorkloadResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_runners_v1_runners, 19);
+  messageDesc(file_agynio_api_runners_v1_runners, 28);
 
 /**
  * @generated from message agynio.api.runners.v1.GetWorkloadRequest
@@ -516,7 +795,7 @@ export type GetWorkloadRequest = Message<"agynio.api.runners.v1.GetWorkloadReque
  * Use `create(GetWorkloadRequestSchema)` to create a new message.
  */
 export const GetWorkloadRequestSchema: GenMessage<GetWorkloadRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_runners_v1_runners, 20);
+  messageDesc(file_agynio_api_runners_v1_runners, 29);
 
 /**
  * @generated from message agynio.api.runners.v1.GetWorkloadResponse
@@ -533,7 +812,7 @@ export type GetWorkloadResponse = Message<"agynio.api.runners.v1.GetWorkloadResp
  * Use `create(GetWorkloadResponseSchema)` to create a new message.
  */
 export const GetWorkloadResponseSchema: GenMessage<GetWorkloadResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_runners_v1_runners, 21);
+  messageDesc(file_agynio_api_runners_v1_runners, 30);
 
 /**
  * @generated from message agynio.api.runners.v1.ListWorkloadsByThreadRequest
@@ -560,7 +839,7 @@ export type ListWorkloadsByThreadRequest = Message<"agynio.api.runners.v1.ListWo
  * Use `create(ListWorkloadsByThreadRequestSchema)` to create a new message.
  */
 export const ListWorkloadsByThreadRequestSchema: GenMessage<ListWorkloadsByThreadRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_runners_v1_runners, 22);
+  messageDesc(file_agynio_api_runners_v1_runners, 31);
 
 /**
  * @generated from message agynio.api.runners.v1.ListWorkloadsByThreadResponse
@@ -582,7 +861,7 @@ export type ListWorkloadsByThreadResponse = Message<"agynio.api.runners.v1.ListW
  * Use `create(ListWorkloadsByThreadResponseSchema)` to create a new message.
  */
 export const ListWorkloadsByThreadResponseSchema: GenMessage<ListWorkloadsByThreadResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_runners_v1_runners, 23);
+  messageDesc(file_agynio_api_runners_v1_runners, 32);
 
 /**
  * @generated from message agynio.api.runners.v1.ListWorkloadsRequest
@@ -602,6 +881,21 @@ export type ListWorkloadsRequest = Message<"agynio.api.runners.v1.ListWorkloadsR
    * @generated from field: repeated agynio.api.runners.v1.WorkloadStatus statuses = 3;
    */
   statuses: WorkloadStatus[];
+
+  /**
+   * @generated from field: optional string organization_id = 4;
+   */
+  organizationId?: string;
+
+  /**
+   * @generated from field: optional string runner_id = 5;
+   */
+  runnerId?: string;
+
+  /**
+   * @generated from field: optional bool pending_sample = 6;
+   */
+  pendingSample?: boolean;
 };
 
 /**
@@ -609,7 +903,7 @@ export type ListWorkloadsRequest = Message<"agynio.api.runners.v1.ListWorkloadsR
  * Use `create(ListWorkloadsRequestSchema)` to create a new message.
  */
 export const ListWorkloadsRequestSchema: GenMessage<ListWorkloadsRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_runners_v1_runners, 24);
+  messageDesc(file_agynio_api_runners_v1_runners, 33);
 
 /**
  * @generated from message agynio.api.runners.v1.ListWorkloadsResponse
@@ -631,7 +925,404 @@ export type ListWorkloadsResponse = Message<"agynio.api.runners.v1.ListWorkloads
  * Use `create(ListWorkloadsResponseSchema)` to create a new message.
  */
 export const ListWorkloadsResponseSchema: GenMessage<ListWorkloadsResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_runners_v1_runners, 25);
+  messageDesc(file_agynio_api_runners_v1_runners, 34);
+
+/**
+ * @generated from message agynio.api.runners.v1.BatchUpdateWorkloadSampledAtRequest
+ */
+export type BatchUpdateWorkloadSampledAtRequest = Message<"agynio.api.runners.v1.BatchUpdateWorkloadSampledAtRequest"> & {
+  /**
+   * @generated from field: repeated agynio.api.runners.v1.SampledAtEntry entries = 1;
+   */
+  entries: SampledAtEntry[];
+};
+
+/**
+ * Describes the message agynio.api.runners.v1.BatchUpdateWorkloadSampledAtRequest.
+ * Use `create(BatchUpdateWorkloadSampledAtRequestSchema)` to create a new message.
+ */
+export const BatchUpdateWorkloadSampledAtRequestSchema: GenMessage<BatchUpdateWorkloadSampledAtRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_runners_v1_runners, 35);
+
+/**
+ * @generated from message agynio.api.runners.v1.BatchUpdateWorkloadSampledAtResponse
+ */
+export type BatchUpdateWorkloadSampledAtResponse = Message<"agynio.api.runners.v1.BatchUpdateWorkloadSampledAtResponse"> & {
+};
+
+/**
+ * Describes the message agynio.api.runners.v1.BatchUpdateWorkloadSampledAtResponse.
+ * Use `create(BatchUpdateWorkloadSampledAtResponseSchema)` to create a new message.
+ */
+export const BatchUpdateWorkloadSampledAtResponseSchema: GenMessage<BatchUpdateWorkloadSampledAtResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_runners_v1_runners, 36);
+
+/**
+ * @generated from message agynio.api.runners.v1.Volume
+ */
+export type Volume = Message<"agynio.api.runners.v1.Volume"> & {
+  /**
+   * @generated from field: agynio.api.runners.v1.EntityMeta meta = 1;
+   */
+  meta?: EntityMeta;
+
+  /**
+   * @generated from field: optional string instance_id = 2;
+   */
+  instanceId?: string;
+
+  /**
+   * @generated from field: string volume_id = 3;
+   */
+  volumeId: string;
+
+  /**
+   * @generated from field: string thread_id = 4;
+   */
+  threadId: string;
+
+  /**
+   * @generated from field: string runner_id = 5;
+   */
+  runnerId: string;
+
+  /**
+   * @generated from field: string agent_id = 6;
+   */
+  agentId: string;
+
+  /**
+   * @generated from field: string organization_id = 7;
+   */
+  organizationId: string;
+
+  /**
+   * @generated from field: string size_gb = 8;
+   */
+  sizeGb: string;
+
+  /**
+   * @generated from field: agynio.api.runners.v1.VolumeStatus status = 9;
+   */
+  status: VolumeStatus;
+
+  /**
+   * @generated from field: optional google.protobuf.Timestamp removed_at = 10;
+   */
+  removedAt?: Timestamp;
+
+  /**
+   * @generated from field: optional google.protobuf.Timestamp last_metering_sampled_at = 11;
+   */
+  lastMeteringSampledAt?: Timestamp;
+};
+
+/**
+ * Describes the message agynio.api.runners.v1.Volume.
+ * Use `create(VolumeSchema)` to create a new message.
+ */
+export const VolumeSchema: GenMessage<Volume> = /*@__PURE__*/
+  messageDesc(file_agynio_api_runners_v1_runners, 37);
+
+/**
+ * @generated from message agynio.api.runners.v1.CreateVolumeRequest
+ */
+export type CreateVolumeRequest = Message<"agynio.api.runners.v1.CreateVolumeRequest"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+
+  /**
+   * @generated from field: string volume_id = 2;
+   */
+  volumeId: string;
+
+  /**
+   * @generated from field: string thread_id = 3;
+   */
+  threadId: string;
+
+  /**
+   * @generated from field: string runner_id = 4;
+   */
+  runnerId: string;
+
+  /**
+   * @generated from field: string agent_id = 5;
+   */
+  agentId: string;
+
+  /**
+   * @generated from field: string organization_id = 6;
+   */
+  organizationId: string;
+
+  /**
+   * @generated from field: string size_gb = 7;
+   */
+  sizeGb: string;
+
+  /**
+   * @generated from field: agynio.api.runners.v1.VolumeStatus status = 8;
+   */
+  status: VolumeStatus;
+};
+
+/**
+ * Describes the message agynio.api.runners.v1.CreateVolumeRequest.
+ * Use `create(CreateVolumeRequestSchema)` to create a new message.
+ */
+export const CreateVolumeRequestSchema: GenMessage<CreateVolumeRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_runners_v1_runners, 38);
+
+/**
+ * @generated from message agynio.api.runners.v1.CreateVolumeResponse
+ */
+export type CreateVolumeResponse = Message<"agynio.api.runners.v1.CreateVolumeResponse"> & {
+  /**
+   * @generated from field: agynio.api.runners.v1.Volume volume = 1;
+   */
+  volume?: Volume;
+};
+
+/**
+ * Describes the message agynio.api.runners.v1.CreateVolumeResponse.
+ * Use `create(CreateVolumeResponseSchema)` to create a new message.
+ */
+export const CreateVolumeResponseSchema: GenMessage<CreateVolumeResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_runners_v1_runners, 39);
+
+/**
+ * @generated from message agynio.api.runners.v1.UpdateVolumeRequest
+ */
+export type UpdateVolumeRequest = Message<"agynio.api.runners.v1.UpdateVolumeRequest"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+
+  /**
+   * @generated from field: optional agynio.api.runners.v1.VolumeStatus status = 2;
+   */
+  status?: VolumeStatus;
+
+  /**
+   * @generated from field: optional string instance_id = 3;
+   */
+  instanceId?: string;
+
+  /**
+   * @generated from field: optional google.protobuf.Timestamp removed_at = 4;
+   */
+  removedAt?: Timestamp;
+
+  /**
+   * @generated from field: optional google.protobuf.Timestamp last_metering_sampled_at = 5;
+   */
+  lastMeteringSampledAt?: Timestamp;
+};
+
+/**
+ * Describes the message agynio.api.runners.v1.UpdateVolumeRequest.
+ * Use `create(UpdateVolumeRequestSchema)` to create a new message.
+ */
+export const UpdateVolumeRequestSchema: GenMessage<UpdateVolumeRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_runners_v1_runners, 40);
+
+/**
+ * @generated from message agynio.api.runners.v1.UpdateVolumeResponse
+ */
+export type UpdateVolumeResponse = Message<"agynio.api.runners.v1.UpdateVolumeResponse"> & {
+  /**
+   * @generated from field: agynio.api.runners.v1.Volume volume = 1;
+   */
+  volume?: Volume;
+};
+
+/**
+ * Describes the message agynio.api.runners.v1.UpdateVolumeResponse.
+ * Use `create(UpdateVolumeResponseSchema)` to create a new message.
+ */
+export const UpdateVolumeResponseSchema: GenMessage<UpdateVolumeResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_runners_v1_runners, 41);
+
+/**
+ * @generated from message agynio.api.runners.v1.GetVolumeRequest
+ */
+export type GetVolumeRequest = Message<"agynio.api.runners.v1.GetVolumeRequest"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+};
+
+/**
+ * Describes the message agynio.api.runners.v1.GetVolumeRequest.
+ * Use `create(GetVolumeRequestSchema)` to create a new message.
+ */
+export const GetVolumeRequestSchema: GenMessage<GetVolumeRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_runners_v1_runners, 42);
+
+/**
+ * @generated from message agynio.api.runners.v1.GetVolumeResponse
+ */
+export type GetVolumeResponse = Message<"agynio.api.runners.v1.GetVolumeResponse"> & {
+  /**
+   * @generated from field: agynio.api.runners.v1.Volume volume = 1;
+   */
+  volume?: Volume;
+};
+
+/**
+ * Describes the message agynio.api.runners.v1.GetVolumeResponse.
+ * Use `create(GetVolumeResponseSchema)` to create a new message.
+ */
+export const GetVolumeResponseSchema: GenMessage<GetVolumeResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_runners_v1_runners, 43);
+
+/**
+ * @generated from message agynio.api.runners.v1.ListVolumesRequest
+ */
+export type ListVolumesRequest = Message<"agynio.api.runners.v1.ListVolumesRequest"> & {
+  /**
+   * @generated from field: int32 page_size = 1;
+   */
+  pageSize: number;
+
+  /**
+   * @generated from field: string page_token = 2;
+   */
+  pageToken: string;
+
+  /**
+   * @generated from field: repeated agynio.api.runners.v1.VolumeStatus statuses = 3;
+   */
+  statuses: VolumeStatus[];
+
+  /**
+   * @generated from field: optional string organization_id = 4;
+   */
+  organizationId?: string;
+
+  /**
+   * @generated from field: optional string runner_id = 5;
+   */
+  runnerId?: string;
+
+  /**
+   * @generated from field: optional bool pending_sample = 6;
+   */
+  pendingSample?: boolean;
+};
+
+/**
+ * Describes the message agynio.api.runners.v1.ListVolumesRequest.
+ * Use `create(ListVolumesRequestSchema)` to create a new message.
+ */
+export const ListVolumesRequestSchema: GenMessage<ListVolumesRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_runners_v1_runners, 44);
+
+/**
+ * @generated from message agynio.api.runners.v1.ListVolumesResponse
+ */
+export type ListVolumesResponse = Message<"agynio.api.runners.v1.ListVolumesResponse"> & {
+  /**
+   * @generated from field: repeated agynio.api.runners.v1.Volume volumes = 1;
+   */
+  volumes: Volume[];
+
+  /**
+   * @generated from field: string next_page_token = 2;
+   */
+  nextPageToken: string;
+};
+
+/**
+ * Describes the message agynio.api.runners.v1.ListVolumesResponse.
+ * Use `create(ListVolumesResponseSchema)` to create a new message.
+ */
+export const ListVolumesResponseSchema: GenMessage<ListVolumesResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_runners_v1_runners, 45);
+
+/**
+ * @generated from message agynio.api.runners.v1.ListVolumesByThreadRequest
+ */
+export type ListVolumesByThreadRequest = Message<"agynio.api.runners.v1.ListVolumesByThreadRequest"> & {
+  /**
+   * @generated from field: string thread_id = 1;
+   */
+  threadId: string;
+
+  /**
+   * @generated from field: int32 page_size = 2;
+   */
+  pageSize: number;
+
+  /**
+   * @generated from field: string page_token = 3;
+   */
+  pageToken: string;
+};
+
+/**
+ * Describes the message agynio.api.runners.v1.ListVolumesByThreadRequest.
+ * Use `create(ListVolumesByThreadRequestSchema)` to create a new message.
+ */
+export const ListVolumesByThreadRequestSchema: GenMessage<ListVolumesByThreadRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_runners_v1_runners, 46);
+
+/**
+ * @generated from message agynio.api.runners.v1.ListVolumesByThreadResponse
+ */
+export type ListVolumesByThreadResponse = Message<"agynio.api.runners.v1.ListVolumesByThreadResponse"> & {
+  /**
+   * @generated from field: repeated agynio.api.runners.v1.Volume volumes = 1;
+   */
+  volumes: Volume[];
+
+  /**
+   * @generated from field: string next_page_token = 2;
+   */
+  nextPageToken: string;
+};
+
+/**
+ * Describes the message agynio.api.runners.v1.ListVolumesByThreadResponse.
+ * Use `create(ListVolumesByThreadResponseSchema)` to create a new message.
+ */
+export const ListVolumesByThreadResponseSchema: GenMessage<ListVolumesByThreadResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_runners_v1_runners, 47);
+
+/**
+ * @generated from message agynio.api.runners.v1.BatchUpdateVolumeSampledAtRequest
+ */
+export type BatchUpdateVolumeSampledAtRequest = Message<"agynio.api.runners.v1.BatchUpdateVolumeSampledAtRequest"> & {
+  /**
+   * @generated from field: repeated agynio.api.runners.v1.SampledAtEntry entries = 1;
+   */
+  entries: SampledAtEntry[];
+};
+
+/**
+ * Describes the message agynio.api.runners.v1.BatchUpdateVolumeSampledAtRequest.
+ * Use `create(BatchUpdateVolumeSampledAtRequestSchema)` to create a new message.
+ */
+export const BatchUpdateVolumeSampledAtRequestSchema: GenMessage<BatchUpdateVolumeSampledAtRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_runners_v1_runners, 48);
+
+/**
+ * @generated from message agynio.api.runners.v1.BatchUpdateVolumeSampledAtResponse
+ */
+export type BatchUpdateVolumeSampledAtResponse = Message<"agynio.api.runners.v1.BatchUpdateVolumeSampledAtResponse"> & {
+};
+
+/**
+ * Describes the message agynio.api.runners.v1.BatchUpdateVolumeSampledAtResponse.
+ * Use `create(BatchUpdateVolumeSampledAtResponseSchema)` to create a new message.
+ */
+export const BatchUpdateVolumeSampledAtResponseSchema: GenMessage<BatchUpdateVolumeSampledAtResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_runners_v1_runners, 49);
 
 /**
  * @generated from enum agynio.api.runners.v1.RunnerStatus
@@ -768,6 +1459,47 @@ export const ContainerStatusSchema: GenEnum<ContainerStatus> = /*@__PURE__*/
   enumDesc(file_agynio_api_runners_v1_runners, 3);
 
 /**
+ * @generated from enum agynio.api.runners.v1.VolumeStatus
+ */
+export enum VolumeStatus {
+  /**
+   * @generated from enum value: VOLUME_STATUS_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: VOLUME_STATUS_PROVISIONING = 1;
+   */
+  PROVISIONING = 1,
+
+  /**
+   * @generated from enum value: VOLUME_STATUS_ACTIVE = 2;
+   */
+  ACTIVE = 2,
+
+  /**
+   * @generated from enum value: VOLUME_STATUS_DEPROVISIONING = 3;
+   */
+  DEPROVISIONING = 3,
+
+  /**
+   * @generated from enum value: VOLUME_STATUS_DELETED = 4;
+   */
+  DELETED = 4,
+
+  /**
+   * @generated from enum value: VOLUME_STATUS_FAILED = 5;
+   */
+  FAILED = 5,
+}
+
+/**
+ * Describes the enum agynio.api.runners.v1.VolumeStatus.
+ */
+export const VolumeStatusSchema: GenEnum<VolumeStatus> = /*@__PURE__*/
+  enumDesc(file_agynio_api_runners_v1_runners, 4);
+
+/**
  * RunnersService manages runners and their workload state.
  *
  * @generated from service agynio.api.runners.v1.RunnersService
@@ -800,6 +1532,14 @@ export const RunnersService: GenService<{
     output: typeof ListRunnersResponseSchema;
   },
   /**
+   * @generated from rpc agynio.api.runners.v1.RunnersService.UpdateRunner
+   */
+  updateRunner: {
+    methodKind: "unary";
+    input: typeof UpdateRunnerRequestSchema;
+    output: typeof UpdateRunnerResponseSchema;
+  },
+  /**
    * @generated from rpc agynio.api.runners.v1.RunnersService.DeleteRunner
    */
   deleteRunner: {
@@ -816,6 +1556,14 @@ export const RunnersService: GenService<{
     output: typeof ValidateServiceTokenResponseSchema;
   },
   /**
+   * @generated from rpc agynio.api.runners.v1.RunnersService.EnrollRunner
+   */
+  enrollRunner: {
+    methodKind: "unary";
+    input: typeof EnrollRunnerRequestSchema;
+    output: typeof EnrollRunnerResponseSchema;
+  },
+  /**
    * --- Workload state ---
    *
    * @generated from rpc agynio.api.runners.v1.RunnersService.CreateWorkload
@@ -826,12 +1574,28 @@ export const RunnersService: GenService<{
     output: typeof CreateWorkloadResponseSchema;
   },
   /**
+   * @generated from rpc agynio.api.runners.v1.RunnersService.UpdateWorkload
+   */
+  updateWorkload: {
+    methodKind: "unary";
+    input: typeof UpdateWorkloadRequestSchema;
+    output: typeof UpdateWorkloadResponseSchema;
+  },
+  /**
    * @generated from rpc agynio.api.runners.v1.RunnersService.UpdateWorkloadStatus
    */
   updateWorkloadStatus: {
     methodKind: "unary";
     input: typeof UpdateWorkloadStatusRequestSchema;
     output: typeof UpdateWorkloadStatusResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.runners.v1.RunnersService.TouchWorkload
+   */
+  touchWorkload: {
+    methodKind: "unary";
+    input: typeof TouchWorkloadRequestSchema;
+    output: typeof TouchWorkloadResponseSchema;
   },
   /**
    * @generated from rpc agynio.api.runners.v1.RunnersService.DeleteWorkload
@@ -864,6 +1628,64 @@ export const RunnersService: GenService<{
     methodKind: "unary";
     input: typeof ListWorkloadsRequestSchema;
     output: typeof ListWorkloadsResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.runners.v1.RunnersService.BatchUpdateWorkloadSampledAt
+   */
+  batchUpdateWorkloadSampledAt: {
+    methodKind: "unary";
+    input: typeof BatchUpdateWorkloadSampledAtRequestSchema;
+    output: typeof BatchUpdateWorkloadSampledAtResponseSchema;
+  },
+  /**
+   * --- Volume state ---
+   *
+   * @generated from rpc agynio.api.runners.v1.RunnersService.CreateVolume
+   */
+  createVolume: {
+    methodKind: "unary";
+    input: typeof CreateVolumeRequestSchema;
+    output: typeof CreateVolumeResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.runners.v1.RunnersService.UpdateVolume
+   */
+  updateVolume: {
+    methodKind: "unary";
+    input: typeof UpdateVolumeRequestSchema;
+    output: typeof UpdateVolumeResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.runners.v1.RunnersService.GetVolume
+   */
+  getVolume: {
+    methodKind: "unary";
+    input: typeof GetVolumeRequestSchema;
+    output: typeof GetVolumeResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.runners.v1.RunnersService.ListVolumes
+   */
+  listVolumes: {
+    methodKind: "unary";
+    input: typeof ListVolumesRequestSchema;
+    output: typeof ListVolumesResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.runners.v1.RunnersService.ListVolumesByThread
+   */
+  listVolumesByThread: {
+    methodKind: "unary";
+    input: typeof ListVolumesByThreadRequestSchema;
+    output: typeof ListVolumesByThreadResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.runners.v1.RunnersService.BatchUpdateVolumeSampledAt
+   */
+  batchUpdateVolumeSampledAt: {
+    methodKind: "unary";
+    input: typeof BatchUpdateVolumeSampledAtRequestSchema;
+    output: typeof BatchUpdateVolumeSampledAtResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_agynio_api_runners_v1_runners, 0);

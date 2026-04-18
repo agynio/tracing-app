@@ -14,7 +14,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file agynio/api/ziti_management/v1/ziti_management.proto.
  */
 export const file_agynio_api_ziti_management_v1_ziti_management: GenFile = /*@__PURE__*/
-  fileDesc("CjNhZ3luaW8vYXBpL3ppdGlfbWFuYWdlbWVudC92MS96aXRpX21hbmFnZW1lbnQucHJvdG8SHWFneW5pby5hcGkueml0aV9tYW5hZ2VtZW50LnYxIsYBCg9NYW5hZ2VkSWRlbnRpdHkSGAoQeml0aV9pZGVudGl0eV9pZBgBIAEoCRITCgtpZGVudGl0eV9pZBgCIAEoCRI7Cg1pZGVudGl0eV90eXBlGAMgASgOMiQuYWd5bmlvLmFwaS5pZGVudGl0eS52MS5JZGVudGl0eVR5cGUSFwoPeml0aV9zZXJ2aWNlX2lkGAQgASgJEi4KCmNyZWF0ZWRfYXQYBSABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIi4KGkNyZWF0ZUFnZW50SWRlbnRpdHlSZXF1ZXN0EhAKCGFnZW50X2lkGAEgASgJIk8KG0NyZWF0ZUFnZW50SWRlbnRpdHlSZXNwb25zZRIYChB6aXRpX2lkZW50aXR5X2lkGAEgASgJEhYKDmVucm9sbG1lbnRfand0GAIgASgJIj0KGENyZWF0ZUFwcElkZW50aXR5UmVxdWVzdBITCgtpZGVudGl0eV9pZBgBIAEoCRIMCgRzbHVnGAIgASgJImUKGUNyZWF0ZUFwcElkZW50aXR5UmVzcG9uc2USGAoQeml0aV9pZGVudGl0eV9pZBgBIAEoCRIVCg1pZGVudGl0eV9qc29uGAIgASgMEhcKD3ppdGlfc2VydmljZV9pZBgDIAEoCSJNChhEZWxldGVBcHBJZGVudGl0eVJlcXVlc3QSGAoQeml0aV9pZGVudGl0eV9pZBgBIAEoCRIXCg96aXRpX3NlcnZpY2VfaWQYAiABKAkiGwoZRGVsZXRlQXBwSWRlbnRpdHlSZXNwb25zZSIxChVEZWxldGVJZGVudGl0eVJlcXVlc3QSGAoQeml0aV9pZGVudGl0eV9pZBgBIAEoCSIYChZEZWxldGVJZGVudGl0eVJlc3BvbnNlIoIBChxMaXN0TWFuYWdlZElkZW50aXRpZXNSZXF1ZXN0EjsKDWlkZW50aXR5X3R5cGUYASABKA4yJC5hZ3luaW8uYXBpLmlkZW50aXR5LnYxLklkZW50aXR5VHlwZRIRCglwYWdlX3NpemUYAyABKAUSEgoKcGFnZV90b2tlbhgEIAEoCSJ8Ch1MaXN0TWFuYWdlZElkZW50aXRpZXNSZXNwb25zZRJCCgppZGVudGl0aWVzGAEgAygLMi4uYWd5bmlvLmFwaS56aXRpX21hbmFnZW1lbnQudjEuTWFuYWdlZElkZW50aXR5EhcKD25leHRfcGFnZV90b2tlbhgCIAEoCSIyChZSZXNvbHZlSWRlbnRpdHlSZXF1ZXN0EhgKEHppdGlfaWRlbnRpdHlfaWQYASABKAkiawoXUmVzb2x2ZUlkZW50aXR5UmVzcG9uc2USEwoLaWRlbnRpdHlfaWQYASABKAkSOwoNaWRlbnRpdHlfdHlwZRgCIAEoDjIkLmFneW5pby5hcGkuaWRlbnRpdHkudjEuSWRlbnRpdHlUeXBlImEKHVJlcXVlc3RTZXJ2aWNlSWRlbnRpdHlSZXF1ZXN0EkAKDHNlcnZpY2VfdHlwZRgBIAEoDjIqLmFneW5pby5hcGkueml0aV9tYW5hZ2VtZW50LnYxLlNlcnZpY2VUeXBlIlEKHlJlcXVlc3RTZXJ2aWNlSWRlbnRpdHlSZXNwb25zZRIYChB6aXRpX2lkZW50aXR5X2lkGAEgASgJEhUKDWlkZW50aXR5X2pzb24YAiABKAwiNgoaRXh0ZW5kSWRlbnRpdHlMZWFzZVJlcXVlc3QSGAoQeml0aV9pZGVudGl0eV9pZBgBIAEoCSIdChtFeHRlbmRJZGVudGl0eUxlYXNlUmVzcG9uc2UqmQEKC1NlcnZpY2VUeXBlEhwKGFNFUlZJQ0VfVFlQRV9VTlNQRUNJRklFRBAAEhgKFFNFUlZJQ0VfVFlQRV9HQVRFV0FZEAESHQoZU0VSVklDRV9UWVBFX09SQ0hFU1RSQVRPUhACEhcKE1NFUlZJQ0VfVFlQRV9SVU5ORVIQAxIaChZTRVJWSUNFX1RZUEVfTExNX1BST1hZEAQy9ggKFVppdGlNYW5hZ2VtZW50U2VydmljZRKMAQoTQ3JlYXRlQWdlbnRJZGVudGl0eRI5LmFneW5pby5hcGkueml0aV9tYW5hZ2VtZW50LnYxLkNyZWF0ZUFnZW50SWRlbnRpdHlSZXF1ZXN0GjouYWd5bmlvLmFwaS56aXRpX21hbmFnZW1lbnQudjEuQ3JlYXRlQWdlbnRJZGVudGl0eVJlc3BvbnNlEoYBChFDcmVhdGVBcHBJZGVudGl0eRI3LmFneW5pby5hcGkueml0aV9tYW5hZ2VtZW50LnYxLkNyZWF0ZUFwcElkZW50aXR5UmVxdWVzdBo4LmFneW5pby5hcGkueml0aV9tYW5hZ2VtZW50LnYxLkNyZWF0ZUFwcElkZW50aXR5UmVzcG9uc2USfQoORGVsZXRlSWRlbnRpdHkSNC5hZ3luaW8uYXBpLnppdGlfbWFuYWdlbWVudC52MS5EZWxldGVJZGVudGl0eVJlcXVlc3QaNS5hZ3luaW8uYXBpLnppdGlfbWFuYWdlbWVudC52MS5EZWxldGVJZGVudGl0eVJlc3BvbnNlEoYBChFEZWxldGVBcHBJZGVudGl0eRI3LmFneW5pby5hcGkueml0aV9tYW5hZ2VtZW50LnYxLkRlbGV0ZUFwcElkZW50aXR5UmVxdWVzdBo4LmFneW5pby5hcGkueml0aV9tYW5hZ2VtZW50LnYxLkRlbGV0ZUFwcElkZW50aXR5UmVzcG9uc2USkgEKFUxpc3RNYW5hZ2VkSWRlbnRpdGllcxI7LmFneW5pby5hcGkueml0aV9tYW5hZ2VtZW50LnYxLkxpc3RNYW5hZ2VkSWRlbnRpdGllc1JlcXVlc3QaPC5hZ3luaW8uYXBpLnppdGlfbWFuYWdlbWVudC52MS5MaXN0TWFuYWdlZElkZW50aXRpZXNSZXNwb25zZRKAAQoPUmVzb2x2ZUlkZW50aXR5EjUuYWd5bmlvLmFwaS56aXRpX21hbmFnZW1lbnQudjEuUmVzb2x2ZUlkZW50aXR5UmVxdWVzdBo2LmFneW5pby5hcGkueml0aV9tYW5hZ2VtZW50LnYxLlJlc29sdmVJZGVudGl0eVJlc3BvbnNlEpUBChZSZXF1ZXN0U2VydmljZUlkZW50aXR5EjwuYWd5bmlvLmFwaS56aXRpX21hbmFnZW1lbnQudjEuUmVxdWVzdFNlcnZpY2VJZGVudGl0eVJlcXVlc3QaPS5hZ3luaW8uYXBpLnppdGlfbWFuYWdlbWVudC52MS5SZXF1ZXN0U2VydmljZUlkZW50aXR5UmVzcG9uc2USjAEKE0V4dGVuZElkZW50aXR5TGVhc2USOS5hZ3luaW8uYXBpLnppdGlfbWFuYWdlbWVudC52MS5FeHRlbmRJZGVudGl0eUxlYXNlUmVxdWVzdBo6LmFneW5pby5hcGkueml0aV9tYW5hZ2VtZW50LnYxLkV4dGVuZElkZW50aXR5TGVhc2VSZXNwb25zZUJKWkhnaXRodWIuY29tL2FneW5pby9hcGkvZ2VuL2FneW5pby9hcGkveml0aV9tYW5hZ2VtZW50L3YxO3ppdGltYW5hZ2VtZW50djFiBnByb3RvMw", [file_agynio_api_identity_v1_identity, file_google_protobuf_timestamp]);
+  fileDesc("CjNhZ3luaW8vYXBpL3ppdGlfbWFuYWdlbWVudC92MS96aXRpX21hbmFnZW1lbnQucHJvdG8SHWFneW5pby5hcGkueml0aV9tYW5hZ2VtZW50LnYxIsYBCg9NYW5hZ2VkSWRlbnRpdHkSGAoQeml0aV9pZGVudGl0eV9pZBgBIAEoCRITCgtpZGVudGl0eV9pZBgCIAEoCRI7Cg1pZGVudGl0eV90eXBlGAMgASgOMiQuYWd5bmlvLmFwaS5pZGVudGl0eS52MS5JZGVudGl0eVR5cGUSFwoPeml0aV9zZXJ2aWNlX2lkGAQgASgJEi4KCmNyZWF0ZWRfYXQYBSABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIkMKGkNyZWF0ZUFnZW50SWRlbnRpdHlSZXF1ZXN0EhAKCGFnZW50X2lkGAEgASgJEhMKC3dvcmtsb2FkX2lkGAIgASgJIk8KG0NyZWF0ZUFnZW50SWRlbnRpdHlSZXNwb25zZRIYChB6aXRpX2lkZW50aXR5X2lkGAEgASgJEhYKDmVucm9sbG1lbnRfand0GAIgASgJIj0KGENyZWF0ZUFwcElkZW50aXR5UmVxdWVzdBITCgtpZGVudGl0eV9pZBgBIAEoCRIMCgRzbHVnGAIgASgJImMKGUNyZWF0ZUFwcElkZW50aXR5UmVzcG9uc2USGAoQeml0aV9pZGVudGl0eV9pZBgBIAEoCRIVCg1pZGVudGl0eV9qc29uGAIgASgMSgQIAxAEUg96aXRpX3NlcnZpY2VfaWQiPwoMSG9zdFYxQ29uZmlnEhAKCHByb3RvY29sGAEgASgJEg8KB2FkZHJlc3MYAiABKAkSDAoEcG9ydBgDIAEoBSJ4ChFJbnRlcmNlcHRWMUNvbmZpZxIRCglwcm90b2NvbHMYASADKAkSEQoJYWRkcmVzc2VzGAIgAygJEj0KC3BvcnRfcmFuZ2VzGAMgAygLMiguYWd5bmlvLmFwaS56aXRpX21hbmFnZW1lbnQudjEuUG9ydFJhbmdlIiYKCVBvcnRSYW5nZRILCgNsb3cYASABKAUSDAoEaGlnaBgCIAEoBSKGAgoUQ3JlYXRlU2VydmljZVJlcXVlc3QSDAoEbmFtZRgBIAEoCRIXCg9yb2xlX2F0dHJpYnV0ZXMYAiADKAkSSAoOaG9zdF92MV9jb25maWcYAyABKAsyKy5hZ3luaW8uYXBpLnppdGlfbWFuYWdlbWVudC52MS5Ib3N0VjFDb25maWdIAIgBARJSChNpbnRlcmNlcHRfdjFfY29uZmlnGAQgASgLMjAuYWd5bmlvLmFwaS56aXRpX21hbmFnZW1lbnQudjEuSW50ZXJjZXB0VjFDb25maWdIAYgBAUIRCg9faG9zdF92MV9jb25maWdCFgoUX2ludGVyY2VwdF92MV9jb25maWciSwoVQ3JlYXRlU2VydmljZVJlc3BvbnNlEhcKD3ppdGlfc2VydmljZV9pZBgBIAEoCRIZChF6aXRpX3NlcnZpY2VfbmFtZRgCIAEoCSJIChhEZWxldGVBcHBJZGVudGl0eVJlcXVlc3QSEwoLaWRlbnRpdHlfaWQYASABKAkSFwoPeml0aV9zZXJ2aWNlX2lkGAIgASgJIhsKGURlbGV0ZUFwcElkZW50aXR5UmVzcG9uc2UiSQobQ3JlYXRlUnVubmVySWRlbnRpdHlSZXF1ZXN0EhEKCXJ1bm5lcl9pZBgBIAEoCRIXCg9yb2xlX2F0dHJpYnV0ZXMYAiADKAkifwocQ3JlYXRlUnVubmVySWRlbnRpdHlSZXNwb25zZRIYChB6aXRpX2lkZW50aXR5X2lkGAEgASgJEhUKDWlkZW50aXR5X2pzb24YAiABKAxKBAgDEARKBAgEEAVSD3ppdGlfc2VydmljZV9pZFIReml0aV9zZXJ2aWNlX25hbWUiSwobRGVsZXRlUnVubmVySWRlbnRpdHlSZXF1ZXN0EhMKC2lkZW50aXR5X2lkGAEgASgJEhcKD3ppdGlfc2VydmljZV9pZBgCIAEoCSIeChxEZWxldGVSdW5uZXJJZGVudGl0eVJlc3BvbnNlIjEKFURlbGV0ZUlkZW50aXR5UmVxdWVzdBIYChB6aXRpX2lkZW50aXR5X2lkGAEgASgJIhgKFkRlbGV0ZUlkZW50aXR5UmVzcG9uc2UiggEKHExpc3RNYW5hZ2VkSWRlbnRpdGllc1JlcXVlc3QSOwoNaWRlbnRpdHlfdHlwZRgBIAEoDjIkLmFneW5pby5hcGkuaWRlbnRpdHkudjEuSWRlbnRpdHlUeXBlEhEKCXBhZ2Vfc2l6ZRgDIAEoBRISCgpwYWdlX3Rva2VuGAQgASgJInwKHUxpc3RNYW5hZ2VkSWRlbnRpdGllc1Jlc3BvbnNlEkIKCmlkZW50aXRpZXMYASADKAsyLi5hZ3luaW8uYXBpLnppdGlfbWFuYWdlbWVudC52MS5NYW5hZ2VkSWRlbnRpdHkSFwoPbmV4dF9wYWdlX3Rva2VuGAIgASgJIjIKFlJlc29sdmVJZGVudGl0eVJlcXVlc3QSGAoQeml0aV9pZGVudGl0eV9pZBgBIAEoCSKVAQoXUmVzb2x2ZUlkZW50aXR5UmVzcG9uc2USEwoLaWRlbnRpdHlfaWQYASABKAkSOwoNaWRlbnRpdHlfdHlwZRgCIAEoDjIkLmFneW5pby5hcGkuaWRlbnRpdHkudjEuSWRlbnRpdHlUeXBlEhgKC3dvcmtsb2FkX2lkGAMgASgJSACIAQFCDgoMX3dvcmtsb2FkX2lkImEKHVJlcXVlc3RTZXJ2aWNlSWRlbnRpdHlSZXF1ZXN0EkAKDHNlcnZpY2VfdHlwZRgBIAEoDjIqLmFneW5pby5hcGkueml0aV9tYW5hZ2VtZW50LnYxLlNlcnZpY2VUeXBlIlEKHlJlcXVlc3RTZXJ2aWNlSWRlbnRpdHlSZXNwb25zZRIYChB6aXRpX2lkZW50aXR5X2lkGAEgASgJEhUKDWlkZW50aXR5X2pzb24YAiABKAwiNgoaRXh0ZW5kSWRlbnRpdHlMZWFzZVJlcXVlc3QSGAoQeml0aV9pZGVudGl0eV9pZBgBIAEoCSIdChtFeHRlbmRJZGVudGl0eUxlYXNlUmVzcG9uc2UimQEKGkNyZWF0ZVNlcnZpY2VQb2xpY3lSZXF1ZXN0Ej4KBHR5cGUYASABKA4yMC5hZ3luaW8uYXBpLnppdGlfbWFuYWdlbWVudC52MS5TZXJ2aWNlUG9saWN5VHlwZRIMCgRuYW1lGAIgASgJEhYKDmlkZW50aXR5X3JvbGVzGAMgAygJEhUKDXNlcnZpY2Vfcm9sZXMYBCADKAkiPQobQ3JlYXRlU2VydmljZVBvbGljeVJlc3BvbnNlEh4KFnppdGlfc2VydmljZV9wb2xpY3lfaWQYASABKAkiPAoaRGVsZXRlU2VydmljZVBvbGljeVJlcXVlc3QSHgoWeml0aV9zZXJ2aWNlX3BvbGljeV9pZBgBIAEoCSIdChtEZWxldGVTZXJ2aWNlUG9saWN5UmVzcG9uc2UiLwoURGVsZXRlU2VydmljZVJlcXVlc3QSFwoPeml0aV9zZXJ2aWNlX2lkGAEgASgJIhcKFURlbGV0ZVNlcnZpY2VSZXNwb25zZSJFChtDcmVhdGVEZXZpY2VJZGVudGl0eVJlcXVlc3QSGAoQdXNlcl9pZGVudGl0eV9pZBgBIAEoCRIMCgRuYW1lGAIgASgJIlAKHENyZWF0ZURldmljZUlkZW50aXR5UmVzcG9uc2USGAoQeml0aV9pZGVudGl0eV9pZBgBIAEoCRIWCg5lbnJvbGxtZW50X2p3dBgCIAEoCSI3ChtEZWxldGVEZXZpY2VJZGVudGl0eVJlcXVlc3QSGAoQeml0aV9pZGVudGl0eV9pZBgBIAEoCSIeChxEZWxldGVEZXZpY2VJZGVudGl0eVJlc3BvbnNlKrUBCgtTZXJ2aWNlVHlwZRIcChhTRVJWSUNFX1RZUEVfVU5TUEVDSUZJRUQQABIYChRTRVJWSUNFX1RZUEVfR0FURVdBWRABEh0KGVNFUlZJQ0VfVFlQRV9PUkNIRVNUUkFUT1IQAhIaChZTRVJWSUNFX1RZUEVfTExNX1BST1hZEAQSGAoUU0VSVklDRV9UWVBFX1RSQUNJTkcQBSIECAMQAyoTU0VSVklDRV9UWVBFX1JVTk5FUip0ChFTZXJ2aWNlUG9saWN5VHlwZRIjCh9TRVJWSUNFX1BPTElDWV9UWVBFX1VOU1BFQ0lGSUVEEAASHAoYU0VSVklDRV9QT0xJQ1lfVFlQRV9CSU5EEAESHAoYU0VSVklDRV9QT0xJQ1lfVFlQRV9ESUFMEAIy1BEKFVppdGlNYW5hZ2VtZW50U2VydmljZRKMAQoTQ3JlYXRlQWdlbnRJZGVudGl0eRI5LmFneW5pby5hcGkueml0aV9tYW5hZ2VtZW50LnYxLkNyZWF0ZUFnZW50SWRlbnRpdHlSZXF1ZXN0GjouYWd5bmlvLmFwaS56aXRpX21hbmFnZW1lbnQudjEuQ3JlYXRlQWdlbnRJZGVudGl0eVJlc3BvbnNlEoYBChFDcmVhdGVBcHBJZGVudGl0eRI3LmFneW5pby5hcGkueml0aV9tYW5hZ2VtZW50LnYxLkNyZWF0ZUFwcElkZW50aXR5UmVxdWVzdBo4LmFneW5pby5hcGkueml0aV9tYW5hZ2VtZW50LnYxLkNyZWF0ZUFwcElkZW50aXR5UmVzcG9uc2USegoNQ3JlYXRlU2VydmljZRIzLmFneW5pby5hcGkueml0aV9tYW5hZ2VtZW50LnYxLkNyZWF0ZVNlcnZpY2VSZXF1ZXN0GjQuYWd5bmlvLmFwaS56aXRpX21hbmFnZW1lbnQudjEuQ3JlYXRlU2VydmljZVJlc3BvbnNlEn0KDkRlbGV0ZUlkZW50aXR5EjQuYWd5bmlvLmFwaS56aXRpX21hbmFnZW1lbnQudjEuRGVsZXRlSWRlbnRpdHlSZXF1ZXN0GjUuYWd5bmlvLmFwaS56aXRpX21hbmFnZW1lbnQudjEuRGVsZXRlSWRlbnRpdHlSZXNwb25zZRKGAQoRRGVsZXRlQXBwSWRlbnRpdHkSNy5hZ3luaW8uYXBpLnppdGlfbWFuYWdlbWVudC52MS5EZWxldGVBcHBJZGVudGl0eVJlcXVlc3QaOC5hZ3luaW8uYXBpLnppdGlfbWFuYWdlbWVudC52MS5EZWxldGVBcHBJZGVudGl0eVJlc3BvbnNlEo8BChRDcmVhdGVSdW5uZXJJZGVudGl0eRI6LmFneW5pby5hcGkueml0aV9tYW5hZ2VtZW50LnYxLkNyZWF0ZVJ1bm5lcklkZW50aXR5UmVxdWVzdBo7LmFneW5pby5hcGkueml0aV9tYW5hZ2VtZW50LnYxLkNyZWF0ZVJ1bm5lcklkZW50aXR5UmVzcG9uc2USjwEKFERlbGV0ZVJ1bm5lcklkZW50aXR5EjouYWd5bmlvLmFwaS56aXRpX21hbmFnZW1lbnQudjEuRGVsZXRlUnVubmVySWRlbnRpdHlSZXF1ZXN0GjsuYWd5bmlvLmFwaS56aXRpX21hbmFnZW1lbnQudjEuRGVsZXRlUnVubmVySWRlbnRpdHlSZXNwb25zZRKSAQoVTGlzdE1hbmFnZWRJZGVudGl0aWVzEjsuYWd5bmlvLmFwaS56aXRpX21hbmFnZW1lbnQudjEuTGlzdE1hbmFnZWRJZGVudGl0aWVzUmVxdWVzdBo8LmFneW5pby5hcGkueml0aV9tYW5hZ2VtZW50LnYxLkxpc3RNYW5hZ2VkSWRlbnRpdGllc1Jlc3BvbnNlEoABCg9SZXNvbHZlSWRlbnRpdHkSNS5hZ3luaW8uYXBpLnppdGlfbWFuYWdlbWVudC52MS5SZXNvbHZlSWRlbnRpdHlSZXF1ZXN0GjYuYWd5bmlvLmFwaS56aXRpX21hbmFnZW1lbnQudjEuUmVzb2x2ZUlkZW50aXR5UmVzcG9uc2USlQEKFlJlcXVlc3RTZXJ2aWNlSWRlbnRpdHkSPC5hZ3luaW8uYXBpLnppdGlfbWFuYWdlbWVudC52MS5SZXF1ZXN0U2VydmljZUlkZW50aXR5UmVxdWVzdBo9LmFneW5pby5hcGkueml0aV9tYW5hZ2VtZW50LnYxLlJlcXVlc3RTZXJ2aWNlSWRlbnRpdHlSZXNwb25zZRKMAQoTRXh0ZW5kSWRlbnRpdHlMZWFzZRI5LmFneW5pby5hcGkueml0aV9tYW5hZ2VtZW50LnYxLkV4dGVuZElkZW50aXR5TGVhc2VSZXF1ZXN0GjouYWd5bmlvLmFwaS56aXRpX21hbmFnZW1lbnQudjEuRXh0ZW5kSWRlbnRpdHlMZWFzZVJlc3BvbnNlEowBChNDcmVhdGVTZXJ2aWNlUG9saWN5EjkuYWd5bmlvLmFwaS56aXRpX21hbmFnZW1lbnQudjEuQ3JlYXRlU2VydmljZVBvbGljeVJlcXVlc3QaOi5hZ3luaW8uYXBpLnppdGlfbWFuYWdlbWVudC52MS5DcmVhdGVTZXJ2aWNlUG9saWN5UmVzcG9uc2USjAEKE0RlbGV0ZVNlcnZpY2VQb2xpY3kSOS5hZ3luaW8uYXBpLnppdGlfbWFuYWdlbWVudC52MS5EZWxldGVTZXJ2aWNlUG9saWN5UmVxdWVzdBo6LmFneW5pby5hcGkueml0aV9tYW5hZ2VtZW50LnYxLkRlbGV0ZVNlcnZpY2VQb2xpY3lSZXNwb25zZRJ6Cg1EZWxldGVTZXJ2aWNlEjMuYWd5bmlvLmFwaS56aXRpX21hbmFnZW1lbnQudjEuRGVsZXRlU2VydmljZVJlcXVlc3QaNC5hZ3luaW8uYXBpLnppdGlfbWFuYWdlbWVudC52MS5EZWxldGVTZXJ2aWNlUmVzcG9uc2USjwEKFENyZWF0ZURldmljZUlkZW50aXR5EjouYWd5bmlvLmFwaS56aXRpX21hbmFnZW1lbnQudjEuQ3JlYXRlRGV2aWNlSWRlbnRpdHlSZXF1ZXN0GjsuYWd5bmlvLmFwaS56aXRpX21hbmFnZW1lbnQudjEuQ3JlYXRlRGV2aWNlSWRlbnRpdHlSZXNwb25zZRKPAQoURGVsZXRlRGV2aWNlSWRlbnRpdHkSOi5hZ3luaW8uYXBpLnppdGlfbWFuYWdlbWVudC52MS5EZWxldGVEZXZpY2VJZGVudGl0eVJlcXVlc3QaOy5hZ3luaW8uYXBpLnppdGlfbWFuYWdlbWVudC52MS5EZWxldGVEZXZpY2VJZGVudGl0eVJlc3BvbnNlQkpaSGdpdGh1Yi5jb20vYWd5bmlvL2FwaS9nZW4vYWd5bmlvL2FwaS96aXRpX21hbmFnZW1lbnQvdjE7eml0aW1hbmFnZW1lbnR2MWIGcHJvdG8z", [file_agynio_api_identity_v1_identity, file_google_protobuf_timestamp]);
 
 /**
  * @generated from message agynio.api.ziti_management.v1.ManagedIdentity
@@ -61,6 +61,11 @@ export type CreateAgentIdentityRequest = Message<"agynio.api.ziti_management.v1.
    * @generated from field: string agent_id = 1;
    */
   agentId: string;
+
+  /**
+   * @generated from field: string workload_id = 2;
+   */
+  workloadId: string;
 };
 
 /**
@@ -93,7 +98,7 @@ export const CreateAgentIdentityResponseSchema: GenMessage<CreateAgentIdentityRe
   messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 2);
 
 /**
- * Request to create an OpenZiti identity and service for an app.
+ * Request to create and enroll an OpenZiti identity for an app.
  *
  * @generated from message agynio.api.ziti_management.v1.CreateAppIdentityRequest
  */
@@ -131,11 +136,6 @@ export type CreateAppIdentityResponse = Message<"agynio.api.ziti_management.v1.C
    * @generated from field: bytes identity_json = 2;
    */
   identityJson: Uint8Array;
-
-  /**
-   * @generated from field: string ziti_service_id = 3;
-   */
-  zitiServiceId: string;
 };
 
 /**
@@ -146,17 +146,171 @@ export const CreateAppIdentityResponseSchema: GenMessage<CreateAppIdentityRespon
   messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 4);
 
 /**
- * Request to delete an app's OpenZiti identity and service.
+ * OpenZiti host.v1 config — tells the hosting sidecar where to forward traffic.
+ *
+ * @generated from message agynio.api.ziti_management.v1.HostV1Config
+ */
+export type HostV1Config = Message<"agynio.api.ziti_management.v1.HostV1Config"> & {
+  /**
+   * @generated from field: string protocol = 1;
+   */
+  protocol: string;
+
+  /**
+   * @generated from field: string address = 2;
+   */
+  address: string;
+
+  /**
+   * @generated from field: int32 port = 3;
+   */
+  port: number;
+};
+
+/**
+ * Describes the message agynio.api.ziti_management.v1.HostV1Config.
+ * Use `create(HostV1ConfigSchema)` to create a new message.
+ */
+export const HostV1ConfigSchema: GenMessage<HostV1Config> = /*@__PURE__*/
+  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 5);
+
+/**
+ * OpenZiti intercept.v1 config — tells dialing tunnelers which address to intercept.
+ *
+ * @generated from message agynio.api.ziti_management.v1.InterceptV1Config
+ */
+export type InterceptV1Config = Message<"agynio.api.ziti_management.v1.InterceptV1Config"> & {
+  /**
+   * @generated from field: repeated string protocols = 1;
+   */
+  protocols: string[];
+
+  /**
+   * @generated from field: repeated string addresses = 2;
+   */
+  addresses: string[];
+
+  /**
+   * @generated from field: repeated agynio.api.ziti_management.v1.PortRange port_ranges = 3;
+   */
+  portRanges: PortRange[];
+};
+
+/**
+ * Describes the message agynio.api.ziti_management.v1.InterceptV1Config.
+ * Use `create(InterceptV1ConfigSchema)` to create a new message.
+ */
+export const InterceptV1ConfigSchema: GenMessage<InterceptV1Config> = /*@__PURE__*/
+  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 6);
+
+/**
+ * A port range for intercept.v1 config.
+ *
+ * @generated from message agynio.api.ziti_management.v1.PortRange
+ */
+export type PortRange = Message<"agynio.api.ziti_management.v1.PortRange"> & {
+  /**
+   * @generated from field: int32 low = 1;
+   */
+  low: number;
+
+  /**
+   * @generated from field: int32 high = 2;
+   */
+  high: number;
+};
+
+/**
+ * Describes the message agynio.api.ziti_management.v1.PortRange.
+ * Use `create(PortRangeSchema)` to create a new message.
+ */
+export const PortRangeSchema: GenMessage<PortRange> = /*@__PURE__*/
+  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 7);
+
+/**
+ * @generated from message agynio.api.ziti_management.v1.CreateServiceRequest
+ */
+export type CreateServiceRequest = Message<"agynio.api.ziti_management.v1.CreateServiceRequest"> & {
+  /**
+   * e.g. "runner-{runnerId}", "app-{slug}", or "exposed-{id}"
+   *
+   * @generated from field: string name = 1;
+   */
+  name: string;
+
+  /**
+   * e.g. ["runner-services"], ["app-services"], or ["exposed-services"]
+   *
+   * @generated from field: repeated string role_attributes = 2;
+   */
+  roleAttributes: string[];
+
+  /**
+   * Optional host.v1 config to create and attach to the service.
+   * Used by Expose Service for port exposure.
+   *
+   * @generated from field: optional agynio.api.ziti_management.v1.HostV1Config host_v1_config = 3;
+   */
+  hostV1Config?: HostV1Config;
+
+  /**
+   * Optional intercept.v1 config to create and attach to the service.
+   * Used by Expose Service for port exposure.
+   *
+   * @generated from field: optional agynio.api.ziti_management.v1.InterceptV1Config intercept_v1_config = 4;
+   */
+  interceptV1Config?: InterceptV1Config;
+};
+
+/**
+ * Describes the message agynio.api.ziti_management.v1.CreateServiceRequest.
+ * Use `create(CreateServiceRequestSchema)` to create a new message.
+ */
+export const CreateServiceRequestSchema: GenMessage<CreateServiceRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 8);
+
+/**
+ * @generated from message agynio.api.ziti_management.v1.CreateServiceResponse
+ */
+export type CreateServiceResponse = Message<"agynio.api.ziti_management.v1.CreateServiceResponse"> & {
+  /**
+   * The OpenZiti service ID
+   *
+   * @generated from field: string ziti_service_id = 1;
+   */
+  zitiServiceId: string;
+
+  /**
+   * The service name (echoed back)
+   *
+   * @generated from field: string ziti_service_name = 2;
+   */
+  zitiServiceName: string;
+};
+
+/**
+ * Describes the message agynio.api.ziti_management.v1.CreateServiceResponse.
+ * Use `create(CreateServiceResponseSchema)` to create a new message.
+ */
+export const CreateServiceResponseSchema: GenMessage<CreateServiceResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 9);
+
+/**
+ * Request to delete an app's OpenZiti identity and service by platform identity_id.
  *
  * @generated from message agynio.api.ziti_management.v1.DeleteAppIdentityRequest
  */
 export type DeleteAppIdentityRequest = Message<"agynio.api.ziti_management.v1.DeleteAppIdentityRequest"> & {
   /**
-   * @generated from field: string ziti_identity_id = 1;
+   * Platform app identity UUID - for looking up managed identity
+   *
+   * @generated from field: string identity_id = 1;
    */
-  zitiIdentityId: string;
+  identityId: string;
 
   /**
+   * OpenZiti service ID - for deleting the OpenZiti service
+   *
    * @generated from field: string ziti_service_id = 2;
    */
   zitiServiceId: string;
@@ -167,7 +321,7 @@ export type DeleteAppIdentityRequest = Message<"agynio.api.ziti_management.v1.De
  * Use `create(DeleteAppIdentityRequestSchema)` to create a new message.
  */
 export const DeleteAppIdentityRequestSchema: GenMessage<DeleteAppIdentityRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 5);
+  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 10);
 
 /**
  * Response after deleting an app's OpenZiti identity.
@@ -182,7 +336,90 @@ export type DeleteAppIdentityResponse = Message<"agynio.api.ziti_management.v1.D
  * Use `create(DeleteAppIdentityResponseSchema)` to create a new message.
  */
 export const DeleteAppIdentityResponseSchema: GenMessage<DeleteAppIdentityResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 6);
+  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 11);
+
+/**
+ * @generated from message agynio.api.ziti_management.v1.CreateRunnerIdentityRequest
+ */
+export type CreateRunnerIdentityRequest = Message<"agynio.api.ziti_management.v1.CreateRunnerIdentityRequest"> & {
+  /**
+   * @generated from field: string runner_id = 1;
+   */
+  runnerId: string;
+
+  /**
+   * @generated from field: repeated string role_attributes = 2;
+   */
+  roleAttributes: string[];
+};
+
+/**
+ * Describes the message agynio.api.ziti_management.v1.CreateRunnerIdentityRequest.
+ * Use `create(CreateRunnerIdentityRequestSchema)` to create a new message.
+ */
+export const CreateRunnerIdentityRequestSchema: GenMessage<CreateRunnerIdentityRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 12);
+
+/**
+ * @generated from message agynio.api.ziti_management.v1.CreateRunnerIdentityResponse
+ */
+export type CreateRunnerIdentityResponse = Message<"agynio.api.ziti_management.v1.CreateRunnerIdentityResponse"> & {
+  /**
+   * @generated from field: string ziti_identity_id = 1;
+   */
+  zitiIdentityId: string;
+
+  /**
+   * @generated from field: bytes identity_json = 2;
+   */
+  identityJson: Uint8Array;
+};
+
+/**
+ * Describes the message agynio.api.ziti_management.v1.CreateRunnerIdentityResponse.
+ * Use `create(CreateRunnerIdentityResponseSchema)` to create a new message.
+ */
+export const CreateRunnerIdentityResponseSchema: GenMessage<CreateRunnerIdentityResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 13);
+
+/**
+ * @generated from message agynio.api.ziti_management.v1.DeleteRunnerIdentityRequest
+ */
+export type DeleteRunnerIdentityRequest = Message<"agynio.api.ziti_management.v1.DeleteRunnerIdentityRequest"> & {
+  /**
+   * Platform runner UUID - for looking up managed identity
+   *
+   * @generated from field: string identity_id = 1;
+   */
+  identityId: string;
+
+  /**
+   * OpenZiti service ID - for deleting the OpenZiti service
+   *
+   * @generated from field: string ziti_service_id = 2;
+   */
+  zitiServiceId: string;
+};
+
+/**
+ * Describes the message agynio.api.ziti_management.v1.DeleteRunnerIdentityRequest.
+ * Use `create(DeleteRunnerIdentityRequestSchema)` to create a new message.
+ */
+export const DeleteRunnerIdentityRequestSchema: GenMessage<DeleteRunnerIdentityRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 14);
+
+/**
+ * @generated from message agynio.api.ziti_management.v1.DeleteRunnerIdentityResponse
+ */
+export type DeleteRunnerIdentityResponse = Message<"agynio.api.ziti_management.v1.DeleteRunnerIdentityResponse"> & {
+};
+
+/**
+ * Describes the message agynio.api.ziti_management.v1.DeleteRunnerIdentityResponse.
+ * Use `create(DeleteRunnerIdentityResponseSchema)` to create a new message.
+ */
+export const DeleteRunnerIdentityResponseSchema: GenMessage<DeleteRunnerIdentityResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 15);
 
 /**
  * @generated from message agynio.api.ziti_management.v1.DeleteIdentityRequest
@@ -199,7 +436,7 @@ export type DeleteIdentityRequest = Message<"agynio.api.ziti_management.v1.Delet
  * Use `create(DeleteIdentityRequestSchema)` to create a new message.
  */
 export const DeleteIdentityRequestSchema: GenMessage<DeleteIdentityRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 7);
+  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 16);
 
 /**
  * @generated from message agynio.api.ziti_management.v1.DeleteIdentityResponse
@@ -212,7 +449,7 @@ export type DeleteIdentityResponse = Message<"agynio.api.ziti_management.v1.Dele
  * Use `create(DeleteIdentityResponseSchema)` to create a new message.
  */
 export const DeleteIdentityResponseSchema: GenMessage<DeleteIdentityResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 8);
+  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 17);
 
 /**
  * @generated from message agynio.api.ziti_management.v1.ListManagedIdentitiesRequest
@@ -239,7 +476,7 @@ export type ListManagedIdentitiesRequest = Message<"agynio.api.ziti_management.v
  * Use `create(ListManagedIdentitiesRequestSchema)` to create a new message.
  */
 export const ListManagedIdentitiesRequestSchema: GenMessage<ListManagedIdentitiesRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 9);
+  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 18);
 
 /**
  * @generated from message agynio.api.ziti_management.v1.ListManagedIdentitiesResponse
@@ -261,7 +498,7 @@ export type ListManagedIdentitiesResponse = Message<"agynio.api.ziti_management.
  * Use `create(ListManagedIdentitiesResponseSchema)` to create a new message.
  */
 export const ListManagedIdentitiesResponseSchema: GenMessage<ListManagedIdentitiesResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 10);
+  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 19);
 
 /**
  * @generated from message agynio.api.ziti_management.v1.ResolveIdentityRequest
@@ -278,7 +515,7 @@ export type ResolveIdentityRequest = Message<"agynio.api.ziti_management.v1.Reso
  * Use `create(ResolveIdentityRequestSchema)` to create a new message.
  */
 export const ResolveIdentityRequestSchema: GenMessage<ResolveIdentityRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 11);
+  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 20);
 
 /**
  * @generated from message agynio.api.ziti_management.v1.ResolveIdentityResponse
@@ -293,6 +530,11 @@ export type ResolveIdentityResponse = Message<"agynio.api.ziti_management.v1.Res
    * @generated from field: agynio.api.identity.v1.IdentityType identity_type = 2;
    */
   identityType: IdentityType;
+
+  /**
+   * @generated from field: optional string workload_id = 3;
+   */
+  workloadId?: string;
 };
 
 /**
@@ -300,7 +542,7 @@ export type ResolveIdentityResponse = Message<"agynio.api.ziti_management.v1.Res
  * Use `create(ResolveIdentityResponseSchema)` to create a new message.
  */
 export const ResolveIdentityResponseSchema: GenMessage<ResolveIdentityResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 12);
+  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 21);
 
 /**
  * @generated from message agynio.api.ziti_management.v1.RequestServiceIdentityRequest
@@ -319,7 +561,7 @@ export type RequestServiceIdentityRequest = Message<"agynio.api.ziti_management.
  * Use `create(RequestServiceIdentityRequestSchema)` to create a new message.
  */
 export const RequestServiceIdentityRequestSchema: GenMessage<RequestServiceIdentityRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 13);
+  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 22);
 
 /**
  * @generated from message agynio.api.ziti_management.v1.RequestServiceIdentityResponse
@@ -346,7 +588,7 @@ export type RequestServiceIdentityResponse = Message<"agynio.api.ziti_management
  * Use `create(RequestServiceIdentityResponseSchema)` to create a new message.
  */
 export const RequestServiceIdentityResponseSchema: GenMessage<RequestServiceIdentityResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 14);
+  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 23);
 
 /**
  * @generated from message agynio.api.ziti_management.v1.ExtendIdentityLeaseRequest
@@ -365,7 +607,7 @@ export type ExtendIdentityLeaseRequest = Message<"agynio.api.ziti_management.v1.
  * Use `create(ExtendIdentityLeaseRequestSchema)` to create a new message.
  */
 export const ExtendIdentityLeaseRequestSchema: GenMessage<ExtendIdentityLeaseRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 15);
+  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 24);
 
 /**
  * @generated from message agynio.api.ziti_management.v1.ExtendIdentityLeaseResponse
@@ -378,7 +620,214 @@ export type ExtendIdentityLeaseResponse = Message<"agynio.api.ziti_management.v1
  * Use `create(ExtendIdentityLeaseResponseSchema)` to create a new message.
  */
 export const ExtendIdentityLeaseResponseSchema: GenMessage<ExtendIdentityLeaseResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 16);
+  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 25);
+
+/**
+ * @generated from message agynio.api.ziti_management.v1.CreateServicePolicyRequest
+ */
+export type CreateServicePolicyRequest = Message<"agynio.api.ziti_management.v1.CreateServicePolicyRequest"> & {
+  /**
+   * Policy type: Bind or Dial.
+   *
+   * @generated from field: agynio.api.ziti_management.v1.ServicePolicyType type = 1;
+   */
+  type: ServicePolicyType;
+
+  /**
+   * Human-readable policy name (e.g. "exposed-<id>-bind").
+   *
+   * @generated from field: string name = 2;
+   */
+  name: string;
+
+  /**
+   * Identity roles for the policy (e.g. ["#agent-<agentId>"] or ["#all"]).
+   *
+   * @generated from field: repeated string identity_roles = 3;
+   */
+  identityRoles: string[];
+
+  /**
+   * Service roles for the policy (e.g. ["@exposed-<id>"]).
+   *
+   * @generated from field: repeated string service_roles = 4;
+   */
+  serviceRoles: string[];
+};
+
+/**
+ * Describes the message agynio.api.ziti_management.v1.CreateServicePolicyRequest.
+ * Use `create(CreateServicePolicyRequestSchema)` to create a new message.
+ */
+export const CreateServicePolicyRequestSchema: GenMessage<CreateServicePolicyRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 26);
+
+/**
+ * @generated from message agynio.api.ziti_management.v1.CreateServicePolicyResponse
+ */
+export type CreateServicePolicyResponse = Message<"agynio.api.ziti_management.v1.CreateServicePolicyResponse"> & {
+  /**
+   * The OpenZiti service policy ID.
+   *
+   * @generated from field: string ziti_service_policy_id = 1;
+   */
+  zitiServicePolicyId: string;
+};
+
+/**
+ * Describes the message agynio.api.ziti_management.v1.CreateServicePolicyResponse.
+ * Use `create(CreateServicePolicyResponseSchema)` to create a new message.
+ */
+export const CreateServicePolicyResponseSchema: GenMessage<CreateServicePolicyResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 27);
+
+/**
+ * @generated from message agynio.api.ziti_management.v1.DeleteServicePolicyRequest
+ */
+export type DeleteServicePolicyRequest = Message<"agynio.api.ziti_management.v1.DeleteServicePolicyRequest"> & {
+  /**
+   * The OpenZiti service policy ID to delete.
+   *
+   * @generated from field: string ziti_service_policy_id = 1;
+   */
+  zitiServicePolicyId: string;
+};
+
+/**
+ * Describes the message agynio.api.ziti_management.v1.DeleteServicePolicyRequest.
+ * Use `create(DeleteServicePolicyRequestSchema)` to create a new message.
+ */
+export const DeleteServicePolicyRequestSchema: GenMessage<DeleteServicePolicyRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 28);
+
+/**
+ * @generated from message agynio.api.ziti_management.v1.DeleteServicePolicyResponse
+ */
+export type DeleteServicePolicyResponse = Message<"agynio.api.ziti_management.v1.DeleteServicePolicyResponse"> & {
+};
+
+/**
+ * Describes the message agynio.api.ziti_management.v1.DeleteServicePolicyResponse.
+ * Use `create(DeleteServicePolicyResponseSchema)` to create a new message.
+ */
+export const DeleteServicePolicyResponseSchema: GenMessage<DeleteServicePolicyResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 29);
+
+/**
+ * @generated from message agynio.api.ziti_management.v1.DeleteServiceRequest
+ */
+export type DeleteServiceRequest = Message<"agynio.api.ziti_management.v1.DeleteServiceRequest"> & {
+  /**
+   * The OpenZiti service ID to delete. Also deletes attached config objects.
+   *
+   * @generated from field: string ziti_service_id = 1;
+   */
+  zitiServiceId: string;
+};
+
+/**
+ * Describes the message agynio.api.ziti_management.v1.DeleteServiceRequest.
+ * Use `create(DeleteServiceRequestSchema)` to create a new message.
+ */
+export const DeleteServiceRequestSchema: GenMessage<DeleteServiceRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 30);
+
+/**
+ * @generated from message agynio.api.ziti_management.v1.DeleteServiceResponse
+ */
+export type DeleteServiceResponse = Message<"agynio.api.ziti_management.v1.DeleteServiceResponse"> & {
+};
+
+/**
+ * Describes the message agynio.api.ziti_management.v1.DeleteServiceResponse.
+ * Use `create(DeleteServiceResponseSchema)` to create a new message.
+ */
+export const DeleteServiceResponseSchema: GenMessage<DeleteServiceResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 31);
+
+/**
+ * @generated from message agynio.api.ziti_management.v1.CreateDeviceIdentityRequest
+ */
+export type CreateDeviceIdentityRequest = Message<"agynio.api.ziti_management.v1.CreateDeviceIdentityRequest"> & {
+  /**
+   * Owning user's platform identity ID.
+   *
+   * @generated from field: string user_identity_id = 1;
+   */
+  userIdentityId: string;
+
+  /**
+   * User-provided device name.
+   *
+   * @generated from field: string name = 2;
+   */
+  name: string;
+};
+
+/**
+ * Describes the message agynio.api.ziti_management.v1.CreateDeviceIdentityRequest.
+ * Use `create(CreateDeviceIdentityRequestSchema)` to create a new message.
+ */
+export const CreateDeviceIdentityRequestSchema: GenMessage<CreateDeviceIdentityRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 32);
+
+/**
+ * @generated from message agynio.api.ziti_management.v1.CreateDeviceIdentityResponse
+ */
+export type CreateDeviceIdentityResponse = Message<"agynio.api.ziti_management.v1.CreateDeviceIdentityResponse"> & {
+  /**
+   * The OpenZiti identity ID for this device.
+   *
+   * @generated from field: string ziti_identity_id = 1;
+   */
+  zitiIdentityId: string;
+
+  /**
+   * Enrollment JWT. Shown once to the user for their Ziti tunnel client.
+   *
+   * @generated from field: string enrollment_jwt = 2;
+   */
+  enrollmentJwt: string;
+};
+
+/**
+ * Describes the message agynio.api.ziti_management.v1.CreateDeviceIdentityResponse.
+ * Use `create(CreateDeviceIdentityResponseSchema)` to create a new message.
+ */
+export const CreateDeviceIdentityResponseSchema: GenMessage<CreateDeviceIdentityResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 33);
+
+/**
+ * @generated from message agynio.api.ziti_management.v1.DeleteDeviceIdentityRequest
+ */
+export type DeleteDeviceIdentityRequest = Message<"agynio.api.ziti_management.v1.DeleteDeviceIdentityRequest"> & {
+  /**
+   * The OpenZiti identity ID of the device to delete.
+   *
+   * @generated from field: string ziti_identity_id = 1;
+   */
+  zitiIdentityId: string;
+};
+
+/**
+ * Describes the message agynio.api.ziti_management.v1.DeleteDeviceIdentityRequest.
+ * Use `create(DeleteDeviceIdentityRequestSchema)` to create a new message.
+ */
+export const DeleteDeviceIdentityRequestSchema: GenMessage<DeleteDeviceIdentityRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 34);
+
+/**
+ * @generated from message agynio.api.ziti_management.v1.DeleteDeviceIdentityResponse
+ */
+export type DeleteDeviceIdentityResponse = Message<"agynio.api.ziti_management.v1.DeleteDeviceIdentityResponse"> & {
+};
+
+/**
+ * Describes the message agynio.api.ziti_management.v1.DeleteDeviceIdentityResponse.
+ * Use `create(DeleteDeviceIdentityResponseSchema)` to create a new message.
+ */
+export const DeleteDeviceIdentityResponseSchema: GenMessage<DeleteDeviceIdentityResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_ziti_management_v1_ziti_management, 35);
 
 /**
  * @generated from enum agynio.api.ziti_management.v1.ServiceType
@@ -400,14 +849,14 @@ export enum ServiceType {
   ORCHESTRATOR = 2,
 
   /**
-   * @generated from enum value: SERVICE_TYPE_RUNNER = 3;
-   */
-  RUNNER = 3,
-
-  /**
    * @generated from enum value: SERVICE_TYPE_LLM_PROXY = 4;
    */
   LLM_PROXY = 4,
+
+  /**
+   * @generated from enum value: SERVICE_TYPE_TRACING = 5;
+   */
+  TRACING = 5,
 }
 
 /**
@@ -415,6 +864,34 @@ export enum ServiceType {
  */
 export const ServiceTypeSchema: GenEnum<ServiceType> = /*@__PURE__*/
   enumDesc(file_agynio_api_ziti_management_v1_ziti_management, 0);
+
+/**
+ * The type of OpenZiti service policy.
+ *
+ * @generated from enum agynio.api.ziti_management.v1.ServicePolicyType
+ */
+export enum ServicePolicyType {
+  /**
+   * @generated from enum value: SERVICE_POLICY_TYPE_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: SERVICE_POLICY_TYPE_BIND = 1;
+   */
+  BIND = 1,
+
+  /**
+   * @generated from enum value: SERVICE_POLICY_TYPE_DIAL = 2;
+   */
+  DIAL = 2,
+}
+
+/**
+ * Describes the enum agynio.api.ziti_management.v1.ServicePolicyType.
+ */
+export const ServicePolicyTypeSchema: GenEnum<ServicePolicyType> = /*@__PURE__*/
+  enumDesc(file_agynio_api_ziti_management_v1_ziti_management, 1);
 
 /**
  * @generated from service agynio.api.ziti_management.v1.ZitiManagementService
@@ -431,8 +908,8 @@ export const ZitiManagementService: GenService<{
     output: typeof CreateAgentIdentityResponseSchema;
   },
   /**
-   * Apps Service -> create an OpenZiti identity and service for an app.
-   * Returns enrolled credentials and the service ID.
+   * Apps Service -> create and enroll an OpenZiti identity for an app. If a previous
+   * identity exists, deletes it first. Returns enrolled credentials.
    *
    * @generated from rpc agynio.api.ziti_management.v1.ZitiManagementService.CreateAppIdentity
    */
@@ -440,6 +917,16 @@ export const ZitiManagementService: GenService<{
     methodKind: "unary";
     input: typeof CreateAppIdentityRequestSchema;
     output: typeof CreateAppIdentityResponseSchema;
+  },
+  /**
+   * Runners Service, Apps Service -> create a per-runner or per-app OpenZiti service.
+   *
+   * @generated from rpc agynio.api.ziti_management.v1.ZitiManagementService.CreateService
+   */
+  createService: {
+    methodKind: "unary";
+    input: typeof CreateServiceRequestSchema;
+    output: typeof CreateServiceResponseSchema;
   },
   /**
    * Orchestrator -> delete OpenZiti identity and its platform mapping.
@@ -453,6 +940,7 @@ export const ZitiManagementService: GenService<{
   },
   /**
    * Apps Service -> delete an app's OpenZiti identity and its associated service.
+   * Looked up by platform identity_id.
    *
    * @generated from rpc agynio.api.ziti_management.v1.ZitiManagementService.DeleteAppIdentity
    */
@@ -460,6 +948,28 @@ export const ZitiManagementService: GenService<{
     methodKind: "unary";
     input: typeof DeleteAppIdentityRequestSchema;
     output: typeof DeleteAppIdentityResponseSchema;
+  },
+  /**
+   * Runners Service -> create and enroll an OpenZiti identity for a runner. If a previous
+   * identity exists, deletes it first. Returns enrolled credentials.
+   *
+   * @generated from rpc agynio.api.ziti_management.v1.ZitiManagementService.CreateRunnerIdentity
+   */
+  createRunnerIdentity: {
+    methodKind: "unary";
+    input: typeof CreateRunnerIdentityRequestSchema;
+    output: typeof CreateRunnerIdentityResponseSchema;
+  },
+  /**
+   * Runners Service -> delete a runner's OpenZiti identity and its associated service.
+   * Looked up by platform identity_id.
+   *
+   * @generated from rpc agynio.api.ziti_management.v1.ZitiManagementService.DeleteRunnerIdentity
+   */
+  deleteRunnerIdentity: {
+    methodKind: "unary";
+    input: typeof DeleteRunnerIdentityRequestSchema;
+    output: typeof DeleteRunnerIdentityResponseSchema;
   },
   /**
    * Orchestrator -> list all platform-managed identities (orphan reconciliation).
@@ -504,6 +1014,60 @@ export const ZitiManagementService: GenService<{
     methodKind: "unary";
     input: typeof ExtendIdentityLeaseRequestSchema;
     output: typeof ExtendIdentityLeaseResponseSchema;
+  },
+  /**
+   * Expose Service -> create a single OpenZiti service policy (Bind or Dial).
+   * Returns the policy ID.
+   *
+   * @generated from rpc agynio.api.ziti_management.v1.ZitiManagementService.CreateServicePolicy
+   */
+  createServicePolicy: {
+    methodKind: "unary";
+    input: typeof CreateServicePolicyRequestSchema;
+    output: typeof CreateServicePolicyResponseSchema;
+  },
+  /**
+   * Expose Service -> delete an OpenZiti service policy by ID.
+   *
+   * @generated from rpc agynio.api.ziti_management.v1.ZitiManagementService.DeleteServicePolicy
+   */
+  deleteServicePolicy: {
+    methodKind: "unary";
+    input: typeof DeleteServicePolicyRequestSchema;
+    output: typeof DeleteServicePolicyResponseSchema;
+  },
+  /**
+   * Expose Service -> delete an OpenZiti service by ID.
+   * Also deletes attached config objects.
+   *
+   * @generated from rpc agynio.api.ziti_management.v1.ZitiManagementService.DeleteService
+   */
+  deleteService: {
+    methodKind: "unary";
+    input: typeof DeleteServiceRequestSchema;
+    output: typeof DeleteServiceResponseSchema;
+  },
+  /**
+   * Users Service -> create an OpenZiti identity for a user device with
+   * roleAttributes: ["devices"] and enrollment.ott: true.
+   * Returns the identity ID and enrollment JWT.
+   *
+   * @generated from rpc agynio.api.ziti_management.v1.ZitiManagementService.CreateDeviceIdentity
+   */
+  createDeviceIdentity: {
+    methodKind: "unary";
+    input: typeof CreateDeviceIdentityRequestSchema;
+    output: typeof CreateDeviceIdentityResponseSchema;
+  },
+  /**
+   * Users Service -> delete a device's OpenZiti identity.
+   *
+   * @generated from rpc agynio.api.ziti_management.v1.ZitiManagementService.DeleteDeviceIdentity
+   */
+  deleteDeviceIdentity: {
+    methodKind: "unary";
+    input: typeof DeleteDeviceIdentityRequestSchema;
+    output: typeof DeleteDeviceIdentityResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_agynio_api_ziti_management_v1_ziti_management, 0);

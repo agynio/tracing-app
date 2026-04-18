@@ -107,7 +107,8 @@ function sanitizeStatusFilters(filters: StatusFilter[]): StatusFilter[] {
 }
 
 export function AgentsRunScreen() {
-  const params = useParams<{ threadId: string; runId: string }>();
+  const params = useParams<{ orgId: string; runId: string }>();
+  const organizationId = params.orgId;
   const runId = params.runId;
   const [searchParams, setSearchParams] = useSearchParams();
   const updateSearchParams = useCallback(
@@ -148,7 +149,7 @@ export function AgentsRunScreen() {
     setStatusFilters([]);
     contextStateRef.current.clear();
     setContextStateVersion((version) => version + 1);
-  }, [runId]);
+  }, [runId, organizationId]);
 
   const apiTypes = useMemo(() => {
     if (eventFilters.length === EVENT_FILTER_OPTIONS.length) return [] as RunEventType[];
@@ -172,8 +173,8 @@ export function AgentsRunScreen() {
 
   const selectedStatuses = useMemo(() => (apiStatuses.length === 0 ? API_EVENT_STATUSES : apiStatuses), [apiStatuses]);
 
-  const summaryQuery = useRunTimelineSummary(runId);
-  const totalsQuery = useRunTimelineEventTotals(runId, { types: apiTypes, statuses: apiStatuses });
+  const summaryQuery = useRunTimelineSummary(organizationId, runId);
+  const totalsQuery = useRunTimelineEventTotals(organizationId, runId, { types: apiTypes, statuses: apiStatuses });
 
   const { refetch: refetchTotals } = totalsQuery;
   const totalsRefetchStateRef = useRef<{ timeout: ReturnType<typeof setTimeout> | null; lastInvoked: number }>({
@@ -233,6 +234,7 @@ export function AgentsRunScreen() {
     error: eventsError,
     queryData: eventsQueryData,
   } = useTimelinePagination({
+    organizationId,
     runId,
     apiTypes,
     apiStatuses,

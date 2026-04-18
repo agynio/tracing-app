@@ -4,28 +4,22 @@
 
 import type { GenFile, GenService } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { CreateOrganizationRequestSchema, CreateOrganizationResponseSchema, GetOrganizationRequestSchema, GetOrganizationResponseSchema, ListAccessibleOrganizationsRequestSchema, ListAccessibleOrganizationsResponseSchema } from "../../organizations/v1/organizations_pb";
+import type { AcceptMembershipRequestSchema, AcceptMembershipResponseSchema, CreateMembershipRequestSchema, CreateMembershipResponseSchema, CreateOrganizationRequestSchema, CreateOrganizationResponseSchema, DeclineMembershipRequestSchema, DeclineMembershipResponseSchema, DeleteOrganizationRequestSchema, DeleteOrganizationResponseSchema, GetOrganizationRequestSchema, GetOrganizationResponseSchema, ListAccessibleOrganizationsRequestSchema, ListAccessibleOrganizationsResponseSchema, ListMembersRequestSchema, ListMembersResponseSchema, ListMyMembershipsRequestSchema, ListMyMembershipsResponseSchema, ListOrganizationsRequestSchema, ListOrganizationsResponseSchema, RemoveMembershipRequestSchema, RemoveMembershipResponseSchema, UpdateMembershipRoleRequestSchema, UpdateMembershipRoleResponseSchema, UpdateOrganizationRequestSchema, UpdateOrganizationResponseSchema } from "../../organizations/v1/organizations_pb";
 import { file_agynio_api_organizations_v1_organizations } from "../../organizations/v1/organizations_pb";
 
 /**
  * Describes the file agynio/api/gateway/v1/organizations.proto.
  */
 export const file_agynio_api_gateway_v1_organizations: GenFile = /*@__PURE__*/
-  fileDesc("CilhZ3luaW8vYXBpL2dhdGV3YXkvdjEvb3JnYW5pemF0aW9ucy5wcm90bxIVYWd5bmlvLmFwaS5nYXRld2F5LnYxMr8DChRPcmdhbml6YXRpb25zR2F0ZXdheRKgAQobTGlzdEFjY2Vzc2libGVPcmdhbml6YXRpb25zEj8uYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLkxpc3RBY2Nlc3NpYmxlT3JnYW5pemF0aW9uc1JlcXVlc3QaQC5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuTGlzdEFjY2Vzc2libGVPcmdhbml6YXRpb25zUmVzcG9uc2UShQEKEkNyZWF0ZU9yZ2FuaXphdGlvbhI2LmFneW5pby5hcGkub3JnYW5pemF0aW9ucy52MS5DcmVhdGVPcmdhbml6YXRpb25SZXF1ZXN0GjcuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLkNyZWF0ZU9yZ2FuaXphdGlvblJlc3BvbnNlEnwKD0dldE9yZ2FuaXphdGlvbhIzLmFneW5pby5hcGkub3JnYW5pemF0aW9ucy52MS5HZXRPcmdhbml6YXRpb25SZXF1ZXN0GjQuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLkdldE9yZ2FuaXphdGlvblJlc3BvbnNlQjtaOWdpdGh1Yi5jb20vYWd5bmlvL2FwaS9nZW4vYWd5bmlvL2FwaS9nYXRld2F5L3YxO2dhdGV3YXl2MWIGcHJvdG8z", [file_agynio_api_organizations_v1_organizations]);
+  fileDesc("CilhZ3luaW8vYXBpL2dhdGV3YXkvdjEvb3JnYW5pemF0aW9ucy5wcm90bxIVYWd5bmlvLmFwaS5nYXRld2F5LnYxMuENChRPcmdhbml6YXRpb25zR2F0ZXdheRKFAQoSQ3JlYXRlT3JnYW5pemF0aW9uEjYuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLkNyZWF0ZU9yZ2FuaXphdGlvblJlcXVlc3QaNy5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuQ3JlYXRlT3JnYW5pemF0aW9uUmVzcG9uc2USfAoPR2V0T3JnYW5pemF0aW9uEjMuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLkdldE9yZ2FuaXphdGlvblJlcXVlc3QaNC5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuR2V0T3JnYW5pemF0aW9uUmVzcG9uc2UShQEKElVwZGF0ZU9yZ2FuaXphdGlvbhI2LmFneW5pby5hcGkub3JnYW5pemF0aW9ucy52MS5VcGRhdGVPcmdhbml6YXRpb25SZXF1ZXN0GjcuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLlVwZGF0ZU9yZ2FuaXphdGlvblJlc3BvbnNlEoUBChJEZWxldGVPcmdhbml6YXRpb24SNi5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuRGVsZXRlT3JnYW5pemF0aW9uUmVxdWVzdBo3LmFneW5pby5hcGkub3JnYW5pemF0aW9ucy52MS5EZWxldGVPcmdhbml6YXRpb25SZXNwb25zZRKCAQoRTGlzdE9yZ2FuaXphdGlvbnMSNS5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuTGlzdE9yZ2FuaXphdGlvbnNSZXF1ZXN0GjYuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLkxpc3RPcmdhbml6YXRpb25zUmVzcG9uc2USoAEKG0xpc3RBY2Nlc3NpYmxlT3JnYW5pemF0aW9ucxI/LmFneW5pby5hcGkub3JnYW5pemF0aW9ucy52MS5MaXN0QWNjZXNzaWJsZU9yZ2FuaXphdGlvbnNSZXF1ZXN0GkAuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLkxpc3RBY2Nlc3NpYmxlT3JnYW5pemF0aW9uc1Jlc3BvbnNlEn8KEENyZWF0ZU1lbWJlcnNoaXASNC5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuQ3JlYXRlTWVtYmVyc2hpcFJlcXVlc3QaNS5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuQ3JlYXRlTWVtYmVyc2hpcFJlc3BvbnNlEn8KEEFjY2VwdE1lbWJlcnNoaXASNC5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuQWNjZXB0TWVtYmVyc2hpcFJlcXVlc3QaNS5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuQWNjZXB0TWVtYmVyc2hpcFJlc3BvbnNlEoIBChFEZWNsaW5lTWVtYmVyc2hpcBI1LmFneW5pby5hcGkub3JnYW5pemF0aW9ucy52MS5EZWNsaW5lTWVtYmVyc2hpcFJlcXVlc3QaNi5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuRGVjbGluZU1lbWJlcnNoaXBSZXNwb25zZRJ/ChBSZW1vdmVNZW1iZXJzaGlwEjQuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLlJlbW92ZU1lbWJlcnNoaXBSZXF1ZXN0GjUuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLlJlbW92ZU1lbWJlcnNoaXBSZXNwb25zZRKLAQoUVXBkYXRlTWVtYmVyc2hpcFJvbGUSOC5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuVXBkYXRlTWVtYmVyc2hpcFJvbGVSZXF1ZXN0GjkuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLlVwZGF0ZU1lbWJlcnNoaXBSb2xlUmVzcG9uc2UScAoLTGlzdE1lbWJlcnMSLy5hZ3luaW8uYXBpLm9yZ2FuaXphdGlvbnMudjEuTGlzdE1lbWJlcnNSZXF1ZXN0GjAuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLkxpc3RNZW1iZXJzUmVzcG9uc2USggEKEUxpc3RNeU1lbWJlcnNoaXBzEjUuYWd5bmlvLmFwaS5vcmdhbml6YXRpb25zLnYxLkxpc3RNeU1lbWJlcnNoaXBzUmVxdWVzdBo2LmFneW5pby5hcGkub3JnYW5pemF0aW9ucy52MS5MaXN0TXlNZW1iZXJzaGlwc1Jlc3BvbnNlQjtaOWdpdGh1Yi5jb20vYWd5bmlvL2FwaS9nZW4vYWd5bmlvL2FwaS9nYXRld2F5L3YxO2dhdGV3YXl2MWIGcHJvdG8z", [file_agynio_api_organizations_v1_organizations]);
 
 /**
  * @generated from service agynio.api.gateway.v1.OrganizationsGateway
  */
 export const OrganizationsGateway: GenService<{
   /**
-   * @generated from rpc agynio.api.gateway.v1.OrganizationsGateway.ListAccessibleOrganizations
-   */
-  listAccessibleOrganizations: {
-    methodKind: "unary";
-    input: typeof ListAccessibleOrganizationsRequestSchema;
-    output: typeof ListAccessibleOrganizationsResponseSchema;
-  },
-  /**
+   * --- Organizations ---
+   *
    * @generated from rpc agynio.api.gateway.v1.OrganizationsGateway.CreateOrganization
    */
   createOrganization: {
@@ -40,6 +34,96 @@ export const OrganizationsGateway: GenService<{
     methodKind: "unary";
     input: typeof GetOrganizationRequestSchema;
     output: typeof GetOrganizationResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.OrganizationsGateway.UpdateOrganization
+   */
+  updateOrganization: {
+    methodKind: "unary";
+    input: typeof UpdateOrganizationRequestSchema;
+    output: typeof UpdateOrganizationResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.OrganizationsGateway.DeleteOrganization
+   */
+  deleteOrganization: {
+    methodKind: "unary";
+    input: typeof DeleteOrganizationRequestSchema;
+    output: typeof DeleteOrganizationResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.OrganizationsGateway.ListOrganizations
+   */
+  listOrganizations: {
+    methodKind: "unary";
+    input: typeof ListOrganizationsRequestSchema;
+    output: typeof ListOrganizationsResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.OrganizationsGateway.ListAccessibleOrganizations
+   */
+  listAccessibleOrganizations: {
+    methodKind: "unary";
+    input: typeof ListAccessibleOrganizationsRequestSchema;
+    output: typeof ListAccessibleOrganizationsResponseSchema;
+  },
+  /**
+   * --- Members Management ---
+   *
+   * @generated from rpc agynio.api.gateway.v1.OrganizationsGateway.CreateMembership
+   */
+  createMembership: {
+    methodKind: "unary";
+    input: typeof CreateMembershipRequestSchema;
+    output: typeof CreateMembershipResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.OrganizationsGateway.AcceptMembership
+   */
+  acceptMembership: {
+    methodKind: "unary";
+    input: typeof AcceptMembershipRequestSchema;
+    output: typeof AcceptMembershipResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.OrganizationsGateway.DeclineMembership
+   */
+  declineMembership: {
+    methodKind: "unary";
+    input: typeof DeclineMembershipRequestSchema;
+    output: typeof DeclineMembershipResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.OrganizationsGateway.RemoveMembership
+   */
+  removeMembership: {
+    methodKind: "unary";
+    input: typeof RemoveMembershipRequestSchema;
+    output: typeof RemoveMembershipResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.OrganizationsGateway.UpdateMembershipRole
+   */
+  updateMembershipRole: {
+    methodKind: "unary";
+    input: typeof UpdateMembershipRoleRequestSchema;
+    output: typeof UpdateMembershipRoleResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.OrganizationsGateway.ListMembers
+   */
+  listMembers: {
+    methodKind: "unary";
+    input: typeof ListMembersRequestSchema;
+    output: typeof ListMembersResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.OrganizationsGateway.ListMyMemberships
+   */
+  listMyMemberships: {
+    methodKind: "unary";
+    input: typeof ListMyMembershipsRequestSchema;
+    output: typeof ListMyMembershipsResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_agynio_api_gateway_v1_organizations, 0);

@@ -1,5 +1,6 @@
 import { tracingClient } from '@/api/client';
 import {
+  bytesToHex,
   deriveEventStatus,
   flattenResourceSpans,
   getIntAttr,
@@ -54,6 +55,15 @@ const EMPTY_COUNTS_BY_STATUS: Record<RunEventStatus, number> = {
   cancelled: 0,
 };
 
+const INVOCATION_MESSAGE_SPAN_NAME = 'invocation.message';
+
+export type OrganizationRunSummary = {
+  runId: string;
+  messageText: string | null;
+  createdAt: string;
+  status: RunStatus;
+};
+
 function parseCommaSeparated(value?: string): string[] {
   if (!value) return [];
   return value
@@ -82,6 +92,13 @@ function mapTraceStatus(status: TraceStatus): RunStatus {
     default:
       throw new Error(`Unhandled TraceStatus: ${status}`);
   }
+}
+
+function requireSummary(summary: RunTimelineSummary | undefined, runId: string): RunTimelineSummary {
+  if (!summary) {
+    throw new Error(`Missing trace summary for run ${runId}`);
+  }
+  return summary;
 }
 
 function mapCountsByName(countsByName: Record<string, bigint>): Record<RunEventType, number> {
@@ -166,6 +183,62 @@ function decodeCursorFromPageToken(token: string): RunTimelineEventsCursor | nul
 }
 
 export const runs = {
+  listOrganizationRuns: async (
+    organizationId: string,
+    params?: { limit?: number },
+  ): Promise<OrganizationRunSummary[]> => {
+    const resp = await tracingClient.listSpans({
+      organizationId,
+      filter: { names: [INVOCATION_MESSAGE_SPAN_NAME] },
+      pageSize: params?.limit ?? 50,
+      pageToken: '',
+      orderBy: ListSpansOrderBy.START_TIME_DESC,
+    });
+
+    const spans = flattenResourceSpans(resp.resourceSpans);
+    const runSpans = new Map<string, (typeof spans)[number]>();
+    for (const span of spans) {
+      const runId = bytesToHex(span.span.traceId);
+      if (!runSpans.has(runId)) {
+        runSpans.set(runId, span);
+      }
+    }
+
+    const runIds = Array.from(runSpans.keys());
+    // TODO: Avoid N+1 trace summary lookups by adding a batch summary API.
+    const summaries = await Promise.all(runIds.map((runId) => runs.timelineSummary(runId)));
+    const summaryById = new Map(summaries.map((summary) => [summary.runId, summary]));
+
+    return runIds.map((runId) => {
+      const spanData = runSpans.get(runId);
+      if (!spanData) {
+        throw new Error(`Missing invocation span for run ${runId}`);
+      }
+      const summary = requireSummary(summaryById.get(runId), runId);
+      const event = spanToEvent(spanData.span, spanData.resourceAttrs);
+      return {
+        runId,
+        messageText: event.message?.text ?? null,
+        createdAt: summary.createdAt,
+        status: summary.status,
+      };
+    });
+  },
+  findRunByMessageId: async (
+    organizationId: string,
+    messageId: string,
+  ): Promise<{ runId: string } | null> => {
+    const resp = await tracingClient.listSpans({
+      organizationId,
+      filter: { messageId },
+      pageSize: 1,
+      pageToken: '',
+      orderBy: ListSpansOrderBy.START_TIME_DESC,
+    });
+    const spans = flattenResourceSpans(resp.resourceSpans);
+    if (spans.length === 0) return null;
+    return { runId: bytesToHex(spans[0].span.traceId) };
+  },
   timelineSummary: async (runId: string): Promise<RunTimelineSummary> => {
     const resp = await tracingClient.getTraceSummary({
       traceId: hexToBytes(runId),
@@ -185,6 +258,7 @@ export const runs = {
     };
   },
   timelineEvents: async (
+    organizationId: string,
     runId: string,
     params: {
       types?: string;
@@ -210,6 +284,7 @@ export const runs = {
       }
     }
     const resp = await tracingClient.listSpans({
+      organizationId,
       filter,
       pageSize: params.limit ?? 50,
       orderBy: params.order === 'asc'

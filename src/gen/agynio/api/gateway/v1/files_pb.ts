@@ -4,14 +4,14 @@
 
 import type { GenFile, GenService } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { GetDownloadUrlRequestSchema, GetDownloadUrlResponseSchema, GetFileMetadataRequestSchema, GetFileMetadataResponseSchema, UploadFileRequestSchema, UploadFileResponseSchema } from "../../files/v1/files_pb";
+import type { GetDownloadUrlRequestSchema, GetDownloadUrlResponseSchema, GetFileContentRequestSchema, GetFileContentResponseSchema, GetFileMetadataRequestSchema, GetFileMetadataResponseSchema, UploadFileRequestSchema, UploadFileResponseSchema } from "../../files/v1/files_pb";
 import { file_agynio_api_files_v1_files } from "../../files/v1/files_pb";
 
 /**
  * Describes the file agynio/api/gateway/v1/files.proto.
  */
 export const file_agynio_api_gateway_v1_files: GenFile = /*@__PURE__*/
-  fileDesc("CiFhZ3luaW8vYXBpL2dhdGV3YXkvdjEvZmlsZXMucHJvdG8SFWFneW5pby5hcGkuZ2F0ZXdheS52MTLIAgoMRmlsZXNHYXRld2F5El8KClVwbG9hZEZpbGUSJi5hZ3luaW8uYXBpLmZpbGVzLnYxLlVwbG9hZEZpbGVSZXF1ZXN0GicuYWd5bmlvLmFwaS5maWxlcy52MS5VcGxvYWRGaWxlUmVzcG9uc2UoARJsCg9HZXRGaWxlTWV0YWRhdGESKy5hZ3luaW8uYXBpLmZpbGVzLnYxLkdldEZpbGVNZXRhZGF0YVJlcXVlc3QaLC5hZ3luaW8uYXBpLmZpbGVzLnYxLkdldEZpbGVNZXRhZGF0YVJlc3BvbnNlEmkKDkdldERvd25sb2FkVXJsEiouYWd5bmlvLmFwaS5maWxlcy52MS5HZXREb3dubG9hZFVybFJlcXVlc3QaKy5hZ3luaW8uYXBpLmZpbGVzLnYxLkdldERvd25sb2FkVXJsUmVzcG9uc2VCO1o5Z2l0aHViLmNvbS9hZ3luaW8vYXBpL2dlbi9hZ3luaW8vYXBpL2dhdGV3YXkvdjE7Z2F0ZXdheXYxYgZwcm90bzM", [file_agynio_api_files_v1_files]);
+  fileDesc("CiFhZ3luaW8vYXBpL2dhdGV3YXkvdjEvZmlsZXMucHJvdG8SFWFneW5pby5hcGkuZ2F0ZXdheS52MTK1AwoMRmlsZXNHYXRld2F5El8KClVwbG9hZEZpbGUSJi5hZ3luaW8uYXBpLmZpbGVzLnYxLlVwbG9hZEZpbGVSZXF1ZXN0GicuYWd5bmlvLmFwaS5maWxlcy52MS5VcGxvYWRGaWxlUmVzcG9uc2UoARJsCg9HZXRGaWxlTWV0YWRhdGESKy5hZ3luaW8uYXBpLmZpbGVzLnYxLkdldEZpbGVNZXRhZGF0YVJlcXVlc3QaLC5hZ3luaW8uYXBpLmZpbGVzLnYxLkdldEZpbGVNZXRhZGF0YVJlc3BvbnNlEmkKDkdldERvd25sb2FkVXJsEiouYWd5bmlvLmFwaS5maWxlcy52MS5HZXREb3dubG9hZFVybFJlcXVlc3QaKy5hZ3luaW8uYXBpLmZpbGVzLnYxLkdldERvd25sb2FkVXJsUmVzcG9uc2USawoOR2V0RmlsZUNvbnRlbnQSKi5hZ3luaW8uYXBpLmZpbGVzLnYxLkdldEZpbGVDb250ZW50UmVxdWVzdBorLmFneW5pby5hcGkuZmlsZXMudjEuR2V0RmlsZUNvbnRlbnRSZXNwb25zZTABQjtaOWdpdGh1Yi5jb20vYWd5bmlvL2FwaS9nZW4vYWd5bmlvL2FwaS9nYXRld2F5L3YxO2dhdGV3YXl2MWIGcHJvdG8z", [file_agynio_api_files_v1_files]);
 
 /**
  * @generated from service agynio.api.gateway.v1.FilesGateway
@@ -40,6 +40,14 @@ export const FilesGateway: GenService<{
     methodKind: "unary";
     input: typeof GetDownloadUrlRequestSchema;
     output: typeof GetDownloadUrlResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.FilesGateway.GetFileContent
+   */
+  getFileContent: {
+    methodKind: "server_streaming";
+    input: typeof GetFileContentRequestSchema;
+    output: typeof GetFileContentResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_agynio_api_gateway_v1_files, 0);

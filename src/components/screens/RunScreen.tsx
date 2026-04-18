@@ -250,7 +250,7 @@ export default function RunScreen({
   };
 
   return (
-    <div className={`flex h-screen flex-col bg-[var(--agyn-bg-light)] ${className}`}>
+    <div className={`flex min-h-0 flex-1 flex-col bg-[var(--agyn-bg-light)] ${className}`}>
       {onBack && (
         <div className="flex h-[40px] items-center gap-3 border-b border-[var(--agyn-border-subtle)] bg-[var(--agyn-dark)] px-4">
           <IconButton icon={<ArrowLeft />} onClick={onBack} variant="ghost" size="sm" />

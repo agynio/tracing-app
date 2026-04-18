@@ -4,22 +4,80 @@
 
 import type { GenFile, GenService } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { GetWorkloadRequestSchema, GetWorkloadResponseSchema, ListWorkloadsByThreadRequestSchema, ListWorkloadsByThreadResponseSchema } from "../../runners/v1/runners_pb";
+import type { DeleteRunnerRequestSchema, DeleteRunnerResponseSchema, EnrollRunnerRequestSchema, EnrollRunnerResponseSchema, GetRunnerRequestSchema, GetRunnerResponseSchema, GetWorkloadRequestSchema, GetWorkloadResponseSchema, ListRunnersRequestSchema, ListRunnersResponseSchema, ListWorkloadsByThreadRequestSchema, ListWorkloadsByThreadResponseSchema, ListWorkloadsRequestSchema, ListWorkloadsResponseSchema, RegisterRunnerRequestSchema, RegisterRunnerResponseSchema, TouchWorkloadRequestSchema, TouchWorkloadResponseSchema, UpdateRunnerRequestSchema, UpdateRunnerResponseSchema } from "../../runners/v1/runners_pb";
 import { file_agynio_api_runners_v1_runners } from "../../runners/v1/runners_pb";
 
 /**
  * Describes the file agynio/api/gateway/v1/runners.proto.
  */
 export const file_agynio_api_gateway_v1_runners: GenFile = /*@__PURE__*/
-  fileDesc("CiNhZ3luaW8vYXBpL2dhdGV3YXkvdjEvcnVubmVycy5wcm90bxIVYWd5bmlvLmFwaS5nYXRld2F5LnYxMvsBCg5SdW5uZXJzR2F0ZXdheRKCAQoVTGlzdFdvcmtsb2Fkc0J5VGhyZWFkEjMuYWd5bmlvLmFwaS5ydW5uZXJzLnYxLkxpc3RXb3JrbG9hZHNCeVRocmVhZFJlcXVlc3QaNC5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuTGlzdFdvcmtsb2Fkc0J5VGhyZWFkUmVzcG9uc2USZAoLR2V0V29ya2xvYWQSKS5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuR2V0V29ya2xvYWRSZXF1ZXN0GiouYWd5bmlvLmFwaS5ydW5uZXJzLnYxLkdldFdvcmtsb2FkUmVzcG9uc2VCO1o5Z2l0aHViLmNvbS9hZ3luaW8vYXBpL2dlbi9hZ3luaW8vYXBpL2dhdGV3YXkvdjE7Z2F0ZXdheXYxYgZwcm90bzM", [file_agynio_api_runners_v1_runners]);
+  fileDesc("CiNhZ3luaW8vYXBpL2dhdGV3YXkvdjEvcnVubmVycy5wcm90bxIVYWd5bmlvLmFwaS5nYXRld2F5LnYxMsMICg5SdW5uZXJzR2F0ZXdheRJtCg5SZWdpc3RlclJ1bm5lchIsLmFneW5pby5hcGkucnVubmVycy52MS5SZWdpc3RlclJ1bm5lclJlcXVlc3QaLS5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuUmVnaXN0ZXJSdW5uZXJSZXNwb25zZRJeCglHZXRSdW5uZXISJy5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuR2V0UnVubmVyUmVxdWVzdBooLmFneW5pby5hcGkucnVubmVycy52MS5HZXRSdW5uZXJSZXNwb25zZRJkCgtMaXN0UnVubmVycxIpLmFneW5pby5hcGkucnVubmVycy52MS5MaXN0UnVubmVyc1JlcXVlc3QaKi5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuTGlzdFJ1bm5lcnNSZXNwb25zZRJnCgxVcGRhdGVSdW5uZXISKi5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuVXBkYXRlUnVubmVyUmVxdWVzdBorLmFneW5pby5hcGkucnVubmVycy52MS5VcGRhdGVSdW5uZXJSZXNwb25zZRJnCgxEZWxldGVSdW5uZXISKi5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuRGVsZXRlUnVubmVyUmVxdWVzdBorLmFneW5pby5hcGkucnVubmVycy52MS5EZWxldGVSdW5uZXJSZXNwb25zZRJnCgxFbnJvbGxSdW5uZXISKi5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuRW5yb2xsUnVubmVyUmVxdWVzdBorLmFneW5pby5hcGkucnVubmVycy52MS5FbnJvbGxSdW5uZXJSZXNwb25zZRJqCg1MaXN0V29ya2xvYWRzEisuYWd5bmlvLmFwaS5ydW5uZXJzLnYxLkxpc3RXb3JrbG9hZHNSZXF1ZXN0GiwuYWd5bmlvLmFwaS5ydW5uZXJzLnYxLkxpc3RXb3JrbG9hZHNSZXNwb25zZRKCAQoVTGlzdFdvcmtsb2Fkc0J5VGhyZWFkEjMuYWd5bmlvLmFwaS5ydW5uZXJzLnYxLkxpc3RXb3JrbG9hZHNCeVRocmVhZFJlcXVlc3QaNC5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuTGlzdFdvcmtsb2Fkc0J5VGhyZWFkUmVzcG9uc2USZAoLR2V0V29ya2xvYWQSKS5hZ3luaW8uYXBpLnJ1bm5lcnMudjEuR2V0V29ya2xvYWRSZXF1ZXN0GiouYWd5bmlvLmFwaS5ydW5uZXJzLnYxLkdldFdvcmtsb2FkUmVzcG9uc2USagoNVG91Y2hXb3JrbG9hZBIrLmFneW5pby5hcGkucnVubmVycy52MS5Ub3VjaFdvcmtsb2FkUmVxdWVzdBosLmFneW5pby5hcGkucnVubmVycy52MS5Ub3VjaFdvcmtsb2FkUmVzcG9uc2VCO1o5Z2l0aHViLmNvbS9hZ3luaW8vYXBpL2dlbi9hZ3luaW8vYXBpL2dhdGV3YXkvdjE7Z2F0ZXdheXYxYgZwcm90bzM", [file_agynio_api_runners_v1_runners]);
 
 /**
  * @generated from service agynio.api.gateway.v1.RunnersGateway
  */
 export const RunnersGateway: GenService<{
   /**
+   * --- Runners ---
+   *
+   * @generated from rpc agynio.api.gateway.v1.RunnersGateway.RegisterRunner
+   */
+  registerRunner: {
+    methodKind: "unary";
+    input: typeof RegisterRunnerRequestSchema;
+    output: typeof RegisterRunnerResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.RunnersGateway.GetRunner
+   */
+  getRunner: {
+    methodKind: "unary";
+    input: typeof GetRunnerRequestSchema;
+    output: typeof GetRunnerResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.RunnersGateway.ListRunners
+   */
+  listRunners: {
+    methodKind: "unary";
+    input: typeof ListRunnersRequestSchema;
+    output: typeof ListRunnersResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.RunnersGateway.UpdateRunner
+   */
+  updateRunner: {
+    methodKind: "unary";
+    input: typeof UpdateRunnerRequestSchema;
+    output: typeof UpdateRunnerResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.RunnersGateway.DeleteRunner
+   */
+  deleteRunner: {
+    methodKind: "unary";
+    input: typeof DeleteRunnerRequestSchema;
+    output: typeof DeleteRunnerResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.RunnersGateway.EnrollRunner
+   */
+  enrollRunner: {
+    methodKind: "unary";
+    input: typeof EnrollRunnerRequestSchema;
+    output: typeof EnrollRunnerResponseSchema;
+  },
+  /**
    * --- Workloads ---
    *
+   * @generated from rpc agynio.api.gateway.v1.RunnersGateway.ListWorkloads
+   */
+  listWorkloads: {
+    methodKind: "unary";
+    input: typeof ListWorkloadsRequestSchema;
+    output: typeof ListWorkloadsResponseSchema;
+  },
+  /**
    * @generated from rpc agynio.api.gateway.v1.RunnersGateway.ListWorkloadsByThread
    */
   listWorkloadsByThread: {
@@ -34,6 +92,14 @@ export const RunnersGateway: GenService<{
     methodKind: "unary";
     input: typeof GetWorkloadRequestSchema;
     output: typeof GetWorkloadResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.RunnersGateway.TouchWorkload
+   */
+  touchWorkload: {
+    methodKind: "unary";
+    input: typeof TouchWorkloadRequestSchema;
+    output: typeof TouchWorkloadResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_agynio_api_gateway_v1_runners, 0);

@@ -4,26 +4,34 @@
 
 import type { GenFile, GenService } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { DeleteAppRequestSchema, DeleteAppResponseSchema, EnrollAppRequestSchema, EnrollAppResponseSchema, GetAppRequestSchema, GetAppResponseSchema, ListAppsRequestSchema, ListAppsResponseSchema, RegisterAppRequestSchema, RegisterAppResponseSchema } from "../../apps/v1/apps_pb";
+import type { CreateAppRequestSchema, CreateAppResponseSchema, DeleteAppRequestSchema, DeleteAppResponseSchema, EnrollAppRequestSchema, EnrollAppResponseSchema, GetAppBySlugRequestSchema, GetAppBySlugResponseSchema, GetAppRequestSchema, GetAppResponseSchema, GetInstallationBySlugRequestSchema, GetInstallationBySlugResponseSchema, GetInstallationRequestSchema, GetInstallationResponseSchema, InstallAppRequestSchema, InstallAppResponseSchema, ListAppsRequestSchema, ListAppsResponseSchema, ListInstallationsRequestSchema, ListInstallationsResponseSchema, UninstallAppRequestSchema, UninstallAppResponseSchema, UpdateAppRequestSchema, UpdateAppResponseSchema, UpdateInstallationRequestSchema, UpdateInstallationResponseSchema } from "../../apps/v1/apps_pb";
 import { file_agynio_api_apps_v1_apps } from "../../apps/v1/apps_pb";
 
 /**
  * Describes the file agynio/api/gateway/v1/apps.proto.
  */
 export const file_agynio_api_gateway_v1_apps: GenFile = /*@__PURE__*/
-  fileDesc("CiBhZ3luaW8vYXBpL2dhdGV3YXkvdjEvYXBwcy5wcm90bxIVYWd5bmlvLmFwaS5nYXRld2F5LnYxMskDCgtBcHBzR2F0ZXdheRJeCgtSZWdpc3RlckFwcBImLmFneW5pby5hcGkuYXBwcy52MS5SZWdpc3RlckFwcFJlcXVlc3QaJy5hZ3luaW8uYXBpLmFwcHMudjEuUmVnaXN0ZXJBcHBSZXNwb25zZRJPCgZHZXRBcHASIS5hZ3luaW8uYXBpLmFwcHMudjEuR2V0QXBwUmVxdWVzdBoiLmFneW5pby5hcGkuYXBwcy52MS5HZXRBcHBSZXNwb25zZRJVCghMaXN0QXBwcxIjLmFneW5pby5hcGkuYXBwcy52MS5MaXN0QXBwc1JlcXVlc3QaJC5hZ3luaW8uYXBpLmFwcHMudjEuTGlzdEFwcHNSZXNwb25zZRJYCglEZWxldGVBcHASJC5hZ3luaW8uYXBpLmFwcHMudjEuRGVsZXRlQXBwUmVxdWVzdBolLmFneW5pby5hcGkuYXBwcy52MS5EZWxldGVBcHBSZXNwb25zZRJYCglFbnJvbGxBcHASJC5hZ3luaW8uYXBpLmFwcHMudjEuRW5yb2xsQXBwUmVxdWVzdBolLmFneW5pby5hcGkuYXBwcy52MS5FbnJvbGxBcHBSZXNwb25zZUI7WjlnaXRodWIuY29tL2FneW5pby9hcGkvZ2VuL2FneW5pby9hcGkvZ2F0ZXdheS92MTtnYXRld2F5djFiBnByb3RvMw", [file_agynio_api_apps_v1_apps]);
+  fileDesc("CiBhZ3luaW8vYXBpL2dhdGV3YXkvdjEvYXBwcy5wcm90bxIVYWd5bmlvLmFwaS5nYXRld2F5LnYxMpEKCgtBcHBzR2F0ZXdheRJYCglDcmVhdGVBcHASJC5hZ3luaW8uYXBpLmFwcHMudjEuQ3JlYXRlQXBwUmVxdWVzdBolLmFneW5pby5hcGkuYXBwcy52MS5DcmVhdGVBcHBSZXNwb25zZRJYCglVcGRhdGVBcHASJC5hZ3luaW8uYXBpLmFwcHMudjEuVXBkYXRlQXBwUmVxdWVzdBolLmFneW5pby5hcGkuYXBwcy52MS5VcGRhdGVBcHBSZXNwb25zZRJPCgZHZXRBcHASIS5hZ3luaW8uYXBpLmFwcHMudjEuR2V0QXBwUmVxdWVzdBoiLmFneW5pby5hcGkuYXBwcy52MS5HZXRBcHBSZXNwb25zZRJhCgxHZXRBcHBCeVNsdWcSJy5hZ3luaW8uYXBpLmFwcHMudjEuR2V0QXBwQnlTbHVnUmVxdWVzdBooLmFneW5pby5hcGkuYXBwcy52MS5HZXRBcHBCeVNsdWdSZXNwb25zZRJVCghMaXN0QXBwcxIjLmFneW5pby5hcGkuYXBwcy52MS5MaXN0QXBwc1JlcXVlc3QaJC5hZ3luaW8uYXBpLmFwcHMudjEuTGlzdEFwcHNSZXNwb25zZRJYCglEZWxldGVBcHASJC5hZ3luaW8uYXBpLmFwcHMudjEuRGVsZXRlQXBwUmVxdWVzdBolLmFneW5pby5hcGkuYXBwcy52MS5EZWxldGVBcHBSZXNwb25zZRJYCglFbnJvbGxBcHASJC5hZ3luaW8uYXBpLmFwcHMudjEuRW5yb2xsQXBwUmVxdWVzdBolLmFneW5pby5hcGkuYXBwcy52MS5FbnJvbGxBcHBSZXNwb25zZRJbCgpJbnN0YWxsQXBwEiUuYWd5bmlvLmFwaS5hcHBzLnYxLkluc3RhbGxBcHBSZXF1ZXN0GiYuYWd5bmlvLmFwaS5hcHBzLnYxLkluc3RhbGxBcHBSZXNwb25zZRJqCg9HZXRJbnN0YWxsYXRpb24SKi5hZ3luaW8uYXBpLmFwcHMudjEuR2V0SW5zdGFsbGF0aW9uUmVxdWVzdBorLmFneW5pby5hcGkuYXBwcy52MS5HZXRJbnN0YWxsYXRpb25SZXNwb25zZRJ8ChVHZXRJbnN0YWxsYXRpb25CeVNsdWcSMC5hZ3luaW8uYXBpLmFwcHMudjEuR2V0SW5zdGFsbGF0aW9uQnlTbHVnUmVxdWVzdBoxLmFneW5pby5hcGkuYXBwcy52MS5HZXRJbnN0YWxsYXRpb25CeVNsdWdSZXNwb25zZRJwChFMaXN0SW5zdGFsbGF0aW9ucxIsLmFneW5pby5hcGkuYXBwcy52MS5MaXN0SW5zdGFsbGF0aW9uc1JlcXVlc3QaLS5hZ3luaW8uYXBpLmFwcHMudjEuTGlzdEluc3RhbGxhdGlvbnNSZXNwb25zZRJzChJVcGRhdGVJbnN0YWxsYXRpb24SLS5hZ3luaW8uYXBpLmFwcHMudjEuVXBkYXRlSW5zdGFsbGF0aW9uUmVxdWVzdBouLmFneW5pby5hcGkuYXBwcy52MS5VcGRhdGVJbnN0YWxsYXRpb25SZXNwb25zZRJhCgxVbmluc3RhbGxBcHASJy5hZ3luaW8uYXBpLmFwcHMudjEuVW5pbnN0YWxsQXBwUmVxdWVzdBooLmFneW5pby5hcGkuYXBwcy52MS5Vbmluc3RhbGxBcHBSZXNwb25zZUI7WjlnaXRodWIuY29tL2FneW5pby9hcGkvZ2VuL2FneW5pby9hcGkvZ2F0ZXdheS92MTtnYXRld2F5djFiBnByb3RvMw", [file_agynio_api_apps_v1_apps]);
 
 /**
  * @generated from service agynio.api.gateway.v1.AppsGateway
  */
 export const AppsGateway: GenService<{
   /**
-   * @generated from rpc agynio.api.gateway.v1.AppsGateway.RegisterApp
+   * @generated from rpc agynio.api.gateway.v1.AppsGateway.CreateApp
    */
-  registerApp: {
+  createApp: {
     methodKind: "unary";
-    input: typeof RegisterAppRequestSchema;
-    output: typeof RegisterAppResponseSchema;
+    input: typeof CreateAppRequestSchema;
+    output: typeof CreateAppResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.AppsGateway.UpdateApp
+   */
+  updateApp: {
+    methodKind: "unary";
+    input: typeof UpdateAppRequestSchema;
+    output: typeof UpdateAppResponseSchema;
   },
   /**
    * @generated from rpc agynio.api.gateway.v1.AppsGateway.GetApp
@@ -32,6 +40,14 @@ export const AppsGateway: GenService<{
     methodKind: "unary";
     input: typeof GetAppRequestSchema;
     output: typeof GetAppResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.AppsGateway.GetAppBySlug
+   */
+  getAppBySlug: {
+    methodKind: "unary";
+    input: typeof GetAppBySlugRequestSchema;
+    output: typeof GetAppBySlugResponseSchema;
   },
   /**
    * @generated from rpc agynio.api.gateway.v1.AppsGateway.ListApps
@@ -56,6 +72,54 @@ export const AppsGateway: GenService<{
     methodKind: "unary";
     input: typeof EnrollAppRequestSchema;
     output: typeof EnrollAppResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.AppsGateway.InstallApp
+   */
+  installApp: {
+    methodKind: "unary";
+    input: typeof InstallAppRequestSchema;
+    output: typeof InstallAppResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.AppsGateway.GetInstallation
+   */
+  getInstallation: {
+    methodKind: "unary";
+    input: typeof GetInstallationRequestSchema;
+    output: typeof GetInstallationResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.AppsGateway.GetInstallationBySlug
+   */
+  getInstallationBySlug: {
+    methodKind: "unary";
+    input: typeof GetInstallationBySlugRequestSchema;
+    output: typeof GetInstallationBySlugResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.AppsGateway.ListInstallations
+   */
+  listInstallations: {
+    methodKind: "unary";
+    input: typeof ListInstallationsRequestSchema;
+    output: typeof ListInstallationsResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.AppsGateway.UpdateInstallation
+   */
+  updateInstallation: {
+    methodKind: "unary";
+    input: typeof UpdateInstallationRequestSchema;
+    output: typeof UpdateInstallationResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.gateway.v1.AppsGateway.UninstallApp
+   */
+  uninstallApp: {
+    methodKind: "unary";
+    input: typeof UninstallAppRequestSchema;
+    output: typeof UninstallAppResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_agynio_api_gateway_v1_apps, 0);

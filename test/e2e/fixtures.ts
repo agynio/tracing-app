@@ -2,6 +2,7 @@ import { ConnectError, createClient, type Interceptor } from '@connectrpc/connec
 import { createConnectTransport } from '@connectrpc/connect-web';
 import { context, SpanStatusCode, trace } from '@opentelemetry/api';
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-grpc';
+import { resourceFromAttributes } from '@opentelemetry/resources';
 import { BasicTracerProvider, SimpleSpanProcessor } from '@opentelemetry/sdk-trace-base';
 import { test as base, type Page } from '@playwright/test';
 import { randomUUID } from 'node:crypto';
@@ -12,6 +13,7 @@ import { ListSpansOrderBy, TraceStatus } from '../../src/gen/agynio/api/tracing/
 const DEFAULT_TESTLLM_MODEL = 'simple-hello';
 const DEFAULT_GATEWAY_BASE_URL = 'http://gateway-gateway.platform.svc.cluster.local:8080';
 const DEFAULT_TRACING_ADDRESS = 'tracing.platform.svc.cluster.local:50051';
+const FALLBACK_ORG_ID = randomUUID();
 const SEED_MESSAGE_PREFIX = 'hello';
 const SEED_RUN_TIMEOUT_MS = 420000;
 const SPAN_START_GRACE_MS = 300000;
@@ -26,11 +28,14 @@ type E2EConfig = {
   authToken?: string;
   testllmModel: string;
   tracingAddress: string;
+  organizationId: string;
 };
 
 export type SeededRun = {
+  organizationId: string;
   threadId: string;
   runId: string;
+  messageId: string;
   messageEventId: string;
   llmEventId: string;
   messageText: string;
@@ -69,7 +74,7 @@ export const test = base.extend<{ seededRun: SeededRun }>({
 export { expect } from '@playwright/test';
 
 export const timelineForEvent = (context: SeededRun, eventId: string) =>
-  `/agents/threads/${context.threadId}/runs/${context.runId}/timeline?eventId=${encodeURIComponent(eventId)}&follow=false`;
+  `/${context.organizationId}/runs/${context.runId}?eventId=${encodeURIComponent(eventId)}&follow=false`;
 
 export function formatSnippet(value: string | null | undefined): string | null {
   if (!value) return null;
@@ -90,7 +95,12 @@ function resolveConfig(): E2EConfig {
     authToken: resolveOptionalEnv('E2E_AUTH_TOKEN'),
     testllmModel: process.env.E2E_TESTLLM_MODEL_REMOTE_NAME ?? DEFAULT_TESTLLM_MODEL,
     tracingAddress: resolveTracingAddress(normalizedIdentityBaseUrl),
+    organizationId: resolveOrganizationId(),
   };
+}
+
+function resolveOrganizationId(): string {
+  return resolveOptionalEnv('E2E_ORG_ID') ?? FALLBACK_ORG_ID;
 }
 
 function resolveOptionalEnv(name: string): string | undefined {
@@ -139,7 +149,9 @@ function createGatewayClients() {
 }
 
 type SeedTracePayload = {
+  organizationId: string;
   threadId: string;
+  messageId: string;
   messageText: string;
   llmResponseText: string;
   modelName: string;
@@ -147,6 +159,7 @@ type SeedTracePayload = {
 
 type SeedTraceResult = {
   traceId: string;
+  messageId: string;
   messageSpanId: string;
   llmSpanId: string;
 };
@@ -154,12 +167,16 @@ type SeedTraceResult = {
 async function seedTracingRun(): Promise<SeededRun> {
   const { tracingClient } = createGatewayClients();
   const now = Date.now();
+  const organizationId = config.organizationId;
   const threadId = randomUUID();
+  const messageId = randomUUID();
   const seedMessageText = `${SEED_MESSAGE_PREFIX}-${now}`;
   const seedLlmResponse = `E2E response for ${seedMessageText}`;
 
   const seededTrace = await exportSeedTrace({
+    organizationId,
     threadId,
+    messageId,
     messageText: seedMessageText,
     llmResponseText: seedLlmResponse,
     modelName: config.testllmModel,
@@ -171,6 +188,7 @@ async function seedTracingRun(): Promise<SeededRun> {
   const messageSpan = await waitForSpan(
     tracingClient,
     {
+      organizationId,
       filter: { traceId: traceIdBytes, names: ['invocation.message'], startTimeMin: messageStartTimeMin },
       pageSize: 200,
       pageToken: '',
@@ -193,6 +211,7 @@ async function seedTracingRun(): Promise<SeededRun> {
   const llmSpan = await waitForSpan(
     tracingClient,
     {
+      organizationId,
       filter: { traceId: traceIdBytes, names: ['llm.call'] },
       pageSize: 200,
       pageToken: '',
@@ -214,8 +233,10 @@ async function seedTracingRun(): Promise<SeededRun> {
   const traceStatus = await waitForTraceCompletion(tracingClient, messageSpan.span.traceId);
 
   return {
+    organizationId,
     threadId,
     runId,
+    messageId,
     messageEventId,
     llmEventId,
     messageText,
@@ -229,8 +250,14 @@ async function exportSeedTrace(payload: SeedTracePayload): Promise<SeedTraceResu
     url: resolveOtlpEndpoint(config.tracingAddress),
   });
   const previousProvider = trace.getTracerProvider();
+  const resource = resourceFromAttributes({
+    'agyn.organization.id': payload.organizationId,
+    'agyn.thread.id': payload.threadId,
+    'agyn.thread.message.id': payload.messageId,
+  });
   const provider = new BasicTracerProvider({
     spanProcessors: [new SimpleSpanProcessor(exporter)],
+    resource,
   });
   trace.setGlobalTracerProvider(provider);
 
@@ -277,6 +304,7 @@ async function exportSeedTrace(payload: SeedTracePayload): Promise<SeedTraceResu
 
   return {
     traceId: messageSpan.spanContext().traceId,
+    messageId: payload.messageId,
     messageSpanId: messageSpan.spanContext().spanId,
     llmSpanId: llmSpan.spanContext().spanId,
   };
@@ -445,6 +473,7 @@ async function collectSpanDiagnostics(
     pageSize: 50,
     pageToken: '',
     orderBy,
+    organizationId: requestBase.organizationId,
   };
   diagnosticRequests.push(
     await safeSpanSummary(tracingClient, 'timeWindowSummary', {
@@ -513,6 +542,9 @@ function buildDiagnosticFilter(filter: ListSpansRequest['filter'] | undefined): 
   if (filter.startTimeMax !== undefined) {
     diagnostic.startTimeMax = filter.startTimeMax;
   }
+  if (filter.messageId) {
+    diagnostic.messageId = filter.messageId;
+  }
   return diagnostic;
 }
 
@@ -537,6 +569,9 @@ function formatSpanFilter(filter: ListSpansRequest['filter'] | undefined): strin
   if (filter.startTimeMax !== undefined) {
     parts.push(`startTimeMax=${filter.startTimeMax.toString()}`);
   }
+  if (filter.messageId) {
+    parts.push(`messageId=${filter.messageId}`);
+  }
   if (typeof filter.inProgress === 'boolean') {
     parts.push(`inProgress=${filter.inProgress}`);
   }
@@ -551,7 +586,7 @@ function formatSpanFilter(filter: ListSpansRequest['filter'] | undefined): strin
 
 function formatSeedConfig(): string {
   const identityBase = config.identityGrpcBaseUrl ?? 'none';
-  return `gateway=${config.gatewayBaseUrl}, tracing=${config.tracingAddress}, identityGrpc=${identityBase}, model=${config.testllmModel}, seedMode=otlp`;
+  return `gateway=${config.gatewayBaseUrl}, tracing=${config.tracingAddress}, identityGrpc=${identityBase}, org=${config.organizationId}, model=${config.testllmModel}, seedMode=otlp`;
 }
 
 async function summarizeTraceStatuses(tracingClient: TracingClient, traceIds: string[]): Promise<string | null> {

@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file agynio/api/secrets/v1/secrets.proto.
  */
 export const file_agynio_api_secrets_v1_secrets: GenFile = /*@__PURE__*/
-  fileDesc("CiNhZ3luaW8vYXBpL3NlY3JldHMvdjEvc2VjcmV0cy5wcm90bxIVYWd5bmlvLmFwaS5zZWNyZXRzLnYxIngKCkVudGl0eU1ldGESCgoCaWQYASABKAkSLgoKY3JlYXRlZF9hdBgCIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKdXBkYXRlZF9hdBgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAiLQoLVmF1bHRDb25maWcSDwoHYWRkcmVzcxgBIAEoCRINCgV0b2tlbhgCIAEoCSJXChRTZWNyZXRQcm92aWRlckNvbmZpZxIzCgV2YXVsdBgBIAEoCzIiLmFneW5pby5hcGkuc2VjcmV0cy52MS5WYXVsdENvbmZpZ0gAQgoKCHByb3ZpZGVyItsBCg5TZWNyZXRQcm92aWRlchIvCgRtZXRhGAEgASgLMiEuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLkVudGl0eU1ldGESDQoFdGl0bGUYAiABKAkSEwoLZGVzY3JpcHRpb24YAyABKAkSNwoEdHlwZRgEIAEoDjIpLmFneW5pby5hcGkuc2VjcmV0cy52MS5TZWNyZXRQcm92aWRlclR5cGUSOwoGY29uZmlnGAUgASgLMisuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLlNlY3JldFByb3ZpZGVyQ29uZmlnItABChtDcmVhdGVTZWNyZXRQcm92aWRlclJlcXVlc3QSDQoFdGl0bGUYASABKAkSEwoLZGVzY3JpcHRpb24YAiABKAkSNwoEdHlwZRgDIAEoDjIpLmFneW5pby5hcGkuc2VjcmV0cy52MS5TZWNyZXRQcm92aWRlclR5cGUSOwoGY29uZmlnGAQgASgLMisuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLlNlY3JldFByb3ZpZGVyQ29uZmlnEhcKD29yZ2FuaXphdGlvbl9pZBgFIAEoCSJeChxDcmVhdGVTZWNyZXRQcm92aWRlclJlc3BvbnNlEj4KD3NlY3JldF9wcm92aWRlchgBIAEoCzIlLmFneW5pby5hcGkuc2VjcmV0cy52MS5TZWNyZXRQcm92aWRlciImChhHZXRTZWNyZXRQcm92aWRlclJlcXVlc3QSCgoCaWQYASABKAkiWwoZR2V0U2VjcmV0UHJvdmlkZXJSZXNwb25zZRI+Cg9zZWNyZXRfcHJvdmlkZXIYASABKAsyJS5hZ3luaW8uYXBpLnNlY3JldHMudjEuU2VjcmV0UHJvdmlkZXIivgEKG1VwZGF0ZVNlY3JldFByb3ZpZGVyUmVxdWVzdBIKCgJpZBgBIAEoCRISCgV0aXRsZRgCIAEoCUgAiAEBEhgKC2Rlc2NyaXB0aW9uGAMgASgJSAGIAQESQAoGY29uZmlnGAQgASgLMisuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLlNlY3JldFByb3ZpZGVyQ29uZmlnSAKIAQFCCAoGX3RpdGxlQg4KDF9kZXNjcmlwdGlvbkIJCgdfY29uZmlnIl4KHFVwZGF0ZVNlY3JldFByb3ZpZGVyUmVzcG9uc2USPgoPc2VjcmV0X3Byb3ZpZGVyGAEgASgLMiUuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLlNlY3JldFByb3ZpZGVyIikKG0RlbGV0ZVNlY3JldFByb3ZpZGVyUmVxdWVzdBIKCgJpZBgBIAEoCSIeChxEZWxldGVTZWNyZXRQcm92aWRlclJlc3BvbnNlIlwKGkxpc3RTZWNyZXRQcm92aWRlcnNSZXF1ZXN0EhEKCXBhZ2Vfc2l6ZRgBIAEoBRISCgpwYWdlX3Rva2VuGAIgASgJEhcKD29yZ2FuaXphdGlvbl9pZBgDIAEoCSJ3ChtMaXN0U2VjcmV0UHJvdmlkZXJzUmVzcG9uc2USPwoQc2VjcmV0X3Byb3ZpZGVycxgBIAMoCzIlLmFneW5pby5hcGkuc2VjcmV0cy52MS5TZWNyZXRQcm92aWRlchIXCg9uZXh0X3BhZ2VfdG9rZW4YAiABKAkijgEKBlNlY3JldBIvCgRtZXRhGAEgASgLMiEuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLkVudGl0eU1ldGESDQoFdGl0bGUYAiABKAkSEwoLZGVzY3JpcHRpb24YAyABKAkSGgoSc2VjcmV0X3Byb3ZpZGVyX2lkGAQgASgJEhMKC3JlbW90ZV9uYW1lGAUgASgJIoMBChNDcmVhdGVTZWNyZXRSZXF1ZXN0Eg0KBXRpdGxlGAEgASgJEhMKC2Rlc2NyaXB0aW9uGAIgASgJEhoKEnNlY3JldF9wcm92aWRlcl9pZBgDIAEoCRITCgtyZW1vdGVfbmFtZRgEIAEoCRIXCg9vcmdhbml6YXRpb25faWQYBSABKAkiRQoUQ3JlYXRlU2VjcmV0UmVzcG9uc2USLQoGc2VjcmV0GAEgASgLMh0uYWd5bmlvLmFwaS5zZWNyZXRzLnYxLlNlY3JldCIeChBHZXRTZWNyZXRSZXF1ZXN0EgoKAmlkGAEgASgJIkIKEUdldFNlY3JldFJlc3BvbnNlEi0KBnNlY3JldBgBIAEoCzIdLmFneW5pby5hcGkuc2VjcmV0cy52MS5TZWNyZXQiywEKE1VwZGF0ZVNlY3JldFJlcXVlc3QSCgoCaWQYASABKAkSEgoFdGl0bGUYAiABKAlIAIgBARIYCgtkZXNjcmlwdGlvbhgDIAEoCUgBiAEBEh8KEnNlY3JldF9wcm92aWRlcl9pZBgEIAEoCUgCiAEBEhgKC3JlbW90ZV9uYW1lGAUgASgJSAOIAQFCCAoGX3RpdGxlQg4KDF9kZXNjcmlwdGlvbkIVChNfc2VjcmV0X3Byb3ZpZGVyX2lkQg4KDF9yZW1vdGVfbmFtZSJFChRVcGRhdGVTZWNyZXRSZXNwb25zZRItCgZzZWNyZXQYASABKAsyHS5hZ3luaW8uYXBpLnNlY3JldHMudjEuU2VjcmV0IiEKE0RlbGV0ZVNlY3JldFJlcXVlc3QSCgoCaWQYASABKAkiFgoURGVsZXRlU2VjcmV0UmVzcG9uc2UicAoSTGlzdFNlY3JldHNSZXF1ZXN0EhEKCXBhZ2Vfc2l6ZRgBIAEoBRISCgpwYWdlX3Rva2VuGAIgASgJEhoKEnNlY3JldF9wcm92aWRlcl9pZBgDIAEoCRIXCg9vcmdhbml6YXRpb25faWQYBCABKAkiXgoTTGlzdFNlY3JldHNSZXNwb25zZRIuCgdzZWNyZXRzGAEgAygLMh0uYWd5bmlvLmFwaS5zZWNyZXRzLnYxLlNlY3JldBIXCg9uZXh0X3BhZ2VfdG9rZW4YAiABKAkiIgoUUmVzb2x2ZVNlY3JldFJlcXVlc3QSCgoCaWQYASABKAkiJgoVUmVzb2x2ZVNlY3JldFJlc3BvbnNlEg0KBXZhbHVlGAEgASgJKloKElNlY3JldFByb3ZpZGVyVHlwZRIkCiBTRUNSRVRfUFJPVklERVJfVFlQRV9VTlNQRUNJRklFRBAAEh4KGlNFQ1JFVF9QUk9WSURFUl9UWVBFX1ZBVUxUEAEy9gkKDlNlY3JldHNTZXJ2aWNlEn8KFENyZWF0ZVNlY3JldFByb3ZpZGVyEjIuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLkNyZWF0ZVNlY3JldFByb3ZpZGVyUmVxdWVzdBozLmFneW5pby5hcGkuc2VjcmV0cy52MS5DcmVhdGVTZWNyZXRQcm92aWRlclJlc3BvbnNlEnYKEUdldFNlY3JldFByb3ZpZGVyEi8uYWd5bmlvLmFwaS5zZWNyZXRzLnYxLkdldFNlY3JldFByb3ZpZGVyUmVxdWVzdBowLmFneW5pby5hcGkuc2VjcmV0cy52MS5HZXRTZWNyZXRQcm92aWRlclJlc3BvbnNlEn8KFFVwZGF0ZVNlY3JldFByb3ZpZGVyEjIuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLlVwZGF0ZVNlY3JldFByb3ZpZGVyUmVxdWVzdBozLmFneW5pby5hcGkuc2VjcmV0cy52MS5VcGRhdGVTZWNyZXRQcm92aWRlclJlc3BvbnNlEn8KFERlbGV0ZVNlY3JldFByb3ZpZGVyEjIuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLkRlbGV0ZVNlY3JldFByb3ZpZGVyUmVxdWVzdBozLmFneW5pby5hcGkuc2VjcmV0cy52MS5EZWxldGVTZWNyZXRQcm92aWRlclJlc3BvbnNlEnwKE0xpc3RTZWNyZXRQcm92aWRlcnMSMS5hZ3luaW8uYXBpLnNlY3JldHMudjEuTGlzdFNlY3JldFByb3ZpZGVyc1JlcXVlc3QaMi5hZ3luaW8uYXBpLnNlY3JldHMudjEuTGlzdFNlY3JldFByb3ZpZGVyc1Jlc3BvbnNlEmcKDENyZWF0ZVNlY3JldBIqLmFneW5pby5hcGkuc2VjcmV0cy52MS5DcmVhdGVTZWNyZXRSZXF1ZXN0GisuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLkNyZWF0ZVNlY3JldFJlc3BvbnNlEl4KCUdldFNlY3JldBInLmFneW5pby5hcGkuc2VjcmV0cy52MS5HZXRTZWNyZXRSZXF1ZXN0GiguYWd5bmlvLmFwaS5zZWNyZXRzLnYxLkdldFNlY3JldFJlc3BvbnNlEmcKDFVwZGF0ZVNlY3JldBIqLmFneW5pby5hcGkuc2VjcmV0cy52MS5VcGRhdGVTZWNyZXRSZXF1ZXN0GisuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLlVwZGF0ZVNlY3JldFJlc3BvbnNlEmcKDERlbGV0ZVNlY3JldBIqLmFneW5pby5hcGkuc2VjcmV0cy52MS5EZWxldGVTZWNyZXRSZXF1ZXN0GisuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLkRlbGV0ZVNlY3JldFJlc3BvbnNlEmQKC0xpc3RTZWNyZXRzEikuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLkxpc3RTZWNyZXRzUmVxdWVzdBoqLmFneW5pby5hcGkuc2VjcmV0cy52MS5MaXN0U2VjcmV0c1Jlc3BvbnNlEmoKDVJlc29sdmVTZWNyZXQSKy5hZ3luaW8uYXBpLnNlY3JldHMudjEuUmVzb2x2ZVNlY3JldFJlcXVlc3QaLC5hZ3luaW8uYXBpLnNlY3JldHMudjEuUmVzb2x2ZVNlY3JldFJlc3BvbnNlQjtaOWdpdGh1Yi5jb20vYWd5bmlvL2FwaS9nZW4vYWd5bmlvL2FwaS9zZWNyZXRzL3YxO3NlY3JldHN2MWIGcHJvdG8z", [file_google_protobuf_timestamp]);
+  fileDesc("CiNhZ3luaW8vYXBpL3NlY3JldHMvdjEvc2VjcmV0cy5wcm90bxIVYWd5bmlvLmFwaS5zZWNyZXRzLnYxIngKCkVudGl0eU1ldGESCgoCaWQYASABKAkSLgoKY3JlYXRlZF9hdBgCIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKdXBkYXRlZF9hdBgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAiLQoLVmF1bHRDb25maWcSDwoHYWRkcmVzcxgBIAEoCRINCgV0b2tlbhgCIAEoCSJXChRTZWNyZXRQcm92aWRlckNvbmZpZxIzCgV2YXVsdBgBIAEoCzIiLmFneW5pby5hcGkuc2VjcmV0cy52MS5WYXVsdENvbmZpZ0gAQgoKCHByb3ZpZGVyItsBCg5TZWNyZXRQcm92aWRlchIvCgRtZXRhGAEgASgLMiEuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLkVudGl0eU1ldGESDQoFdGl0bGUYAiABKAkSEwoLZGVzY3JpcHRpb24YAyABKAkSNwoEdHlwZRgEIAEoDjIpLmFneW5pby5hcGkuc2VjcmV0cy52MS5TZWNyZXRQcm92aWRlclR5cGUSOwoGY29uZmlnGAUgASgLMisuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLlNlY3JldFByb3ZpZGVyQ29uZmlnItABChtDcmVhdGVTZWNyZXRQcm92aWRlclJlcXVlc3QSDQoFdGl0bGUYASABKAkSEwoLZGVzY3JpcHRpb24YAiABKAkSNwoEdHlwZRgDIAEoDjIpLmFneW5pby5hcGkuc2VjcmV0cy52MS5TZWNyZXRQcm92aWRlclR5cGUSOwoGY29uZmlnGAQgASgLMisuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLlNlY3JldFByb3ZpZGVyQ29uZmlnEhcKD29yZ2FuaXphdGlvbl9pZBgFIAEoCSJeChxDcmVhdGVTZWNyZXRQcm92aWRlclJlc3BvbnNlEj4KD3NlY3JldF9wcm92aWRlchgBIAEoCzIlLmFneW5pby5hcGkuc2VjcmV0cy52MS5TZWNyZXRQcm92aWRlciImChhHZXRTZWNyZXRQcm92aWRlclJlcXVlc3QSCgoCaWQYASABKAkiWwoZR2V0U2VjcmV0UHJvdmlkZXJSZXNwb25zZRI+Cg9zZWNyZXRfcHJvdmlkZXIYASABKAsyJS5hZ3luaW8uYXBpLnNlY3JldHMudjEuU2VjcmV0UHJvdmlkZXIivgEKG1VwZGF0ZVNlY3JldFByb3ZpZGVyUmVxdWVzdBIKCgJpZBgBIAEoCRISCgV0aXRsZRgCIAEoCUgAiAEBEhgKC2Rlc2NyaXB0aW9uGAMgASgJSAGIAQESQAoGY29uZmlnGAQgASgLMisuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLlNlY3JldFByb3ZpZGVyQ29uZmlnSAKIAQFCCAoGX3RpdGxlQg4KDF9kZXNjcmlwdGlvbkIJCgdfY29uZmlnIl4KHFVwZGF0ZVNlY3JldFByb3ZpZGVyUmVzcG9uc2USPgoPc2VjcmV0X3Byb3ZpZGVyGAEgASgLMiUuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLlNlY3JldFByb3ZpZGVyIikKG0RlbGV0ZVNlY3JldFByb3ZpZGVyUmVxdWVzdBIKCgJpZBgBIAEoCSIeChxEZWxldGVTZWNyZXRQcm92aWRlclJlc3BvbnNlIlwKGkxpc3RTZWNyZXRQcm92aWRlcnNSZXF1ZXN0EhEKCXBhZ2Vfc2l6ZRgBIAEoBRISCgpwYWdlX3Rva2VuGAIgASgJEhcKD29yZ2FuaXphdGlvbl9pZBgDIAEoCSJ3ChtMaXN0U2VjcmV0UHJvdmlkZXJzUmVzcG9uc2USPwoQc2VjcmV0X3Byb3ZpZGVycxgBIAMoCzIlLmFneW5pby5hcGkuc2VjcmV0cy52MS5TZWNyZXRQcm92aWRlchIXCg9uZXh0X3BhZ2VfdG9rZW4YAiABKAkinQEKBlNlY3JldBIvCgRtZXRhGAEgASgLMiEuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLkVudGl0eU1ldGESDQoFdGl0bGUYAiABKAkSEwoLZGVzY3JpcHRpb24YAyABKAkSGgoSc2VjcmV0X3Byb3ZpZGVyX2lkGAQgASgJEhMKC3JlbW90ZV9uYW1lGAUgASgJEg0KBXZhbHVlGAYgASgJIpIBChNDcmVhdGVTZWNyZXRSZXF1ZXN0Eg0KBXRpdGxlGAEgASgJEhMKC2Rlc2NyaXB0aW9uGAIgASgJEhoKEnNlY3JldF9wcm92aWRlcl9pZBgDIAEoCRITCgtyZW1vdGVfbmFtZRgEIAEoCRIXCg9vcmdhbml6YXRpb25faWQYBSABKAkSDQoFdmFsdWUYBiABKAkiRQoUQ3JlYXRlU2VjcmV0UmVzcG9uc2USLQoGc2VjcmV0GAEgASgLMh0uYWd5bmlvLmFwaS5zZWNyZXRzLnYxLlNlY3JldCIeChBHZXRTZWNyZXRSZXF1ZXN0EgoKAmlkGAEgASgJIkIKEUdldFNlY3JldFJlc3BvbnNlEi0KBnNlY3JldBgBIAEoCzIdLmFneW5pby5hcGkuc2VjcmV0cy52MS5TZWNyZXQi6QEKE1VwZGF0ZVNlY3JldFJlcXVlc3QSCgoCaWQYASABKAkSEgoFdGl0bGUYAiABKAlIAIgBARIYCgtkZXNjcmlwdGlvbhgDIAEoCUgBiAEBEh8KEnNlY3JldF9wcm92aWRlcl9pZBgEIAEoCUgCiAEBEhgKC3JlbW90ZV9uYW1lGAUgASgJSAOIAQESEgoFdmFsdWUYBiABKAlIBIgBAUIICgZfdGl0bGVCDgoMX2Rlc2NyaXB0aW9uQhUKE19zZWNyZXRfcHJvdmlkZXJfaWRCDgoMX3JlbW90ZV9uYW1lQggKBl92YWx1ZSJFChRVcGRhdGVTZWNyZXRSZXNwb25zZRItCgZzZWNyZXQYASABKAsyHS5hZ3luaW8uYXBpLnNlY3JldHMudjEuU2VjcmV0IiEKE0RlbGV0ZVNlY3JldFJlcXVlc3QSCgoCaWQYASABKAkiFgoURGVsZXRlU2VjcmV0UmVzcG9uc2UicAoSTGlzdFNlY3JldHNSZXF1ZXN0EhEKCXBhZ2Vfc2l6ZRgBIAEoBRISCgpwYWdlX3Rva2VuGAIgASgJEhoKEnNlY3JldF9wcm92aWRlcl9pZBgDIAEoCRIXCg9vcmdhbml6YXRpb25faWQYBCABKAkiXgoTTGlzdFNlY3JldHNSZXNwb25zZRIuCgdzZWNyZXRzGAEgAygLMh0uYWd5bmlvLmFwaS5zZWNyZXRzLnYxLlNlY3JldBIXCg9uZXh0X3BhZ2VfdG9rZW4YAiABKAkiIgoUUmVzb2x2ZVNlY3JldFJlcXVlc3QSCgoCaWQYASABKAkiJgoVUmVzb2x2ZVNlY3JldFJlc3BvbnNlEg0KBXZhbHVlGAEgASgJIkUKD1JlbW90ZVNlY3JldFJlZhIZChF2YWx1ZV9wcm92aWRlcl9pZBgBIAEoCRIXCg92YWx1ZV9yZWZlcmVuY2UYAiABKAki0AEKD0ltYWdlUHVsbFNlY3JldBIvCgRtZXRhGAEgASgLMiEuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLkVudGl0eU1ldGESEwoLZGVzY3JpcHRpb24YAiABKAkSEAoIcmVnaXN0cnkYAyABKAkSEAoIdXNlcm5hbWUYBCABKAkSDwoFdmFsdWUYBSABKAlIABI4CgZyZW1vdGUYBiABKAsyJi5hZ3luaW8uYXBpLnNlY3JldHMudjEuUmVtb3RlU2VjcmV0UmVmSABCCAoGc291cmNlIsUBChxDcmVhdGVJbWFnZVB1bGxTZWNyZXRSZXF1ZXN0EhMKC2Rlc2NyaXB0aW9uGAEgASgJEhAKCHJlZ2lzdHJ5GAIgASgJEhAKCHVzZXJuYW1lGAMgASgJEg8KBXZhbHVlGAQgASgJSAASOAoGcmVtb3RlGAUgASgLMiYuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLlJlbW90ZVNlY3JldFJlZkgAEhcKD29yZ2FuaXphdGlvbl9pZBgGIAEoCUIICgZzb3VyY2UiYgodQ3JlYXRlSW1hZ2VQdWxsU2VjcmV0UmVzcG9uc2USQQoRaW1hZ2VfcHVsbF9zZWNyZXQYASABKAsyJi5hZ3luaW8uYXBpLnNlY3JldHMudjEuSW1hZ2VQdWxsU2VjcmV0IicKGUdldEltYWdlUHVsbFNlY3JldFJlcXVlc3QSCgoCaWQYASABKAkiXwoaR2V0SW1hZ2VQdWxsU2VjcmV0UmVzcG9uc2USQQoRaW1hZ2VfcHVsbF9zZWNyZXQYASABKAsyJi5hZ3luaW8uYXBpLnNlY3JldHMudjEuSW1hZ2VQdWxsU2VjcmV0IvEBChxVcGRhdGVJbWFnZVB1bGxTZWNyZXRSZXF1ZXN0EgoKAmlkGAEgASgJEhgKC2Rlc2NyaXB0aW9uGAIgASgJSAGIAQESFQoIcmVnaXN0cnkYAyABKAlIAogBARIVCgh1c2VybmFtZRgEIAEoCUgDiAEBEg8KBXZhbHVlGAUgASgJSAASOAoGcmVtb3RlGAYgASgLMiYuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLlJlbW90ZVNlY3JldFJlZkgAQggKBnNvdXJjZUIOCgxfZGVzY3JpcHRpb25CCwoJX3JlZ2lzdHJ5QgsKCV91c2VybmFtZSJiCh1VcGRhdGVJbWFnZVB1bGxTZWNyZXRSZXNwb25zZRJBChFpbWFnZV9wdWxsX3NlY3JldBgBIAEoCzImLmFneW5pby5hcGkuc2VjcmV0cy52MS5JbWFnZVB1bGxTZWNyZXQiKgocRGVsZXRlSW1hZ2VQdWxsU2VjcmV0UmVxdWVzdBIKCgJpZBgBIAEoCSIfCh1EZWxldGVJbWFnZVB1bGxTZWNyZXRSZXNwb25zZSJdChtMaXN0SW1hZ2VQdWxsU2VjcmV0c1JlcXVlc3QSEQoJcGFnZV9zaXplGAEgASgFEhIKCnBhZ2VfdG9rZW4YAiABKAkSFwoPb3JnYW5pemF0aW9uX2lkGAMgASgJInsKHExpc3RJbWFnZVB1bGxTZWNyZXRzUmVzcG9uc2USQgoSaW1hZ2VfcHVsbF9zZWNyZXRzGAEgAygLMiYuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLkltYWdlUHVsbFNlY3JldBIXCg9uZXh0X3BhZ2VfdG9rZW4YAiABKAkiKwodUmVzb2x2ZUltYWdlUHVsbFNlY3JldFJlcXVlc3QSCgoCaWQYASABKAkiVgoeUmVzb2x2ZUltYWdlUHVsbFNlY3JldFJlc3BvbnNlEhAKCHJlZ2lzdHJ5GAEgASgJEhAKCHVzZXJuYW1lGAIgASgJEhAKCHBhc3N3b3JkGAMgASgJKloKElNlY3JldFByb3ZpZGVyVHlwZRIkCiBTRUNSRVRfUFJPVklERVJfVFlQRV9VTlNQRUNJRklFRBAAEh4KGlNFQ1JFVF9QUk9WSURFUl9UWVBFX1ZBVUxUEAEyiRAKDlNlY3JldHNTZXJ2aWNlEn8KFENyZWF0ZVNlY3JldFByb3ZpZGVyEjIuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLkNyZWF0ZVNlY3JldFByb3ZpZGVyUmVxdWVzdBozLmFneW5pby5hcGkuc2VjcmV0cy52MS5DcmVhdGVTZWNyZXRQcm92aWRlclJlc3BvbnNlEnYKEUdldFNlY3JldFByb3ZpZGVyEi8uYWd5bmlvLmFwaS5zZWNyZXRzLnYxLkdldFNlY3JldFByb3ZpZGVyUmVxdWVzdBowLmFneW5pby5hcGkuc2VjcmV0cy52MS5HZXRTZWNyZXRQcm92aWRlclJlc3BvbnNlEn8KFFVwZGF0ZVNlY3JldFByb3ZpZGVyEjIuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLlVwZGF0ZVNlY3JldFByb3ZpZGVyUmVxdWVzdBozLmFneW5pby5hcGkuc2VjcmV0cy52MS5VcGRhdGVTZWNyZXRQcm92aWRlclJlc3BvbnNlEn8KFERlbGV0ZVNlY3JldFByb3ZpZGVyEjIuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLkRlbGV0ZVNlY3JldFByb3ZpZGVyUmVxdWVzdBozLmFneW5pby5hcGkuc2VjcmV0cy52MS5EZWxldGVTZWNyZXRQcm92aWRlclJlc3BvbnNlEnwKE0xpc3RTZWNyZXRQcm92aWRlcnMSMS5hZ3luaW8uYXBpLnNlY3JldHMudjEuTGlzdFNlY3JldFByb3ZpZGVyc1JlcXVlc3QaMi5hZ3luaW8uYXBpLnNlY3JldHMudjEuTGlzdFNlY3JldFByb3ZpZGVyc1Jlc3BvbnNlEmcKDENyZWF0ZVNlY3JldBIqLmFneW5pby5hcGkuc2VjcmV0cy52MS5DcmVhdGVTZWNyZXRSZXF1ZXN0GisuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLkNyZWF0ZVNlY3JldFJlc3BvbnNlEl4KCUdldFNlY3JldBInLmFneW5pby5hcGkuc2VjcmV0cy52MS5HZXRTZWNyZXRSZXF1ZXN0GiguYWd5bmlvLmFwaS5zZWNyZXRzLnYxLkdldFNlY3JldFJlc3BvbnNlEmcKDFVwZGF0ZVNlY3JldBIqLmFneW5pby5hcGkuc2VjcmV0cy52MS5VcGRhdGVTZWNyZXRSZXF1ZXN0GisuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLlVwZGF0ZVNlY3JldFJlc3BvbnNlEmcKDERlbGV0ZVNlY3JldBIqLmFneW5pby5hcGkuc2VjcmV0cy52MS5EZWxldGVTZWNyZXRSZXF1ZXN0GisuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLkRlbGV0ZVNlY3JldFJlc3BvbnNlEmQKC0xpc3RTZWNyZXRzEikuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLkxpc3RTZWNyZXRzUmVxdWVzdBoqLmFneW5pby5hcGkuc2VjcmV0cy52MS5MaXN0U2VjcmV0c1Jlc3BvbnNlEmoKDVJlc29sdmVTZWNyZXQSKy5hZ3luaW8uYXBpLnNlY3JldHMudjEuUmVzb2x2ZVNlY3JldFJlcXVlc3QaLC5hZ3luaW8uYXBpLnNlY3JldHMudjEuUmVzb2x2ZVNlY3JldFJlc3BvbnNlEoIBChVDcmVhdGVJbWFnZVB1bGxTZWNyZXQSMy5hZ3luaW8uYXBpLnNlY3JldHMudjEuQ3JlYXRlSW1hZ2VQdWxsU2VjcmV0UmVxdWVzdBo0LmFneW5pby5hcGkuc2VjcmV0cy52MS5DcmVhdGVJbWFnZVB1bGxTZWNyZXRSZXNwb25zZRJ5ChJHZXRJbWFnZVB1bGxTZWNyZXQSMC5hZ3luaW8uYXBpLnNlY3JldHMudjEuR2V0SW1hZ2VQdWxsU2VjcmV0UmVxdWVzdBoxLmFneW5pby5hcGkuc2VjcmV0cy52MS5HZXRJbWFnZVB1bGxTZWNyZXRSZXNwb25zZRKCAQoVVXBkYXRlSW1hZ2VQdWxsU2VjcmV0EjMuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLlVwZGF0ZUltYWdlUHVsbFNlY3JldFJlcXVlc3QaNC5hZ3luaW8uYXBpLnNlY3JldHMudjEuVXBkYXRlSW1hZ2VQdWxsU2VjcmV0UmVzcG9uc2USggEKFURlbGV0ZUltYWdlUHVsbFNlY3JldBIzLmFneW5pby5hcGkuc2VjcmV0cy52MS5EZWxldGVJbWFnZVB1bGxTZWNyZXRSZXF1ZXN0GjQuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLkRlbGV0ZUltYWdlUHVsbFNlY3JldFJlc3BvbnNlEn8KFExpc3RJbWFnZVB1bGxTZWNyZXRzEjIuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLkxpc3RJbWFnZVB1bGxTZWNyZXRzUmVxdWVzdBozLmFneW5pby5hcGkuc2VjcmV0cy52MS5MaXN0SW1hZ2VQdWxsU2VjcmV0c1Jlc3BvbnNlEoUBChZSZXNvbHZlSW1hZ2VQdWxsU2VjcmV0EjQuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLlJlc29sdmVJbWFnZVB1bGxTZWNyZXRSZXF1ZXN0GjUuYWd5bmlvLmFwaS5zZWNyZXRzLnYxLlJlc29sdmVJbWFnZVB1bGxTZWNyZXRSZXNwb25zZUI7WjlnaXRodWIuY29tL2FneW5pby9hcGkvZ2VuL2FneW5pby9hcGkvc2VjcmV0cy92MTtzZWNyZXRzdjFiBnByb3RvMw", [file_google_protobuf_timestamp]);
 
 /**
  * Metadata shared by every resource.
@@ -392,6 +392,13 @@ export type Secret = Message<"agynio.api.secrets.v1.Secret"> & {
    * @generated from field: string remote_name = 5;
    */
   remoteName: string;
+
+  /**
+   * Local encrypted value (mutually exclusive with secret_provider_id + remote_name)
+   *
+   * @generated from field: string value = 6;
+   */
+  value: string;
 };
 
 /**
@@ -416,14 +423,14 @@ export type CreateSecretRequest = Message<"agynio.api.secrets.v1.CreateSecretReq
   description: string;
 
   /**
-   * UUID - required
+   * UUID - required when not supplying value
    *
    * @generated from field: string secret_provider_id = 3;
    */
   secretProviderId: string;
 
   /**
-   * required
+   * required when not supplying value
    *
    * @generated from field: string remote_name = 4;
    */
@@ -433,6 +440,13 @@ export type CreateSecretRequest = Message<"agynio.api.secrets.v1.CreateSecretReq
    * @generated from field: string organization_id = 5;
    */
   organizationId: string;
+
+  /**
+   * Local encrypted value (mutually exclusive with secret_provider_id + remote_name)
+   *
+   * @generated from field: string value = 6;
+   */
+  value: string;
 };
 
 /**
@@ -529,6 +543,13 @@ export type UpdateSecretRequest = Message<"agynio.api.secrets.v1.UpdateSecretReq
    * @generated from field: optional string remote_name = 5;
    */
   remoteName?: string;
+
+  /**
+   * Local encrypted value (mutually exclusive with secret_provider_id + remote_name)
+   *
+   * @generated from field: optional string value = 6;
+   */
+  value?: string;
 };
 
 /**
@@ -682,6 +703,374 @@ export const ResolveSecretResponseSchema: GenMessage<ResolveSecretResponse> = /*
   messageDesc(file_agynio_api_secrets_v1_secrets, 26);
 
 /**
+ * @generated from message agynio.api.secrets.v1.RemoteSecretRef
+ */
+export type RemoteSecretRef = Message<"agynio.api.secrets.v1.RemoteSecretRef"> & {
+  /**
+   * @generated from field: string value_provider_id = 1;
+   */
+  valueProviderId: string;
+
+  /**
+   * @generated from field: string value_reference = 2;
+   */
+  valueReference: string;
+};
+
+/**
+ * Describes the message agynio.api.secrets.v1.RemoteSecretRef.
+ * Use `create(RemoteSecretRefSchema)` to create a new message.
+ */
+export const RemoteSecretRefSchema: GenMessage<RemoteSecretRef> = /*@__PURE__*/
+  messageDesc(file_agynio_api_secrets_v1_secrets, 27);
+
+/**
+ * @generated from message agynio.api.secrets.v1.ImagePullSecret
+ */
+export type ImagePullSecret = Message<"agynio.api.secrets.v1.ImagePullSecret"> & {
+  /**
+   * @generated from field: agynio.api.secrets.v1.EntityMeta meta = 1;
+   */
+  meta?: EntityMeta;
+
+  /**
+   * @generated from field: string description = 2;
+   */
+  description: string;
+
+  /**
+   * @generated from field: string registry = 3;
+   */
+  registry: string;
+
+  /**
+   * @generated from field: string username = 4;
+   */
+  username: string;
+
+  /**
+   * @generated from oneof agynio.api.secrets.v1.ImagePullSecret.source
+   */
+  source: {
+    /**
+     * @generated from field: string value = 5;
+     */
+    value: string;
+    case: "value";
+  } | {
+    /**
+     * @generated from field: agynio.api.secrets.v1.RemoteSecretRef remote = 6;
+     */
+    value: RemoteSecretRef;
+    case: "remote";
+  } | { case: undefined; value?: undefined };
+};
+
+/**
+ * Describes the message agynio.api.secrets.v1.ImagePullSecret.
+ * Use `create(ImagePullSecretSchema)` to create a new message.
+ */
+export const ImagePullSecretSchema: GenMessage<ImagePullSecret> = /*@__PURE__*/
+  messageDesc(file_agynio_api_secrets_v1_secrets, 28);
+
+/**
+ * @generated from message agynio.api.secrets.v1.CreateImagePullSecretRequest
+ */
+export type CreateImagePullSecretRequest = Message<"agynio.api.secrets.v1.CreateImagePullSecretRequest"> & {
+  /**
+   * @generated from field: string description = 1;
+   */
+  description: string;
+
+  /**
+   * @generated from field: string registry = 2;
+   */
+  registry: string;
+
+  /**
+   * @generated from field: string username = 3;
+   */
+  username: string;
+
+  /**
+   * @generated from oneof agynio.api.secrets.v1.CreateImagePullSecretRequest.source
+   */
+  source: {
+    /**
+     * @generated from field: string value = 4;
+     */
+    value: string;
+    case: "value";
+  } | {
+    /**
+     * @generated from field: agynio.api.secrets.v1.RemoteSecretRef remote = 5;
+     */
+    value: RemoteSecretRef;
+    case: "remote";
+  } | { case: undefined; value?: undefined };
+
+  /**
+   * @generated from field: string organization_id = 6;
+   */
+  organizationId: string;
+};
+
+/**
+ * Describes the message agynio.api.secrets.v1.CreateImagePullSecretRequest.
+ * Use `create(CreateImagePullSecretRequestSchema)` to create a new message.
+ */
+export const CreateImagePullSecretRequestSchema: GenMessage<CreateImagePullSecretRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_secrets_v1_secrets, 29);
+
+/**
+ * @generated from message agynio.api.secrets.v1.CreateImagePullSecretResponse
+ */
+export type CreateImagePullSecretResponse = Message<"agynio.api.secrets.v1.CreateImagePullSecretResponse"> & {
+  /**
+   * @generated from field: agynio.api.secrets.v1.ImagePullSecret image_pull_secret = 1;
+   */
+  imagePullSecret?: ImagePullSecret;
+};
+
+/**
+ * Describes the message agynio.api.secrets.v1.CreateImagePullSecretResponse.
+ * Use `create(CreateImagePullSecretResponseSchema)` to create a new message.
+ */
+export const CreateImagePullSecretResponseSchema: GenMessage<CreateImagePullSecretResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_secrets_v1_secrets, 30);
+
+/**
+ * @generated from message agynio.api.secrets.v1.GetImagePullSecretRequest
+ */
+export type GetImagePullSecretRequest = Message<"agynio.api.secrets.v1.GetImagePullSecretRequest"> & {
+  /**
+   * UUID
+   *
+   * @generated from field: string id = 1;
+   */
+  id: string;
+};
+
+/**
+ * Describes the message agynio.api.secrets.v1.GetImagePullSecretRequest.
+ * Use `create(GetImagePullSecretRequestSchema)` to create a new message.
+ */
+export const GetImagePullSecretRequestSchema: GenMessage<GetImagePullSecretRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_secrets_v1_secrets, 31);
+
+/**
+ * @generated from message agynio.api.secrets.v1.GetImagePullSecretResponse
+ */
+export type GetImagePullSecretResponse = Message<"agynio.api.secrets.v1.GetImagePullSecretResponse"> & {
+  /**
+   * @generated from field: agynio.api.secrets.v1.ImagePullSecret image_pull_secret = 1;
+   */
+  imagePullSecret?: ImagePullSecret;
+};
+
+/**
+ * Describes the message agynio.api.secrets.v1.GetImagePullSecretResponse.
+ * Use `create(GetImagePullSecretResponseSchema)` to create a new message.
+ */
+export const GetImagePullSecretResponseSchema: GenMessage<GetImagePullSecretResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_secrets_v1_secrets, 32);
+
+/**
+ * @generated from message agynio.api.secrets.v1.UpdateImagePullSecretRequest
+ */
+export type UpdateImagePullSecretRequest = Message<"agynio.api.secrets.v1.UpdateImagePullSecretRequest"> & {
+  /**
+   * UUID
+   *
+   * @generated from field: string id = 1;
+   */
+  id: string;
+
+  /**
+   * @generated from field: optional string description = 2;
+   */
+  description?: string;
+
+  /**
+   * @generated from field: optional string registry = 3;
+   */
+  registry?: string;
+
+  /**
+   * @generated from field: optional string username = 4;
+   */
+  username?: string;
+
+  /**
+   * @generated from oneof agynio.api.secrets.v1.UpdateImagePullSecretRequest.source
+   */
+  source: {
+    /**
+     * @generated from field: string value = 5;
+     */
+    value: string;
+    case: "value";
+  } | {
+    /**
+     * @generated from field: agynio.api.secrets.v1.RemoteSecretRef remote = 6;
+     */
+    value: RemoteSecretRef;
+    case: "remote";
+  } | { case: undefined; value?: undefined };
+};
+
+/**
+ * Describes the message agynio.api.secrets.v1.UpdateImagePullSecretRequest.
+ * Use `create(UpdateImagePullSecretRequestSchema)` to create a new message.
+ */
+export const UpdateImagePullSecretRequestSchema: GenMessage<UpdateImagePullSecretRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_secrets_v1_secrets, 33);
+
+/**
+ * @generated from message agynio.api.secrets.v1.UpdateImagePullSecretResponse
+ */
+export type UpdateImagePullSecretResponse = Message<"agynio.api.secrets.v1.UpdateImagePullSecretResponse"> & {
+  /**
+   * @generated from field: agynio.api.secrets.v1.ImagePullSecret image_pull_secret = 1;
+   */
+  imagePullSecret?: ImagePullSecret;
+};
+
+/**
+ * Describes the message agynio.api.secrets.v1.UpdateImagePullSecretResponse.
+ * Use `create(UpdateImagePullSecretResponseSchema)` to create a new message.
+ */
+export const UpdateImagePullSecretResponseSchema: GenMessage<UpdateImagePullSecretResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_secrets_v1_secrets, 34);
+
+/**
+ * @generated from message agynio.api.secrets.v1.DeleteImagePullSecretRequest
+ */
+export type DeleteImagePullSecretRequest = Message<"agynio.api.secrets.v1.DeleteImagePullSecretRequest"> & {
+  /**
+   * UUID
+   *
+   * @generated from field: string id = 1;
+   */
+  id: string;
+};
+
+/**
+ * Describes the message agynio.api.secrets.v1.DeleteImagePullSecretRequest.
+ * Use `create(DeleteImagePullSecretRequestSchema)` to create a new message.
+ */
+export const DeleteImagePullSecretRequestSchema: GenMessage<DeleteImagePullSecretRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_secrets_v1_secrets, 35);
+
+/**
+ * @generated from message agynio.api.secrets.v1.DeleteImagePullSecretResponse
+ */
+export type DeleteImagePullSecretResponse = Message<"agynio.api.secrets.v1.DeleteImagePullSecretResponse"> & {
+};
+
+/**
+ * Describes the message agynio.api.secrets.v1.DeleteImagePullSecretResponse.
+ * Use `create(DeleteImagePullSecretResponseSchema)` to create a new message.
+ */
+export const DeleteImagePullSecretResponseSchema: GenMessage<DeleteImagePullSecretResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_secrets_v1_secrets, 36);
+
+/**
+ * @generated from message agynio.api.secrets.v1.ListImagePullSecretsRequest
+ */
+export type ListImagePullSecretsRequest = Message<"agynio.api.secrets.v1.ListImagePullSecretsRequest"> & {
+  /**
+   * @generated from field: int32 page_size = 1;
+   */
+  pageSize: number;
+
+  /**
+   * @generated from field: string page_token = 2;
+   */
+  pageToken: string;
+
+  /**
+   * @generated from field: string organization_id = 3;
+   */
+  organizationId: string;
+};
+
+/**
+ * Describes the message agynio.api.secrets.v1.ListImagePullSecretsRequest.
+ * Use `create(ListImagePullSecretsRequestSchema)` to create a new message.
+ */
+export const ListImagePullSecretsRequestSchema: GenMessage<ListImagePullSecretsRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_secrets_v1_secrets, 37);
+
+/**
+ * @generated from message agynio.api.secrets.v1.ListImagePullSecretsResponse
+ */
+export type ListImagePullSecretsResponse = Message<"agynio.api.secrets.v1.ListImagePullSecretsResponse"> & {
+  /**
+   * @generated from field: repeated agynio.api.secrets.v1.ImagePullSecret image_pull_secrets = 1;
+   */
+  imagePullSecrets: ImagePullSecret[];
+
+  /**
+   * @generated from field: string next_page_token = 2;
+   */
+  nextPageToken: string;
+};
+
+/**
+ * Describes the message agynio.api.secrets.v1.ListImagePullSecretsResponse.
+ * Use `create(ListImagePullSecretsResponseSchema)` to create a new message.
+ */
+export const ListImagePullSecretsResponseSchema: GenMessage<ListImagePullSecretsResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_secrets_v1_secrets, 38);
+
+/**
+ * @generated from message agynio.api.secrets.v1.ResolveImagePullSecretRequest
+ */
+export type ResolveImagePullSecretRequest = Message<"agynio.api.secrets.v1.ResolveImagePullSecretRequest"> & {
+  /**
+   * UUID of the ImagePullSecret to resolve
+   *
+   * @generated from field: string id = 1;
+   */
+  id: string;
+};
+
+/**
+ * Describes the message agynio.api.secrets.v1.ResolveImagePullSecretRequest.
+ * Use `create(ResolveImagePullSecretRequestSchema)` to create a new message.
+ */
+export const ResolveImagePullSecretRequestSchema: GenMessage<ResolveImagePullSecretRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_secrets_v1_secrets, 39);
+
+/**
+ * @generated from message agynio.api.secrets.v1.ResolveImagePullSecretResponse
+ */
+export type ResolveImagePullSecretResponse = Message<"agynio.api.secrets.v1.ResolveImagePullSecretResponse"> & {
+  /**
+   * @generated from field: string registry = 1;
+   */
+  registry: string;
+
+  /**
+   * @generated from field: string username = 2;
+   */
+  username: string;
+
+  /**
+   * @generated from field: string password = 3;
+   */
+  password: string;
+};
+
+/**
+ * Describes the message agynio.api.secrets.v1.ResolveImagePullSecretResponse.
+ * Use `create(ResolveImagePullSecretResponseSchema)` to create a new message.
+ */
+export const ResolveImagePullSecretResponseSchema: GenMessage<ResolveImagePullSecretResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_secrets_v1_secrets, 40);
+
+/**
  * @generated from enum agynio.api.secrets.v1.SecretProviderType
  */
 export enum SecretProviderType {
@@ -807,6 +1196,58 @@ export const SecretsService: GenService<{
     methodKind: "unary";
     input: typeof ResolveSecretRequestSchema;
     output: typeof ResolveSecretResponseSchema;
+  },
+  /**
+   * --- Image Pull Secrets ---
+   *
+   * @generated from rpc agynio.api.secrets.v1.SecretsService.CreateImagePullSecret
+   */
+  createImagePullSecret: {
+    methodKind: "unary";
+    input: typeof CreateImagePullSecretRequestSchema;
+    output: typeof CreateImagePullSecretResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.secrets.v1.SecretsService.GetImagePullSecret
+   */
+  getImagePullSecret: {
+    methodKind: "unary";
+    input: typeof GetImagePullSecretRequestSchema;
+    output: typeof GetImagePullSecretResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.secrets.v1.SecretsService.UpdateImagePullSecret
+   */
+  updateImagePullSecret: {
+    methodKind: "unary";
+    input: typeof UpdateImagePullSecretRequestSchema;
+    output: typeof UpdateImagePullSecretResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.secrets.v1.SecretsService.DeleteImagePullSecret
+   */
+  deleteImagePullSecret: {
+    methodKind: "unary";
+    input: typeof DeleteImagePullSecretRequestSchema;
+    output: typeof DeleteImagePullSecretResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.secrets.v1.SecretsService.ListImagePullSecrets
+   */
+  listImagePullSecrets: {
+    methodKind: "unary";
+    input: typeof ListImagePullSecretsRequestSchema;
+    output: typeof ListImagePullSecretsResponseSchema;
+  },
+  /**
+   * --- Image Pull Secret Resolution ---
+   *
+   * @generated from rpc agynio.api.secrets.v1.SecretsService.ResolveImagePullSecret
+   */
+  resolveImagePullSecret: {
+    methodKind: "unary";
+    input: typeof ResolveImagePullSecretRequestSchema;
+    output: typeof ResolveImagePullSecretResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_agynio_api_secrets_v1_secrets, 0);

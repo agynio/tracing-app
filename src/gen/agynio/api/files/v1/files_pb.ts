@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file agynio/api/files/v1/files.proto.
  */
 export const file_agynio_api_files_v1_files: GenFile = /*@__PURE__*/
-  fileDesc("Ch9hZ3luaW8vYXBpL2ZpbGVzL3YxL2ZpbGVzLnByb3RvEhNhZ3luaW8uYXBpLmZpbGVzLnYxIpIBChFVcGxvYWRGaWxlUmVxdWVzdBI7CghtZXRhZGF0YRgBIAEoCzInLmFneW5pby5hcGkuZmlsZXMudjEuVXBsb2FkRmlsZU1ldGFkYXRhSAASNQoFY2h1bmsYAiABKAsyJC5hZ3luaW8uYXBpLmZpbGVzLnYxLlVwbG9hZEZpbGVDaHVua0gAQgkKB3BheWxvYWQiUAoSVXBsb2FkRmlsZU1ldGFkYXRhEhAKCGZpbGVuYW1lGAEgASgJEhQKDGNvbnRlbnRfdHlwZRgCIAEoCRISCgpzaXplX2J5dGVzGAMgASgDIh8KD1VwbG9hZEZpbGVDaHVuaxIMCgRkYXRhGAEgASgMIkEKElVwbG9hZEZpbGVSZXNwb25zZRIrCgRmaWxlGAEgASgLMh0uYWd5bmlvLmFwaS5maWxlcy52MS5GaWxlSW5mbyIpChZHZXRGaWxlTWV0YWRhdGFSZXF1ZXN0Eg8KB2ZpbGVfaWQYASABKAkiRgoXR2V0RmlsZU1ldGFkYXRhUmVzcG9uc2USKwoEZmlsZRgBIAEoCzIdLmFneW5pby5hcGkuZmlsZXMudjEuRmlsZUluZm8iUwoVR2V0RG93bmxvYWRVcmxSZXF1ZXN0Eg8KB2ZpbGVfaWQYASABKAkSKQoGZXhwaXJ5GAIgASgLMhkuZ29vZ2xlLnByb3RvYnVmLkR1cmF0aW9uIlUKFkdldERvd25sb2FkVXJsUmVzcG9uc2USCwoDdXJsGAEgASgJEi4KCmV4cGlyZXNfYXQYAiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIoIBCghGaWxlSW5mbxIKCgJpZBgBIAEoCRIQCghmaWxlbmFtZRgCIAEoCRIUCgxjb250ZW50X3R5cGUYAyABKAkSEgoKc2l6ZV9ieXRlcxgEIAEoAxIuCgpjcmVhdGVkX2F0GAUgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcDLIAgoMRmlsZXNTZXJ2aWNlEl8KClVwbG9hZEZpbGUSJi5hZ3luaW8uYXBpLmZpbGVzLnYxLlVwbG9hZEZpbGVSZXF1ZXN0GicuYWd5bmlvLmFwaS5maWxlcy52MS5VcGxvYWRGaWxlUmVzcG9uc2UoARJsCg9HZXRGaWxlTWV0YWRhdGESKy5hZ3luaW8uYXBpLmZpbGVzLnYxLkdldEZpbGVNZXRhZGF0YVJlcXVlc3QaLC5hZ3luaW8uYXBpLmZpbGVzLnYxLkdldEZpbGVNZXRhZGF0YVJlc3BvbnNlEmkKDkdldERvd25sb2FkVXJsEiouYWd5bmlvLmFwaS5maWxlcy52MS5HZXREb3dubG9hZFVybFJlcXVlc3QaKy5hZ3luaW8uYXBpLmZpbGVzLnYxLkdldERvd25sb2FkVXJsUmVzcG9uc2VCN1o1Z2l0aHViLmNvbS9hZ3luaW8vYXBpL2dlbi9hZ3luaW8vYXBpL2ZpbGVzL3YxO2ZpbGVzdjFiBnByb3RvMw", [file_google_protobuf_duration, file_google_protobuf_timestamp]);
+  fileDesc("Ch9hZ3luaW8vYXBpL2ZpbGVzL3YxL2ZpbGVzLnByb3RvEhNhZ3luaW8uYXBpLmZpbGVzLnYxIpIBChFVcGxvYWRGaWxlUmVxdWVzdBI7CghtZXRhZGF0YRgBIAEoCzInLmFneW5pby5hcGkuZmlsZXMudjEuVXBsb2FkRmlsZU1ldGFkYXRhSAASNQoFY2h1bmsYAiABKAsyJC5hZ3luaW8uYXBpLmZpbGVzLnYxLlVwbG9hZEZpbGVDaHVua0gAQgkKB3BheWxvYWQiUAoSVXBsb2FkRmlsZU1ldGFkYXRhEhAKCGZpbGVuYW1lGAEgASgJEhQKDGNvbnRlbnRfdHlwZRgCIAEoCRISCgpzaXplX2J5dGVzGAMgASgDIh8KD1VwbG9hZEZpbGVDaHVuaxIMCgRkYXRhGAEgASgMIkEKElVwbG9hZEZpbGVSZXNwb25zZRIrCgRmaWxlGAEgASgLMh0uYWd5bmlvLmFwaS5maWxlcy52MS5GaWxlSW5mbyIpChZHZXRGaWxlTWV0YWRhdGFSZXF1ZXN0Eg8KB2ZpbGVfaWQYASABKAkiRgoXR2V0RmlsZU1ldGFkYXRhUmVzcG9uc2USKwoEZmlsZRgBIAEoCzIdLmFneW5pby5hcGkuZmlsZXMudjEuRmlsZUluZm8iUwoVR2V0RG93bmxvYWRVcmxSZXF1ZXN0Eg8KB2ZpbGVfaWQYASABKAkSKQoGZXhwaXJ5GAIgASgLMhkuZ29vZ2xlLnByb3RvYnVmLkR1cmF0aW9uIlUKFkdldERvd25sb2FkVXJsUmVzcG9uc2USCwoDdXJsGAEgASgJEi4KCmV4cGlyZXNfYXQYAiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIigKFUdldEZpbGVDb250ZW50UmVxdWVzdBIPCgdmaWxlX2lkGAEgASgJIiwKFkdldEZpbGVDb250ZW50UmVzcG9uc2USEgoKY2h1bmtfZGF0YRgBIAEoDCKCAQoIRmlsZUluZm8SCgoCaWQYASABKAkSEAoIZmlsZW5hbWUYAiABKAkSFAoMY29udGVudF90eXBlGAMgASgJEhIKCnNpemVfYnl0ZXMYBCABKAMSLgoKY3JlYXRlZF9hdBgFIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAytQMKDEZpbGVzU2VydmljZRJfCgpVcGxvYWRGaWxlEiYuYWd5bmlvLmFwaS5maWxlcy52MS5VcGxvYWRGaWxlUmVxdWVzdBonLmFneW5pby5hcGkuZmlsZXMudjEuVXBsb2FkRmlsZVJlc3BvbnNlKAESbAoPR2V0RmlsZU1ldGFkYXRhEisuYWd5bmlvLmFwaS5maWxlcy52MS5HZXRGaWxlTWV0YWRhdGFSZXF1ZXN0GiwuYWd5bmlvLmFwaS5maWxlcy52MS5HZXRGaWxlTWV0YWRhdGFSZXNwb25zZRJpCg5HZXREb3dubG9hZFVybBIqLmFneW5pby5hcGkuZmlsZXMudjEuR2V0RG93bmxvYWRVcmxSZXF1ZXN0GisuYWd5bmlvLmFwaS5maWxlcy52MS5HZXREb3dubG9hZFVybFJlc3BvbnNlEmsKDkdldEZpbGVDb250ZW50EiouYWd5bmlvLmFwaS5maWxlcy52MS5HZXRGaWxlQ29udGVudFJlcXVlc3QaKy5hZ3luaW8uYXBpLmZpbGVzLnYxLkdldEZpbGVDb250ZW50UmVzcG9uc2UwAUI3WjVnaXRodWIuY29tL2FneW5pby9hcGkvZ2VuL2FneW5pby9hcGkvZmlsZXMvdjE7ZmlsZXN2MWIGcHJvdG8z", [file_google_protobuf_duration, file_google_protobuf_timestamp]);
 
 /**
  * @generated from message agynio.api.files.v1.UploadFileRequest
@@ -183,6 +183,40 @@ export const GetDownloadUrlResponseSchema: GenMessage<GetDownloadUrlResponse> = 
   messageDesc(file_agynio_api_files_v1_files, 7);
 
 /**
+ * @generated from message agynio.api.files.v1.GetFileContentRequest
+ */
+export type GetFileContentRequest = Message<"agynio.api.files.v1.GetFileContentRequest"> & {
+  /**
+   * @generated from field: string file_id = 1;
+   */
+  fileId: string;
+};
+
+/**
+ * Describes the message agynio.api.files.v1.GetFileContentRequest.
+ * Use `create(GetFileContentRequestSchema)` to create a new message.
+ */
+export const GetFileContentRequestSchema: GenMessage<GetFileContentRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_files_v1_files, 8);
+
+/**
+ * @generated from message agynio.api.files.v1.GetFileContentResponse
+ */
+export type GetFileContentResponse = Message<"agynio.api.files.v1.GetFileContentResponse"> & {
+  /**
+   * @generated from field: bytes chunk_data = 1;
+   */
+  chunkData: Uint8Array;
+};
+
+/**
+ * Describes the message agynio.api.files.v1.GetFileContentResponse.
+ * Use `create(GetFileContentResponseSchema)` to create a new message.
+ */
+export const GetFileContentResponseSchema: GenMessage<GetFileContentResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_files_v1_files, 9);
+
+/**
  * @generated from message agynio.api.files.v1.FileInfo
  */
 export type FileInfo = Message<"agynio.api.files.v1.FileInfo"> & {
@@ -217,7 +251,7 @@ export type FileInfo = Message<"agynio.api.files.v1.FileInfo"> & {
  * Use `create(FileInfoSchema)` to create a new message.
  */
 export const FileInfoSchema: GenMessage<FileInfo> = /*@__PURE__*/
-  messageDesc(file_agynio_api_files_v1_files, 8);
+  messageDesc(file_agynio_api_files_v1_files, 10);
 
 /**
  * @generated from service agynio.api.files.v1.FilesService
@@ -246,6 +280,14 @@ export const FilesService: GenService<{
     methodKind: "unary";
     input: typeof GetDownloadUrlRequestSchema;
     output: typeof GetDownloadUrlResponseSchema;
+  },
+  /**
+   * @generated from rpc agynio.api.files.v1.FilesService.GetFileContent
+   */
+  getFileContent: {
+    methodKind: "server_streaming";
+    input: typeof GetFileContentRequestSchema;
+    output: typeof GetFileContentResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_agynio_api_files_v1_files, 0);

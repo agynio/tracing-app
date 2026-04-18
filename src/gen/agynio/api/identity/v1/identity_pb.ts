@@ -10,7 +10,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file agynio/api/identity/v1/identity.proto.
  */
 export const file_agynio_api_identity_v1_identity: GenFile = /*@__PURE__*/
-  fileDesc("CiVhZ3luaW8vYXBpL2lkZW50aXR5L3YxL2lkZW50aXR5LnByb3RvEhZhZ3luaW8uYXBpLmlkZW50aXR5LnYxImsKF1JlZ2lzdGVySWRlbnRpdHlSZXF1ZXN0EhMKC2lkZW50aXR5X2lkGAEgASgJEjsKDWlkZW50aXR5X3R5cGUYAiABKA4yJC5hZ3luaW8uYXBpLmlkZW50aXR5LnYxLklkZW50aXR5VHlwZSIaChhSZWdpc3RlcklkZW50aXR5UmVzcG9uc2UiLQoWR2V0SWRlbnRpdHlUeXBlUmVxdWVzdBITCgtpZGVudGl0eV9pZBgBIAEoCSJWChdHZXRJZGVudGl0eVR5cGVSZXNwb25zZRI7Cg1pZGVudGl0eV90eXBlGAEgASgOMiQuYWd5bmlvLmFwaS5pZGVudGl0eS52MS5JZGVudGl0eVR5cGUiNAocQmF0Y2hHZXRJZGVudGl0eVR5cGVzUmVxdWVzdBIUCgxpZGVudGl0eV9pZHMYASADKAkiZQoRSWRlbnRpdHlUeXBlRW50cnkSEwoLaWRlbnRpdHlfaWQYASABKAkSOwoNaWRlbnRpdHlfdHlwZRgCIAEoDjIkLmFneW5pby5hcGkuaWRlbnRpdHkudjEuSWRlbnRpdHlUeXBlIlsKHUJhdGNoR2V0SWRlbnRpdHlUeXBlc1Jlc3BvbnNlEjoKB2VudHJpZXMYASADKAsyKS5hZ3luaW8uYXBpLmlkZW50aXR5LnYxLklkZW50aXR5VHlwZUVudHJ5KqoBCgxJZGVudGl0eVR5cGUSHQoZSURFTlRJVFlfVFlQRV9VTlNQRUNJRklFRBAAEhcKE0lERU5USVRZX1RZUEVfQUdFTlQQARIYChRJREVOVElUWV9UWVBFX1JVTk5FUhACEhkKFUlERU5USVRZX1RZUEVfQ0hBTk5FTBADEhYKEklERU5USVRZX1RZUEVfVVNFUhAEEhUKEUlERU5USVRZX1RZUEVfQVBQEAUygwMKD0lkZW50aXR5U2VydmljZRJ1ChBSZWdpc3RlcklkZW50aXR5Ei8uYWd5bmlvLmFwaS5pZGVudGl0eS52MS5SZWdpc3RlcklkZW50aXR5UmVxdWVzdBowLmFneW5pby5hcGkuaWRlbnRpdHkudjEuUmVnaXN0ZXJJZGVudGl0eVJlc3BvbnNlEnIKD0dldElkZW50aXR5VHlwZRIuLmFneW5pby5hcGkuaWRlbnRpdHkudjEuR2V0SWRlbnRpdHlUeXBlUmVxdWVzdBovLmFneW5pby5hcGkuaWRlbnRpdHkudjEuR2V0SWRlbnRpdHlUeXBlUmVzcG9uc2UShAEKFUJhdGNoR2V0SWRlbnRpdHlUeXBlcxI0LmFneW5pby5hcGkuaWRlbnRpdHkudjEuQmF0Y2hHZXRJZGVudGl0eVR5cGVzUmVxdWVzdBo1LmFneW5pby5hcGkuaWRlbnRpdHkudjEuQmF0Y2hHZXRJZGVudGl0eVR5cGVzUmVzcG9uc2VCPVo7Z2l0aHViLmNvbS9hZ3luaW8vYXBpL2dlbi9hZ3luaW8vYXBpL2lkZW50aXR5L3YxO2lkZW50aXR5djFiBnByb3RvMw");
+  fileDesc("CiVhZ3luaW8vYXBpL2lkZW50aXR5L3YxL2lkZW50aXR5LnByb3RvEhZhZ3luaW8uYXBpLmlkZW50aXR5LnYxImsKF1JlZ2lzdGVySWRlbnRpdHlSZXF1ZXN0EhMKC2lkZW50aXR5X2lkGAEgASgJEjsKDWlkZW50aXR5X3R5cGUYAiABKA4yJC5hZ3luaW8uYXBpLmlkZW50aXR5LnYxLklkZW50aXR5VHlwZSIaChhSZWdpc3RlcklkZW50aXR5UmVzcG9uc2UiLQoWR2V0SWRlbnRpdHlUeXBlUmVxdWVzdBITCgtpZGVudGl0eV9pZBgBIAEoCSJWChdHZXRJZGVudGl0eVR5cGVSZXNwb25zZRI7Cg1pZGVudGl0eV90eXBlGAEgASgOMiQuYWd5bmlvLmFwaS5pZGVudGl0eS52MS5JZGVudGl0eVR5cGUiNAocQmF0Y2hHZXRJZGVudGl0eVR5cGVzUmVxdWVzdBIUCgxpZGVudGl0eV9pZHMYASADKAkiZQoRSWRlbnRpdHlUeXBlRW50cnkSEwoLaWRlbnRpdHlfaWQYASABKAkSOwoNaWRlbnRpdHlfdHlwZRgCIAEoDjIkLmFneW5pby5hcGkuaWRlbnRpdHkudjEuSWRlbnRpdHlUeXBlIlsKHUJhdGNoR2V0SWRlbnRpdHlUeXBlc1Jlc3BvbnNlEjoKB2VudHJpZXMYASADKAsyKS5hZ3luaW8uYXBpLmlkZW50aXR5LnYxLklkZW50aXR5VHlwZUVudHJ5IoYBChJTZXROaWNrbmFtZVJlcXVlc3QSFwoPb3JnYW5pemF0aW9uX2lkGAEgASgJEhMKC2lkZW50aXR5X2lkGAIgASgJEhAKCG5pY2tuYW1lGAMgASgJEhwKD2luc3RhbGxhdGlvbl9pZBgEIAEoCUgAiAEBQhIKEF9pbnN0YWxsYXRpb25faWQiFQoTU2V0Tmlja25hbWVSZXNwb25zZSJ3ChVSZW1vdmVOaWNrbmFtZVJlcXVlc3QSFwoPb3JnYW5pemF0aW9uX2lkGAEgASgJEhMKC2lkZW50aXR5X2lkGAIgASgJEhwKD2luc3RhbGxhdGlvbl9pZBgDIAEoCUgAiAEBQhIKEF9pbnN0YWxsYXRpb25faWQiGAoWUmVtb3ZlTmlja25hbWVSZXNwb25zZSJDChZSZXNvbHZlTmlja25hbWVSZXF1ZXN0EhcKD29yZ2FuaXphdGlvbl9pZBgBIAEoCRIQCghuaWNrbmFtZRgCIAEoCSKdAQoXUmVzb2x2ZU5pY2tuYW1lUmVzcG9uc2USEwoLaWRlbnRpdHlfaWQYASABKAkSOwoNaWRlbnRpdHlfdHlwZRgCIAEoDjIkLmFneW5pby5hcGkuaWRlbnRpdHkudjEuSWRlbnRpdHlUeXBlEhwKD2luc3RhbGxhdGlvbl9pZBgDIAEoCUgAiAEBQhIKEF9pbnN0YWxsYXRpb25faWQqrAEKDElkZW50aXR5VHlwZRIdChlJREVOVElUWV9UWVBFX1VOU1BFQ0lGSUVEEAASFwoTSURFTlRJVFlfVFlQRV9BR0VOVBABEhgKFElERU5USVRZX1RZUEVfUlVOTkVSEAISFgoSSURFTlRJVFlfVFlQRV9VU0VSEAQSFQoRSURFTlRJVFlfVFlQRV9BUFAQBSIECAMQAyoVSURFTlRJVFlfVFlQRV9DSEFOTkVMMtAFCg9JZGVudGl0eVNlcnZpY2USdQoQUmVnaXN0ZXJJZGVudGl0eRIvLmFneW5pby5hcGkuaWRlbnRpdHkudjEuUmVnaXN0ZXJJZGVudGl0eVJlcXVlc3QaMC5hZ3luaW8uYXBpLmlkZW50aXR5LnYxLlJlZ2lzdGVySWRlbnRpdHlSZXNwb25zZRJyCg9HZXRJZGVudGl0eVR5cGUSLi5hZ3luaW8uYXBpLmlkZW50aXR5LnYxLkdldElkZW50aXR5VHlwZVJlcXVlc3QaLy5hZ3luaW8uYXBpLmlkZW50aXR5LnYxLkdldElkZW50aXR5VHlwZVJlc3BvbnNlEoQBChVCYXRjaEdldElkZW50aXR5VHlwZXMSNC5hZ3luaW8uYXBpLmlkZW50aXR5LnYxLkJhdGNoR2V0SWRlbnRpdHlUeXBlc1JlcXVlc3QaNS5hZ3luaW8uYXBpLmlkZW50aXR5LnYxLkJhdGNoR2V0SWRlbnRpdHlUeXBlc1Jlc3BvbnNlEmYKC1NldE5pY2tuYW1lEiouYWd5bmlvLmFwaS5pZGVudGl0eS52MS5TZXROaWNrbmFtZVJlcXVlc3QaKy5hZ3luaW8uYXBpLmlkZW50aXR5LnYxLlNldE5pY2tuYW1lUmVzcG9uc2USbwoOUmVtb3ZlTmlja25hbWUSLS5hZ3luaW8uYXBpLmlkZW50aXR5LnYxLlJlbW92ZU5pY2tuYW1lUmVxdWVzdBouLmFneW5pby5hcGkuaWRlbnRpdHkudjEuUmVtb3ZlTmlja25hbWVSZXNwb25zZRJyCg9SZXNvbHZlTmlja25hbWUSLi5hZ3luaW8uYXBpLmlkZW50aXR5LnYxLlJlc29sdmVOaWNrbmFtZVJlcXVlc3QaLy5hZ3luaW8uYXBpLmlkZW50aXR5LnYxLlJlc29sdmVOaWNrbmFtZVJlc3BvbnNlQj1aO2dpdGh1Yi5jb20vYWd5bmlvL2FwaS9nZW4vYWd5bmlvL2FwaS9pZGVudGl0eS92MTtpZGVudGl0eXYxYgZwcm90bzM");
 
 /**
  * @generated from message agynio.api.identity.v1.RegisterIdentityRequest
@@ -138,6 +138,144 @@ export const BatchGetIdentityTypesResponseSchema: GenMessage<BatchGetIdentityTyp
   messageDesc(file_agynio_api_identity_v1_identity, 6);
 
 /**
+ * @generated from message agynio.api.identity.v1.SetNicknameRequest
+ */
+export type SetNicknameRequest = Message<"agynio.api.identity.v1.SetNicknameRequest"> & {
+  /**
+   * @generated from field: string organization_id = 1;
+   */
+  organizationId: string;
+
+  /**
+   * @generated from field: string identity_id = 2;
+   */
+  identityId: string;
+
+  /**
+   * @generated from field: string nickname = 3;
+   */
+  nickname: string;
+
+  /**
+   * Optional app installation ID; required for app installation nicknames.
+   *
+   * @generated from field: optional string installation_id = 4;
+   */
+  installationId?: string;
+};
+
+/**
+ * Describes the message agynio.api.identity.v1.SetNicknameRequest.
+ * Use `create(SetNicknameRequestSchema)` to create a new message.
+ */
+export const SetNicknameRequestSchema: GenMessage<SetNicknameRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_identity_v1_identity, 7);
+
+/**
+ * @generated from message agynio.api.identity.v1.SetNicknameResponse
+ */
+export type SetNicknameResponse = Message<"agynio.api.identity.v1.SetNicknameResponse"> & {
+};
+
+/**
+ * Describes the message agynio.api.identity.v1.SetNicknameResponse.
+ * Use `create(SetNicknameResponseSchema)` to create a new message.
+ */
+export const SetNicknameResponseSchema: GenMessage<SetNicknameResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_identity_v1_identity, 8);
+
+/**
+ * @generated from message agynio.api.identity.v1.RemoveNicknameRequest
+ */
+export type RemoveNicknameRequest = Message<"agynio.api.identity.v1.RemoveNicknameRequest"> & {
+  /**
+   * @generated from field: string organization_id = 1;
+   */
+  organizationId: string;
+
+  /**
+   * @generated from field: string identity_id = 2;
+   */
+  identityId: string;
+
+  /**
+   * Optional app installation ID; required for app installation nicknames.
+   *
+   * @generated from field: optional string installation_id = 3;
+   */
+  installationId?: string;
+};
+
+/**
+ * Describes the message agynio.api.identity.v1.RemoveNicknameRequest.
+ * Use `create(RemoveNicknameRequestSchema)` to create a new message.
+ */
+export const RemoveNicknameRequestSchema: GenMessage<RemoveNicknameRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_identity_v1_identity, 9);
+
+/**
+ * @generated from message agynio.api.identity.v1.RemoveNicknameResponse
+ */
+export type RemoveNicknameResponse = Message<"agynio.api.identity.v1.RemoveNicknameResponse"> & {
+};
+
+/**
+ * Describes the message agynio.api.identity.v1.RemoveNicknameResponse.
+ * Use `create(RemoveNicknameResponseSchema)` to create a new message.
+ */
+export const RemoveNicknameResponseSchema: GenMessage<RemoveNicknameResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_identity_v1_identity, 10);
+
+/**
+ * @generated from message agynio.api.identity.v1.ResolveNicknameRequest
+ */
+export type ResolveNicknameRequest = Message<"agynio.api.identity.v1.ResolveNicknameRequest"> & {
+  /**
+   * @generated from field: string organization_id = 1;
+   */
+  organizationId: string;
+
+  /**
+   * @generated from field: string nickname = 2;
+   */
+  nickname: string;
+};
+
+/**
+ * Describes the message agynio.api.identity.v1.ResolveNicknameRequest.
+ * Use `create(ResolveNicknameRequestSchema)` to create a new message.
+ */
+export const ResolveNicknameRequestSchema: GenMessage<ResolveNicknameRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_identity_v1_identity, 11);
+
+/**
+ * @generated from message agynio.api.identity.v1.ResolveNicknameResponse
+ */
+export type ResolveNicknameResponse = Message<"agynio.api.identity.v1.ResolveNicknameResponse"> & {
+  /**
+   * @generated from field: string identity_id = 1;
+   */
+  identityId: string;
+
+  /**
+   * @generated from field: agynio.api.identity.v1.IdentityType identity_type = 2;
+   */
+  identityType: IdentityType;
+
+  /**
+   * @generated from field: optional string installation_id = 3;
+   */
+  installationId?: string;
+};
+
+/**
+ * Describes the message agynio.api.identity.v1.ResolveNicknameResponse.
+ * Use `create(ResolveNicknameResponseSchema)` to create a new message.
+ */
+export const ResolveNicknameResponseSchema: GenMessage<ResolveNicknameResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_identity_v1_identity, 12);
+
+/**
  * @generated from enum agynio.api.identity.v1.IdentityType
  */
 export enum IdentityType {
@@ -155,11 +293,6 @@ export enum IdentityType {
    * @generated from enum value: IDENTITY_TYPE_RUNNER = 2;
    */
   RUNNER = 2,
-
-  /**
-   * @generated from enum value: IDENTITY_TYPE_CHANNEL = 3;
-   */
-  CHANNEL = 3,
 
   /**
    * @generated from enum value: IDENTITY_TYPE_USER = 4;
@@ -216,6 +349,37 @@ export const IdentityService: GenService<{
     methodKind: "unary";
     input: typeof BatchGetIdentityTypesRequestSchema;
     output: typeof BatchGetIdentityTypesResponseSchema;
+  },
+  /**
+   * SetNickname sets or updates the nickname for an identity within an org.
+   * Returns ALREADY_EXISTS if the nickname is already taken in the org.
+   *
+   * @generated from rpc agynio.api.identity.v1.IdentityService.SetNickname
+   */
+  setNickname: {
+    methodKind: "unary";
+    input: typeof SetNicknameRequestSchema;
+    output: typeof SetNicknameResponseSchema;
+  },
+  /**
+   * RemoveNickname deletes the nickname entry for an identity within an org.
+   *
+   * @generated from rpc agynio.api.identity.v1.IdentityService.RemoveNickname
+   */
+  removeNickname: {
+    methodKind: "unary";
+    input: typeof RemoveNicknameRequestSchema;
+    output: typeof RemoveNicknameResponseSchema;
+  },
+  /**
+   * ResolveNickname resolves an @nickname within an org to its identity.
+   *
+   * @generated from rpc agynio.api.identity.v1.IdentityService.ResolveNickname
+   */
+  resolveNickname: {
+    methodKind: "unary";
+    input: typeof ResolveNicknameRequestSchema;
+    output: typeof ResolveNicknameResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_agynio_api_identity_v1_identity, 0);
