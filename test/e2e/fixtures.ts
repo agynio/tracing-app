@@ -2,7 +2,7 @@ import { ConnectError, createClient, type Interceptor } from '@connectrpc/connec
 import { createConnectTransport } from '@connectrpc/connect-web';
 import { context, SpanStatusCode, trace } from '@opentelemetry/api';
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-grpc';
-import { Resource } from '@opentelemetry/resources';
+import { resourceFromAttributes } from '@opentelemetry/resources';
 import { BasicTracerProvider, SimpleSpanProcessor } from '@opentelemetry/sdk-trace-base';
 import { test as base, type Page } from '@playwright/test';
 import { randomUUID } from 'node:crypto';
@@ -253,7 +253,7 @@ async function exportSeedTrace(payload: SeedTracePayload): Promise<SeedTraceResu
     url: resolveOtlpEndpoint(config.tracingAddress),
   });
   const previousProvider = trace.getTracerProvider();
-  const resource = new Resource({
+  const resource = resourceFromAttributes({
     'agyn.organization.id': payload.organizationId,
     'agyn.thread.id': payload.threadId,
     'agyn.thread.message.id': payload.messageId,

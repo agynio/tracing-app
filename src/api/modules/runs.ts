@@ -205,6 +205,7 @@ export const runs = {
     }
 
     const runIds = Array.from(runSpans.keys());
+    // TODO: Avoid N+1 trace summary lookups by adding a batch summary API.
     const summaries = await Promise.all(runIds.map((runId) => runs.timelineSummary(runId)));
     const summaryById = new Map(summaries.map((summary) => [summary.runId, summary]));
 

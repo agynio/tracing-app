@@ -80,6 +80,10 @@ deployments:
                 value: "${ARGOS_COMMIT}"
               - name: CI
                 value: "${CI}"
+              - name: E2E_ORG_ID
+                value: "${E2E_ORG_ID}"
+              - name: E2E_AUTH_TOKEN
+                value: "${E2E_AUTH_TOKEN}"
         labels:
           app.kubernetes.io/name: tracing-app-e2e
 
@@ -168,7 +172,41 @@ pipelines:
             kill $PREVIEW_PID || true
             exit 1
           fi
-          E2E_BASE_URL=http://localhost:3000 ARGOS_TOKEN=${ARGOS_TOKEN} ARGOS_BRANCH=${ARGOS_BRANCH} ARGOS_COMMIT=${ARGOS_COMMIT} CI=true pnpm test:e2e
+          ARGOS_TOKEN_VALUE="${ARGOS_TOKEN}"
+          ARGOS_BRANCH_VALUE="${ARGOS_BRANCH}"
+          ARGOS_COMMIT_VALUE="${ARGOS_COMMIT}"
+          E2E_ORG_ID_VALUE="${E2E_ORG_ID}"
+          E2E_AUTH_TOKEN_VALUE="${E2E_AUTH_TOKEN}"
+          if [ "$ARGOS_TOKEN_VALUE" = "\${ARGOS_TOKEN}" ]; then
+            ARGOS_TOKEN_VALUE=""
+          fi
+          if [ "$ARGOS_BRANCH_VALUE" = "\${ARGOS_BRANCH}" ]; then
+            ARGOS_BRANCH_VALUE=""
+          fi
+          if [ "$ARGOS_COMMIT_VALUE" = "\${ARGOS_COMMIT}" ]; then
+            ARGOS_COMMIT_VALUE=""
+          fi
+          if [ "$E2E_ORG_ID_VALUE" = "\${E2E_ORG_ID}" ]; then
+            E2E_ORG_ID_VALUE=""
+          fi
+          if [ "$E2E_AUTH_TOKEN_VALUE" = "\${E2E_AUTH_TOKEN}" ]; then
+            E2E_AUTH_TOKEN_VALUE=""
+          fi
+          CI_VALUE="${CI}"
+          if [ "$CI_VALUE" = "\${CI}" ]; then
+            CI_VALUE=""
+          fi
+          if [ -z "$ARGOS_TOKEN_VALUE" ]; then
+            CI_VALUE=""
+          fi
+          E2E_BASE_URL=http://localhost:3000 \
+            E2E_ORG_ID="$E2E_ORG_ID_VALUE" \
+            E2E_AUTH_TOKEN="$E2E_AUTH_TOKEN_VALUE" \
+            ARGOS_TOKEN="$ARGOS_TOKEN_VALUE" \
+            ARGOS_BRANCH="$ARGOS_BRANCH_VALUE" \
+            ARGOS_COMMIT="$ARGOS_COMMIT_VALUE" \
+            CI="$CI_VALUE" \
+            pnpm test:e2e
           EXIT_CODE=$?
           kill $PREVIEW_PID || true
           exit $EXIT_CODE
