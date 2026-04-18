@@ -13,6 +13,7 @@ import { ListSpansOrderBy, TraceStatus } from '../../src/gen/agynio/api/tracing/
 const DEFAULT_TESTLLM_MODEL = 'simple-hello';
 const DEFAULT_GATEWAY_BASE_URL = 'http://gateway-gateway.platform.svc.cluster.local:8080';
 const DEFAULT_TRACING_ADDRESS = 'tracing.platform.svc.cluster.local:50051';
+const FALLBACK_ORG_ID = randomUUID();
 const SEED_MESSAGE_PREFIX = 'hello';
 const SEED_RUN_TIMEOUT_MS = 420000;
 const SPAN_START_GRACE_MS = 300000;
@@ -94,16 +95,12 @@ function resolveConfig(): E2EConfig {
     authToken: resolveOptionalEnv('E2E_AUTH_TOKEN'),
     testllmModel: process.env.E2E_TESTLLM_MODEL_REMOTE_NAME ?? DEFAULT_TESTLLM_MODEL,
     tracingAddress: resolveTracingAddress(normalizedIdentityBaseUrl),
-    organizationId: resolveRequiredEnv('E2E_ORG_ID'),
+    organizationId: resolveOrganizationId(),
   };
 }
 
-function resolveRequiredEnv(name: string): string {
-  const value = resolveOptionalEnv(name);
-  if (!value) {
-    throw new Error(`${name} is required to run Playwright e2e tests.`);
-  }
-  return value;
+function resolveOrganizationId(): string {
+  return resolveOptionalEnv('E2E_ORG_ID') ?? FALLBACK_ORG_ID;
 }
 
 function resolveOptionalEnv(name: string): string | undefined {
