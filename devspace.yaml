@@ -31,6 +31,17 @@ functions:
     kubectl rollout restart deployment/tracing -n ${APP_NAMESPACE}
     kubectl rollout status deployment/tracing -n ${APP_NAMESPACE} --timeout=120s
     echo "Tracing deployment restarted with Ziti disabled."
+  apply_tracing_nginx_config: |-
+    if [ ! -f docker/default.conf.template ]; then
+      echo "ERROR: docker/default.conf.template not found"
+      exit 1
+    fi
+    kubectl create configmap tracing-app-nginx -n ${APP_NAMESPACE} \
+      --from-file=default.conf.template=docker/default.conf.template \
+      --dry-run=client -o yaml | kubectl apply -f -
+    kubectl rollout restart deployment/tracing-app -n ${APP_NAMESPACE}
+    kubectl rollout status deployment/tracing-app -n ${APP_NAMESPACE} --timeout=120s
+    echo "Tracing app nginx configmap applied."
   set_tracing_app_env: |-
     read_chat_env() {
       python3 - "$1" "${APP_NAMESPACE}" <<'PY'
@@ -128,6 +139,16 @@ functions:
         echo "ERROR: env generator script did not sync to /tmp/devspace/40-generate-env.sh"
         exit 1
       '
+  validate_tracing_env_js: |-
+    exec_container \
+      --label-selector "app.kubernetes.io/name=tracing-app,app.kubernetes.io/instance=tracing-app" \
+      -n ${APP_NAMESPACE} \
+      -- sh -c '
+        if ! wget -qO- http://127.0.0.1:3000/env.js | grep -q "window.__ENV__"; then
+          echo "ERROR: /env.js is not reachable"
+          exit 1
+        fi
+      '
   restore_argocd_sync: &restore_argocd_sync |-
     if kubectl get application tracing-app -n argocd >/dev/null 2>&1; then
       echo "Re-enabling ArgoCD auto-sync for tracing-app..."
@@ -215,13 +236,16 @@ pipelines:
     run: |-
       disable_argocd_sync
       disable_tracing_ziti
+      apply_tracing_nginx_config
       set_tracing_app_env
       if [ "$(get_flag "watch")" == "true" ]; then
         start_dev --disable-pod-replace tracing-app
         generate_tracing_env_js
+        validate_tracing_env_js
       else
         start_dev --disable-pod-replace tracing-app
         generate_tracing_env_js
+        validate_tracing_env_js
         echo "Dev environment ready. Stopping dev session."
         stop_dev tracing-app
       fi
