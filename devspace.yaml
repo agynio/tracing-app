@@ -33,7 +33,92 @@ functions:
       echo "ERROR: PR_IMAGE not set, aborting hot deploy"
       exit 1
     fi
+    if [ ! -f docker/default.conf.template ]; then
+      echo "ERROR: docker/default.conf.template not found"
+      exit 1
+    fi
+    kubectl create configmap tracing-app-nginx -n ${APP_NAMESPACE} \
+      --from-file=default.conf.template=docker/default.conf.template \
+      --dry-run=client -o yaml | kubectl apply -f -
+
+    read_chat_env() {
+      python3 - "$1" "${APP_NAMESPACE}" <<'PY'
+import base64
+import json
+import subprocess
+import sys
+
+name = sys.argv[1]
+namespace = sys.argv[2]
+
+def load_json(args):
+    return json.loads(subprocess.check_output(args))
+
+def read_from_value_from(value_from):
+    if "configMapKeyRef" in value_from:
+        ref = value_from["configMapKeyRef"]
+        data = load_json(["kubectl", "get", "configmap", ref["name"], "-n", namespace, "-o", "json"]).get("data", {})
+        return data.get(ref["key"])
+    if "secretKeyRef" in value_from:
+        ref = value_from["secretKeyRef"]
+        data = load_json(["kubectl", "get", "secret", ref["name"], "-n", namespace, "-o", "json"]).get("data", {})
+        raw = data.get(ref["key"])
+        if raw is None:
+            return None
+        return base64.b64decode(raw).decode("utf-8")
+    return None
+
+deployment = load_json(["kubectl", "get", "deployment", "chat-app", "-n", namespace, "-o", "json"])
+container = deployment["spec"]["template"]["spec"]["containers"][0]
+
+value = None
+for env in container.get("env", []):
+    if env.get("name") == name:
+        if "value" in env:
+            value = env["value"]
+        elif "valueFrom" in env:
+            value = read_from_value_from(env["valueFrom"])
+        break
+
+if value is None:
+    for env_from in container.get("envFrom", []):
+        if "configMapRef" in env_from:
+            ref = env_from["configMapRef"]
+            data = load_json(["kubectl", "get", "configmap", ref["name"], "-n", namespace, "-o", "json"]).get("data", {})
+            if name in data:
+                value = data[name]
+                break
+        if "secretRef" in env_from:
+            ref = env_from["secretRef"]
+            data = load_json(["kubectl", "get", "secret", ref["name"], "-n", namespace, "-o", "json"]).get("data", {})
+            raw = data.get(name)
+            if raw is not None:
+                value = base64.b64decode(raw).decode("utf-8")
+                break
+
+if value is None:
+    sys.exit(1)
+
+print(value)
+PY
+    }
+
+    OIDC_AUTHORITY=$(read_chat_env OIDC_AUTHORITY)
+    OIDC_CLIENT_ID=$(read_chat_env OIDC_CLIENT_ID)
+    OIDC_SCOPE=$(read_chat_env OIDC_SCOPE)
+    if [ -z "$OIDC_AUTHORITY" ] || [ -z "$OIDC_CLIENT_ID" ] || [ -z "$OIDC_SCOPE" ]; then
+      echo "ERROR: Failed to read OIDC env vars from chat-app deployment"
+      exit 1
+    fi
+
+    kubectl set env deployment/tracing-app -n ${APP_NAMESPACE} \
+      API_BASE_URL=/api \
+      OIDC_AUTHORITY="$OIDC_AUTHORITY" \
+      OIDC_CLIENT_ID="$OIDC_CLIENT_ID" \
+      OIDC_SCOPE="$OIDC_SCOPE"
+
     kubectl set image deployment/tracing-app tracing-app="$IMAGE" -n ${APP_NAMESPACE}
+    kubectl rollout restart deployment/tracing-app -n ${APP_NAMESPACE}
     kubectl rollout status deployment/tracing-app -n ${APP_NAMESPACE} --timeout=120s
     echo "PR image deployed successfully"
   dump_seed_failure_logs: |-
