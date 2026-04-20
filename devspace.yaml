@@ -26,6 +26,16 @@ functions:
     else
       echo "WARNING: ArgoCD Application 'tracing-app' not found in argocd namespace."
     fi
+  deploy_pr_image: |-
+    echo "Deploying PR image to tracing-app..."
+    IMAGE="${PR_IMAGE:-}"
+    if [ -z "$IMAGE" ]; then
+      echo "ERROR: PR_IMAGE not set, aborting hot deploy"
+      exit 1
+    fi
+    kubectl set image deployment/tracing-app tracing-app="$IMAGE" -n ${APP_NAMESPACE}
+    kubectl rollout status deployment/tracing-app -n ${APP_NAMESPACE} --timeout=120s
+    echo "PR image deployed successfully"
   dump_seed_failure_logs: |-
     echo "=== GATEWAY LOGS ==="
     kubectl logs -n ${APP_NAMESPACE} -l app.kubernetes.io/name=gateway --all-containers --tail=200 || true
@@ -112,6 +122,8 @@ pipelines:
 
   test-e2e:
     run: |-
+      disable_argocd_sync
+      deploy_pr_image
       create_deployments e2e-runner
       start_dev e2e-runner &
       sleep 5
