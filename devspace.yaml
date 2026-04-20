@@ -16,6 +16,21 @@ functions:
     else
       echo "WARNING: ArgoCD Application 'tracing-app' not found in argocd namespace."
     fi
+  disable_tracing_ziti: |-
+    if kubectl get application tracing -n argocd >/dev/null 2>&1; then
+      echo "Disabling ArgoCD auto-sync for tracing..."
+      kubectl patch application tracing -n argocd \
+        --type merge \
+        -p '{"spec":{"syncPolicy":{"automated":null}}}'
+      echo "ArgoCD auto-sync disabled for tracing."
+    else
+      echo "WARNING: ArgoCD Application 'tracing' not found in argocd namespace."
+    fi
+    echo "Setting tracing ZITI_ENABLED=false..."
+    kubectl set env deployment/tracing -n ${APP_NAMESPACE} ZITI_ENABLED=false
+    kubectl rollout restart deployment/tracing -n ${APP_NAMESPACE}
+    kubectl rollout status deployment/tracing -n ${APP_NAMESPACE} --timeout=120s
+    echo "Tracing deployment restarted with Ziti disabled."
   restore_argocd_sync: &restore_argocd_sync |-
     if kubectl get application tracing-app -n argocd >/dev/null 2>&1; then
       echo "Re-enabling ArgoCD auto-sync for tracing-app..."
@@ -208,6 +223,7 @@ pipelines:
   test-e2e:
     run: |-
       disable_argocd_sync
+      disable_tracing_ziti
       deploy_pr_image
       create_deployments e2e-runner
       start_dev e2e-runner &
