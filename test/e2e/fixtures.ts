@@ -423,11 +423,15 @@ async function exportSeedTrace(payload: SeedTracePayload): Promise<SeedTraceResu
     url: resolveOtlpEndpoint(config.tracingAddress),
   });
   const previousProvider = trace.getTracerProvider();
-  const resource = resourceFromAttributes({
+  const resourceAttributes: Record<string, string> = {
     'agyn.organization.id': payload.organizationId,
     'agyn.thread.id': payload.threadId,
-    'agyn.thread.message.id': payload.messageId,
-  });
+  };
+  // Tracing ingest requires identity verification for message ids.
+  if (process.env.E2E_SEED_INCLUDE_MESSAGE_ID === 'true') {
+    resourceAttributes['agyn.thread.message.id'] = payload.messageId;
+  }
+  const resource = resourceFromAttributes(resourceAttributes);
   const provider = new BasicTracerProvider({
     spanProcessors: [new SimpleSpanProcessor(exporter)],
     resource,
