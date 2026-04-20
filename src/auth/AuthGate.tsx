@@ -73,6 +73,12 @@ function RequireAuth({ children }: { children: ReactNode }) {
   }, [auth.isAuthenticated, signedOut]);
 
   useEffect(() => {
+    if (signedOut || auth.isAuthenticated) return;
+    if (!readSignedOutFlag()) return;
+    setSignedOut(true);
+  }, [auth.isAuthenticated, signedOut]);
+
+  useEffect(() => {
     if (signedOut) return;
     if (auth.isLoading || auth.activeNavigator || auth.isAuthenticated) return;
     if (hasAuthParams()) return;

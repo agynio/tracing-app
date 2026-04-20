@@ -426,6 +426,7 @@ async function exportSeedTrace(payload: SeedTracePayload): Promise<SeedTraceResu
   const resource = resourceFromAttributes({
     'agyn.organization.id': payload.organizationId,
     'agyn.thread.id': payload.threadId,
+    'agyn.thread.message.id': payload.messageId,
   });
   const provider = new BasicTracerProvider({
     spanProcessors: [new SimpleSpanProcessor(exporter)],

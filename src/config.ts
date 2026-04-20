@@ -5,18 +5,12 @@ type RuntimeEnv = {
   OIDC_SCOPE?: string;
 };
 
-type OidcConfigEnabled = {
-  enabled: true;
+export type OidcConfig = {
+  enabled: boolean;
   authority: string;
   clientId: string;
   scope: string;
 };
-
-type OidcConfigDisabled = {
-  enabled: false;
-};
-
-export type OidcConfig = OidcConfigEnabled | OidcConfigDisabled;
 
 const runtimeEnv: RuntimeEnv = window.__ENV__ ?? {};
 
@@ -42,19 +36,18 @@ function stripTrailingSlash(value: string): string {
 const rawApiBase = readConfigValue('API_BASE_URL', 'VITE_API_BASE_URL');
 const apiBaseUrl = stripTrailingSlash(rawApiBase ?? '/api');
 
-const authority = readConfigValue('OIDC_AUTHORITY', 'VITE_OIDC_AUTHORITY');
-const clientId = readConfigValue('OIDC_CLIENT_ID', 'VITE_OIDC_CLIENT_ID');
-const scope = readConfigValue('OIDC_SCOPE', 'VITE_OIDC_SCOPE');
-const oidcConfigured = Boolean(authority || clientId || scope);
+const authority = stripTrailingSlash(
+  requireConfig('OIDC_AUTHORITY', readConfigValue('OIDC_AUTHORITY', 'VITE_OIDC_AUTHORITY')),
+);
+const clientId = requireConfig('OIDC_CLIENT_ID', readConfigValue('OIDC_CLIENT_ID', 'VITE_OIDC_CLIENT_ID'));
+const scope = requireConfig('OIDC_SCOPE', readConfigValue('OIDC_SCOPE', 'VITE_OIDC_SCOPE'));
 
-export const oidcConfig: OidcConfig = oidcConfigured
-  ? {
-      enabled: true,
-      authority: requireConfig('OIDC_AUTHORITY', authority),
-      clientId: requireConfig('OIDC_CLIENT_ID', clientId),
-      scope: requireConfig('OIDC_SCOPE', scope),
-    }
-  : { enabled: false };
+export const oidcConfig: OidcConfig = {
+  enabled: true,
+  authority,
+  clientId,
+  scope,
+};
 
 export const config = {
   apiBaseUrl,

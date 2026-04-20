@@ -1,6 +1,8 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { Toaster } from 'sonner';
+import { AuthCallbackScreen } from './auth/AuthCallbackScreen';
+import { SilentRenewScreen } from './auth/SilentRenewScreen';
 import { TooltipProvider } from './components/ui/tooltip';
 import { RootLayout } from './layout/RootLayout';
 import { AgentsRunScreen } from './pages/AgentsRunScreen';
@@ -17,8 +19,9 @@ function App() {
       <TooltipProvider delayDuration={200}>
         <Toaster position="top-right" richColors />
         <Routes>
+          <Route path="callback" element={<AuthCallbackScreen />} />
+          <Route path="silent-renew" element={<SilentRenewScreen />} />
           <Route element={<RootLayout />}>
-            <Route path="callback" element={<Navigate to="/" replace />} />
             <Route index element={<HomeScreen />} />
             <Route path="message/:messageId" element={<MessageRedirectScreen />} />
             <Route path=":orgId">
