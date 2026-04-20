@@ -2,10 +2,11 @@ import type { APIRequestContext, Page } from '@playwright/test';
 import { expect } from '@playwright/test';
 import { User } from 'oidc-client-ts';
 import { createHash, randomBytes } from 'node:crypto';
+import { isIP } from 'node:net';
 import { readOidcSession } from './oidc-helpers';
 
 const defaultEmail = 'e2e-tester@agyn.test';
-const fallbackRedirectUri = 'https://tracing.agyn.dev/callback';
+const hardcodedChatRedirectUri = 'https://chat.agyn.dev/callback';
 const defaultScope = 'openid profile email';
 const defaultMockClientId = 'tracing-app-e2e';
 
@@ -98,6 +99,24 @@ function readEnvValue(body: string, key: string): string | undefined {
   const matcher = new RegExp(`${key}:\\s*"([^"]*)"`);
   const match = body.match(matcher);
   return match ? match[1] : undefined;
+}
+
+function deriveChatRedirectUri(baseUrl: string): string | undefined {
+  const parsed = new URL(baseUrl);
+  const hostname = parsed.hostname;
+  if (!hostname || isIP(hostname)) {
+    return undefined;
+  }
+  const labels = hostname.split('.');
+  if (labels.length < 2 || labels[0] === 'chat') {
+    return undefined;
+  }
+  labels[0] = 'chat';
+  parsed.hostname = labels.join('.');
+  parsed.pathname = '/callback';
+  parsed.search = '';
+  parsed.hash = '';
+  return parsed.toString();
 }
 
 async function resolveRuntimeEnv(request: APIRequestContext): Promise<Record<string, string | undefined>> {
@@ -201,10 +220,15 @@ async function resolveRedirectUri(config: OidcRuntimeConfig): Promise<string> {
   if (override) {
     return override;
   }
-  const defaultRedirectUri = new URL('/callback', resolveBaseUrl()).toString();
+  const baseUrl = resolveBaseUrl();
+  const defaultRedirectUri = new URL('/callback', baseUrl).toString();
   const candidates = [defaultRedirectUri];
-  if (fallbackRedirectUri !== defaultRedirectUri) {
-    candidates.push(fallbackRedirectUri);
+  const derivedFallback = deriveChatRedirectUri(baseUrl);
+  if (derivedFallback && !candidates.includes(derivedFallback)) {
+    candidates.push(derivedFallback);
+  }
+  if (!candidates.includes(hardcodedChatRedirectUri)) {
+    candidates.push(hardcodedChatRedirectUri);
   }
 
   for (const candidate of candidates) {
