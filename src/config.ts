@@ -1,40 +1,61 @@
-// Centralized environment configuration for tracing-app.
-// Provides env-resolved values and throws if missing.
-
-type ViteEnv = {
-  VITE_API_BASE_URL?: string;
+type RuntimeEnv = {
+  API_BASE_URL?: string;
+  OIDC_AUTHORITY?: string;
+  OIDC_CLIENT_ID?: string;
+  OIDC_SCOPE?: string;
 };
 
-function requireEnv(name: keyof ViteEnv): string {
-  const val = import.meta.env?.[name];
-  if (typeof val === 'string' && val.trim()) return val;
-  throw new Error(`tracing-app config: required env ${String(name)} is missing`);
+type OidcConfigEnabled = {
+  enabled: true;
+  authority: string;
+  clientId: string;
+  scope: string;
+};
+
+type OidcConfigDisabled = {
+  enabled: false;
+};
+
+export type OidcConfig = OidcConfigEnabled | OidcConfigDisabled;
+
+const runtimeEnv: RuntimeEnv = window.__ENV__ ?? {};
+
+function normalizeConfigValue(value: unknown): string | null {
+  if (typeof value !== 'string') return null;
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : null;
 }
 
-function stripTrailingSlash(pathname: string): string {
-  if (pathname === '/') return '';
-  return pathname.replace(/\/+$/, '');
+function readConfigValue(runtimeKey: keyof RuntimeEnv, envKey: keyof ImportMetaEnv): string | null {
+  return normalizeConfigValue(runtimeEnv[runtimeKey]) ?? normalizeConfigValue(import.meta.env[envKey]);
 }
 
-function stripTrailingApi(pathname: string): string {
-  return pathname.replace(/\/api\/?$/, '/');
+function requireConfig(name: string, value: string | null): string {
+  if (value) return value;
+  throw new Error(`tracing-app config: required ${name} is missing`);
 }
 
-function resolveUrl(raw: string): URL {
-  const trimmed = raw.trim();
-  return new URL(trimmed, window.location.origin);
+function stripTrailingSlash(value: string): string {
+  return value.replace(/\/+$/, '');
 }
 
-function deriveBase(raw: string, options: { stripApi: boolean }): string {
-  const parsed = resolveUrl(raw);
-  if (options.stripApi) parsed.pathname = stripTrailingApi(parsed.pathname);
-  const cleanedPath = stripTrailingSlash(parsed.pathname);
-  return cleanedPath ? `${parsed.origin}${cleanedPath}` : parsed.origin;
-}
+const rawApiBase = readConfigValue('API_BASE_URL', 'VITE_API_BASE_URL');
+const apiBaseUrl = stripTrailingSlash(rawApiBase ?? '/api');
 
-const rawApiBase = requireEnv('VITE_API_BASE_URL');
+const authority = readConfigValue('OIDC_AUTHORITY', 'VITE_OIDC_AUTHORITY');
+const clientId = readConfigValue('OIDC_CLIENT_ID', 'VITE_OIDC_CLIENT_ID');
+const scope = readConfigValue('OIDC_SCOPE', 'VITE_OIDC_SCOPE');
+const oidcConfigured = Boolean(authority || clientId || scope);
 
-const apiBaseUrl = deriveBase(rawApiBase, { stripApi: false });
+export const oidcConfig: OidcConfig = oidcConfigured
+  ? {
+      enabled: true,
+      authority: requireConfig('OIDC_AUTHORITY', authority),
+      clientId: requireConfig('OIDC_CLIENT_ID', clientId),
+      scope: requireConfig('OIDC_SCOPE', scope),
+    }
+  : { enabled: false };
+
 export const config = {
   apiBaseUrl,
 };

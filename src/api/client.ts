@@ -1,5 +1,6 @@
 import { createClient } from '@connectrpc/connect';
 import { createConnectTransport } from '@connectrpc/connect-web';
+import { authInterceptor } from '@/auth/auth-interceptor';
 import { NotificationsGateway } from '@/gen/agynio/api/gateway/v1/notifications_pb';
 import { OrganizationsGateway } from '@/gen/agynio/api/gateway/v1/organizations_pb';
 import { TracingGateway } from '@/gen/agynio/api/gateway/v1/tracing_pb';
@@ -7,6 +8,7 @@ import { config } from '@/config';
 
 const transport = createConnectTransport({
   baseUrl: config.apiBaseUrl,
+  interceptors: [authInterceptor],
 });
 
 export const tracingClient = createClient(TracingGateway, transport);

@@ -1,14 +1,48 @@
 import { ConnectError, createClient, type Interceptor } from '@connectrpc/connect';
+import { create, fromJsonString, toJsonString } from '@bufbuild/protobuf';
 import { createConnectTransport } from '@connectrpc/connect-web';
 import { context, SpanStatusCode, trace } from '@opentelemetry/api';
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-grpc';
 import { resourceFromAttributes } from '@opentelemetry/resources';
 import { BasicTracerProvider, SimpleSpanProcessor } from '@opentelemetry/sdk-trace-base';
 import { test as base, type Page } from '@playwright/test';
-import { randomUUID } from 'node:crypto';
-import { bytesToHex, flattenResourceSpans, getStringAttr, hexToBytes } from '../../src/api/spanToEvent';
+import { randomBytes, randomUUID } from 'node:crypto';
+import { bytesToHex, flattenResourceSpans, getIntAttr, getStringAttr, hexToBytes } from '../../src/api/spanToEvent';
 import { TracingGateway } from '../../src/gen/agynio/api/gateway/v1/tracing_pb';
-import { ListSpansOrderBy, TraceStatus } from '../../src/gen/agynio/api/tracing/v1/tracing_pb';
+import {
+  GetSpanRequestSchema,
+  GetSpanResponseSchema,
+  GetTraceSpanTotalsRequestSchema,
+  GetTraceSpanTotalsResponseSchema,
+  GetTraceSummaryRequestSchema,
+  GetTraceSummaryResponseSchema,
+  ListSpansOrderBy,
+  ListSpansRequestSchema,
+  ListSpansResponseSchema,
+  SpanStatus,
+  TokenUsageTotalsSchema,
+  TraceStatus,
+} from '../../src/gen/agynio/api/tracing/v1/tracing_pb';
+import {
+  AnyValueSchema,
+  InstrumentationScopeSchema,
+  KeyValueSchema,
+  type KeyValue,
+} from '../../src/gen/opentelemetry/proto/common/v1/common_pb';
+import { ResourceSchema } from '../../src/gen/opentelemetry/proto/resource/v1/resource_pb';
+import {
+  ResourceSpansSchema,
+  ScopeSpansSchema,
+  Span_EventSchema,
+  SpanSchema,
+  Status_StatusCode,
+  type Span,
+} from '../../src/gen/opentelemetry/proto/trace/v1/trace_pb';
+import {
+  ListAccessibleOrganizationsResponseSchema,
+  OrganizationSchema,
+} from '../../src/gen/agynio/api/organizations/v1/organizations_pb';
+import { ensureMockAuthEmailStrategy, signInViaMockAuth } from './sign-in-helper';
 
 const DEFAULT_TESTLLM_MODEL = 'simple-hello';
 const DEFAULT_GATEWAY_BASE_URL = 'http://gateway-gateway.platform.svc.cluster.local:8080';
@@ -21,6 +55,9 @@ const SPAN_START_GRACE_MS = 300000;
 const SPAN_WAIT_TIMEOUT_MS = 300000;
 const SPAN_WAIT_INTERVAL_MS = 2000;
 const TRACE_STATUS_WAIT_TIMEOUT_MS = 300000;
+const USE_MOCK_DATA = process.env.E2E_MOCK_DATA === 'true';
+const USE_MOCK_AUTH = process.env.E2E_MOCK_AUTH === 'true';
+const DEFAULT_ORG_NAME = 'E2E Organization';
 
 type E2EConfig = {
   gatewayBaseUrl: string;
@@ -48,6 +85,22 @@ type TracingClient = GatewayClients['tracingClient'];
 type ListSpansRequest = Parameters<TracingClient['listSpans']>[0];
 type FlattenedSpan = ReturnType<typeof flattenResourceSpans>[number];
 
+type MockSpan = {
+  span: Span;
+  resourceAttrs: KeyValue[];
+};
+
+type MockState = {
+  run: SeededRun;
+  spans: MockSpan[];
+  resourceAttrs: KeyValue[];
+};
+
+type Fixtures = {
+  mockAuthReady: void;
+  seededRun: SeededRun;
+};
+
 const config = resolveConfig();
 
 const authInterceptor: Interceptor = (next) => async (req) => {
@@ -57,7 +110,25 @@ const authInterceptor: Interceptor = (next) => async (req) => {
   return next(req);
 };
 
-export const test = base.extend<{ seededRun: SeededRun }>({
+let mockState: MockState | null = null;
+
+export const test = base.extend<Fixtures>({
+  mockAuthReady: [
+    async ({ playwright }, use) => {
+      if (USE_MOCK_AUTH) {
+        await use();
+        return;
+      }
+      const request = await playwright.request.newContext();
+      try {
+        await ensureMockAuthEmailStrategy(request);
+        await use();
+      } finally {
+        await request.dispose();
+      }
+    },
+    { scope: 'worker' },
+  ],
   seededRun: [
     async ({ browserName: _browserName }, runFixture) => {
       const seededRun = await seedTracingRun();
@@ -65,8 +136,19 @@ export const test = base.extend<{ seededRun: SeededRun }>({
     },
     { scope: 'worker', timeout: SEED_RUN_TIMEOUT_MS },
   ],
-  page: async ({ page }, runFixture) => {
-    await setupTracingProxy(page);
+  page: async ({ page, mockAuthReady: _mockAuthReady, seededRun: _seededRun }, runFixture) => {
+    if (USE_MOCK_DATA) {
+      await setupMockRoutes(page);
+    }
+    page.on('console', (msg) => {
+      if (msg.type() === 'error') {
+        console.log('[browser-error]', msg.text());
+      }
+    });
+    page.on('requestfailed', (request) => {
+      console.log(`[request-failed] ${request.url()} — ${request.failure()?.errorText}`);
+    });
+    await signInViaMockAuth(page);
     await runFixture(page);
   },
 });
@@ -165,6 +247,9 @@ type SeedTraceResult = {
 };
 
 async function seedTracingRun(): Promise<SeededRun> {
+  if (USE_MOCK_DATA) {
+    return seedMockRun();
+  }
   const { tracingClient } = createGatewayClients();
   const now = Date.now();
   const organizationId = config.organizationId;
@@ -245,6 +330,94 @@ async function seedTracingRun(): Promise<SeededRun> {
   };
 }
 
+function seedMockRun(): SeededRun {
+  const now = Date.now();
+  const organizationId = config.organizationId;
+  const threadId = randomUUID();
+  const messageId = randomUUID();
+  const seedMessageText = `${SEED_MESSAGE_PREFIX}-${now}`;
+  const seedLlmResponse = `E2E response for ${seedMessageText}`;
+  const traceId = randomBytes(16).toString('hex');
+  const messageSpanId = randomBytes(8).toString('hex');
+  const llmSpanId = randomBytes(8).toString('hex');
+  const startTime = BigInt(now) * 1_000_000n;
+  const messageEndTime = startTime + 80_000_000n;
+  const llmStartTime = startTime + 40_000_000n;
+  const llmEndTime = startTime + 140_000_000n;
+
+  const resourceAttrs = [
+    stringAttr('agyn.organization.id', organizationId),
+    stringAttr('agyn.thread.id', threadId),
+    stringAttr('agyn.thread.message.id', messageId),
+  ];
+
+  const messageSpan = createSpan({
+    traceId,
+    spanId: messageSpanId,
+    name: 'invocation.message',
+    startTimeUnixNano: startTime,
+    endTimeUnixNano: messageEndTime,
+    attributes: [
+      stringAttr('agyn.thread.id', threadId),
+      stringAttr('agyn.message.role', 'user'),
+      stringAttr('agyn.message.kind', 'invocation'),
+      stringAttr('agyn.message.text', seedMessageText),
+    ],
+  });
+
+  const llmSpan = createSpan({
+    traceId,
+    spanId: llmSpanId,
+    name: 'llm.call',
+    startTimeUnixNano: llmStartTime,
+    endTimeUnixNano: llmEndTime,
+    attributes: [
+      stringAttr('agyn.thread.id', threadId),
+      stringAttr('agyn.llm.response_text', seedLlmResponse),
+      stringAttr('gen_ai.system', 'testllm'),
+      stringAttr('gen_ai.request.model', config.testllmModel),
+      stringAttr('gen_ai.response.finish_reason', 'stop'),
+      intAttr('gen_ai.usage.input_tokens', 5),
+      intAttr('gen_ai.usage.output_tokens', 7),
+    ],
+    events: [
+      createSpanEvent({
+        name: 'agyn.llm.context_item',
+        timeUnixNano: llmStartTime + 10_000_000n,
+        attributes: [
+          stringAttr('agyn.context.role', 'user'),
+          stringAttr('agyn.context.text', seedMessageText),
+          stringAttr('agyn.context.is_new', 'true'),
+          intAttr('agyn.context.size_bytes', seedMessageText.length),
+        ],
+      }),
+    ],
+  });
+
+  const seededRun: SeededRun = {
+    organizationId,
+    threadId,
+    runId: traceId,
+    messageId,
+    messageEventId: messageSpanId,
+    llmEventId: llmSpanId,
+    messageText: seedMessageText,
+    llmResponseText: seedLlmResponse,
+    status: TraceStatus.COMPLETED,
+  };
+
+  mockState = {
+    run: seededRun,
+    spans: [
+      { span: messageSpan, resourceAttrs },
+      { span: llmSpan, resourceAttrs },
+    ],
+    resourceAttrs,
+  };
+
+  return seededRun;
+}
+
 async function exportSeedTrace(payload: SeedTracePayload): Promise<SeedTraceResult> {
   const exporter = new OTLPTraceExporter({
     url: resolveOtlpEndpoint(config.tracingAddress),
@@ -316,6 +489,327 @@ function resolveOtlpEndpoint(address: string): string {
     return trimmed;
   }
   return `http://${trimmed}`;
+}
+
+function resolveBaseUrl(): string {
+  const baseUrl = process.env.E2E_BASE_URL;
+  if (!baseUrl) {
+    throw new Error('E2E_BASE_URL is required to run e2e tests.');
+  }
+  return baseUrl;
+}
+
+function stripTrailingSlash(value: string): string {
+  return value.replace(/\/+$/, '');
+}
+
+function resolveMockOidcConfig(): { authority: string; clientId: string; scope: string } {
+  const authority = stripTrailingSlash(
+    process.env.E2E_OIDC_AUTHORITY ?? new URL('/mock-oidc', resolveBaseUrl()).toString(),
+  );
+  const clientId = process.env.E2E_OIDC_CLIENT_ID ?? 'tracing-app-e2e';
+  const scope = process.env.E2E_OIDC_SCOPE ?? 'openid profile email';
+  return { authority, clientId, scope };
+}
+
+function resolveMockEnvConfig(): Record<string, string> {
+  const oidc = resolveMockOidcConfig();
+  return {
+    API_BASE_URL: process.env.E2E_API_BASE_URL ?? '/api',
+    OIDC_AUTHORITY: oidc.authority,
+    OIDC_CLIENT_ID: oidc.clientId,
+    OIDC_SCOPE: oidc.scope,
+  };
+}
+
+async function setupMockRoutes(page: Page): Promise<void> {
+  const envConfig = resolveMockEnvConfig();
+  const envPayload = `window.__ENV__ = ${JSON.stringify(envConfig)};`;
+
+  await page.route('**/env.js', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/javascript',
+      body: envPayload,
+    });
+  });
+
+  await page.route('**/agynio.api.gateway.v1.TracingGateway/*', async (route) => {
+    const request = route.request();
+    if (request.method() === 'OPTIONS') {
+      await route.fulfill({ status: 204, body: '' });
+      return;
+    }
+    const url = new URL(request.url());
+    const method = url.pathname.split('/').filter(Boolean).pop() ?? '';
+    const body = request.postData() ?? '{}';
+    const response = handleTracingGateway(method, body);
+    await route.fulfill(response);
+  });
+
+  await page.route('**/agynio.api.gateway.v1.OrganizationsGateway/*', async (route) => {
+    const request = route.request();
+    if (request.method() === 'OPTIONS') {
+      await route.fulfill({ status: 204, body: '' });
+      return;
+    }
+    const url = new URL(request.url());
+    const method = url.pathname.split('/').filter(Boolean).pop() ?? '';
+    const body = request.postData() ?? '{}';
+    const response = handleOrganizationsGateway(method, body);
+    await route.fulfill(response);
+  });
+}
+
+function handleTracingGateway(method: string, body: string): { status: number; contentType: string; body: string } {
+  const state = requireMockState();
+  switch (method) {
+    case 'ListSpans': {
+      const request = fromJsonString(ListSpansRequestSchema, body);
+      const spans = filterMockSpans(request);
+      const resourceSpans = buildResourceSpans(spans, state.resourceAttrs);
+      const response = create(ListSpansResponseSchema, {
+        resourceSpans,
+        nextPageToken: '',
+      });
+      return jsonResponse(ListSpansResponseSchema, response);
+    }
+    case 'GetSpan': {
+      const request = fromJsonString(GetSpanRequestSchema, body);
+      const spanId = bytesToHex(request.spanId ?? new Uint8Array());
+      const match = state.spans.find((item) => bytesToHex(item.span.spanId) === spanId);
+      const resourceSpans = match ? buildResourceSpans([match], state.resourceAttrs) : [];
+      const response = create(GetSpanResponseSchema, { resourceSpans });
+      return jsonResponse(GetSpanResponseSchema, response);
+    }
+    case 'GetTraceSummary': {
+      const request = fromJsonString(GetTraceSummaryRequestSchema, body);
+      const traceId = bytesToHex(request.traceId ?? new Uint8Array());
+      const spans = traceId ? state.spans.filter((item) => bytesToHex(item.span.traceId) === traceId) : state.spans;
+      const response = buildTraceSummaryResponse(spans);
+      return jsonResponse(GetTraceSummaryResponseSchema, response);
+    }
+    case 'GetTraceSpanTotals': {
+      const request = fromJsonString(GetTraceSpanTotalsRequestSchema, body);
+      const spans = filterTotalsSpans(state.spans, request.names, request.statuses);
+      const response = buildTraceTotalsResponse(spans);
+      return jsonResponse(GetTraceSpanTotalsResponseSchema, response);
+    }
+    default:
+      return { status: 404, contentType: 'text/plain', body: 'Unknown TracingGateway method' };
+  }
+}
+
+function handleOrganizationsGateway(
+  method: string,
+  _body: string,
+): { status: number; contentType: string; body: string } {
+  const state = requireMockState();
+  switch (method) {
+    case 'ListAccessibleOrganizations': {
+      const organization = create(OrganizationSchema, {
+        id: state.run.organizationId,
+        name: DEFAULT_ORG_NAME,
+      });
+      const response = create(ListAccessibleOrganizationsResponseSchema, {
+        organizations: [organization],
+      });
+      return jsonResponse(ListAccessibleOrganizationsResponseSchema, response);
+    }
+    default:
+      return { status: 404, contentType: 'text/plain', body: 'Unknown OrganizationsGateway method' };
+  }
+}
+
+function jsonResponse<T>(schema: Parameters<typeof toJsonString>[0], message: T) {
+  return {
+    status: 200,
+    contentType: 'application/json',
+    body: toJsonString(schema, message),
+  };
+}
+
+function requireMockState(): MockState {
+  if (!mockState) {
+    throw new Error('Mock state is not initialized.');
+  }
+  return mockState;
+}
+
+function filterMockSpans(request: ListSpansRequest): MockSpan[] {
+  const state = requireMockState();
+  const filter = request.filter;
+  let spans = [...state.spans];
+
+  if (filter?.traceId && filter.traceId.length > 0) {
+    const traceId = bytesToHex(filter.traceId);
+    spans = spans.filter((item) => bytesToHex(item.span.traceId) === traceId);
+  }
+  if (filter?.messageId) {
+    spans = filter.messageId === state.run.messageId ? spans : [];
+  }
+  const names = filter?.names && filter.names.length > 0 ? filter.names : filter?.name ? [filter.name] : [];
+  if (names.length > 0) {
+    const nameSet = new Set(names);
+    spans = spans.filter((item) => nameSet.has(item.span.name));
+  }
+  if (filter?.startTimeMin && filter.startTimeMin > 0n) {
+    spans = spans.filter((item) => item.span.startTimeUnixNano >= filter.startTimeMin);
+  }
+  if (filter?.startTimeMax && filter.startTimeMax > 0n) {
+    spans = spans.filter((item) => item.span.startTimeUnixNano <= filter.startTimeMax);
+  }
+  if (typeof filter?.inProgress === 'boolean') {
+    spans = spans.filter((item) => (item.span.endTimeUnixNano === 0n) === filter.inProgress);
+  }
+  if (filter?.statuses && filter.statuses.length > 0) {
+    const statusSet = new Set(filter.statuses);
+    spans = spans.filter((item) => statusSet.has(resolveSpanStatus(item.span)));
+  }
+
+  spans.sort((a, b) => {
+    const diff = a.span.startTimeUnixNano > b.span.startTimeUnixNano ? 1 : a.span.startTimeUnixNano < b.span.startTimeUnixNano ? -1 : 0;
+    return request.orderBy === ListSpansOrderBy.START_TIME_ASC ? diff : -diff;
+  });
+
+  return spans;
+}
+
+function filterTotalsSpans(spans: MockSpan[], names: string[], statuses: SpanStatus[]): MockSpan[] {
+  let filtered = [...spans];
+  if (names.length > 0) {
+    const nameSet = new Set(names);
+    filtered = filtered.filter((item) => nameSet.has(item.span.name));
+  }
+  if (statuses.length > 0) {
+    const statusSet = new Set(statuses);
+    filtered = filtered.filter((item) => statusSet.has(resolveSpanStatus(item.span)));
+  }
+  return filtered;
+}
+
+function resolveSpanStatus(span: Span): SpanStatus {
+  if (span.status?.code === Status_StatusCode.ERROR) return SpanStatus.ERROR;
+  if (span.endTimeUnixNano === 0n) return SpanStatus.RUNNING;
+  return SpanStatus.OK;
+}
+
+function buildTraceSummaryResponse(spans: MockSpan[]) {
+  if (spans.length === 0) {
+    return create(GetTraceSummaryResponseSchema, {
+      status: TraceStatus.UNSPECIFIED,
+      firstSpanStartTime: 0n,
+      lastSpanStartTime: 0n,
+      lastSpanEndTime: 0n,
+      countsByName: {},
+      countsByStatus: {},
+      totalSpans: 0n,
+    });
+  }
+
+  const startTimes = spans.map((item) => item.span.startTimeUnixNano);
+  const endTimes = spans.map((item) => item.span.endTimeUnixNano);
+  const firstSpanStartTime = startTimes.reduce((min, value) => (value < min ? value : min), startTimes[0]);
+  const lastSpanStartTime = startTimes.reduce((max, value) => (value > max ? value : max), startTimes[0]);
+  const lastSpanEndTime = endTimes.reduce((max, value) => (value > max ? value : max), endTimes[0]);
+
+  const countsByName: Record<string, bigint> = {};
+  const countsByStatus: Record<string, bigint> = {};
+  for (const item of spans) {
+    countsByName[item.span.name] = (countsByName[item.span.name] ?? 0n) + 1n;
+    const statusKey = resolveSpanStatus(item.span) === SpanStatus.ERROR
+      ? 'SPAN_STATUS_ERROR'
+      : resolveSpanStatus(item.span) === SpanStatus.RUNNING
+        ? 'SPAN_STATUS_RUNNING'
+        : 'SPAN_STATUS_OK';
+    countsByStatus[statusKey] = (countsByStatus[statusKey] ?? 0n) + 1n;
+  }
+
+  return create(GetTraceSummaryResponseSchema, {
+    status: TraceStatus.COMPLETED,
+    firstSpanStartTime,
+    lastSpanStartTime,
+    lastSpanEndTime,
+    countsByName,
+    countsByStatus,
+    totalSpans: BigInt(spans.length),
+  });
+}
+
+function buildTraceTotalsResponse(spans: MockSpan[]) {
+  let inputTokens = 0;
+  let outputTokens = 0;
+  let cachedTokens = 0;
+  let reasoningTokens = 0;
+  for (const item of spans) {
+    inputTokens += getIntAttr(item.span.attributes, 'gen_ai.usage.input_tokens') ?? 0;
+    outputTokens += getIntAttr(item.span.attributes, 'gen_ai.usage.output_tokens') ?? 0;
+    cachedTokens += getIntAttr(item.span.attributes, 'gen_ai.usage.cache_read.input_tokens') ?? 0;
+    reasoningTokens += getIntAttr(item.span.attributes, 'agyn.usage.reasoning_tokens') ?? 0;
+  }
+  const totalTokens = inputTokens + outputTokens;
+  const tokenUsage = create(TokenUsageTotalsSchema, {
+    inputTokens: BigInt(inputTokens),
+    outputTokens: BigInt(outputTokens),
+    cacheReadInputTokens: BigInt(cachedTokens),
+    reasoningTokens: BigInt(reasoningTokens),
+    totalTokens: BigInt(totalTokens),
+  });
+  return create(GetTraceSpanTotalsResponseSchema, {
+    spanCount: BigInt(spans.length),
+    tokenUsage,
+  });
+}
+
+function buildResourceSpans(spans: MockSpan[], resourceAttrs: KeyValue[]) {
+  if (spans.length === 0) return [];
+  const spanList = spans.map((item) => item.span);
+  const resource = create(ResourceSchema, { attributes: resourceAttrs });
+  const scope = create(InstrumentationScopeSchema, { name: 'tracing-app-e2e' });
+  const scopeSpans = create(ScopeSpansSchema, { scope, spans: spanList });
+  return [create(ResourceSpansSchema, { resource, scopeSpans: [scopeSpans] })];
+}
+
+function createSpan(args: {
+  traceId: string;
+  spanId: string;
+  name: string;
+  startTimeUnixNano: bigint;
+  endTimeUnixNano: bigint;
+  attributes?: KeyValue[];
+  events?: ReturnType<typeof createSpanEvent>[];
+}): Span {
+  return create(SpanSchema, {
+    traceId: hexToBytes(args.traceId),
+    spanId: hexToBytes(args.spanId),
+    name: args.name,
+    startTimeUnixNano: args.startTimeUnixNano,
+    endTimeUnixNano: args.endTimeUnixNano,
+    attributes: args.attributes ?? [],
+    events: args.events ?? [],
+  });
+}
+
+function createSpanEvent(args: { name: string; timeUnixNano: bigint; attributes: KeyValue[] }) {
+  return create(Span_EventSchema, {
+    name: args.name,
+    timeUnixNano: args.timeUnixNano,
+    attributes: args.attributes,
+  });
+}
+
+function stringAttr(key: string, value: string): KeyValue {
+  return create(KeyValueSchema, {
+    key,
+    value: create(AnyValueSchema, { value: { case: 'stringValue', value } }),
+  });
+}
+
+function intAttr(key: string, value: number): KeyValue {
+  return create(KeyValueSchema, {
+    key,
+    value: create(AnyValueSchema, { value: { case: 'intValue', value: BigInt(value) } }),
+  });
 }
 
 async function waitForSpan(
@@ -390,37 +884,6 @@ function requireString(value: string | undefined | null, message: string): strin
     throw new Error(message);
   }
   return value;
-}
-
-async function setupTracingProxy(page: Page): Promise<void> {
-  await page.route('**/api/agynio.api.gateway.v1.TracingGateway/*', async (route) => {
-    const request = route.request();
-    const proxyUrl = buildGatewayUrl(request.url());
-    const headers = {
-      ...request.headers(),
-    };
-    if (config.authToken) {
-      headers.authorization = `Bearer ${config.authToken}`;
-    }
-    delete headers.host;
-    delete headers['content-length'];
-
-    const response = await route.fetch({
-      url: proxyUrl,
-      method: request.method(),
-      headers,
-      postData: request.postDataBuffer() ?? undefined,
-    });
-    await route.fulfill({ response });
-  });
-}
-
-function buildGatewayUrl(requestUrl: string): string {
-  const request = new URL(requestUrl);
-  const target = new URL(config.gatewayBaseUrl);
-  target.pathname = request.pathname.replace(/^\/api\/?/, '/');
-  target.search = request.search;
-  return target.toString();
 }
 
 function sleep(ms: number): Promise<void> {
@@ -586,7 +1049,8 @@ function formatSpanFilter(filter: ListSpansRequest['filter'] | undefined): strin
 
 function formatSeedConfig(): string {
   const identityBase = config.identityGrpcBaseUrl ?? 'none';
-  return `gateway=${config.gatewayBaseUrl}, tracing=${config.tracingAddress}, identityGrpc=${identityBase}, org=${config.organizationId}, model=${config.testllmModel}, seedMode=otlp`;
+  const seedMode = USE_MOCK_DATA ? 'mock' : 'otlp';
+  return `gateway=${config.gatewayBaseUrl}, tracing=${config.tracingAddress}, identityGrpc=${identityBase}, org=${config.organizationId}, model=${config.testllmModel}, seedMode=${seedMode}`;
 }
 
 async function summarizeTraceStatuses(tracingClient: TracingClient, traceIds: string[]): Promise<string | null> {

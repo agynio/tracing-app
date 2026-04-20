@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import { TooltipProvider } from './components/ui/tooltip';
 import { RootLayout } from './layout/RootLayout';
@@ -18,6 +18,7 @@ function App() {
         <Toaster position="top-right" richColors />
         <Routes>
           <Route element={<RootLayout />}>
+            <Route path="callback" element={<Navigate to="/" replace />} />
             <Route index element={<HomeScreen />} />
             <Route path="message/:messageId" element={<MessageRedirectScreen />} />
             <Route path=":orgId">

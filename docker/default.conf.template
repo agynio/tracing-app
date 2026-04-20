@@ -40,4 +40,9 @@ server {
     location = /index.html {
         add_header Cache-Control "no-cache" always;
     }
+
+    location = /env.js {
+        add_header Cache-Control "no-cache" always;
+        alias /tmp/env.js;
+    }
 }

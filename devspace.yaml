@@ -3,6 +3,7 @@ version: v2beta1
 vars:
   APP_NAMESPACE: platform
   E2E_IMAGE: mcr.microsoft.com/playwright:v1.58.2-noble
+  E2E_OIDC_REDIRECT_URI:
 
 functions:
   disable_argocd_sync: |-
@@ -71,7 +72,9 @@ deployments:
           - image: ${E2E_IMAGE}
             env:
               - name: E2E_BASE_URL
-                value: "http://localhost:3000"
+                value: "https://tracing.agyn.dev"
+              - name: E2E_OIDC_REDIRECT_URI
+                value: "${E2E_OIDC_REDIRECT_URI}"
               - name: ARGOS_TOKEN
                 value: "${ARGOS_TOKEN}"
               - name: ARGOS_BRANCH
@@ -123,6 +126,8 @@ pipelines:
             /opt/app/data/pnpm-lock.yaml
             /opt/app/data/index.html
             /opt/app/data/test/e2e/fixtures.ts
+            /opt/app/data/test/e2e/oidc-helpers.ts
+            /opt/app/data/test/e2e/sign-in-helper.ts
             /opt/app/data/src/App.tsx
             /opt/app/data/src/pages/AgentsRunScreen.tsx
             /opt/app/data/src/main.tsx
@@ -157,26 +162,12 @@ pipelines:
           corepack enable
           corepack prepare pnpm@10.33.0 --activate
           pnpm install --frozen-lockfile
-          VITE_API_BASE_URL=/api pnpm build
-          pnpm preview --host 0.0.0.0 --port 3000 > /tmp/preview.log 2>&1 &
-          PREVIEW_PID=$!
-          echo "Waiting for preview server..."
-          READY=0
-          for i in $(seq 1 60); do
-            curl -sf http://localhost:3000 > /dev/null 2>&1 && READY=1 && break
-            sleep 2
-          done
-          if [ "$READY" -ne 1 ]; then
-            echo "ERROR: preview server failed to start"
-            cat /tmp/preview.log || true
-            kill $PREVIEW_PID || true
-            exit 1
-          fi
           ARGOS_TOKEN_VALUE="${ARGOS_TOKEN}"
           ARGOS_BRANCH_VALUE="${ARGOS_BRANCH}"
           ARGOS_COMMIT_VALUE="${ARGOS_COMMIT}"
           E2E_ORG_ID_VALUE="${E2E_ORG_ID}"
           E2E_AUTH_TOKEN_VALUE="${E2E_AUTH_TOKEN}"
+          E2E_OIDC_REDIRECT_URI_VALUE="${E2E_OIDC_REDIRECT_URI}"
           if [ "$ARGOS_TOKEN_VALUE" = "\${ARGOS_TOKEN}" ]; then
             ARGOS_TOKEN_VALUE=""
           fi
@@ -192,6 +183,9 @@ pipelines:
           if [ "$E2E_AUTH_TOKEN_VALUE" = "\${E2E_AUTH_TOKEN}" ]; then
             E2E_AUTH_TOKEN_VALUE=""
           fi
+          if [ "$E2E_OIDC_REDIRECT_URI_VALUE" = "\${E2E_OIDC_REDIRECT_URI}" ]; then
+            E2E_OIDC_REDIRECT_URI_VALUE=""
+          fi
           CI_VALUE="${CI}"
           if [ "$CI_VALUE" = "\${CI}" ]; then
             CI_VALUE=""
@@ -199,16 +193,16 @@ pipelines:
           if [ -z "$ARGOS_TOKEN_VALUE" ]; then
             CI_VALUE=""
           fi
-          E2E_BASE_URL=http://localhost:3000 \
+          E2E_BASE_URL="${E2E_BASE_URL}" \
             E2E_ORG_ID="$E2E_ORG_ID_VALUE" \
             E2E_AUTH_TOKEN="$E2E_AUTH_TOKEN_VALUE" \
+            E2E_OIDC_REDIRECT_URI="$E2E_OIDC_REDIRECT_URI_VALUE" \
             ARGOS_TOKEN="$ARGOS_TOKEN_VALUE" \
             ARGOS_BRANCH="$ARGOS_BRANCH_VALUE" \
             ARGOS_COMMIT="$ARGOS_COMMIT_VALUE" \
             CI="$CI_VALUE" \
             pnpm test:e2e
           EXIT_CODE=$?
-          kill $PREVIEW_PID || true
           exit $EXIT_CODE
         '
       EXIT_CODE=$?
