@@ -113,14 +113,16 @@ functions:
     exec_container \
       --label-selector "app.kubernetes.io/name=tracing-app,app.kubernetes.io/instance=tracing-app" \
       -n ${APP_NAMESPACE} \
-      -- bash -c '
+      -- sh -c '
         set -e
-        for i in $(seq 1 30); do
+        i=0
+        while [ "$i" -lt 30 ]; do
           if [ -f /tmp/devspace/40-generate-env.sh ]; then
             chmod +x /tmp/devspace/40-generate-env.sh
             /tmp/devspace/40-generate-env.sh
             exit 0
           fi
+          i=$((i + 1))
           sleep 2
         done
         echo "ERROR: env generator script did not sync to /tmp/devspace/40-generate-env.sh"
