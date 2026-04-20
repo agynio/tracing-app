@@ -31,31 +31,7 @@ functions:
     kubectl rollout restart deployment/tracing -n ${APP_NAMESPACE}
     kubectl rollout status deployment/tracing -n ${APP_NAMESPACE} --timeout=120s
     echo "Tracing deployment restarted with Ziti disabled."
-  restore_argocd_sync: &restore_argocd_sync |-
-    if kubectl get application tracing-app -n argocd >/dev/null 2>&1; then
-      echo "Re-enabling ArgoCD auto-sync for tracing-app..."
-      kubectl patch application tracing-app -n argocd \
-        --type merge \
-        -p '{"spec":{"syncPolicy":{"automated":{"prune":true,"selfHeal":true}}}}'
-      echo "ArgoCD auto-sync restored."
-    else
-      echo "WARNING: ArgoCD Application 'tracing-app' not found in argocd namespace."
-    fi
-  deploy_pr_image: |-
-    echo "Deploying PR image to tracing-app..."
-    IMAGE="${PR_IMAGE:-}"
-    if [ -z "$IMAGE" ]; then
-      echo "ERROR: PR_IMAGE not set, aborting hot deploy"
-      exit 1
-    fi
-    if [ ! -f docker/default.conf.template ]; then
-      echo "ERROR: docker/default.conf.template not found"
-      exit 1
-    fi
-    kubectl create configmap tracing-app-nginx -n ${APP_NAMESPACE} \
-      --from-file=default.conf.template=docker/default.conf.template \
-      --dry-run=client -o yaml | kubectl apply -f -
-
+  set_tracing_app_env: |-
     read_chat_env() {
       python3 - "$1" "${APP_NAMESPACE}" <<'PY'
     import base64
@@ -131,11 +107,35 @@ functions:
       OIDC_AUTHORITY="$OIDC_AUTHORITY" \
       OIDC_CLIENT_ID="$OIDC_CLIENT_ID" \
       OIDC_SCOPE="$OIDC_SCOPE"
-
-    kubectl set image deployment/tracing-app tracing-app="$IMAGE" -n ${APP_NAMESPACE}
-    kubectl rollout restart deployment/tracing-app -n ${APP_NAMESPACE}
     kubectl rollout status deployment/tracing-app -n ${APP_NAMESPACE} --timeout=120s
-    echo "PR image deployed successfully"
+    echo "Tracing app env updated from chat-app deployment."
+  generate_tracing_env_js: |-
+    exec_container \
+      --label-selector "app.kubernetes.io/name=tracing-app,app.kubernetes.io/instance=tracing-app" \
+      -n ${APP_NAMESPACE} \
+      -- bash -c '
+        set -e
+        for i in $(seq 1 30); do
+          if [ -f /tmp/devspace/40-generate-env.sh ]; then
+            chmod +x /tmp/devspace/40-generate-env.sh
+            /tmp/devspace/40-generate-env.sh
+            exit 0
+          fi
+          sleep 2
+        done
+        echo "ERROR: env generator script did not sync to /tmp/devspace/40-generate-env.sh"
+        exit 1
+      '
+  restore_argocd_sync: &restore_argocd_sync |-
+    if kubectl get application tracing-app -n argocd >/dev/null 2>&1; then
+      echo "Re-enabling ArgoCD auto-sync for tracing-app..."
+      kubectl patch application tracing-app -n argocd \
+        --type merge \
+        -p '{"spec":{"syncPolicy":{"automated":{"prune":true,"selfHeal":true}}}}'
+      echo "ArgoCD auto-sync restored."
+    else
+      echo "WARNING: ArgoCD Application 'tracing-app' not found in argocd namespace."
+    fi
   dump_seed_failure_logs: |-
     echo "=== GATEWAY LOGS ==="
     kubectl logs -n ${APP_NAMESPACE} -l app.kubernetes.io/name=gateway --all-containers --tail=200 || true
@@ -212,19 +212,20 @@ pipelines:
         description: "Keep DevSpace running and stream logs"
     run: |-
       disable_argocd_sync
+      disable_tracing_ziti
+      set_tracing_app_env
       if [ "$(get_flag "watch")" == "true" ]; then
         start_dev --disable-pod-replace tracing-app
+        generate_tracing_env_js
       else
         start_dev --disable-pod-replace tracing-app
+        generate_tracing_env_js
         echo "Dev environment ready. Stopping dev session."
         stop_dev tracing-app
       fi
 
   test-e2e:
     run: |-
-      disable_argocd_sync
-      disable_tracing_ziti
-      deploy_pr_image
       create_deployments e2e-runner
       start_dev e2e-runner &
       sleep 5
@@ -320,9 +321,6 @@ pipelines:
         '
       EXIT_CODE=$?
       set -e
-      if [ "$EXIT_CODE" -ne 0 ]; then
-        dump_seed_failure_logs || true
-      fi
       stop_dev e2e-runner
       purge_deployments e2e-runner
       exit $EXIT_CODE
@@ -350,6 +348,7 @@ dev:
               - .git/
               - .devspace/
               - node_modules/
+          - path: ./docker/40-generate-env.sh:/tmp/devspace/40-generate-env.sh
         logs:
           enabled: true
           lastLines: 200
