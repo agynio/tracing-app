@@ -1,6 +1,10 @@
-import { type ReactNode } from 'react';
+import { useCallback, type ReactNode } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useAuth } from 'react-oidc-context';
+import { Button } from '@/components/Button';
+import { setSignedOutFlag } from '@/auth/signed-out';
+import { oidcConfig } from '@/config';
 
 export type BreadcrumbItem = {
   label: string;
@@ -65,8 +69,31 @@ export function MainLayout({ children, breadcrumbs }: MainLayoutProps) {
             })}
           </nav>
         </div>
+        {oidcConfig.enabled ? <AuthActions /> : null}
       </header>
       <main className="flex flex-1 overflow-hidden">{children}</main>
     </div>
+  );
+}
+
+function AuthActions() {
+  const { isAuthenticated, removeUser, signoutRedirect } = useAuth();
+
+  const handleSignOut = useCallback(() => {
+    setSignedOutFlag();
+    void removeUser().catch((error) => {
+      console.warn('Failed to clear local user session.', error);
+    });
+    void signoutRedirect().catch((error) => {
+      console.warn('Failed to start sign-out redirect.', error);
+    });
+  }, [removeUser, signoutRedirect]);
+
+  if (!isAuthenticated) return null;
+
+  return (
+    <Button variant="ghost" size="sm" onClick={handleSignOut}>
+      Sign out
+    </Button>
   );
 }

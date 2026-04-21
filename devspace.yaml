@@ -3,6 +3,39 @@ version: v2beta1
 vars:
   APP_NAMESPACE: platform
   E2E_IMAGE: mcr.microsoft.com/playwright:v1.58.2-noble
+  E2E_BASE_URL:
+    source: env
+    default: "https://tracing.agyn.dev"
+  ARGOS_TOKEN:
+    source: env
+    default: ""
+  ARGOS_BRANCH:
+    source: env
+    default: ""
+  ARGOS_COMMIT:
+    source: env
+    default: ""
+  E2E_ORG_ID:
+    source: env
+    default: ""
+  E2E_AUTH_TOKEN:
+    source: env
+    default: ""
+  E2E_OIDC_REDIRECT_URI:
+    source: env
+    default: ""
+  E2E_OIDC_AUTHORITY:
+    source: env
+    default: ""
+  E2E_OIDC_CLIENT_ID:
+    source: env
+    default: ""
+  E2E_OIDC_SCOPE:
+    source: env
+    default: ""
+  CI:
+    source: env
+    default: ""
 
 functions:
   disable_argocd_sync: |-
@@ -15,7 +48,32 @@ functions:
     else
       echo "WARNING: ArgoCD Application 'tracing-app' not found in argocd namespace."
     fi
+  ensure_tracing_app_html_writable: |-
+    deploy=$(kubectl get deployment -n ${APP_NAMESPACE} -l app.kubernetes.io/name=tracing-app -o jsonpath='{.items[0].metadata.name}')
+    if [ -z "$deploy" ]; then
+      echo "WARNING: tracing-app deployment not found in ${APP_NAMESPACE} namespace."
+      return 0
+    fi
+    container=$(kubectl get deployment "$deploy" -n ${APP_NAMESPACE} -o jsonpath='{.spec.template.spec.containers[0].name}')
+    if [ -z "$container" ]; then
+      echo "WARNING: tracing-app container not found in ${APP_NAMESPACE} namespace."
+      return 0
+    fi
+    image=$(kubectl get deployment "$deploy" -n ${APP_NAMESPACE} -o jsonpath='{.spec.template.spec.containers[0].image}')
+    if [ -z "$image" ]; then
+      echo "WARNING: tracing-app container image not found in ${APP_NAMESPACE} namespace."
+      return 0
+    fi
+    kubectl patch deployment "$deploy" -n ${APP_NAMESPACE} \
+      --type strategic \
+      -p "{\"spec\":{\"template\":{\"spec\":{\"securityContext\":{\"fsGroup\":101},\"volumes\":[{\"name\":\"tracing-app-html\",\"emptyDir\":{}}],\"initContainers\":[{\"name\":\"tracing-app-html-init\",\"image\":\"${image}\",\"command\":[\"sh\",\"-c\",\"cp -R /usr/share/nginx/html/. /workdir/\"],\"securityContext\":{\"runAsUser\":101,\"runAsGroup\":101,\"runAsNonRoot\":true,\"allowPrivilegeEscalation\":false},\"volumeMounts\":[{\"name\":\"tracing-app-html\",\"mountPath\":\"/workdir\"}]}],\"containers\":[{\"name\":\"${container}\",\"volumeMounts\":[{\"name\":\"tracing-app-html\",\"mountPath\":\"/usr/share/nginx/html\"}]}]}}}}"
+    kubectl rollout status deployment "$deploy" -n ${APP_NAMESPACE} --timeout=600s
   restore_argocd_sync: &restore_argocd_sync |-
+    # Skip in CI to avoid ArgoCD self-heal reverting sync/patches during e2e.
+    if [ -n "${CI:-}" ]; then
+      echo "Skipping ArgoCD auto-sync restore in CI."
+      exit 0
+    fi
     if kubectl get application tracing-app -n argocd >/dev/null 2>&1; then
       echo "Re-enabling ArgoCD auto-sync for tracing-app..."
       kubectl patch application tracing-app -n argocd \
@@ -25,39 +83,6 @@ functions:
     else
       echo "WARNING: ArgoCD Application 'tracing-app' not found in argocd namespace."
     fi
-  dump_seed_failure_logs: |-
-    echo "=== GATEWAY LOGS ==="
-    kubectl logs -n ${APP_NAMESPACE} -l app.kubernetes.io/name=gateway --all-containers --tail=200 || true
-    echo "=== TRACING LOGS ==="
-    kubectl logs -n ${APP_NAMESPACE} -l app.kubernetes.io/name=tracing --all-containers --tail=200 || true
-    echo "=== TRACING SERVICE ==="
-    kubectl get svc -n ${APP_NAMESPACE} tracing -o wide 2>/dev/null || true
-    kubectl get endpoints -n ${APP_NAMESPACE} tracing -o wide 2>/dev/null || true
-    echo "=== TRACING PODS ==="
-    kubectl get pods -n ${APP_NAMESPACE} -l app.kubernetes.io/name=tracing -o wide 2>/dev/null || true
-    for pod in $(kubectl get pods -n ${APP_NAMESPACE} -l app.kubernetes.io/name=tracing -o name 2>/dev/null); do
-      echo "--- ${pod} ---"
-      kubectl describe -n ${APP_NAMESPACE} "${pod}" 2>/dev/null || true
-    done
-    echo "=== K8S RUNNER LOGS ==="
-    kubectl logs -n ${APP_NAMESPACE} -l app.kubernetes.io/name=k8s-runner --all-containers --tail=200 || true
-    echo "=== AGENTS-ORCHESTRATOR LOGS ==="
-    kubectl logs -n ${APP_NAMESPACE} -l app.kubernetes.io/name=agents-orchestrator --all-containers --tail=200 || true
-    echo "=== AGENT WORKLOAD PODS (agyn-workloads) ==="
-    kubectl get pods -n agyn-workloads -o wide 2>/dev/null || true
-    echo "=== AGENT WORKLOAD EVENTS (agyn-workloads) ==="
-    kubectl get events -n agyn-workloads --sort-by='.lastTimestamp' 2>/dev/null || true
-    echo "=== AGENT WORKLOAD POD DESCRIBES (agyn-workloads) ==="
-    for pod in $(kubectl get pods -n agyn-workloads -o name 2>/dev/null); do
-      echo "--- ${pod} ---"
-      kubectl describe -n agyn-workloads "${pod}" 2>/dev/null || true
-    done
-    echo "=== AGENT WORKLOAD LOGS ==="
-    for pod in $(kubectl get pods -n agyn-workloads -o name 2>/dev/null); do
-      echo "--- $pod ---"
-      kubectl logs "$pod" -n agyn-workloads --all-containers --tail=50 2>/dev/null || true
-    done
-    echo "=== END DIAGNOSTIC LOGS ==="
 
 deployments:
   e2e-runner:
@@ -71,19 +96,25 @@ deployments:
           - image: ${E2E_IMAGE}
             env:
               - name: E2E_BASE_URL
-                value: "http://localhost:3000"
+                value: "${E2E_BASE_URL}"
+              - name: E2E_OIDC_REDIRECT_URI
+                value: "${E2E_OIDC_REDIRECT_URI}"
+              - name: E2E_OIDC_AUTHORITY
+                value: "${E2E_OIDC_AUTHORITY}"
+              - name: E2E_OIDC_CLIENT_ID
+                value: "${E2E_OIDC_CLIENT_ID}"
+              - name: E2E_OIDC_SCOPE
+                value: "${E2E_OIDC_SCOPE}"
+              - name: E2E_ORG_ID
+                value: "${E2E_ORG_ID}"
+              - name: E2E_AUTH_TOKEN
+                value: "${E2E_AUTH_TOKEN}"
               - name: ARGOS_TOKEN
                 value: "${ARGOS_TOKEN}"
               - name: ARGOS_BRANCH
                 value: "${ARGOS_BRANCH}"
               - name: ARGOS_COMMIT
                 value: "${ARGOS_COMMIT}"
-              - name: CI
-                value: "${CI}"
-              - name: E2E_ORG_ID
-                value: "${E2E_ORG_ID}"
-              - name: E2E_AUTH_TOKEN
-                value: "${E2E_AUTH_TOKEN}"
         labels:
           app.kubernetes.io/name: tracing-app-e2e
 
@@ -99,6 +130,7 @@ pipelines:
         description: "Keep DevSpace running and stream logs"
     run: |-
       disable_argocd_sync
+      ensure_tracing_app_html_writable
       if [ "$(get_flag "watch")" == "true" ]; then
         start_dev --disable-pod-replace tracing-app
       else
@@ -123,6 +155,8 @@ pipelines:
             /opt/app/data/pnpm-lock.yaml
             /opt/app/data/index.html
             /opt/app/data/test/e2e/fixtures.ts
+            /opt/app/data/test/e2e/oidc-helpers.ts
+            /opt/app/data/test/e2e/sign-in-helper.ts
             /opt/app/data/src/App.tsx
             /opt/app/data/src/pages/AgentsRunScreen.tsx
             /opt/app/data/src/main.tsx
@@ -157,65 +191,12 @@ pipelines:
           corepack enable
           corepack prepare pnpm@10.33.0 --activate
           pnpm install --frozen-lockfile
-          VITE_API_BASE_URL=/api pnpm build
-          pnpm preview --host 0.0.0.0 --port 3000 > /tmp/preview.log 2>&1 &
-          PREVIEW_PID=$!
-          echo "Waiting for preview server..."
-          READY=0
-          for i in $(seq 1 60); do
-            curl -sf http://localhost:3000 > /dev/null 2>&1 && READY=1 && break
-            sleep 2
-          done
-          if [ "$READY" -ne 1 ]; then
-            echo "ERROR: preview server failed to start"
-            cat /tmp/preview.log || true
-            kill $PREVIEW_PID || true
-            exit 1
-          fi
-          ARGOS_TOKEN_VALUE="${ARGOS_TOKEN}"
-          ARGOS_BRANCH_VALUE="${ARGOS_BRANCH}"
-          ARGOS_COMMIT_VALUE="${ARGOS_COMMIT}"
-          E2E_ORG_ID_VALUE="${E2E_ORG_ID}"
-          E2E_AUTH_TOKEN_VALUE="${E2E_AUTH_TOKEN}"
-          if [ "$ARGOS_TOKEN_VALUE" = "\${ARGOS_TOKEN}" ]; then
-            ARGOS_TOKEN_VALUE=""
-          fi
-          if [ "$ARGOS_BRANCH_VALUE" = "\${ARGOS_BRANCH}" ]; then
-            ARGOS_BRANCH_VALUE=""
-          fi
-          if [ "$ARGOS_COMMIT_VALUE" = "\${ARGOS_COMMIT}" ]; then
-            ARGOS_COMMIT_VALUE=""
-          fi
-          if [ "$E2E_ORG_ID_VALUE" = "\${E2E_ORG_ID}" ]; then
-            E2E_ORG_ID_VALUE=""
-          fi
-          if [ "$E2E_AUTH_TOKEN_VALUE" = "\${E2E_AUTH_TOKEN}" ]; then
-            E2E_AUTH_TOKEN_VALUE=""
-          fi
-          CI_VALUE="${CI}"
-          if [ "$CI_VALUE" = "\${CI}" ]; then
-            CI_VALUE=""
-          fi
-          if [ -z "$ARGOS_TOKEN_VALUE" ]; then
-            CI_VALUE=""
-          fi
-          E2E_BASE_URL=http://localhost:3000 \
-            E2E_ORG_ID="$E2E_ORG_ID_VALUE" \
-            E2E_AUTH_TOKEN="$E2E_AUTH_TOKEN_VALUE" \
-            ARGOS_TOKEN="$ARGOS_TOKEN_VALUE" \
-            ARGOS_BRANCH="$ARGOS_BRANCH_VALUE" \
-            ARGOS_COMMIT="$ARGOS_COMMIT_VALUE" \
-            CI="$CI_VALUE" \
-            pnpm test:e2e
+          CI=true E2E_MOCK_DATA=true pnpm test:e2e
           EXIT_CODE=$?
-          kill $PREVIEW_PID || true
           exit $EXIT_CODE
         '
       EXIT_CODE=$?
       set -e
-      if [ "$EXIT_CODE" -ne 0 ]; then
-        dump_seed_failure_logs || true
-      fi
       stop_dev e2e-runner
       purge_deployments e2e-runner
       exit $EXIT_CODE
@@ -235,6 +216,8 @@ dev:
     labelSelector:
       app.kubernetes.io/name: tracing-app
       app.kubernetes.io/instance: tracing-app
+    ports:
+      - port: "3000"
     containers:
       tracing-app:
         sync:
@@ -246,8 +229,6 @@ dev:
         logs:
           enabled: true
           lastLines: 200
-    ports:
-      - port: "3000"
 
   e2e-runner:
     namespace: ${APP_NAMESPACE}

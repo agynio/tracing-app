@@ -79,8 +79,12 @@ extraEnvVarsCM: ""
 extraEnvVarsSecret: ""
 
 configMounts: []
-extraVolumeMounts: []
-extraVolumes: []
+extraVolumeMounts:
+  - name: tmp
+    mountPath: /tmp
+extraVolumes:
+  - name: tmp
+    emptyDir: {}
 
 initContainers: []
 extraContainers: []
