@@ -103,6 +103,95 @@ jobs:
         working-directory: bootstrap
         run: ./.github/scripts/verify_platform_health.sh
 
+      - name: Generate tracing env.js
+        env:
+          KUBECONFIG: ${{ github.workspace }}/bootstrap/stacks/k8s/.kube/agyn-local-kubeconfig.yaml
+        run: |
+          set -e
+
+          read_env() {
+            local key=$1
+            local value
+            value=$(kubectl get deployment chat-app -n platform \
+              -o jsonpath="{.spec.template.spec.containers[0].env[?(@.name=='${key}')].value}")
+            if [ -n "$value" ]; then
+              echo "$value"
+              return 0
+            fi
+
+            local ref_name
+            local ref_key
+            ref_name=$(kubectl get deployment chat-app -n platform \
+              -o jsonpath="{.spec.template.spec.containers[0].env[?(@.name=='${key}')].valueFrom.configMapKeyRef.name}")
+            ref_key=$(kubectl get deployment chat-app -n platform \
+              -o jsonpath="{.spec.template.spec.containers[0].env[?(@.name=='${key}')].valueFrom.configMapKeyRef.key}")
+            if [ -n "$ref_name" ] && [ -n "$ref_key" ]; then
+              value=$(kubectl get configmap "$ref_name" -n platform \
+                -o jsonpath="{.data.${ref_key}}")
+              if [ -n "$value" ]; then
+                echo "$value"
+                return 0
+              fi
+            fi
+
+            ref_name=$(kubectl get deployment chat-app -n platform \
+              -o jsonpath="{.spec.template.spec.containers[0].env[?(@.name=='${key}')].valueFrom.secretKeyRef.name}")
+            ref_key=$(kubectl get deployment chat-app -n platform \
+              -o jsonpath="{.spec.template.spec.containers[0].env[?(@.name=='${key}')].valueFrom.secretKeyRef.key}")
+            if [ -n "$ref_name" ] && [ -n "$ref_key" ]; then
+              value=$(kubectl get secret "$ref_name" -n platform \
+                -o jsonpath="{.data.${ref_key}}" 2>/dev/null | base64 --decode || true)
+              if [ -n "$value" ]; then
+                echo "$value"
+                return 0
+              fi
+            fi
+
+            for ref_name in $(kubectl get deployment chat-app -n platform \
+              -o jsonpath='{.spec.template.spec.containers[0].envFrom[?(@.configMapRef)].configMapRef.name}'); do
+              value=$(kubectl get configmap "$ref_name" -n platform \
+                -o jsonpath="{.data.${key}}" 2>/dev/null || true)
+              if [ -n "$value" ]; then
+                echo "$value"
+                return 0
+              fi
+            done
+
+            for ref_name in $(kubectl get deployment chat-app -n platform \
+              -o jsonpath='{.spec.template.spec.containers[0].envFrom[?(@.secretRef)].secretRef.name}'); do
+              value=$(kubectl get secret "$ref_name" -n platform \
+                -o jsonpath="{.data.${key}}" 2>/dev/null | base64 --decode || true)
+              if [ -n "$value" ]; then
+                echo "$value"
+                return 0
+              fi
+            done
+
+            return 1
+          }
+
+          escape_js() {
+            printf '%s' "$1" | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g'
+          }
+
+          OIDC_AUTHORITY=$(read_env OIDC_AUTHORITY || true)
+          OIDC_CLIENT_ID=$(read_env OIDC_CLIENT_ID || true)
+          OIDC_SCOPE=$(read_env OIDC_SCOPE || true)
+          if [ -z "$OIDC_AUTHORITY" ] || [ -z "$OIDC_CLIENT_ID" ] || [ -z "$OIDC_SCOPE" ]; then
+            echo "ERROR: Failed to read OIDC env vars from chat-app deployment"
+            exit 1
+          fi
+
+          mkdir -p dist
+          cat > dist/env.js <<EOF
+          window.__ENV__ = {
+            API_BASE_URL: "/api",
+            OIDC_AUTHORITY: "$(escape_js "$OIDC_AUTHORITY")",
+            OIDC_CLIENT_ID: "$(escape_js "$OIDC_CLIENT_ID")",
+            OIDC_SCOPE: "$(escape_js "$OIDC_SCOPE")"
+          };
+          EOF
+
       - name: Sync tracing app via DevSpace
         env:
           KUBECONFIG: ${{ github.workspace }}/bootstrap/stacks/k8s/.kube/agyn-local-kubeconfig.yaml
