@@ -85,6 +85,21 @@ deployments:
       values:
         containers:
           - image: ${E2E_IMAGE}
+            env:
+              - name: E2E_BASE_URL
+                value: "${E2E_BASE_URL}"
+              - name: E2E_OIDC_REDIRECT_URI
+                value: "${E2E_OIDC_REDIRECT_URI}"
+              - name: E2E_ORG_ID
+                value: "${E2E_ORG_ID}"
+              - name: E2E_AUTH_TOKEN
+                value: "${E2E_AUTH_TOKEN}"
+              - name: ARGOS_TOKEN
+                value: "${ARGOS_TOKEN}"
+              - name: ARGOS_BRANCH
+                value: "${ARGOS_BRANCH}"
+              - name: ARGOS_COMMIT
+                value: "${ARGOS_COMMIT}"
         labels:
           app.kubernetes.io/name: tracing-app-e2e
 
@@ -161,15 +176,7 @@ pipelines:
           corepack enable
           corepack prepare pnpm@10.33.0 --activate
           pnpm install --frozen-lockfile
-          E2E_BASE_URL="${E2E_BASE_URL}" \
-            E2E_ORG_ID="${E2E_ORG_ID}" \
-            E2E_AUTH_TOKEN="${E2E_AUTH_TOKEN}" \
-            E2E_OIDC_REDIRECT_URI="${E2E_OIDC_REDIRECT_URI}" \
-            ARGOS_TOKEN="${ARGOS_TOKEN}" \
-            ARGOS_BRANCH="${ARGOS_BRANCH}" \
-            ARGOS_COMMIT="${ARGOS_COMMIT}" \
-            CI="${CI}" \
-            pnpm test:e2e
+          pnpm test:e2e
           EXIT_CODE=$?
           exit $EXIT_CODE
         '
