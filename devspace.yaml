@@ -24,6 +24,15 @@ vars:
   E2E_OIDC_REDIRECT_URI:
     source: env
     default: ""
+  E2E_OIDC_AUTHORITY:
+    source: env
+    default: ""
+  E2E_OIDC_CLIENT_ID:
+    source: env
+    default: ""
+  E2E_OIDC_SCOPE:
+    source: env
+    default: ""
   CI:
     source: env
     default: ""
@@ -90,6 +99,12 @@ deployments:
                 value: "${E2E_BASE_URL}"
               - name: E2E_OIDC_REDIRECT_URI
                 value: "${E2E_OIDC_REDIRECT_URI}"
+              - name: E2E_OIDC_AUTHORITY
+                value: "${E2E_OIDC_AUTHORITY}"
+              - name: E2E_OIDC_CLIENT_ID
+                value: "${E2E_OIDC_CLIENT_ID}"
+              - name: E2E_OIDC_SCOPE
+                value: "${E2E_OIDC_SCOPE}"
               - name: E2E_ORG_ID
                 value: "${E2E_ORG_ID}"
               - name: E2E_AUTH_TOKEN
@@ -176,7 +191,7 @@ pipelines:
           corepack enable
           corepack prepare pnpm@10.33.0 --activate
           pnpm install --frozen-lockfile
-          pnpm test:e2e
+          E2E_MOCK_DATA=true pnpm test:e2e
           EXIT_CODE=$?
           exit $EXIT_CODE
         '
