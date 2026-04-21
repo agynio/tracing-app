@@ -42,6 +42,75 @@ functions:
     kubectl rollout restart deployment/tracing-app -n ${APP_NAMESPACE}
     kubectl rollout status deployment/tracing-app -n ${APP_NAMESPACE} --timeout=120s
     echo "Tracing app nginx configmap applied."
+  ensure_tracing_app_html_writable: |-
+    set -e
+    patch=$(python3 - "${APP_NAMESPACE}" <<'PY'
+    import json
+    import subprocess
+    import sys
+
+    namespace = sys.argv[1]
+    deployment = json.loads(
+        subprocess.check_output(
+            ["kubectl", "get", "deployment", "tracing-app", "-n", namespace, "-o", "json"]
+        )
+    )
+    spec = deployment.get("spec", {}).get("template", {}).get("spec", {})
+    containers = spec.get("containers", [])
+    if not containers:
+        raise SystemExit("ERROR: tracing-app deployment has no containers")
+    container = containers[0]
+    container_name = container.get("name")
+    container_image = container.get("image")
+    if not container_name or not container_image:
+        raise SystemExit("ERROR: tracing-app container missing name or image")
+
+    patch = {
+        "spec": {
+            "template": {
+                "spec": {
+                    "securityContext": {"fsGroup": 101},
+                    "volumes": [{"name": "tracing-app-html", "emptyDir": {}}],
+                    "initContainers": [
+                        {
+                            "name": "init-copy-html",
+                            "image": container_image,
+                            "command": [
+                                "sh",
+                                "-c",
+                                "cp -R /usr/share/nginx/html/. /workdir/",
+                            ],
+                            "volumeMounts": [
+                                {
+                                    "name": "tracing-app-html",
+                                    "mountPath": "/workdir",
+                                }
+                            ],
+                        }
+                    ],
+                    "containers": [
+                        {
+                            "name": container_name,
+                            "volumeMounts": [
+                                {
+                                    "name": "tracing-app-html",
+                                    "mountPath": "/usr/share/nginx/html",
+                                }
+                            ],
+                        }
+                    ],
+                }
+            }
+        }
+    }
+
+    print(json.dumps(patch))
+    PY
+    )
+    kubectl patch deployment tracing-app -n ${APP_NAMESPACE} --type strategic -p "$patch"
+    kubectl rollout restart deployment/tracing-app -n ${APP_NAMESPACE}
+    kubectl rollout status deployment/tracing-app -n ${APP_NAMESPACE} --timeout=120s
+    echo "Tracing app html volume patched for sync."
   set_tracing_app_env: |-
     read_chat_env() {
       python3 - "$1" "${APP_NAMESPACE}" <<'PY'
@@ -240,6 +309,7 @@ pipelines:
         description: "Keep DevSpace running and stream logs"
     run: |-
       disable_argocd_sync
+      ensure_tracing_app_html_writable
       disable_tracing_ziti
       apply_tracing_nginx_config
       set_tracing_app_env
