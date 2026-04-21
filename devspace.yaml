@@ -80,12 +80,12 @@ functions:
                                 "-c",
                                 "cp -R /usr/share/nginx/html/. /workdir/",
                             ],
-                            "securityContext": {
-                                "runAsUser": 101,
-                                "runAsGroup": 101,
-                                "runAsNonRoot": true,
-                                "allowPrivilegeEscalation": false,
-                            },
+                                "securityContext": {
+                                    "runAsUser": 101,
+                                    "runAsGroup": 101,
+                                    "runAsNonRoot": True,
+                                    "allowPrivilegeEscalation": False,
+                                },
                             "volumeMounts": [
                                 {
                                     "name": "tracing-app-html",
