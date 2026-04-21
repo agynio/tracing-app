@@ -3,6 +3,9 @@ version: v2beta1
 vars:
   APP_NAMESPACE: platform
   E2E_IMAGE: mcr.microsoft.com/playwright:v1.58.2-noble
+  E2E_BASE_URL:
+    source: env
+    default: "https://tracing.agyn.dev"
   ARGOS_TOKEN:
     source: env
     default: ""
@@ -82,23 +85,6 @@ deployments:
       values:
         containers:
           - image: ${E2E_IMAGE}
-            env:
-              - name: E2E_BASE_URL
-                value: "https://tracing.agyn.dev"
-              - name: E2E_OIDC_REDIRECT_URI
-                value: "${E2E_OIDC_REDIRECT_URI}"
-              - name: ARGOS_TOKEN
-                value: "${ARGOS_TOKEN}"
-              - name: ARGOS_BRANCH
-                value: "${ARGOS_BRANCH}"
-              - name: ARGOS_COMMIT
-                value: "${ARGOS_COMMIT}"
-              - name: CI
-                value: "${CI}"
-              - name: E2E_ORG_ID
-                value: "${E2E_ORG_ID}"
-              - name: E2E_AUTH_TOKEN
-                value: "${E2E_AUTH_TOKEN}"
         labels:
           app.kubernetes.io/name: tracing-app-e2e
 
