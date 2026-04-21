@@ -191,7 +191,7 @@ pipelines:
           corepack enable
           corepack prepare pnpm@10.33.0 --activate
           pnpm install --frozen-lockfile
-          E2E_MOCK_DATA=true pnpm test:e2e
+          CI=true E2E_MOCK_DATA=true pnpm test:e2e
           EXIT_CODE=$?
           exit $EXIT_CODE
         '
