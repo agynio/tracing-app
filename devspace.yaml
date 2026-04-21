@@ -3,7 +3,27 @@ version: v2beta1
 vars:
   APP_NAMESPACE: platform
   E2E_IMAGE: mcr.microsoft.com/playwright:v1.58.2-noble
+  ARGOS_TOKEN:
+    source: env
+    default: ""
+  ARGOS_BRANCH:
+    source: env
+    default: ""
+  ARGOS_COMMIT:
+    source: env
+    default: ""
+  E2E_ORG_ID:
+    source: env
+    default: ""
+  E2E_AUTH_TOKEN:
+    source: env
+    default: ""
   E2E_OIDC_REDIRECT_URI:
+    source: env
+    default: ""
+  CI:
+    source: env
+    default: ""
 
 functions:
   disable_argocd_sync: |-
@@ -16,214 +36,26 @@ functions:
     else
       echo "WARNING: ArgoCD Application 'tracing-app' not found in argocd namespace."
     fi
-  disable_tracing_ziti: |-
-    if kubectl get application tracing -n argocd >/dev/null 2>&1; then
-      echo "Disabling ArgoCD auto-sync for tracing..."
-      kubectl patch application tracing -n argocd \
-        --type merge \
-        -p '{"spec":{"syncPolicy":{"automated":null}}}'
-      echo "ArgoCD auto-sync disabled for tracing."
-    else
-      echo "WARNING: ArgoCD Application 'tracing' not found in argocd namespace."
-    fi
-    echo "Setting tracing ZITI_ENABLED=false..."
-    kubectl set env deployment/tracing -n ${APP_NAMESPACE} ZITI_ENABLED=false
-    kubectl rollout restart deployment/tracing -n ${APP_NAMESPACE}
-    kubectl rollout status deployment/tracing -n ${APP_NAMESPACE} --timeout=120s
-    echo "Tracing deployment restarted with Ziti disabled."
-  apply_tracing_nginx_config: |-
-    if [ ! -f docker/default.conf.template ]; then
-      echo "ERROR: docker/default.conf.template not found"
-      exit 1
-    fi
-    kubectl create configmap tracing-app-nginx -n ${APP_NAMESPACE} \
-      --from-file=default.conf.template=docker/default.conf.template \
-      --dry-run=client -o yaml | kubectl apply -f -
-    kubectl rollout restart deployment/tracing-app -n ${APP_NAMESPACE}
-    kubectl rollout status deployment/tracing-app -n ${APP_NAMESPACE} --timeout=120s
-    echo "Tracing app nginx configmap applied."
   ensure_tracing_app_html_writable: |-
-    set -e
-    patch=$(python3 - "${APP_NAMESPACE}" <<'PY'
-    import json
-    import subprocess
-    import sys
-
-    namespace = sys.argv[1]
-    deployment = json.loads(
-        subprocess.check_output(
-            ["kubectl", "get", "deployment", "tracing-app", "-n", namespace, "-o", "json"]
-        )
-    )
-    spec = deployment.get("spec", {}).get("template", {}).get("spec", {})
-    containers = spec.get("containers", [])
-    if not containers:
-        raise SystemExit("ERROR: tracing-app deployment has no containers")
-    container = containers[0]
-    container_name = container.get("name")
-    container_image = container.get("image")
-    if not container_name or not container_image:
-        raise SystemExit("ERROR: tracing-app container missing name or image")
-
-    patch = {
-        "spec": {
-            "template": {
-                "spec": {
-                    "securityContext": {"fsGroup": 101},
-                    "volumes": [{"name": "tracing-app-html", "emptyDir": {}}],
-                    "initContainers": [
-                        {
-                            "name": "init-copy-html",
-                            "image": container_image,
-                            "command": [
-                                "sh",
-                                "-c",
-                                "cp -R /usr/share/nginx/html/. /workdir/",
-                            ],
-                                "securityContext": {
-                                    "runAsUser": 101,
-                                    "runAsGroup": 101,
-                                    "runAsNonRoot": True,
-                                    "allowPrivilegeEscalation": False,
-                                },
-                            "volumeMounts": [
-                                {
-                                    "name": "tracing-app-html",
-                                    "mountPath": "/workdir",
-                                }
-                            ],
-                        }
-                    ],
-                    "containers": [
-                        {
-                            "name": container_name,
-                            "volumeMounts": [
-                                {
-                                    "name": "tracing-app-html",
-                                    "mountPath": "/usr/share/nginx/html",
-                                }
-                            ],
-                        }
-                    ],
-                }
-            }
-        }
-    }
-
-    print(json.dumps(patch))
-    PY
-    )
-    kubectl patch deployment tracing-app -n ${APP_NAMESPACE} --type strategic -p "$patch"
-    kubectl rollout restart deployment/tracing-app -n ${APP_NAMESPACE}
-    kubectl rollout status deployment/tracing-app -n ${APP_NAMESPACE} --timeout=120s
-    echo "Tracing app html volume patched for sync."
-  set_tracing_app_env: |-
-    read_chat_env() {
-      python3 - "$1" "${APP_NAMESPACE}" <<'PY'
-    import base64
-    import json
-    import subprocess
-    import sys
-
-    name = sys.argv[1]
-    namespace = sys.argv[2]
-
-    def load_json(args):
-        return json.loads(subprocess.check_output(args))
-
-    def read_from_value_from(value_from):
-        if "configMapKeyRef" in value_from:
-            ref = value_from["configMapKeyRef"]
-            data = load_json(["kubectl", "get", "configmap", ref["name"], "-n", namespace, "-o", "json"]).get("data", {})
-            return data.get(ref["key"])
-        if "secretKeyRef" in value_from:
-            ref = value_from["secretKeyRef"]
-            data = load_json(["kubectl", "get", "secret", ref["name"], "-n", namespace, "-o", "json"]).get("data", {})
-            raw = data.get(ref["key"])
-            if raw is None:
-                return None
-            return base64.b64decode(raw).decode("utf-8")
-        return None
-
-    deployment = load_json(["kubectl", "get", "deployment", "chat-app", "-n", namespace, "-o", "json"])
-    container = deployment["spec"]["template"]["spec"]["containers"][0]
-
-    value = None
-    for env in container.get("env", []):
-        if env.get("name") == name:
-            if "value" in env:
-                value = env["value"]
-            elif "valueFrom" in env:
-                value = read_from_value_from(env["valueFrom"])
-            break
-
-    if value is None:
-        for env_from in container.get("envFrom", []):
-            if "configMapRef" in env_from:
-                ref = env_from["configMapRef"]
-                data = load_json(["kubectl", "get", "configmap", ref["name"], "-n", namespace, "-o", "json"]).get("data", {})
-                if name in data:
-                    value = data[name]
-                    break
-            if "secretRef" in env_from:
-                ref = env_from["secretRef"]
-                data = load_json(["kubectl", "get", "secret", ref["name"], "-n", namespace, "-o", "json"]).get("data", {})
-                raw = data.get(name)
-                if raw is not None:
-                    value = base64.b64decode(raw).decode("utf-8")
-                    break
-
-    if value is None:
-        sys.exit(1)
-
-    print(value)
-    PY
-    }
-
-    OIDC_AUTHORITY=$(read_chat_env OIDC_AUTHORITY)
-    OIDC_CLIENT_ID=$(read_chat_env OIDC_CLIENT_ID)
-    OIDC_SCOPE=$(read_chat_env OIDC_SCOPE)
-    if [ -z "$OIDC_AUTHORITY" ] || [ -z "$OIDC_CLIENT_ID" ] || [ -z "$OIDC_SCOPE" ]; then
-      echo "ERROR: Failed to read OIDC env vars from chat-app deployment"
-      exit 1
+    deploy=$(kubectl get deployment -n ${APP_NAMESPACE} -l app.kubernetes.io/name=tracing-app -o jsonpath='{.items[0].metadata.name}')
+    if [ -z "$deploy" ]; then
+      echo "WARNING: tracing-app deployment not found in ${APP_NAMESPACE} namespace."
+      return 0
     fi
-
-    kubectl set env deployment/tracing-app -n ${APP_NAMESPACE} \
-      API_BASE_URL=/api \
-      OIDC_AUTHORITY="$OIDC_AUTHORITY" \
-      OIDC_CLIENT_ID="$OIDC_CLIENT_ID" \
-      OIDC_SCOPE="$OIDC_SCOPE"
-    kubectl rollout status deployment/tracing-app -n ${APP_NAMESPACE} --timeout=120s
-    echo "Tracing app env updated from chat-app deployment."
-  generate_tracing_env_js: |-
-    exec_container \
-      --label-selector "app.kubernetes.io/name=tracing-app,app.kubernetes.io/instance=tracing-app" \
-      -n ${APP_NAMESPACE} \
-      -- sh -c '
-        set -e
-        i=0
-        while [ "$i" -lt 30 ]; do
-          if [ -f /tmp/devspace/40-generate-env.sh ]; then
-            chmod +x /tmp/devspace/40-generate-env.sh
-            /tmp/devspace/40-generate-env.sh
-            exit 0
-          fi
-          i=$((i + 1))
-          sleep 2
-        done
-        echo "ERROR: env generator script did not sync to /tmp/devspace/40-generate-env.sh"
-        exit 1
-      '
-  validate_tracing_env_js: |-
-    exec_container \
-      --label-selector "app.kubernetes.io/name=tracing-app,app.kubernetes.io/instance=tracing-app" \
-      -n ${APP_NAMESPACE} \
-      -- sh -c '
-        if ! wget -qO- http://127.0.0.1:3000/env.js | grep -q "window.__ENV__"; then
-          echo "ERROR: /env.js is not reachable"
-          exit 1
-        fi
-      '
+    container=$(kubectl get deployment "$deploy" -n ${APP_NAMESPACE} -o jsonpath='{.spec.template.spec.containers[0].name}')
+    if [ -z "$container" ]; then
+      echo "WARNING: tracing-app container not found in ${APP_NAMESPACE} namespace."
+      return 0
+    fi
+    image=$(kubectl get deployment "$deploy" -n ${APP_NAMESPACE} -o jsonpath='{.spec.template.spec.containers[0].image}')
+    if [ -z "$image" ]; then
+      echo "WARNING: tracing-app container image not found in ${APP_NAMESPACE} namespace."
+      return 0
+    fi
+    kubectl patch deployment "$deploy" -n ${APP_NAMESPACE} \
+      --type strategic \
+      -p "{\"spec\":{\"template\":{\"spec\":{\"securityContext\":{\"fsGroup\":101},\"volumes\":[{\"name\":\"tracing-app-html\",\"emptyDir\":{}}],\"initContainers\":[{\"name\":\"tracing-app-html-init\",\"image\":\"${image}\",\"command\":[\"sh\",\"-c\",\"cp -R /usr/share/nginx/html/. /workdir/\"],\"securityContext\":{\"runAsUser\":101,\"runAsGroup\":101,\"runAsNonRoot\":true,\"allowPrivilegeEscalation\":false},\"volumeMounts\":[{\"name\":\"tracing-app-html\",\"mountPath\":\"/workdir\"}]}],\"containers\":[{\"name\":\"${container}\",\"volumeMounts\":[{\"name\":\"tracing-app-html\",\"mountPath\":\"/usr/share/nginx/html\"}]}]}}}}"
+    kubectl rollout status deployment "$deploy" -n ${APP_NAMESPACE} --timeout=600s
   restore_argocd_sync: &restore_argocd_sync |-
     # Skip in CI to avoid ArgoCD self-heal reverting sync/patches during e2e.
     if [ -n "${CI:-}" ]; then
@@ -239,39 +71,6 @@ functions:
     else
       echo "WARNING: ArgoCD Application 'tracing-app' not found in argocd namespace."
     fi
-  dump_seed_failure_logs: |-
-    echo "=== GATEWAY LOGS ==="
-    kubectl logs -n ${APP_NAMESPACE} -l app.kubernetes.io/name=gateway --all-containers --tail=200 || true
-    echo "=== TRACING LOGS ==="
-    kubectl logs -n ${APP_NAMESPACE} -l app.kubernetes.io/name=tracing --all-containers --tail=200 || true
-    echo "=== TRACING SERVICE ==="
-    kubectl get svc -n ${APP_NAMESPACE} tracing -o wide 2>/dev/null || true
-    kubectl get endpoints -n ${APP_NAMESPACE} tracing -o wide 2>/dev/null || true
-    echo "=== TRACING PODS ==="
-    kubectl get pods -n ${APP_NAMESPACE} -l app.kubernetes.io/name=tracing -o wide 2>/dev/null || true
-    for pod in $(kubectl get pods -n ${APP_NAMESPACE} -l app.kubernetes.io/name=tracing -o name 2>/dev/null); do
-      echo "--- ${pod} ---"
-      kubectl describe -n ${APP_NAMESPACE} "${pod}" 2>/dev/null || true
-    done
-    echo "=== K8S RUNNER LOGS ==="
-    kubectl logs -n ${APP_NAMESPACE} -l app.kubernetes.io/name=k8s-runner --all-containers --tail=200 || true
-    echo "=== AGENTS-ORCHESTRATOR LOGS ==="
-    kubectl logs -n ${APP_NAMESPACE} -l app.kubernetes.io/name=agents-orchestrator --all-containers --tail=200 || true
-    echo "=== AGENT WORKLOAD PODS (agyn-workloads) ==="
-    kubectl get pods -n agyn-workloads -o wide 2>/dev/null || true
-    echo "=== AGENT WORKLOAD EVENTS (agyn-workloads) ==="
-    kubectl get events -n agyn-workloads --sort-by='.lastTimestamp' 2>/dev/null || true
-    echo "=== AGENT WORKLOAD POD DESCRIBES (agyn-workloads) ==="
-    for pod in $(kubectl get pods -n agyn-workloads -o name 2>/dev/null); do
-      echo "--- ${pod} ---"
-      kubectl describe -n agyn-workloads "${pod}" 2>/dev/null || true
-    done
-    echo "=== AGENT WORKLOAD LOGS ==="
-    for pod in $(kubectl get pods -n agyn-workloads -o name 2>/dev/null); do
-      echo "--- $pod ---"
-      kubectl logs "$pod" -n agyn-workloads --all-containers --tail=50 2>/dev/null || true
-    done
-    echo "=== END DIAGNOSTIC LOGS ==="
 
 deployments:
   e2e-runner:
@@ -316,17 +115,10 @@ pipelines:
     run: |-
       disable_argocd_sync
       ensure_tracing_app_html_writable
-      disable_tracing_ziti
-      apply_tracing_nginx_config
-      set_tracing_app_env
       if [ "$(get_flag "watch")" == "true" ]; then
         start_dev --disable-pod-replace tracing-app
-        generate_tracing_env_js
-        validate_tracing_env_js
       else
         start_dev --disable-pod-replace tracing-app
-        generate_tracing_env_js
-        validate_tracing_env_js
         echo "Dev environment ready. Stopping dev session."
         stop_dev tracing-app
       fi
@@ -383,45 +175,14 @@ pipelines:
           corepack enable
           corepack prepare pnpm@10.33.0 --activate
           pnpm install --frozen-lockfile
-          ARGOS_TOKEN_VALUE="${ARGOS_TOKEN}"
-          ARGOS_BRANCH_VALUE="${ARGOS_BRANCH}"
-          ARGOS_COMMIT_VALUE="${ARGOS_COMMIT}"
-          E2E_ORG_ID_VALUE="${E2E_ORG_ID}"
-          E2E_AUTH_TOKEN_VALUE="${E2E_AUTH_TOKEN}"
-          E2E_OIDC_REDIRECT_URI_VALUE="${E2E_OIDC_REDIRECT_URI}"
-          if [ "$ARGOS_TOKEN_VALUE" = "\${ARGOS_TOKEN}" ]; then
-            ARGOS_TOKEN_VALUE=""
-          fi
-          if [ "$ARGOS_BRANCH_VALUE" = "\${ARGOS_BRANCH}" ]; then
-            ARGOS_BRANCH_VALUE=""
-          fi
-          if [ "$ARGOS_COMMIT_VALUE" = "\${ARGOS_COMMIT}" ]; then
-            ARGOS_COMMIT_VALUE=""
-          fi
-          if [ "$E2E_ORG_ID_VALUE" = "\${E2E_ORG_ID}" ]; then
-            E2E_ORG_ID_VALUE=""
-          fi
-          if [ "$E2E_AUTH_TOKEN_VALUE" = "\${E2E_AUTH_TOKEN}" ]; then
-            E2E_AUTH_TOKEN_VALUE=""
-          fi
-          if [ "$E2E_OIDC_REDIRECT_URI_VALUE" = "\${E2E_OIDC_REDIRECT_URI}" ]; then
-            E2E_OIDC_REDIRECT_URI_VALUE=""
-          fi
-          CI_VALUE="${CI}"
-          if [ "$CI_VALUE" = "\${CI}" ]; then
-            CI_VALUE=""
-          fi
-          if [ -z "$ARGOS_TOKEN_VALUE" ]; then
-            CI_VALUE=""
-          fi
           E2E_BASE_URL="${E2E_BASE_URL}" \
-            E2E_ORG_ID="$E2E_ORG_ID_VALUE" \
-            E2E_AUTH_TOKEN="$E2E_AUTH_TOKEN_VALUE" \
-            E2E_OIDC_REDIRECT_URI="$E2E_OIDC_REDIRECT_URI_VALUE" \
-            ARGOS_TOKEN="$ARGOS_TOKEN_VALUE" \
-            ARGOS_BRANCH="$ARGOS_BRANCH_VALUE" \
-            ARGOS_COMMIT="$ARGOS_COMMIT_VALUE" \
-            CI="$CI_VALUE" \
+            E2E_ORG_ID="${E2E_ORG_ID}" \
+            E2E_AUTH_TOKEN="${E2E_AUTH_TOKEN}" \
+            E2E_OIDC_REDIRECT_URI="${E2E_OIDC_REDIRECT_URI}" \
+            ARGOS_TOKEN="${ARGOS_TOKEN}" \
+            ARGOS_BRANCH="${ARGOS_BRANCH}" \
+            ARGOS_COMMIT="${ARGOS_COMMIT}" \
+            CI="${CI}" \
             pnpm test:e2e
           EXIT_CODE=$?
           exit $EXIT_CODE
@@ -447,6 +208,8 @@ dev:
     labelSelector:
       app.kubernetes.io/name: tracing-app
       app.kubernetes.io/instance: tracing-app
+    ports:
+      - port: "3000"
     containers:
       tracing-app:
         sync:
@@ -455,12 +218,9 @@ dev:
               - .git/
               - .devspace/
               - node_modules/
-          - path: ./docker/40-generate-env.sh:/tmp/devspace/40-generate-env.sh
         logs:
           enabled: true
           lastLines: 200
-    ports:
-      - port: "3000"
 
   e2e-runner:
     namespace: ${APP_NAMESPACE}
