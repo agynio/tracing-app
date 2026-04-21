@@ -150,6 +150,11 @@ functions:
         fi
       '
   restore_argocd_sync: &restore_argocd_sync |-
+    # Skip in CI to avoid ArgoCD self-heal reverting sync/patches during e2e.
+    if [ -n "${CI:-}" ]; then
+      echo "Skipping ArgoCD auto-sync restore in CI."
+      exit 0
+    fi
     if kubectl get application tracing-app -n argocd >/dev/null 2>&1; then
       echo "Re-enabling ArgoCD auto-sync for tracing-app..."
       kubectl patch application tracing-app -n argocd \
