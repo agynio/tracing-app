@@ -471,7 +471,6 @@ jobs:
             devspace run test-e2e
             exit_code=$?
           else
-            unique_tags+=("smoke")
             declare -A seen_run=()
             tag_args=()
             for tag in "${unique_tags[@]}"; do
