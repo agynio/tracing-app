@@ -43,7 +43,19 @@ jobs:
           find_state_file() {
             local stack_dir="$1"
             local state_file
-            state_file=$(find "$stack_dir" -maxdepth 4 -type f -name "terraform.tfstate" | head -n 1)
+            state_file="$stack_dir/state/terraform.tfstate"
+            if [ -f "$state_file" ]; then
+              echo "$state_file"
+              return
+            fi
+
+            state_file="$stack_dir/terraform.tfstate"
+            if [ -f "$state_file" ]; then
+              echo "$state_file"
+              return
+            fi
+
+            state_file=$(find "$stack_dir" -maxdepth 4 -type f -name "terraform.tfstate" ! -path "*/.terraform/*" | head -n 1)
             if [ -z "$state_file" ]; then
               echo "State file not found under $stack_dir" >&2
               exit 1
