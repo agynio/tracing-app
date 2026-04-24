@@ -43,8 +43,7 @@
     "unified": "^11.0.5"
   },
   "devDependencies": {
-    "@argos-ci/playwright": "^6.5.0",
-    "@bufbuild/buf": "latest",
+    "@bufbuild/buf": "1.66.1",
     "@bufbuild/protoc-gen-es": "^2.0.0",
     "@connectrpc/connect-node": "^2.1.1",
     "@eslint/js": "^9.35.0",
@@ -52,7 +51,6 @@
     "@opentelemetry/exporter-trace-otlp-grpc": "^0.214.0",
     "@opentelemetry/resources": "^2.6.1",
     "@opentelemetry/sdk-trace-base": "^2.6.1",
-    "@playwright/test": "^1.52.0",
     "@types/node": "^24.5.1",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
