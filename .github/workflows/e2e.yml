@@ -221,6 +221,9 @@ jobs:
       - name: Deploy tracing app from source
         run: devspace dev -n platform
 
+      - name: Remove bootstrap state
+        run: rm -rf bootstrap
+
       - name: Run E2E tests
         uses: agynio/e2e/.github/actions/run-tests@main
         with:
