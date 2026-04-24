@@ -223,12 +223,6 @@ jobs:
             exit 1
           fi
 
-          {
-            printf 'E2E_OIDC_AUTHORITY=%s\n' "$OIDC_AUTHORITY"
-            printf 'E2E_OIDC_CLIENT_ID=%s\n' "$OIDC_CLIENT_ID"
-            printf 'E2E_OIDC_SCOPE=%s\n' "$OIDC_SCOPE"
-          } >> "$GITHUB_ENV"
-
           mkdir -p dist
           cat > dist/env.js <<EOF
           window.__ENV__ = {
