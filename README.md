@@ -32,7 +32,9 @@ devspace dev -w
 ### Run tests
 
 ```bash
-devspace run test-e2e
+pnpm test
 ```
 
+E2E coverage now runs from the centralized suite in
+[agynio/e2e](https://github.com/agynio/e2e) with the `svc_tracing_app` tag.
 See [E2E Testing](https://github.com/agynio/architecture/blob/main/architecture/operations/e2e-testing.md).

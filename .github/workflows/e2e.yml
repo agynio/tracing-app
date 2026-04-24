@@ -1,0 +1,150 @@
+name: E2E
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: e2e-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Provision cluster
+        uses: agynio/bootstrap/.github/actions/provision@adf1dc4453de5934a9bae8c0f03f7b417e472d79
+
+      - name: Setup DevSpace
+        uses: agynio/e2e/.github/actions/setup-devspace@main
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build tracing app
+        run: pnpm build
+        env:
+          VITE_API_BASE_URL: /api
+
+      - name: Generate tracing env.js
+        run: |
+          set -e
+
+          read_env() {
+            local key=$1
+            local value
+            value=$(kubectl get deployment chat-app -n platform \
+              -o jsonpath="{.spec.template.spec.containers[0].env[?(@.name=='${key}')].value}")
+            if [ -n "$value" ]; then
+              echo "$value"
+              return 0
+            fi
+
+            local ref_name
+            local ref_key
+            ref_name=$(kubectl get deployment chat-app -n platform \
+              -o jsonpath="{.spec.template.spec.containers[0].env[?(@.name=='${key}')].valueFrom.configMapKeyRef.name}")
+            ref_key=$(kubectl get deployment chat-app -n platform \
+              -o jsonpath="{.spec.template.spec.containers[0].env[?(@.name=='${key}')].valueFrom.configMapKeyRef.key}")
+            if [ -n "$ref_name" ] && [ -n "$ref_key" ]; then
+              value=$(kubectl get configmap "$ref_name" -n platform \
+                -o jsonpath="{.data.${ref_key}}")
+              if [ -n "$value" ]; then
+                echo "$value"
+                return 0
+              fi
+            fi
+
+            ref_name=$(kubectl get deployment chat-app -n platform \
+              -o jsonpath="{.spec.template.spec.containers[0].env[?(@.name=='${key}')].valueFrom.secretKeyRef.name}")
+            ref_key=$(kubectl get deployment chat-app -n platform \
+              -o jsonpath="{.spec.template.spec.containers[0].env[?(@.name=='${key}')].valueFrom.secretKeyRef.key}")
+            if [ -n "$ref_name" ] && [ -n "$ref_key" ]; then
+              value=$(kubectl get secret "$ref_name" -n platform \
+                -o jsonpath="{.data.${ref_key}}" 2>/dev/null | base64 --decode || true)
+              if [ -n "$value" ]; then
+                echo "$value"
+                return 0
+              fi
+            fi
+
+            for ref_name in $(kubectl get deployment chat-app -n platform \
+              -o jsonpath='{.spec.template.spec.containers[0].envFrom[?(@.configMapRef)].configMapRef.name}'); do
+              value=$(kubectl get configmap "$ref_name" -n platform \
+                -o jsonpath="{.data.${key}}" 2>/dev/null || true)
+              if [ -n "$value" ]; then
+                echo "$value"
+                return 0
+              fi
+            done
+
+            for ref_name in $(kubectl get deployment chat-app -n platform \
+              -o jsonpath='{.spec.template.spec.containers[0].envFrom[?(@.secretRef)].secretRef.name}'); do
+              value=$(kubectl get secret "$ref_name" -n platform \
+                -o jsonpath="{.data.${key}}" 2>/dev/null | base64 --decode || true)
+              if [ -n "$value" ]; then
+                echo "$value"
+                return 0
+              fi
+            done
+
+            return 1
+          }
+
+          escape_js() {
+            printf '%s' "$1" | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g'
+          }
+
+          OIDC_AUTHORITY=$(read_env OIDC_AUTHORITY || true)
+          OIDC_CLIENT_ID=$(read_env OIDC_CLIENT_ID || true)
+          OIDC_SCOPE=$(read_env OIDC_SCOPE || true)
+          if [ -z "$OIDC_AUTHORITY" ] || [ -z "$OIDC_CLIENT_ID" ] || [ -z "$OIDC_SCOPE" ]; then
+            echo "ERROR: Failed to read OIDC env vars from chat-app deployment"
+            exit 1
+          fi
+
+          {
+            printf 'E2E_OIDC_AUTHORITY=%s\n' "$OIDC_AUTHORITY"
+            printf 'E2E_OIDC_CLIENT_ID=%s\n' "$OIDC_CLIENT_ID"
+            printf 'E2E_OIDC_SCOPE=%s\n' "$OIDC_SCOPE"
+          } >> "$GITHUB_ENV"
+
+          mkdir -p dist
+          cat > dist/env.js <<EOF
+          window.__ENV__ = {
+            API_BASE_URL: "/api",
+            OIDC_AUTHORITY: "$(escape_js "$OIDC_AUTHORITY")",
+            OIDC_CLIENT_ID: "$(escape_js "$OIDC_CLIENT_ID")",
+            OIDC_SCOPE: "$(escape_js "$OIDC_SCOPE")"
+          };
+          EOF
+
+      - name: Deploy tracing app from source
+        run: devspace dev -n platform
+
+      - name: Run E2E tests
+        uses: agynio/e2e/.github/actions/run-tests@main
+        with:
+          service: tracing_app
+        env:
+          E2E_BASE_URL: http://tracing-app.platform.svc.cluster.local:3000
+          E2E_MOCK_AUTH: "false"
+          E2E_MOCK_DATA: "true"
