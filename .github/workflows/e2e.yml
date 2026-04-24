@@ -30,13 +30,31 @@ jobs:
         with:
           terraform_version: 1.6.6
 
-      - name: Initialize bootstrap outputs
+      - name: Export bootstrap outputs
         run: |
           set -euo pipefail
 
-          for stack in k8s platform apps; do
-            terraform -chdir="bootstrap/stacks/${stack}" init -input=false -reconfigure
-          done
+          kubeconfig_source="bootstrap/stacks/k8s/.kube/agyn-local-kubeconfig.yaml"
+          kubeconfig_target="$GITHUB_WORKSPACE/.kube/agyn-local-kubeconfig.yaml"
+          mkdir -p "$(dirname "$kubeconfig_target")"
+          cp "$kubeconfig_source" "$kubeconfig_target"
+          echo "KUBECONFIG=$kubeconfig_target" >> "$GITHUB_ENV"
+
+          k8s_state="bootstrap/stacks/k8s/state/terraform.tfstate"
+          domain=$(terraform -chdir=bootstrap/stacks/k8s output -state="$k8s_state" -raw domain)
+          ingress_port=$(terraform -chdir=bootstrap/stacks/k8s output -state="$k8s_state" -raw ingress_port)
+          echo "AGYN_BASE_URL=https://gateway.${domain}:${ingress_port}" >> "$GITHUB_ENV"
+
+          platform_state="bootstrap/stacks/platform/state/terraform.tfstate"
+          AGYN_API_TOKEN=$(terraform -chdir=bootstrap/stacks/platform output -state="$platform_state" -raw cluster_admin_api_token)
+          echo "::add-mask::$AGYN_API_TOKEN"
+          echo "AGYN_API_TOKEN=$AGYN_API_TOKEN" >> "$GITHUB_ENV"
+
+          apps_state="bootstrap/stacks/apps/state/terraform.tfstate"
+          AGYN_ORGANIZATION_ID=$(terraform -chdir=bootstrap/stacks/apps output -state="$apps_state" -raw bootstrap_organization_id)
+          echo "AGYN_ORGANIZATION_ID=$AGYN_ORGANIZATION_ID" >> "$GITHUB_ENV"
+
+          rm -rf bootstrap/stacks/k8s
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
