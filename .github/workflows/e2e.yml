@@ -63,6 +63,15 @@ jobs:
             echo "$state_file"
           }
 
+          sync_state_file() {
+            local source_file="$1"
+            local stack_dir="$2"
+            local target_file="$stack_dir/terraform.tfstate"
+            if [ "$source_file" != "$target_file" ]; then
+              cp "$source_file" "$target_file"
+            fi
+          }
+
           read_state_output() {
             local state_file="$1"
             local output_name="$2"
@@ -91,16 +100,19 @@ jobs:
           }
 
           k8s_state=$(find_state_file "bootstrap/stacks/k8s")
+          sync_state_file "$k8s_state" "bootstrap/stacks/k8s"
           domain=$(read_state_output "$k8s_state" domain)
           ingress_port=$(read_state_output "$k8s_state" ingress_port)
           echo "AGYN_BASE_URL=https://gateway.${domain}:${ingress_port}" >> "$GITHUB_ENV"
 
           platform_state=$(find_state_file "bootstrap/stacks/platform")
+          sync_state_file "$platform_state" "bootstrap/stacks/platform"
           AGYN_API_TOKEN=$(read_state_output "$platform_state" cluster_admin_api_token)
           echo "::add-mask::$AGYN_API_TOKEN"
           echo "AGYN_API_TOKEN=$AGYN_API_TOKEN" >> "$GITHUB_ENV"
 
           apps_state=$(find_state_file "bootstrap/stacks/apps")
+          sync_state_file "$apps_state" "bootstrap/stacks/apps"
           AGYN_ORGANIZATION_ID=$(read_state_output "$apps_state" bootstrap_organization_id)
           echo "AGYN_ORGANIZATION_ID=$AGYN_ORGANIZATION_ID" >> "$GITHUB_ENV"
 
