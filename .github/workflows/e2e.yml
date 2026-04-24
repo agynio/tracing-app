@@ -72,6 +72,13 @@ jobs:
             fi
           }
 
+          init_stack() {
+            local stack_dir="$1"
+            if [ -d "$stack_dir" ]; then
+              terraform -chdir="$stack_dir" init -backend=false -input=false -no-color
+            fi
+          }
+
           read_state_output() {
             local state_file="$1"
             local output_name="$2"
@@ -115,6 +122,10 @@ jobs:
           sync_state_file "$apps_state" "bootstrap/stacks/apps"
           AGYN_ORGANIZATION_ID=$(read_state_output "$apps_state" bootstrap_organization_id)
           echo "AGYN_ORGANIZATION_ID=$AGYN_ORGANIZATION_ID" >> "$GITHUB_ENV"
+
+          init_stack "bootstrap/stacks/k8s"
+          init_stack "bootstrap/stacks/platform"
+          init_stack "bootstrap/stacks/apps"
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
