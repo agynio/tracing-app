@@ -26,7 +26,7 @@ jobs:
         uses: agynio/e2e/.github/actions/setup-devspace@main
 
       - name: Deploy tracing app from source
-        run: devspace dev -n platform
+        run: devspace dev
 
       - name: Run E2E tests
         uses: agynio/e2e/.github/actions/run-tests@main
