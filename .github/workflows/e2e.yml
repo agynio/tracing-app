@@ -25,6 +25,19 @@ jobs:
       - name: Setup DevSpace
         uses: agynio/e2e/.github/actions/setup-devspace@main
 
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.6
+
+      - name: Initialize bootstrap outputs
+        run: |
+          set -euo pipefail
+
+          for stack in k8s platform apps; do
+            terraform -chdir="bootstrap/stacks/${stack}" init -input=false -reconfigure
+          done
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
