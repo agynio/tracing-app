@@ -310,13 +310,13 @@ jobs:
           try:
               payload = json.load(sys.stdin)
           except json.JSONDecodeError as exc:
-              print(f\"Invalid JSON in ListModels response: {exc}\", file=sys.stderr)
+              print(f"Invalid JSON in ListModels response: {exc}", file=sys.stderr)
               sys.exit(1)
 
-          models = payload.get(\"models\") or []
+          models = payload.get("models") or []
           for model in models:
-              meta = model.get(\"meta\") or {}
-              model_id = meta.get(\"id\") or model.get(\"id\") or \"\"
+              meta = model.get("meta") or {}
+              model_id = meta.get("id") or model.get("id") or ""
               if model_id:
                   print(model_id)
                   break
@@ -344,13 +344,13 @@ jobs:
           try:
               payload = json.load(sys.stdin)
           except json.JSONDecodeError as exc:
-              print(f\"Invalid JSON in ListLLMProviders response: {exc}\", file=sys.stderr)
+              print(f"Invalid JSON in ListLLMProviders response: {exc}", file=sys.stderr)
               sys.exit(1)
 
-          providers = payload.get(\"providers\") or []
+          providers = payload.get("providers") or []
           for provider in providers:
-              meta = provider.get(\"meta\") or {}
-              provider_id = meta.get(\"id\") or provider.get(\"id\") or \"\"
+              meta = provider.get("meta") or {}
+              provider_id = meta.get("id") or provider.get("id") or ""
               if provider_id:
                   print(provider_id)
                   break
@@ -379,12 +379,12 @@ jobs:
           try:
               payload = json.load(sys.stdin)
           except json.JSONDecodeError as exc:
-              print(f\"Invalid JSON in CreateLLMProvider response: {exc}\", file=sys.stderr)
+              print(f"Invalid JSON in CreateLLMProvider response: {exc}", file=sys.stderr)
               sys.exit(1)
 
-          provider = payload.get(\"provider\") or {}
-          meta = provider.get(\"meta\") or {}
-          provider_id = meta.get(\"id\") or provider.get(\"id\") or \"\"
+          provider = payload.get("provider") or {}
+          meta = provider.get("meta") or {}
+          provider_id = meta.get("id") or provider.get("id") or ""
           if provider_id:
               print(provider_id)
           PY
@@ -420,12 +420,12 @@ jobs:
           try:
               payload = json.load(sys.stdin)
           except json.JSONDecodeError as exc:
-              print(f\"Invalid JSON in CreateModel response: {exc}\", file=sys.stderr)
+              print(f"Invalid JSON in CreateModel response: {exc}", file=sys.stderr)
               sys.exit(1)
 
-          model = payload.get(\"model\") or {}
-          meta = model.get(\"meta\") or {}
-          model_id = meta.get(\"id\") or model.get(\"id\") or \"\"
+          model = payload.get("model") or {}
+          meta = model.get("meta") or {}
+          model_id = meta.get("id") or model.get("id") or ""
           if model_id:
               print(model_id)
           PY
