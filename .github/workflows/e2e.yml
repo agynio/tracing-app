@@ -223,14 +223,10 @@ jobs:
             exit 1
           fi
 
-          e2e_oidc_authority="${E2E_OIDC_AUTHORITY:-http://127.0.0.1:5000}"
-          e2e_oidc_client_id="${E2E_OIDC_CLIENT_ID:-console-app-e2e}"
-          e2e_oidc_scope="${E2E_OIDC_SCOPE:-openid profile email}"
-
           {
-            printf 'E2E_OIDC_AUTHORITY=%s\n' "$e2e_oidc_authority"
-            printf 'E2E_OIDC_CLIENT_ID=%s\n' "$e2e_oidc_client_id"
-            printf 'E2E_OIDC_SCOPE=%s\n' "$e2e_oidc_scope"
+            printf 'E2E_OIDC_AUTHORITY=%s\n' "$OIDC_AUTHORITY"
+            printf 'E2E_OIDC_CLIENT_ID=%s\n' "$OIDC_CLIENT_ID"
+            printf 'E2E_OIDC_SCOPE=%s\n' "$OIDC_SCOPE"
           } >> "$GITHUB_ENV"
 
           mkdir -p dist
