@@ -257,7 +257,7 @@ jobs:
           set -euo pipefail
 
           echo "E2E_BASE_URL=http://tracing-app.platform.svc.cluster.local:3000" >> "$GITHUB_ENV"
-          echo "E2E_MOCK_AUTH=false" >> "$GITHUB_ENV"
+          echo "E2E_MOCK_AUTH=true" >> "$GITHUB_ENV"
           echo "E2E_MOCK_DATA=true" >> "$GITHUB_ENV"
 
           if [ -z "${AGYN_BASE_URL:-}" ]; then
