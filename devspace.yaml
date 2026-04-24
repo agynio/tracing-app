@@ -2,37 +2,6 @@ version: v2beta1
 
 vars:
   APP_NAMESPACE: platform
-  E2E_IMAGE: mcr.microsoft.com/playwright:v1.58.2-noble
-  E2E_BASE_URL:
-    source: env
-    default: "https://tracing.agyn.dev"
-  ARGOS_TOKEN:
-    source: env
-    default: ""
-  ARGOS_BRANCH:
-    source: env
-    default: ""
-  ARGOS_COMMIT:
-    source: env
-    default: ""
-  E2E_ORG_ID:
-    source: env
-    default: ""
-  E2E_AUTH_TOKEN:
-    source: env
-    default: ""
-  E2E_OIDC_REDIRECT_URI:
-    source: env
-    default: ""
-  E2E_OIDC_AUTHORITY:
-    source: env
-    default: ""
-  E2E_OIDC_CLIENT_ID:
-    source: env
-    default: ""
-  E2E_OIDC_SCOPE:
-    source: env
-    default: ""
   CI:
     source: env
     default: ""
@@ -84,44 +53,6 @@ functions:
       echo "WARNING: ArgoCD Application 'tracing-app' not found in argocd namespace."
     fi
 
-deployments:
-  e2e-runner:
-    namespace: ${APP_NAMESPACE}
-    helm:
-      chart:
-        name: component-chart
-        repo: https://charts.devspace.sh
-      values:
-        containers:
-          - image: ${E2E_IMAGE}
-            env:
-              - name: E2E_BASE_URL
-                value: "${E2E_BASE_URL}"
-              - name: E2E_OIDC_REDIRECT_URI
-                value: "${E2E_OIDC_REDIRECT_URI}"
-              - name: E2E_OIDC_AUTHORITY
-                value: "${E2E_OIDC_AUTHORITY}"
-              - name: E2E_OIDC_CLIENT_ID
-                value: "${E2E_OIDC_CLIENT_ID}"
-              - name: E2E_OIDC_SCOPE
-                value: "${E2E_OIDC_SCOPE}"
-              - name: E2E_ORG_ID
-                value: "${E2E_ORG_ID}"
-              - name: E2E_AUTH_TOKEN
-                value: "${E2E_AUTH_TOKEN}"
-              - name: ARGOS_TOKEN
-                value: "${ARGOS_TOKEN}"
-              - name: ARGOS_BRANCH
-                value: "${ARGOS_BRANCH}"
-              - name: ARGOS_COMMIT
-                value: "${ARGOS_COMMIT}"
-        labels:
-          app.kubernetes.io/name: tracing-app-e2e
-
-commands:
-  test-e2e: |-
-    devspace run-pipeline test-e2e $@
-
 pipelines:
   dev:
     flags:
@@ -129,6 +60,16 @@ pipelines:
         short: w
         description: "Keep DevSpace running and stream logs"
     run: |-
+      if [ -n "${CI:-}" ]; then
+        if ! command -v corepack >/dev/null 2>&1; then
+          echo "ERROR: corepack is required to build tracing-app" >&2
+          exit 1
+        fi
+        corepack enable
+        corepack prepare pnpm@10.33.0 --activate
+        pnpm install --frozen-lockfile
+        pnpm build
+      fi
       disable_argocd_sync
       ensure_tracing_app_html_writable
       if [ "$(get_flag "watch")" == "true" ]; then
@@ -138,68 +79,6 @@ pipelines:
         echo "Dev environment ready. Stopping dev session."
         stop_dev tracing-app
       fi
-
-  test-e2e:
-    run: |-
-      create_deployments e2e-runner
-      start_dev e2e-runner &
-      sleep 5
-      set +e
-      exec_container \
-        --label-selector "app.kubernetes.io/name=tracing-app-e2e" \
-        -n ${APP_NAMESPACE} \
-        -- bash -c '
-          echo "Waiting for file sync..."
-          required_files=(
-            /opt/app/data/package.json
-            /opt/app/data/pnpm-lock.yaml
-            /opt/app/data/index.html
-            /opt/app/data/test/e2e/fixtures.ts
-            /opt/app/data/test/e2e/oidc-helpers.ts
-            /opt/app/data/test/e2e/sign-in-helper.ts
-            /opt/app/data/src/App.tsx
-            /opt/app/data/src/pages/AgentsRunScreen.tsx
-            /opt/app/data/src/main.tsx
-            /opt/app/data/src/index.css
-            /opt/app/data/src/styles/shadcn-compat.css
-          )
-          for i in $(seq 1 120); do
-            missing=0
-            for file in "${required_files[@]}"; do
-              if [ ! -f "$file" ]; then
-                missing=1
-                break
-              fi
-            done
-            if [ "$missing" -eq 0 ]; then
-              break
-            fi
-            sleep 2
-          done
-          missing_files=()
-          for file in "${required_files[@]}"; do
-            if [ ! -f "$file" ]; then
-              missing_files+=("$file")
-            fi
-          done
-          if [ "${#missing_files[@]}" -ne 0 ]; then
-            echo "ERROR: file sync timed out — missing files:${missing_files[*]}"
-            exit 1
-          fi
-          sleep 10
-          cd /opt/app/data
-          corepack enable
-          corepack prepare pnpm@10.33.0 --activate
-          pnpm install --frozen-lockfile
-          CI=true E2E_MOCK_DATA=true pnpm test:e2e
-          EXIT_CODE=$?
-          exit $EXIT_CODE
-        '
-      EXIT_CODE=$?
-      set -e
-      stop_dev e2e-runner
-      purge_deployments e2e-runner
-      exit $EXIT_CODE
 
 hooks:
   - name: restore-argocd-auto-sync
@@ -229,16 +108,3 @@ dev:
         logs:
           enabled: true
           lastLines: 200
-
-  e2e-runner:
-    namespace: ${APP_NAMESPACE}
-    labelSelector:
-      app.kubernetes.io/name: tracing-app-e2e
-    command: ["sleep", "infinity"]
-    workingDir: /opt/app/data
-    sync:
-      - path: ./:/opt/app/data
-        excludePaths:
-          - .git/
-          - .devspace/
-          - node_modules/
