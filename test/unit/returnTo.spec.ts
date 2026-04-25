@@ -31,6 +31,10 @@ describe('return-to helpers', () => {
     expect(resolveReturnTo({ returnTo: 'https://evil.test/steal' }, baseLocation.origin)).toBe('/');
   });
 
+  it('rejects normalized protocol-relative paths', () => {
+    expect(resolveReturnTo({ returnTo: '/.//evil.com' }, baseLocation.origin)).toBe('/');
+  });
+
   it('extracts return-to from auth errors', () => {
     const error = { innerError: { state: { returnTo: '/message/xyz?orgId=org-9' } } };
     expect(getReturnToFromError(error, baseLocation.origin)).toBe('/message/xyz?orgId=org-9');

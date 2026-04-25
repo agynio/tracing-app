@@ -19,6 +19,7 @@ function normalizeReturnTo(value: string, origin: string): string | null {
   }
 
   if (url.origin !== origin) return null;
+  if (url.pathname.startsWith('//')) return null;
   if (DISALLOWED_RETURN_TO_PATHS.has(url.pathname)) return null;
 
   const normalized = `${url.pathname}${url.search}${url.hash}`;

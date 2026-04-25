@@ -121,7 +121,7 @@ function AuthErrorBoundary({ children }: { children: ReactNode }) {
 
   if (error) {
     return (
-    <SignedOutScreen
+      <SignedOutScreen
         onSignIn={() => void signinRedirect(getSigninRedirectArgs())}
         title="We couldn't sign you in."
         subtitle="Please sign in again to continue."
