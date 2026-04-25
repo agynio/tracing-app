@@ -12,7 +12,7 @@ import type { Message as Message$1 } from "@bufbuild/protobuf";
  * Describes the file agynio/api/threads/v1/threads.proto.
  */
 export const file_agynio_api_threads_v1_threads: GenFile = /*@__PURE__*/
-  fileDesc("CiNhZ3luaW8vYXBpL3RocmVhZHMvdjEvdGhyZWFkcy5wcm90bxIVYWd5bmlvLmFwaS50aHJlYWRzLnYxIuMBCgZUaHJlYWQSCgoCaWQYASABKAkSOAoMcGFydGljaXBhbnRzGAIgAygLMiIuYWd5bmlvLmFwaS50aHJlYWRzLnYxLlBhcnRpY2lwYW50EjMKBnN0YXR1cxgDIAEoDjIjLmFneW5pby5hcGkudGhyZWFkcy52MS5UaHJlYWRTdGF0dXMSLgoKY3JlYXRlZF9hdBgEIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKdXBkYXRlZF9hdBgFIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAiWQoLUGFydGljaXBhbnQSCgoCaWQYASABKAkSLQoJam9pbmVkX2F0GAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIPCgdwYXNzaXZlGAMgASgIIosBCgdNZXNzYWdlEgoKAmlkGAEgASgJEhEKCXRocmVhZF9pZBgCIAEoCRIRCglzZW5kZXJfaWQYAyABKAkSDAoEYm9keRgEIAEoCRIQCghmaWxlX2lkcxgFIAMoCRIuCgpjcmVhdGVkX2F0GAYgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCJ/ChBNZXNzYWdlUmVjaXBpZW50EhIKCm1lc3NhZ2VfaWQYASABKAkSEQoJdGhyZWFkX2lkGAIgASgJEhYKDnBhcnRpY2lwYW50X2lkGAMgASgJEiwKCGFja2VkX2F0GAQgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCKoAQoTQ3JlYXRlVGhyZWFkUmVxdWVzdBIbCg9wYXJ0aWNpcGFudF9pZHMYASADKAlCAhgBEkIKDHBhcnRpY2lwYW50cxgCIAMoCzIsLmFneW5pby5hcGkudGhyZWFkcy52MS5QYXJ0aWNpcGFudElkZW50aWZpZXISHAoPb3JnYW5pemF0aW9uX2lkGAMgASgJSACIAQFCEgoQX29yZ2FuaXphdGlvbl9pZCJFChRDcmVhdGVUaHJlYWRSZXNwb25zZRItCgZ0aHJlYWQYASABKAsyHS5hZ3luaW8uYXBpLnRocmVhZHMudjEuVGhyZWFkIikKFEFyY2hpdmVUaHJlYWRSZXF1ZXN0EhEKCXRocmVhZF9pZBgBIAEoCSJGChVBcmNoaXZlVGhyZWFkUmVzcG9uc2USLQoGdGhyZWFkGAEgASgLMh0uYWd5bmlvLmFwaS50aHJlYWRzLnYxLlRocmVhZCLSAQoVQWRkUGFydGljaXBhbnRSZXF1ZXN0EhEKCXRocmVhZF9pZBgBIAEoCRIaCg5wYXJ0aWNpcGFudF9pZBgCIAEoCUICGAESHAoPb3JnYW5pemF0aW9uX2lkGAQgASgJSACIAQESDwoHcGFzc2l2ZRgFIAEoCBJBCgtwYXJ0aWNpcGFudBgGIAEoCzIsLmFneW5pby5hcGkudGhyZWFkcy52MS5QYXJ0aWNpcGFudElkZW50aWZpZXJCEgoQX29yZ2FuaXphdGlvbl9pZEoECAMQBCJfChVQYXJ0aWNpcGFudElkZW50aWZpZXISGAoOcGFydGljaXBhbnRfaWQYASABKAlIABIeChRwYXJ0aWNpcGFudF9uaWNrbmFtZRgCIAEoCUgAQgwKCmlkZW50aWZpZXIiRwoWQWRkUGFydGljaXBhbnRSZXNwb25zZRItCgZ0aHJlYWQYASABKAsyHS5hZ3luaW8uYXBpLnRocmVhZHMudjEuVGhyZWFkIloKElNlbmRNZXNzYWdlUmVxdWVzdBIRCgl0aHJlYWRfaWQYASABKAkSEQoJc2VuZGVyX2lkGAIgASgJEgwKBGJvZHkYAyABKAkSEAoIZmlsZV9pZHMYBCADKAkiRgoTU2VuZE1lc3NhZ2VSZXNwb25zZRIvCgdtZXNzYWdlGAEgASgLMh4uYWd5bmlvLmFwaS50aHJlYWRzLnYxLk1lc3NhZ2UiUgoRR2V0VGhyZWFkc1JlcXVlc3QSFgoOcGFydGljaXBhbnRfaWQYASABKAkSEQoJcGFnZV9zaXplGAIgASgFEhIKCnBhZ2VfdG9rZW4YAyABKAkiXQoSR2V0VGhyZWFkc1Jlc3BvbnNlEi4KB3RocmVhZHMYASADKAsyHS5hZ3luaW8uYXBpLnRocmVhZHMudjEuVGhyZWFkEhcKD25leHRfcGFnZV90b2tlbhgCIAEoCSJOChJHZXRNZXNzYWdlc1JlcXVlc3QSEQoJdGhyZWFkX2lkGAEgASgJEhEKCXBhZ2Vfc2l6ZRgCIAEoBRISCgpwYWdlX3Rva2VuGAMgASgJImAKE0dldE1lc3NhZ2VzUmVzcG9uc2USMAoIbWVzc2FnZXMYASADKAsyHi5hZ3luaW8uYXBpLnRocmVhZHMudjEuTWVzc2FnZRIXCg9uZXh0X3BhZ2VfdG9rZW4YAiABKAkigAEKGUdldFVuYWNrZWRNZXNzYWdlc1JlcXVlc3QSFgoOcGFydGljaXBhbnRfaWQYASABKAkSEQoJcGFnZV9zaXplGAIgASgFEhIKCnBhZ2VfdG9rZW4YAyABKAkSFgoJdGhyZWFkX2lkGAQgASgJSACIAQFCDAoKX3RocmVhZF9pZCJnChpHZXRVbmFja2VkTWVzc2FnZXNSZXNwb25zZRIwCghtZXNzYWdlcxgBIAMoCzIeLmFneW5pby5hcGkudGhyZWFkcy52MS5NZXNzYWdlEhcKD25leHRfcGFnZV90b2tlbhgCIAEoCSJBChJBY2tNZXNzYWdlc1JlcXVlc3QSFgoOcGFydGljaXBhbnRfaWQYASABKAkSEwoLbWVzc2FnZV9pZHMYAiADKAkiKgoTQWNrTWVzc2FnZXNSZXNwb25zZRITCgthY2tlZF9jb3VudBgBIAEoBSpjCgxUaHJlYWRTdGF0dXMSHQoZVEhSRUFEX1NUQVRVU19VTlNQRUNJRklFRBAAEhgKFFRIUkVBRF9TVEFUVVNfQUNUSVZFEAESGgoWVEhSRUFEX1NUQVRVU19BUkNISVZFRBACMuQGCg5UaHJlYWRzU2VydmljZRJnCgxDcmVhdGVUaHJlYWQSKi5hZ3luaW8uYXBpLnRocmVhZHMudjEuQ3JlYXRlVGhyZWFkUmVxdWVzdBorLmFneW5pby5hcGkudGhyZWFkcy52MS5DcmVhdGVUaHJlYWRSZXNwb25zZRJqCg1BcmNoaXZlVGhyZWFkEisuYWd5bmlvLmFwaS50aHJlYWRzLnYxLkFyY2hpdmVUaHJlYWRSZXF1ZXN0GiwuYWd5bmlvLmFwaS50aHJlYWRzLnYxLkFyY2hpdmVUaHJlYWRSZXNwb25zZRJtCg5BZGRQYXJ0aWNpcGFudBIsLmFneW5pby5hcGkudGhyZWFkcy52MS5BZGRQYXJ0aWNpcGFudFJlcXVlc3QaLS5hZ3luaW8uYXBpLnRocmVhZHMudjEuQWRkUGFydGljaXBhbnRSZXNwb25zZRJkCgtTZW5kTWVzc2FnZRIpLmFneW5pby5hcGkudGhyZWFkcy52MS5TZW5kTWVzc2FnZVJlcXVlc3QaKi5hZ3luaW8uYXBpLnRocmVhZHMudjEuU2VuZE1lc3NhZ2VSZXNwb25zZRJhCgpHZXRUaHJlYWRzEiguYWd5bmlvLmFwaS50aHJlYWRzLnYxLkdldFRocmVhZHNSZXF1ZXN0GikuYWd5bmlvLmFwaS50aHJlYWRzLnYxLkdldFRocmVhZHNSZXNwb25zZRJkCgtHZXRNZXNzYWdlcxIpLmFneW5pby5hcGkudGhyZWFkcy52MS5HZXRNZXNzYWdlc1JlcXVlc3QaKi5hZ3luaW8uYXBpLnRocmVhZHMudjEuR2V0TWVzc2FnZXNSZXNwb25zZRJ5ChJHZXRVbmFja2VkTWVzc2FnZXMSMC5hZ3luaW8uYXBpLnRocmVhZHMudjEuR2V0VW5hY2tlZE1lc3NhZ2VzUmVxdWVzdBoxLmFneW5pby5hcGkudGhyZWFkcy52MS5HZXRVbmFja2VkTWVzc2FnZXNSZXNwb25zZRJkCgtBY2tNZXNzYWdlcxIpLmFneW5pby5hcGkudGhyZWFkcy52MS5BY2tNZXNzYWdlc1JlcXVlc3QaKi5hZ3luaW8uYXBpLnRocmVhZHMudjEuQWNrTWVzc2FnZXNSZXNwb25zZUI7WjlnaXRodWIuY29tL2FneW5pby9hcGkvZ2VuL2FneW5pby9hcGkvdGhyZWFkcy92MTt0aHJlYWRzdjFiBnByb3RvMw", [file_google_protobuf_timestamp]);
+  fileDesc("CiNhZ3luaW8vYXBpL3RocmVhZHMvdjEvdGhyZWFkcy5wcm90bxIVYWd5bmlvLmFwaS50aHJlYWRzLnYxIpMCCgZUaHJlYWQSCgoCaWQYASABKAkSOAoMcGFydGljaXBhbnRzGAIgAygLMiIuYWd5bmlvLmFwaS50aHJlYWRzLnYxLlBhcnRpY2lwYW50EjMKBnN0YXR1cxgDIAEoDjIjLmFneW5pby5hcGkudGhyZWFkcy52MS5UaHJlYWRTdGF0dXMSLgoKY3JlYXRlZF9hdBgEIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKdXBkYXRlZF9hdBgFIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASFwoPb3JnYW5pemF0aW9uX2lkGAYgASgJEhUKDW1lc3NhZ2VfY291bnQYByABKAUiawoLUGFydGljaXBhbnQSCgoCaWQYASABKAkSLQoJam9pbmVkX2F0GAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIPCgdwYXNzaXZlGAMgASgIEhAKCG5pY2tuYW1lGAQgASgJIosBCgdNZXNzYWdlEgoKAmlkGAEgASgJEhEKCXRocmVhZF9pZBgCIAEoCRIRCglzZW5kZXJfaWQYAyABKAkSDAoEYm9keRgEIAEoCRIQCghmaWxlX2lkcxgFIAMoCRIuCgpjcmVhdGVkX2F0GAYgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCJ/ChBNZXNzYWdlUmVjaXBpZW50EhIKCm1lc3NhZ2VfaWQYASABKAkSEQoJdGhyZWFkX2lkGAIgASgJEhYKDnBhcnRpY2lwYW50X2lkGAMgASgJEiwKCGFja2VkX2F0GAQgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCKoAQoTQ3JlYXRlVGhyZWFkUmVxdWVzdBIbCg9wYXJ0aWNpcGFudF9pZHMYASADKAlCAhgBEkIKDHBhcnRpY2lwYW50cxgCIAMoCzIsLmFneW5pby5hcGkudGhyZWFkcy52MS5QYXJ0aWNpcGFudElkZW50aWZpZXISHAoPb3JnYW5pemF0aW9uX2lkGAMgASgJSACIAQFCEgoQX29yZ2FuaXphdGlvbl9pZCJFChRDcmVhdGVUaHJlYWRSZXNwb25zZRItCgZ0aHJlYWQYASABKAsyHS5hZ3luaW8uYXBpLnRocmVhZHMudjEuVGhyZWFkIikKFEFyY2hpdmVUaHJlYWRSZXF1ZXN0EhEKCXRocmVhZF9pZBgBIAEoCSJGChVBcmNoaXZlVGhyZWFkUmVzcG9uc2USLQoGdGhyZWFkGAEgASgLMh0uYWd5bmlvLmFwaS50aHJlYWRzLnYxLlRocmVhZCI5ChREZWdyYWRlVGhyZWFkUmVxdWVzdBIRCgl0aHJlYWRfaWQYASABKAkSDgoGcmVhc29uGAIgASgJIkYKFURlZ3JhZGVUaHJlYWRSZXNwb25zZRItCgZ0aHJlYWQYASABKAsyHS5hZ3luaW8uYXBpLnRocmVhZHMudjEuVGhyZWFkItIBChVBZGRQYXJ0aWNpcGFudFJlcXVlc3QSEQoJdGhyZWFkX2lkGAEgASgJEhoKDnBhcnRpY2lwYW50X2lkGAIgASgJQgIYARIcCg9vcmdhbml6YXRpb25faWQYBCABKAlIAIgBARIPCgdwYXNzaXZlGAUgASgIEkEKC3BhcnRpY2lwYW50GAYgASgLMiwuYWd5bmlvLmFwaS50aHJlYWRzLnYxLlBhcnRpY2lwYW50SWRlbnRpZmllckISChBfb3JnYW5pemF0aW9uX2lkSgQIAxAEIl8KFVBhcnRpY2lwYW50SWRlbnRpZmllchIYCg5wYXJ0aWNpcGFudF9pZBgBIAEoCUgAEh4KFHBhcnRpY2lwYW50X25pY2tuYW1lGAIgASgJSABCDAoKaWRlbnRpZmllciJHChZBZGRQYXJ0aWNpcGFudFJlc3BvbnNlEi0KBnRocmVhZBgBIAEoCzIdLmFneW5pby5hcGkudGhyZWFkcy52MS5UaHJlYWQiWgoSU2VuZE1lc3NhZ2VSZXF1ZXN0EhEKCXRocmVhZF9pZBgBIAEoCRIRCglzZW5kZXJfaWQYAiABKAkSDAoEYm9keRgDIAEoCRIQCghmaWxlX2lkcxgEIAMoCSJGChNTZW5kTWVzc2FnZVJlc3BvbnNlEi8KB21lc3NhZ2UYASABKAsyHi5hZ3luaW8uYXBpLnRocmVhZHMudjEuTWVzc2FnZSJSChFHZXRUaHJlYWRzUmVxdWVzdBIWCg5wYXJ0aWNpcGFudF9pZBgBIAEoCRIRCglwYWdlX3NpemUYAiABKAUSEgoKcGFnZV90b2tlbhgDIAEoCSJdChJHZXRUaHJlYWRzUmVzcG9uc2USLgoHdGhyZWFkcxgBIAMoCzIdLmFneW5pby5hcGkudGhyZWFkcy52MS5UaHJlYWQSFwoPbmV4dF9wYWdlX3Rva2VuGAIgASgJIogCCh1MaXN0T3JnYW5pemF0aW9uVGhyZWFkc0ZpbHRlchI2CglzdGF0dXNfaW4YASADKA4yIy5hZ3luaW8uYXBpLnRocmVhZHMudjEuVGhyZWFkU3RhdHVzEhkKEXBhcnRpY2lwYW50X2lkX2luGAIgAygJEjYKDWNyZWF0ZWRfYWZ0ZXIYAyABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wSACIAQESNwoOY3JlYXRlZF9iZWZvcmUYBCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wSAGIAQFCEAoOX2NyZWF0ZWRfYWZ0ZXJCEQoPX2NyZWF0ZWRfYmVmb3JlIp4BChtMaXN0T3JnYW5pemF0aW9uVGhyZWFkc1NvcnQSRgoFZmllbGQYASABKA4yNy5hZ3luaW8uYXBpLnRocmVhZHMudjEuTGlzdE9yZ2FuaXphdGlvblRocmVhZHNTb3J0RmllbGQSNwoJZGlyZWN0aW9uGAIgASgOMiQuYWd5bmlvLmFwaS50aHJlYWRzLnYxLlNvcnREaXJlY3Rpb24i6AEKHkxpc3RPcmdhbml6YXRpb25UaHJlYWRzUmVxdWVzdBIXCg9vcmdhbml6YXRpb25faWQYASABKAkSRAoGZmlsdGVyGAIgASgLMjQuYWd5bmlvLmFwaS50aHJlYWRzLnYxLkxpc3RPcmdhbml6YXRpb25UaHJlYWRzRmlsdGVyEkAKBHNvcnQYAyABKAsyMi5hZ3luaW8uYXBpLnRocmVhZHMudjEuTGlzdE9yZ2FuaXphdGlvblRocmVhZHNTb3J0EhEKCXBhZ2Vfc2l6ZRgEIAEoBRISCgpwYWdlX3Rva2VuGAUgASgJImoKH0xpc3RPcmdhbml6YXRpb25UaHJlYWRzUmVzcG9uc2USLgoHdGhyZWFkcxgBIAMoCzIdLmFneW5pby5hcGkudGhyZWFkcy52MS5UaHJlYWQSFwoPbmV4dF9wYWdlX3Rva2VuGAIgASgJIpQBCh1HZXRPcmdhbml6YXRpb25UaHJlYWRzUmVxdWVzdBIXCg9vcmdhbml6YXRpb25faWQYASABKAkSEQoJcGFnZV9zaXplGAIgASgFEhIKCnBhZ2VfdG9rZW4YAyABKAkSMwoGc3RhdHVzGAQgASgOMiMuYWd5bmlvLmFwaS50aHJlYWRzLnYxLlRocmVhZFN0YXR1cyJpCh5HZXRPcmdhbml6YXRpb25UaHJlYWRzUmVzcG9uc2USLgoHdGhyZWFkcxgBIAMoCzIdLmFneW5pby5hcGkudGhyZWFkcy52MS5UaHJlYWQSFwoPbmV4dF9wYWdlX3Rva2VuGAIgASgJIiUKEEdldFRocmVhZFJlcXVlc3QSEQoJdGhyZWFkX2lkGAEgASgJIkIKEUdldFRocmVhZFJlc3BvbnNlEi0KBnRocmVhZBgBIAEoCzIdLmFneW5pby5hcGkudGhyZWFkcy52MS5UaHJlYWQiggEKEkdldE1lc3NhZ2VzUmVxdWVzdBIRCgl0aHJlYWRfaWQYASABKAkSEQoJcGFnZV9zaXplGAIgASgFEhIKCnBhZ2VfdG9rZW4YAyABKAkSMgoFb3JkZXIYBCABKA4yIy5hZ3luaW8uYXBpLnRocmVhZHMudjEuTWVzc2FnZU9yZGVyImAKE0dldE1lc3NhZ2VzUmVzcG9uc2USMAoIbWVzc2FnZXMYASADKAsyHi5hZ3luaW8uYXBpLnRocmVhZHMudjEuTWVzc2FnZRIXCg9uZXh0X3BhZ2VfdG9rZW4YAiABKAkigAEKGUdldFVuYWNrZWRNZXNzYWdlc1JlcXVlc3QSFgoOcGFydGljaXBhbnRfaWQYASABKAkSEQoJcGFnZV9zaXplGAIgASgFEhIKCnBhZ2VfdG9rZW4YAyABKAkSFgoJdGhyZWFkX2lkGAQgASgJSACIAQFCDAoKX3RocmVhZF9pZCJnChpHZXRVbmFja2VkTWVzc2FnZXNSZXNwb25zZRIwCghtZXNzYWdlcxgBIAMoCzIeLmFneW5pby5hcGkudGhyZWFkcy52MS5NZXNzYWdlEhcKD25leHRfcGFnZV90b2tlbhgCIAEoCSJBChJBY2tNZXNzYWdlc1JlcXVlc3QSFgoOcGFydGljaXBhbnRfaWQYASABKAkSEwoLbWVzc2FnZV9pZHMYAiADKAkiKgoTQWNrTWVzc2FnZXNSZXNwb25zZRITCgthY2tlZF9jb3VudBgBIAEoBSp/CgxUaHJlYWRTdGF0dXMSHQoZVEhSRUFEX1NUQVRVU19VTlNQRUNJRklFRBAAEhgKFFRIUkVBRF9TVEFUVVNfQUNUSVZFEAESGgoWVEhSRUFEX1NUQVRVU19BUkNISVZFRBACEhoKFlRIUkVBRF9TVEFUVVNfREVHUkFERUQQAyptCgxNZXNzYWdlT3JkZXISHQoZTUVTU0FHRV9PUkRFUl9VTlNQRUNJRklFRBAAEh4KGk1FU1NBR0VfT1JERVJfT0xERVNUX0ZJUlNUEAESHgoaTUVTU0FHRV9PUkRFUl9ORVdFU1RfRklSU1QQAipgCg1Tb3J0RGlyZWN0aW9uEh4KGlNPUlRfRElSRUNUSU9OX1VOU1BFQ0lGSUVEEAASFgoSU09SVF9ESVJFQ1RJT05fQVNDEAESFwoTU09SVF9ESVJFQ1RJT05fREVTQxACKqUCCiBMaXN0T3JnYW5pemF0aW9uVGhyZWFkc1NvcnRGaWVsZBI0CjBMSVNUX09SR0FOSVpBVElPTl9USFJFQURTX1NPUlRfRklFTERfVU5TUEVDSUZJRUQQABIwCixMSVNUX09SR0FOSVpBVElPTl9USFJFQURTX1NPUlRfRklFTERfQ1JFQVRFRBABEjAKLExJU1RfT1JHQU5JWkFUSU9OX1RIUkVBRFNfU09SVF9GSUVMRF9VUERBVEVEEAISNgoyTElTVF9PUkdBTklaQVRJT05fVEhSRUFEU19TT1JUX0ZJRUxEX01FU1NBR0VfQ09VTlQQAxIvCitMSVNUX09SR0FOSVpBVElPTl9USFJFQURTX1NPUlRfRklFTERfU1RBVFVTEAQywwoKDlRocmVhZHNTZXJ2aWNlEmcKDENyZWF0ZVRocmVhZBIqLmFneW5pby5hcGkudGhyZWFkcy52MS5DcmVhdGVUaHJlYWRSZXF1ZXN0GisuYWd5bmlvLmFwaS50aHJlYWRzLnYxLkNyZWF0ZVRocmVhZFJlc3BvbnNlEmoKDUFyY2hpdmVUaHJlYWQSKy5hZ3luaW8uYXBpLnRocmVhZHMudjEuQXJjaGl2ZVRocmVhZFJlcXVlc3QaLC5hZ3luaW8uYXBpLnRocmVhZHMudjEuQXJjaGl2ZVRocmVhZFJlc3BvbnNlEmoKDURlZ3JhZGVUaHJlYWQSKy5hZ3luaW8uYXBpLnRocmVhZHMudjEuRGVncmFkZVRocmVhZFJlcXVlc3QaLC5hZ3luaW8uYXBpLnRocmVhZHMudjEuRGVncmFkZVRocmVhZFJlc3BvbnNlEm0KDkFkZFBhcnRpY2lwYW50EiwuYWd5bmlvLmFwaS50aHJlYWRzLnYxLkFkZFBhcnRpY2lwYW50UmVxdWVzdBotLmFneW5pby5hcGkudGhyZWFkcy52MS5BZGRQYXJ0aWNpcGFudFJlc3BvbnNlEmQKC1NlbmRNZXNzYWdlEikuYWd5bmlvLmFwaS50aHJlYWRzLnYxLlNlbmRNZXNzYWdlUmVxdWVzdBoqLmFneW5pby5hcGkudGhyZWFkcy52MS5TZW5kTWVzc2FnZVJlc3BvbnNlEmEKCkdldFRocmVhZHMSKC5hZ3luaW8uYXBpLnRocmVhZHMudjEuR2V0VGhyZWFkc1JlcXVlc3QaKS5hZ3luaW8uYXBpLnRocmVhZHMudjEuR2V0VGhyZWFkc1Jlc3BvbnNlEogBChdMaXN0T3JnYW5pemF0aW9uVGhyZWFkcxI1LmFneW5pby5hcGkudGhyZWFkcy52MS5MaXN0T3JnYW5pemF0aW9uVGhyZWFkc1JlcXVlc3QaNi5hZ3luaW8uYXBpLnRocmVhZHMudjEuTGlzdE9yZ2FuaXphdGlvblRocmVhZHNSZXNwb25zZRKFAQoWR2V0T3JnYW5pemF0aW9uVGhyZWFkcxI0LmFneW5pby5hcGkudGhyZWFkcy52MS5HZXRPcmdhbml6YXRpb25UaHJlYWRzUmVxdWVzdBo1LmFneW5pby5hcGkudGhyZWFkcy52MS5HZXRPcmdhbml6YXRpb25UaHJlYWRzUmVzcG9uc2USXgoJR2V0VGhyZWFkEicuYWd5bmlvLmFwaS50aHJlYWRzLnYxLkdldFRocmVhZFJlcXVlc3QaKC5hZ3luaW8uYXBpLnRocmVhZHMudjEuR2V0VGhyZWFkUmVzcG9uc2USZAoLR2V0TWVzc2FnZXMSKS5hZ3luaW8uYXBpLnRocmVhZHMudjEuR2V0TWVzc2FnZXNSZXF1ZXN0GiouYWd5bmlvLmFwaS50aHJlYWRzLnYxLkdldE1lc3NhZ2VzUmVzcG9uc2USeQoSR2V0VW5hY2tlZE1lc3NhZ2VzEjAuYWd5bmlvLmFwaS50aHJlYWRzLnYxLkdldFVuYWNrZWRNZXNzYWdlc1JlcXVlc3QaMS5hZ3luaW8uYXBpLnRocmVhZHMudjEuR2V0VW5hY2tlZE1lc3NhZ2VzUmVzcG9uc2USZAoLQWNrTWVzc2FnZXMSKS5hZ3luaW8uYXBpLnRocmVhZHMudjEuQWNrTWVzc2FnZXNSZXF1ZXN0GiouYWd5bmlvLmFwaS50aHJlYWRzLnYxLkFja01lc3NhZ2VzUmVzcG9uc2VCO1o5Z2l0aHViLmNvbS9hZ3luaW8vYXBpL2dlbi9hZ3luaW8vYXBpL3RocmVhZHMvdjE7dGhyZWFkc3YxYgZwcm90bzM", [file_google_protobuf_timestamp]);
 
 /**
  * A messaging thread between participants.
@@ -46,6 +46,21 @@ export type Thread = Message$1<"agynio.api.threads.v1.Thread"> & {
    * @generated from field: google.protobuf.Timestamp updated_at = 5;
    */
   updatedAt?: Timestamp;
+
+  /**
+   * Owning organization UUID. May be empty for legacy threads created
+   * before organization linkage was recorded.
+   *
+   * @generated from field: string organization_id = 6;
+   */
+  organizationId: string;
+
+  /**
+   * Count of messages in the thread, updated on send.
+   *
+   * @generated from field: int32 message_count = 7;
+   */
+  messageCount: number;
 };
 
 /**
@@ -79,6 +94,13 @@ export type Participant = Message$1<"agynio.api.threads.v1.Participant"> & {
    * @generated from field: bool passive = 3;
    */
   passive: boolean;
+
+  /**
+   * Resolved @nickname for this participant in the organization context.
+   *
+   * @generated from field: string nickname = 4;
+   */
+  nickname: string;
 };
 
 /**
@@ -284,6 +306,49 @@ export const ArchiveThreadResponseSchema: GenMessage<ArchiveThreadResponse> = /*
   messageDesc(file_agynio_api_threads_v1_threads, 7);
 
 /**
+ * @generated from message agynio.api.threads.v1.DegradeThreadRequest
+ */
+export type DegradeThreadRequest = Message$1<"agynio.api.threads.v1.DegradeThreadRequest"> & {
+  /**
+   * UUID
+   *
+   * @generated from field: string thread_id = 1;
+   */
+  threadId: string;
+
+  /**
+   * Reason for degrading the thread.
+   *
+   * @generated from field: string reason = 2;
+   */
+  reason: string;
+};
+
+/**
+ * Describes the message agynio.api.threads.v1.DegradeThreadRequest.
+ * Use `create(DegradeThreadRequestSchema)` to create a new message.
+ */
+export const DegradeThreadRequestSchema: GenMessage<DegradeThreadRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_threads_v1_threads, 8);
+
+/**
+ * @generated from message agynio.api.threads.v1.DegradeThreadResponse
+ */
+export type DegradeThreadResponse = Message$1<"agynio.api.threads.v1.DegradeThreadResponse"> & {
+  /**
+   * @generated from field: agynio.api.threads.v1.Thread thread = 1;
+   */
+  thread?: Thread;
+};
+
+/**
+ * Describes the message agynio.api.threads.v1.DegradeThreadResponse.
+ * Use `create(DegradeThreadResponseSchema)` to create a new message.
+ */
+export const DegradeThreadResponseSchema: GenMessage<DegradeThreadResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_threads_v1_threads, 9);
+
+/**
  * @generated from message agynio.api.threads.v1.AddParticipantRequest
  */
 export type AddParticipantRequest = Message$1<"agynio.api.threads.v1.AddParticipantRequest"> & {
@@ -332,7 +397,7 @@ export type AddParticipantRequest = Message$1<"agynio.api.threads.v1.AddParticip
  * Use `create(AddParticipantRequestSchema)` to create a new message.
  */
 export const AddParticipantRequestSchema: GenMessage<AddParticipantRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_threads_v1_threads, 8);
+  messageDesc(file_agynio_api_threads_v1_threads, 10);
 
 /**
  * @generated from message agynio.api.threads.v1.ParticipantIdentifier
@@ -365,7 +430,7 @@ export type ParticipantIdentifier = Message$1<"agynio.api.threads.v1.Participant
  * Use `create(ParticipantIdentifierSchema)` to create a new message.
  */
 export const ParticipantIdentifierSchema: GenMessage<ParticipantIdentifier> = /*@__PURE__*/
-  messageDesc(file_agynio_api_threads_v1_threads, 9);
+  messageDesc(file_agynio_api_threads_v1_threads, 11);
 
 /**
  * @generated from message agynio.api.threads.v1.AddParticipantResponse
@@ -382,7 +447,7 @@ export type AddParticipantResponse = Message$1<"agynio.api.threads.v1.AddPartici
  * Use `create(AddParticipantResponseSchema)` to create a new message.
  */
 export const AddParticipantResponseSchema: GenMessage<AddParticipantResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_threads_v1_threads, 10);
+  messageDesc(file_agynio_api_threads_v1_threads, 12);
 
 /**
  * @generated from message agynio.api.threads.v1.SendMessageRequest
@@ -424,7 +489,7 @@ export type SendMessageRequest = Message$1<"agynio.api.threads.v1.SendMessageReq
  * Use `create(SendMessageRequestSchema)` to create a new message.
  */
 export const SendMessageRequestSchema: GenMessage<SendMessageRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_threads_v1_threads, 11);
+  messageDesc(file_agynio_api_threads_v1_threads, 13);
 
 /**
  * @generated from message agynio.api.threads.v1.SendMessageResponse
@@ -441,7 +506,7 @@ export type SendMessageResponse = Message$1<"agynio.api.threads.v1.SendMessageRe
  * Use `create(SendMessageResponseSchema)` to create a new message.
  */
 export const SendMessageResponseSchema: GenMessage<SendMessageResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_threads_v1_threads, 12);
+  messageDesc(file_agynio_api_threads_v1_threads, 14);
 
 /**
  * @generated from message agynio.api.threads.v1.GetThreadsRequest
@@ -470,7 +535,7 @@ export type GetThreadsRequest = Message$1<"agynio.api.threads.v1.GetThreadsReque
  * Use `create(GetThreadsRequestSchema)` to create a new message.
  */
 export const GetThreadsRequestSchema: GenMessage<GetThreadsRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_threads_v1_threads, 13);
+  messageDesc(file_agynio_api_threads_v1_threads, 15);
 
 /**
  * @generated from message agynio.api.threads.v1.GetThreadsResponse
@@ -492,7 +557,218 @@ export type GetThreadsResponse = Message$1<"agynio.api.threads.v1.GetThreadsResp
  * Use `create(GetThreadsResponseSchema)` to create a new message.
  */
 export const GetThreadsResponseSchema: GenMessage<GetThreadsResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_threads_v1_threads, 14);
+  messageDesc(file_agynio_api_threads_v1_threads, 16);
+
+/**
+ * @generated from message agynio.api.threads.v1.ListOrganizationThreadsFilter
+ */
+export type ListOrganizationThreadsFilter = Message$1<"agynio.api.threads.v1.ListOrganizationThreadsFilter"> & {
+  /**
+   * @generated from field: repeated agynio.api.threads.v1.ThreadStatus status_in = 1;
+   */
+  statusIn: ThreadStatus[];
+
+  /**
+   * @generated from field: repeated string participant_id_in = 2;
+   */
+  participantIdIn: string[];
+
+  /**
+   * @generated from field: optional google.protobuf.Timestamp created_after = 3;
+   */
+  createdAfter?: Timestamp;
+
+  /**
+   * @generated from field: optional google.protobuf.Timestamp created_before = 4;
+   */
+  createdBefore?: Timestamp;
+};
+
+/**
+ * Describes the message agynio.api.threads.v1.ListOrganizationThreadsFilter.
+ * Use `create(ListOrganizationThreadsFilterSchema)` to create a new message.
+ */
+export const ListOrganizationThreadsFilterSchema: GenMessage<ListOrganizationThreadsFilter> = /*@__PURE__*/
+  messageDesc(file_agynio_api_threads_v1_threads, 17);
+
+/**
+ * @generated from message agynio.api.threads.v1.ListOrganizationThreadsSort
+ */
+export type ListOrganizationThreadsSort = Message$1<"agynio.api.threads.v1.ListOrganizationThreadsSort"> & {
+  /**
+   * @generated from field: agynio.api.threads.v1.ListOrganizationThreadsSortField field = 1;
+   */
+  field: ListOrganizationThreadsSortField;
+
+  /**
+   * @generated from field: agynio.api.threads.v1.SortDirection direction = 2;
+   */
+  direction: SortDirection;
+};
+
+/**
+ * Describes the message agynio.api.threads.v1.ListOrganizationThreadsSort.
+ * Use `create(ListOrganizationThreadsSortSchema)` to create a new message.
+ */
+export const ListOrganizationThreadsSortSchema: GenMessage<ListOrganizationThreadsSort> = /*@__PURE__*/
+  messageDesc(file_agynio_api_threads_v1_threads, 18);
+
+/**
+ * @generated from message agynio.api.threads.v1.ListOrganizationThreadsRequest
+ */
+export type ListOrganizationThreadsRequest = Message$1<"agynio.api.threads.v1.ListOrganizationThreadsRequest"> & {
+  /**
+   * UUID
+   *
+   * @generated from field: string organization_id = 1;
+   */
+  organizationId: string;
+
+  /**
+   * @generated from field: agynio.api.threads.v1.ListOrganizationThreadsFilter filter = 2;
+   */
+  filter?: ListOrganizationThreadsFilter;
+
+  /**
+   * @generated from field: agynio.api.threads.v1.ListOrganizationThreadsSort sort = 3;
+   */
+  sort?: ListOrganizationThreadsSort;
+
+  /**
+   * @generated from field: int32 page_size = 4;
+   */
+  pageSize: number;
+
+  /**
+   * Opaque cursor; reuse only with the same sort and filter.
+   *
+   * @generated from field: string page_token = 5;
+   */
+  pageToken: string;
+};
+
+/**
+ * Describes the message agynio.api.threads.v1.ListOrganizationThreadsRequest.
+ * Use `create(ListOrganizationThreadsRequestSchema)` to create a new message.
+ */
+export const ListOrganizationThreadsRequestSchema: GenMessage<ListOrganizationThreadsRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_threads_v1_threads, 19);
+
+/**
+ * @generated from message agynio.api.threads.v1.ListOrganizationThreadsResponse
+ */
+export type ListOrganizationThreadsResponse = Message$1<"agynio.api.threads.v1.ListOrganizationThreadsResponse"> & {
+  /**
+   * @generated from field: repeated agynio.api.threads.v1.Thread threads = 1;
+   */
+  threads: Thread[];
+
+  /**
+   * @generated from field: string next_page_token = 2;
+   */
+  nextPageToken: string;
+};
+
+/**
+ * Describes the message agynio.api.threads.v1.ListOrganizationThreadsResponse.
+ * Use `create(ListOrganizationThreadsResponseSchema)` to create a new message.
+ */
+export const ListOrganizationThreadsResponseSchema: GenMessage<ListOrganizationThreadsResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_threads_v1_threads, 20);
+
+/**
+ * @generated from message agynio.api.threads.v1.GetOrganizationThreadsRequest
+ */
+export type GetOrganizationThreadsRequest = Message$1<"agynio.api.threads.v1.GetOrganizationThreadsRequest"> & {
+  /**
+   * UUID
+   *
+   * @generated from field: string organization_id = 1;
+   */
+  organizationId: string;
+
+  /**
+   * @generated from field: int32 page_size = 2;
+   */
+  pageSize: number;
+
+  /**
+   * @generated from field: string page_token = 3;
+   */
+  pageToken: string;
+
+  /**
+   * Filter by status. THREAD_STATUS_UNSPECIFIED means no filter.
+   *
+   * @generated from field: agynio.api.threads.v1.ThreadStatus status = 4;
+   */
+  status: ThreadStatus;
+};
+
+/**
+ * Describes the message agynio.api.threads.v1.GetOrganizationThreadsRequest.
+ * Use `create(GetOrganizationThreadsRequestSchema)` to create a new message.
+ */
+export const GetOrganizationThreadsRequestSchema: GenMessage<GetOrganizationThreadsRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_threads_v1_threads, 21);
+
+/**
+ * @generated from message agynio.api.threads.v1.GetOrganizationThreadsResponse
+ */
+export type GetOrganizationThreadsResponse = Message$1<"agynio.api.threads.v1.GetOrganizationThreadsResponse"> & {
+  /**
+   * @generated from field: repeated agynio.api.threads.v1.Thread threads = 1;
+   */
+  threads: Thread[];
+
+  /**
+   * @generated from field: string next_page_token = 2;
+   */
+  nextPageToken: string;
+};
+
+/**
+ * Describes the message agynio.api.threads.v1.GetOrganizationThreadsResponse.
+ * Use `create(GetOrganizationThreadsResponseSchema)` to create a new message.
+ */
+export const GetOrganizationThreadsResponseSchema: GenMessage<GetOrganizationThreadsResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_threads_v1_threads, 22);
+
+/**
+ * @generated from message agynio.api.threads.v1.GetThreadRequest
+ */
+export type GetThreadRequest = Message$1<"agynio.api.threads.v1.GetThreadRequest"> & {
+  /**
+   * UUID
+   *
+   * @generated from field: string thread_id = 1;
+   */
+  threadId: string;
+};
+
+/**
+ * Describes the message agynio.api.threads.v1.GetThreadRequest.
+ * Use `create(GetThreadRequestSchema)` to create a new message.
+ */
+export const GetThreadRequestSchema: GenMessage<GetThreadRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_threads_v1_threads, 23);
+
+/**
+ * @generated from message agynio.api.threads.v1.GetThreadResponse
+ */
+export type GetThreadResponse = Message$1<"agynio.api.threads.v1.GetThreadResponse"> & {
+  /**
+   * @generated from field: agynio.api.threads.v1.Thread thread = 1;
+   */
+  thread?: Thread;
+};
+
+/**
+ * Describes the message agynio.api.threads.v1.GetThreadResponse.
+ * Use `create(GetThreadResponseSchema)` to create a new message.
+ */
+export const GetThreadResponseSchema: GenMessage<GetThreadResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_threads_v1_threads, 24);
 
 /**
  * @generated from message agynio.api.threads.v1.GetMessagesRequest
@@ -514,6 +790,14 @@ export type GetMessagesRequest = Message$1<"agynio.api.threads.v1.GetMessagesReq
    * @generated from field: string page_token = 3;
    */
   pageToken: string;
+
+  /**
+   * Message ordering for pagination. Defaults to MESSAGE_ORDER_OLDEST_FIRST.
+   * page_token values are order-sensitive; reuse only with the same order.
+   *
+   * @generated from field: agynio.api.threads.v1.MessageOrder order = 4;
+   */
+  order: MessageOrder;
 };
 
 /**
@@ -521,7 +805,7 @@ export type GetMessagesRequest = Message$1<"agynio.api.threads.v1.GetMessagesReq
  * Use `create(GetMessagesRequestSchema)` to create a new message.
  */
 export const GetMessagesRequestSchema: GenMessage<GetMessagesRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_threads_v1_threads, 15);
+  messageDesc(file_agynio_api_threads_v1_threads, 25);
 
 /**
  * @generated from message agynio.api.threads.v1.GetMessagesResponse
@@ -543,7 +827,7 @@ export type GetMessagesResponse = Message$1<"agynio.api.threads.v1.GetMessagesRe
  * Use `create(GetMessagesResponseSchema)` to create a new message.
  */
 export const GetMessagesResponseSchema: GenMessage<GetMessagesResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_threads_v1_threads, 16);
+  messageDesc(file_agynio_api_threads_v1_threads, 26);
 
 /**
  * @generated from message agynio.api.threads.v1.GetUnackedMessagesRequest
@@ -581,7 +865,7 @@ export type GetUnackedMessagesRequest = Message$1<"agynio.api.threads.v1.GetUnac
  * Use `create(GetUnackedMessagesRequestSchema)` to create a new message.
  */
 export const GetUnackedMessagesRequestSchema: GenMessage<GetUnackedMessagesRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_threads_v1_threads, 17);
+  messageDesc(file_agynio_api_threads_v1_threads, 27);
 
 /**
  * @generated from message agynio.api.threads.v1.GetUnackedMessagesResponse
@@ -603,7 +887,7 @@ export type GetUnackedMessagesResponse = Message$1<"agynio.api.threads.v1.GetUna
  * Use `create(GetUnackedMessagesResponseSchema)` to create a new message.
  */
 export const GetUnackedMessagesResponseSchema: GenMessage<GetUnackedMessagesResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_threads_v1_threads, 18);
+  messageDesc(file_agynio_api_threads_v1_threads, 28);
 
 /**
  * @generated from message agynio.api.threads.v1.AckMessagesRequest
@@ -629,7 +913,7 @@ export type AckMessagesRequest = Message$1<"agynio.api.threads.v1.AckMessagesReq
  * Use `create(AckMessagesRequestSchema)` to create a new message.
  */
 export const AckMessagesRequestSchema: GenMessage<AckMessagesRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_threads_v1_threads, 19);
+  messageDesc(file_agynio_api_threads_v1_threads, 29);
 
 /**
  * @generated from message agynio.api.threads.v1.AckMessagesResponse
@@ -650,7 +934,7 @@ export type AckMessagesResponse = Message$1<"agynio.api.threads.v1.AckMessagesRe
  * Use `create(AckMessagesResponseSchema)` to create a new message.
  */
 export const AckMessagesResponseSchema: GenMessage<AckMessagesResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_threads_v1_threads, 20);
+  messageDesc(file_agynio_api_threads_v1_threads, 30);
 
 /**
  * @generated from enum agynio.api.threads.v1.ThreadStatus
@@ -670,6 +954,11 @@ export enum ThreadStatus {
    * @generated from enum value: THREAD_STATUS_ARCHIVED = 2;
    */
   ARCHIVED = 2,
+
+  /**
+   * @generated from enum value: THREAD_STATUS_DEGRADED = 3;
+   */
+  DEGRADED = 3,
 }
 
 /**
@@ -677,6 +966,94 @@ export enum ThreadStatus {
  */
 export const ThreadStatusSchema: GenEnum<ThreadStatus> = /*@__PURE__*/
   enumDesc(file_agynio_api_threads_v1_threads, 0);
+
+/**
+ * @generated from enum agynio.api.threads.v1.MessageOrder
+ */
+export enum MessageOrder {
+  /**
+   * @generated from enum value: MESSAGE_ORDER_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: MESSAGE_ORDER_OLDEST_FIRST = 1;
+   */
+  OLDEST_FIRST = 1,
+
+  /**
+   * @generated from enum value: MESSAGE_ORDER_NEWEST_FIRST = 2;
+   */
+  NEWEST_FIRST = 2,
+}
+
+/**
+ * Describes the enum agynio.api.threads.v1.MessageOrder.
+ */
+export const MessageOrderSchema: GenEnum<MessageOrder> = /*@__PURE__*/
+  enumDesc(file_agynio_api_threads_v1_threads, 1);
+
+/**
+ * @generated from enum agynio.api.threads.v1.SortDirection
+ */
+export enum SortDirection {
+  /**
+   * @generated from enum value: SORT_DIRECTION_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: SORT_DIRECTION_ASC = 1;
+   */
+  ASC = 1,
+
+  /**
+   * @generated from enum value: SORT_DIRECTION_DESC = 2;
+   */
+  DESC = 2,
+}
+
+/**
+ * Describes the enum agynio.api.threads.v1.SortDirection.
+ */
+export const SortDirectionSchema: GenEnum<SortDirection> = /*@__PURE__*/
+  enumDesc(file_agynio_api_threads_v1_threads, 2);
+
+/**
+ * @generated from enum agynio.api.threads.v1.ListOrganizationThreadsSortField
+ */
+export enum ListOrganizationThreadsSortField {
+  /**
+   * @generated from enum value: LIST_ORGANIZATION_THREADS_SORT_FIELD_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: LIST_ORGANIZATION_THREADS_SORT_FIELD_CREATED = 1;
+   */
+  CREATED = 1,
+
+  /**
+   * @generated from enum value: LIST_ORGANIZATION_THREADS_SORT_FIELD_UPDATED = 2;
+   */
+  UPDATED = 2,
+
+  /**
+   * @generated from enum value: LIST_ORGANIZATION_THREADS_SORT_FIELD_MESSAGE_COUNT = 3;
+   */
+  MESSAGE_COUNT = 3,
+
+  /**
+   * @generated from enum value: LIST_ORGANIZATION_THREADS_SORT_FIELD_STATUS = 4;
+   */
+  STATUS = 4,
+}
+
+/**
+ * Describes the enum agynio.api.threads.v1.ListOrganizationThreadsSortField.
+ */
+export const ListOrganizationThreadsSortFieldSchema: GenEnum<ListOrganizationThreadsSortField> = /*@__PURE__*/
+  enumDesc(file_agynio_api_threads_v1_threads, 3);
 
 /**
  * ThreadsService manages messaging threads between participants.
@@ -705,6 +1082,16 @@ export const ThreadsService: GenService<{
     methodKind: "unary";
     input: typeof ArchiveThreadRequestSchema;
     output: typeof ArchiveThreadResponseSchema;
+  },
+  /**
+   * Degrade a thread (mark as degraded).
+   *
+   * @generated from rpc agynio.api.threads.v1.ThreadsService.DegradeThread
+   */
+  degradeThread: {
+    methodKind: "unary";
+    input: typeof DegradeThreadRequestSchema;
+    output: typeof DegradeThreadResponseSchema;
   },
   /**
    * Add a participant to an existing thread.
@@ -737,6 +1124,37 @@ export const ThreadsService: GenService<{
     methodKind: "unary";
     input: typeof GetThreadsRequestSchema;
     output: typeof GetThreadsResponseSchema;
+  },
+  /**
+   * List threads for an organization with pagination.
+   *
+   * @generated from rpc agynio.api.threads.v1.ThreadsService.ListOrganizationThreads
+   */
+  listOrganizationThreads: {
+    methodKind: "unary";
+    input: typeof ListOrganizationThreadsRequestSchema;
+    output: typeof ListOrganizationThreadsResponseSchema;
+  },
+  /**
+   * Get threads for an organization with pagination.
+   * Deprecated: use ListOrganizationThreads.
+   *
+   * @generated from rpc agynio.api.threads.v1.ThreadsService.GetOrganizationThreads
+   */
+  getOrganizationThreads: {
+    methodKind: "unary";
+    input: typeof GetOrganizationThreadsRequestSchema;
+    output: typeof GetOrganizationThreadsResponseSchema;
+  },
+  /**
+   * Get a thread by ID.
+   *
+   * @generated from rpc agynio.api.threads.v1.ThreadsService.GetThread
+   */
+  getThread: {
+    methodKind: "unary";
+    input: typeof GetThreadRequestSchema;
+    output: typeof GetThreadResponseSchema;
   },
   /**
    * List messages in a thread with pagination.
