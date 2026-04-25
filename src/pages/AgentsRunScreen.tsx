@@ -381,15 +381,17 @@ export function AgentsRunScreen() {
   const manualSelect = useCallback(
     (eventId: string) => {
       if (followRef.current) {
-        setFollowing(false, { announceMessage: 'Follow disabled' });
-        updateSearchParams((params) => {
-          params.set('eventId', eventId);
+        setFollowing(false, {
+          announceMessage: 'Follow disabled',
+          searchParamsMutator: (params) => {
+            params.set('eventId', eventId);
+          },
         });
         return;
       }
       selectEvent(eventId);
     },
-    [selectEvent, updateSearchParams, setFollowing, followRef],
+    [selectEvent, setFollowing, followRef],
   );
 
   const ensureSelectionVisible = useCallback(
