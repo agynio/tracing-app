@@ -31,6 +31,11 @@ type UseFollowStateOptions = {
   onAnnounce?: (message: string) => void;
 };
 
+type FollowUpdateOptions = {
+  announceMessage?: string;
+  searchParamsMutator?: (params: URLSearchParams) => void;
+};
+
 export function useFollowState({
   runId,
   searchParams,
@@ -78,21 +83,24 @@ export function useFollowState({
   }, [runId, searchParams, defaultFollow, updateSearchParams]);
 
   const persistFollow = useCallback(
-    (value: boolean) => {
+    (value: boolean, mutator?: (params: URLSearchParams) => void) => {
       writeGlobalFollowToStorage(value);
       updateSearchParams((next) => {
         next.set('follow', value ? 'true' : 'false');
+        if (mutator) {
+          mutator(next);
+        }
       });
     },
     [updateSearchParams],
   );
 
   const setFollowing = useCallback(
-    (value: boolean, options?: { announceMessage?: string }) => {
+    (value: boolean, options?: FollowUpdateOptions) => {
       if (followRef.current === value) return;
       followRef.current = value;
       setIsFollowing(value);
-      persistFollow(value);
+      persistFollow(value, options?.searchParamsMutator);
       if (options?.announceMessage && onAnnounce) {
         onAnnounce(options.announceMessage);
       }
