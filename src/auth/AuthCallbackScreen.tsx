@@ -1,18 +1,20 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useAuth } from 'react-oidc-context';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/Button';
+import { getReturnToFromError, getSigninRedirectArgs, resolveReturnTo } from './return-to';
 
 export function AuthCallbackScreen() {
   const auth = useAuth();
   const navigate = useNavigate();
   const isPending = auth.isLoading || Boolean(auth.activeNavigator);
+  const returnTo = useMemo(() => resolveReturnTo(auth.user?.state), [auth.user?.state]);
 
   useEffect(() => {
     if (isPending) return;
     if (!auth.isAuthenticated) return;
-    navigate('/', { replace: true });
-  }, [auth.isAuthenticated, isPending, navigate]);
+    navigate(returnTo, { replace: true });
+  }, [auth.isAuthenticated, isPending, navigate, returnTo]);
 
   if (isPending) {
     return (
@@ -28,7 +30,13 @@ export function AuthCallbackScreen() {
         <div className="rounded-lg border bg-background px-6 py-5 text-center shadow-sm">
           <div className="text-sm font-medium text-foreground">We couldn&apos;t sign you in.</div>
           <div className="mt-1 text-xs text-muted-foreground">{auth.error.message}</div>
-          <Button className="mt-4" size="sm" onClick={() => void auth.signinRedirect()}>
+          <Button
+            className="mt-4"
+            size="sm"
+            onClick={() =>
+              void auth.signinRedirect(getSigninRedirectArgs({ returnTo: getReturnToFromError(auth.error) }))
+            }
+          >
             Try again
           </Button>
         </div>

@@ -4,6 +4,7 @@ import { AuthProvider, useAuth } from 'react-oidc-context';
 import { Button } from '@/components/Button';
 import { oidcConfig } from '@/config';
 import { clearSignedOutFlag, readSignedOutFlag } from './signed-out';
+import { getSigninRedirectArgs } from './return-to';
 import { userManager } from './user-manager';
 
 type AuthGateProps = {
@@ -63,7 +64,7 @@ function RequireAuth({ children }: { children: ReactNode }) {
   const handleSignIn = useCallback(() => {
     clearSignedOutFlag();
     setSignedOut(false);
-    void auth.signinRedirect();
+    void auth.signinRedirect(getSigninRedirectArgs());
   }, [auth]);
 
   useEffect(() => {
@@ -82,7 +83,7 @@ function RequireAuth({ children }: { children: ReactNode }) {
     if (signedOut) return;
     if (auth.isLoading || auth.activeNavigator || auth.isAuthenticated) return;
     if (hasAuthParams()) return;
-    void auth.signinRedirect();
+    void auth.signinRedirect(getSigninRedirectArgs());
   }, [auth, signedOut]);
 
   if (signedOut && !auth.isAuthenticated) {
@@ -121,7 +122,7 @@ function AuthErrorBoundary({ children }: { children: ReactNode }) {
   if (error) {
     return (
       <SignedOutScreen
-        onSignIn={() => void signinRedirect()}
+        onSignIn={() => void signinRedirect(getSigninRedirectArgs())}
         title="We couldn't sign you in."
         subtitle="Please sign in again to continue."
       />
