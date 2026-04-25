@@ -70,7 +70,7 @@ class NotificationStream {
     if (isReconnect) this.emitReconnect();
 
     try {
-      for await (const response of notificationsClient.subscribe({}, { signal })) {
+      for await (const response of notificationsClient.subscribe({ rooms: [`trace:${this.traceId}`] }, { signal })) {
         const envelope = response.envelope;
         if (!envelope) continue;
         if (!envelope.rooms.includes(`trace:${this.traceId}`)) continue;

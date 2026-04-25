@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file agynio/api/users/v1/users.proto.
  */
 export const file_agynio_api_users_v1_users: GenFile = /*@__PURE__*/
-  fileDesc("Ch9hZ3luaW8vYXBpL3VzZXJzL3YxL3VzZXJzLnByb3RvEhNhZ3luaW8uYXBpLnVzZXJzLnYxIngKCkVudGl0eU1ldGESCgoCaWQYASABKAkSLgoKY3JlYXRlZF9hdBgCIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKdXBkYXRlZF9hdBgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAijQEKBFVzZXISLQoEbWV0YRgBIAEoCzIfLmFneW5pby5hcGkudXNlcnMudjEuRW50aXR5TWV0YRIUCgxvaWRjX3N1YmplY3QYAiABKAkSDAoEbmFtZRgDIAEoCRINCgVlbWFpbBgEIAEoCRIRCglwaG90b191cmwYBSABKAkSEAoIbmlja25hbWUYBiABKAkisAEKBkRldmljZRItCgRtZXRhGAEgASgLMh8uYWd5bmlvLmFwaS51c2Vycy52MS5FbnRpdHlNZXRhEhgKEHVzZXJfaWRlbnRpdHlfaWQYAiABKAkSDAoEbmFtZRgDIAEoCRIcChRvcGVueml0aV9pZGVudGl0eV9pZBgEIAEoCRIxCgZzdGF0dXMYBSABKA4yIS5hZ3luaW8uYXBpLnVzZXJzLnYxLkRldmljZVN0YXR1cyJiChpSZXNvbHZlT3JDcmVhdGVVc2VyUmVxdWVzdBIUCgxvaWRjX3N1YmplY3QYASABKAkSDAoEbmFtZRgCIAEoCRINCgVlbWFpbBgDIAEoCRIRCglwaG90b191cmwYBCABKAkiVwobUmVzb2x2ZU9yQ3JlYXRlVXNlclJlc3BvbnNlEicKBHVzZXIYASABKAsyGS5hZ3luaW8uYXBpLnVzZXJzLnYxLlVzZXISDwoHY3JlYXRlZBgCIAEoCCIlCg5HZXRVc2VyUmVxdWVzdBITCgtpZGVudGl0eV9pZBgBIAEoCSJyCg9HZXRVc2VyUmVzcG9uc2USJwoEdXNlchgBIAEoCzIZLmFneW5pby5hcGkudXNlcnMudjEuVXNlchI2CgxjbHVzdGVyX3JvbGUYAiABKA4yIC5hZ3luaW8uYXBpLnVzZXJzLnYxLkNsdXN0ZXJSb2xlIjMKG0dldFVzZXJCeU9JRENTdWJqZWN0UmVxdWVzdBIUCgxvaWRjX3N1YmplY3QYASABKAkiRwocR2V0VXNlckJ5T0lEQ1N1YmplY3RSZXNwb25zZRInCgR1c2VyGAEgASgLMhkuYWd5bmlvLmFwaS51c2Vycy52MS5Vc2VyIiwKFEJhdGNoR2V0VXNlcnNSZXF1ZXN0EhQKDGlkZW50aXR5X2lkcxgBIAMoCSJBChVCYXRjaEdldFVzZXJzUmVzcG9uc2USKAoFdXNlcnMYASADKAsyGS5hZ3luaW8uYXBpLnVzZXJzLnYxLlVzZXIi+gEKEVVwZGF0ZVVzZXJSZXF1ZXN0EhMKC2lkZW50aXR5X2lkGAEgASgJEhEKBG5hbWUYAiABKAlIAIgBARISCgVlbWFpbBgDIAEoCUgBiAEBEhYKCXBob3RvX3VybBgEIAEoCUgCiAEBEhUKCG5pY2tuYW1lGAUgASgJSAOIAQESOwoMY2x1c3Rlcl9yb2xlGAYgASgOMiAuYWd5bmlvLmFwaS51c2Vycy52MS5DbHVzdGVyUm9sZUgEiAEBQgcKBV9uYW1lQggKBl9lbWFpbEIMCgpfcGhvdG9fdXJsQgsKCV9uaWNrbmFtZUIPCg1fY2x1c3Rlcl9yb2xlIj0KElVwZGF0ZVVzZXJSZXNwb25zZRInCgR1c2VyGAEgASgLMhkuYWd5bmlvLmFwaS51c2Vycy52MS5Vc2VyIg4KDEdldE1lUmVxdWVzdCJwCg1HZXRNZVJlc3BvbnNlEicKBHVzZXIYASABKAsyGS5hZ3luaW8uYXBpLnVzZXJzLnYxLlVzZXISNgoMY2x1c3Rlcl9yb2xlGAIgASgOMiAuYWd5bmlvLmFwaS51c2Vycy52MS5DbHVzdGVyUm9sZSI5ChBMaXN0VXNlcnNSZXF1ZXN0EhEKCXBhZ2Vfc2l6ZRgBIAEoBRISCgpwYWdlX3Rva2VuGAIgASgJIlYKEUxpc3RVc2Vyc1Jlc3BvbnNlEigKBXVzZXJzGAEgAygLMhkuYWd5bmlvLmFwaS51c2Vycy52MS5Vc2VyEhcKD25leHRfcGFnZV90b2tlbhgCIAEoCSLHAQoRQ3JlYXRlVXNlclJlcXVlc3QSFAoMb2lkY19zdWJqZWN0GAEgASgJEhEKBG5hbWUYAiABKAlIAIgBARIVCghuaWNrbmFtZRgDIAEoCUgBiAEBEhYKCXBob3RvX3VybBgEIAEoCUgCiAEBEjYKDGNsdXN0ZXJfcm9sZRgFIAEoDjIgLmFneW5pby5hcGkudXNlcnMudjEuQ2x1c3RlclJvbGVCBwoFX25hbWVCCwoJX25pY2tuYW1lQgwKCl9waG90b191cmwiPQoSQ3JlYXRlVXNlclJlc3BvbnNlEicKBHVzZXIYASABKAsyGS5hZ3luaW8uYXBpLnVzZXJzLnYxLlVzZXIiKAoRRGVsZXRlVXNlclJlcXVlc3QSEwoLaWRlbnRpdHlfaWQYASABKAkiFAoSRGVsZXRlVXNlclJlc3BvbnNlIuEBCghBUElUb2tlbhIKCgJpZBgBIAEoCRITCgtpZGVudGl0eV9pZBgCIAEoCRIMCgRuYW1lGAMgASgJEhQKDHRva2VuX3ByZWZpeBgEIAEoCRIuCgpleHBpcmVzX2F0GAUgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgpjcmVhdGVkX2F0GAYgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIwCgxsYXN0X3VzZWRfYXQYByABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIlUKFUNyZWF0ZUFQSVRva2VuUmVxdWVzdBIMCgRuYW1lGAEgASgJEi4KCmV4cGlyZXNfYXQYAiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIl8KFkNyZWF0ZUFQSVRva2VuUmVzcG9uc2USLAoFdG9rZW4YASABKAsyHS5hZ3luaW8uYXBpLnVzZXJzLnYxLkFQSVRva2VuEhcKD3BsYWludGV4dF90b2tlbhgCIAEoCSIWChRMaXN0QVBJVG9rZW5zUmVxdWVzdCJGChVMaXN0QVBJVG9rZW5zUmVzcG9uc2USLQoGdG9rZW5zGAEgAygLMh0uYWd5bmlvLmFwaS51c2Vycy52MS5BUElUb2tlbiIpChVSZXZva2VBUElUb2tlblJlcXVlc3QSEAoIdG9rZW5faWQYASABKAkiGAoWUmV2b2tlQVBJVG9rZW5SZXNwb25zZSIsChZSZXNvbHZlQVBJVG9rZW5SZXF1ZXN0EhIKCnRva2VuX2hhc2gYASABKAkiXAoXUmVzb2x2ZUFQSVRva2VuUmVzcG9uc2USEwoLaWRlbnRpdHlfaWQYASABKAkSLAoFdG9rZW4YAiABKAsyHS5hZ3luaW8uYXBpLnVzZXJzLnYxLkFQSVRva2VuIiMKE0NyZWF0ZURldmljZVJlcXVlc3QSDAoEbmFtZRgBIAEoCSJbChRDcmVhdGVEZXZpY2VSZXNwb25zZRIrCgZkZXZpY2UYASABKAsyGy5hZ3luaW8uYXBpLnVzZXJzLnYxLkRldmljZRIWCg5lbnJvbGxtZW50X2p3dBgCIAEoCSI7ChJMaXN0RGV2aWNlc1JlcXVlc3QSEQoJcGFnZV9zaXplGAEgASgFEhIKCnBhZ2VfdG9rZW4YAiABKAkiXAoTTGlzdERldmljZXNSZXNwb25zZRIsCgdkZXZpY2VzGAEgAygLMhsuYWd5bmlvLmFwaS51c2Vycy52MS5EZXZpY2USFwoPbmV4dF9wYWdlX3Rva2VuGAIgASgJIiEKE0RlbGV0ZURldmljZVJlcXVlc3QSCgoCaWQYASABKAkiFgoURGVsZXRlRGV2aWNlUmVzcG9uc2UqQwoLQ2x1c3RlclJvbGUSHAoYQ0xVU1RFUl9ST0xFX1VOU1BFQ0lGSUVEEAASFgoSQ0xVU1RFUl9ST0xFX0FETUlOEAEqZAoMRGV2aWNlU3RhdHVzEh0KGURFVklDRV9TVEFUVVNfVU5TUEVDSUZJRUQQABIZChVERVZJQ0VfU1RBVFVTX1BFTkRJTkcQARIaChZERVZJQ0VfU1RBVFVTX0VOUk9MTEVEEAIy5AwKDFVzZXJzU2VydmljZRJ4ChNSZXNvbHZlT3JDcmVhdGVVc2VyEi8uYWd5bmlvLmFwaS51c2Vycy52MS5SZXNvbHZlT3JDcmVhdGVVc2VyUmVxdWVzdBowLmFneW5pby5hcGkudXNlcnMudjEuUmVzb2x2ZU9yQ3JlYXRlVXNlclJlc3BvbnNlElQKB0dldFVzZXISIy5hZ3luaW8uYXBpLnVzZXJzLnYxLkdldFVzZXJSZXF1ZXN0GiQuYWd5bmlvLmFwaS51c2Vycy52MS5HZXRVc2VyUmVzcG9uc2USewoUR2V0VXNlckJ5T0lEQ1N1YmplY3QSMC5hZ3luaW8uYXBpLnVzZXJzLnYxLkdldFVzZXJCeU9JRENTdWJqZWN0UmVxdWVzdBoxLmFneW5pby5hcGkudXNlcnMudjEuR2V0VXNlckJ5T0lEQ1N1YmplY3RSZXNwb25zZRJmCg1CYXRjaEdldFVzZXJzEikuYWd5bmlvLmFwaS51c2Vycy52MS5CYXRjaEdldFVzZXJzUmVxdWVzdBoqLmFneW5pby5hcGkudXNlcnMudjEuQmF0Y2hHZXRVc2Vyc1Jlc3BvbnNlEl0KClVwZGF0ZVVzZXISJi5hZ3luaW8uYXBpLnVzZXJzLnYxLlVwZGF0ZVVzZXJSZXF1ZXN0GicuYWd5bmlvLmFwaS51c2Vycy52MS5VcGRhdGVVc2VyUmVzcG9uc2USaQoOQ3JlYXRlQVBJVG9rZW4SKi5hZ3luaW8uYXBpLnVzZXJzLnYxLkNyZWF0ZUFQSVRva2VuUmVxdWVzdBorLmFneW5pby5hcGkudXNlcnMudjEuQ3JlYXRlQVBJVG9rZW5SZXNwb25zZRJmCg1MaXN0QVBJVG9rZW5zEikuYWd5bmlvLmFwaS51c2Vycy52MS5MaXN0QVBJVG9rZW5zUmVxdWVzdBoqLmFneW5pby5hcGkudXNlcnMudjEuTGlzdEFQSVRva2Vuc1Jlc3BvbnNlEmkKDlJldm9rZUFQSVRva2VuEiouYWd5bmlvLmFwaS51c2Vycy52MS5SZXZva2VBUElUb2tlblJlcXVlc3QaKy5hZ3luaW8uYXBpLnVzZXJzLnYxLlJldm9rZUFQSVRva2VuUmVzcG9uc2USbAoPUmVzb2x2ZUFQSVRva2VuEisuYWd5bmlvLmFwaS51c2Vycy52MS5SZXNvbHZlQVBJVG9rZW5SZXF1ZXN0GiwuYWd5bmlvLmFwaS51c2Vycy52MS5SZXNvbHZlQVBJVG9rZW5SZXNwb25zZRJOCgVHZXRNZRIhLmFneW5pby5hcGkudXNlcnMudjEuR2V0TWVSZXF1ZXN0GiIuYWd5bmlvLmFwaS51c2Vycy52MS5HZXRNZVJlc3BvbnNlEloKCUxpc3RVc2VycxIlLmFneW5pby5hcGkudXNlcnMudjEuTGlzdFVzZXJzUmVxdWVzdBomLmFneW5pby5hcGkudXNlcnMudjEuTGlzdFVzZXJzUmVzcG9uc2USXQoKQ3JlYXRlVXNlchImLmFneW5pby5hcGkudXNlcnMudjEuQ3JlYXRlVXNlclJlcXVlc3QaJy5hZ3luaW8uYXBpLnVzZXJzLnYxLkNyZWF0ZVVzZXJSZXNwb25zZRJdCgpEZWxldGVVc2VyEiYuYWd5bmlvLmFwaS51c2Vycy52MS5EZWxldGVVc2VyUmVxdWVzdBonLmFneW5pby5hcGkudXNlcnMudjEuRGVsZXRlVXNlclJlc3BvbnNlEmMKDENyZWF0ZURldmljZRIoLmFneW5pby5hcGkudXNlcnMudjEuQ3JlYXRlRGV2aWNlUmVxdWVzdBopLmFneW5pby5hcGkudXNlcnMudjEuQ3JlYXRlRGV2aWNlUmVzcG9uc2USYAoLTGlzdERldmljZXMSJy5hZ3luaW8uYXBpLnVzZXJzLnYxLkxpc3REZXZpY2VzUmVxdWVzdBooLmFneW5pby5hcGkudXNlcnMudjEuTGlzdERldmljZXNSZXNwb25zZRJjCgxEZWxldGVEZXZpY2USKC5hZ3luaW8uYXBpLnVzZXJzLnYxLkRlbGV0ZURldmljZVJlcXVlc3QaKS5hZ3luaW8uYXBpLnVzZXJzLnYxLkRlbGV0ZURldmljZVJlc3BvbnNlQjdaNWdpdGh1Yi5jb20vYWd5bmlvL2FwaS9nZW4vYWd5bmlvL2FwaS91c2Vycy92MTt1c2Vyc3YxYgZwcm90bzM", [file_google_protobuf_timestamp]);
+  fileDesc("Ch9hZ3luaW8vYXBpL3VzZXJzL3YxL3VzZXJzLnByb3RvEhNhZ3luaW8uYXBpLnVzZXJzLnYxIngKCkVudGl0eU1ldGESCgoCaWQYASABKAkSLgoKY3JlYXRlZF9hdBgCIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKdXBkYXRlZF9hdBgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAinwEKBFVzZXISLQoEbWV0YRgBIAEoCzIfLmFneW5pby5hcGkudXNlcnMudjEuRW50aXR5TWV0YRIUCgxvaWRjX3N1YmplY3QYAiABKAkSDAoEbmFtZRgDIAEoCRINCgVlbWFpbBgEIAEoCRIRCglwaG90b191cmwYBSABKAkSEAoIbmlja25hbWUYBiABKAkSEAoIdXNlcm5hbWUYByABKAkisAEKBkRldmljZRItCgRtZXRhGAEgASgLMh8uYWd5bmlvLmFwaS51c2Vycy52MS5FbnRpdHlNZXRhEhgKEHVzZXJfaWRlbnRpdHlfaWQYAiABKAkSDAoEbmFtZRgDIAEoCRIcChRvcGVueml0aV9pZGVudGl0eV9pZBgEIAEoCRIxCgZzdGF0dXMYBSABKA4yIS5hZ3luaW8uYXBpLnVzZXJzLnYxLkRldmljZVN0YXR1cyKaAQoaUmVzb2x2ZU9yQ3JlYXRlVXNlclJlcXVlc3QSFAoMb2lkY19zdWJqZWN0GAEgASgJEgwKBG5hbWUYAiABKAkSDQoFZW1haWwYAyABKAkSEQoJcGhvdG9fdXJsGAQgASgJEh8KEnByZWZlcnJlZF91c2VybmFtZRgFIAEoCUgAiAEBQhUKE19wcmVmZXJyZWRfdXNlcm5hbWUiVwobUmVzb2x2ZU9yQ3JlYXRlVXNlclJlc3BvbnNlEicKBHVzZXIYASABKAsyGS5hZ3luaW8uYXBpLnVzZXJzLnYxLlVzZXISDwoHY3JlYXRlZBgCIAEoCCIlCg5HZXRVc2VyUmVxdWVzdBITCgtpZGVudGl0eV9pZBgBIAEoCSJyCg9HZXRVc2VyUmVzcG9uc2USJwoEdXNlchgBIAEoCzIZLmFneW5pby5hcGkudXNlcnMudjEuVXNlchI2CgxjbHVzdGVyX3JvbGUYAiABKA4yIC5hZ3luaW8uYXBpLnVzZXJzLnYxLkNsdXN0ZXJSb2xlIjMKG0dldFVzZXJCeU9JRENTdWJqZWN0UmVxdWVzdBIUCgxvaWRjX3N1YmplY3QYASABKAkiRwocR2V0VXNlckJ5T0lEQ1N1YmplY3RSZXNwb25zZRInCgR1c2VyGAEgASgLMhkuYWd5bmlvLmFwaS51c2Vycy52MS5Vc2VyIiwKFEJhdGNoR2V0VXNlcnNSZXF1ZXN0EhQKDGlkZW50aXR5X2lkcxgBIAMoCSJBChVCYXRjaEdldFVzZXJzUmVzcG9uc2USKAoFdXNlcnMYASADKAsyGS5hZ3luaW8uYXBpLnVzZXJzLnYxLlVzZXIingIKEVVwZGF0ZVVzZXJSZXF1ZXN0EhMKC2lkZW50aXR5X2lkGAEgASgJEhEKBG5hbWUYAiABKAlIAIgBARISCgVlbWFpbBgDIAEoCUgBiAEBEhYKCXBob3RvX3VybBgEIAEoCUgCiAEBEhUKCG5pY2tuYW1lGAUgASgJSAOIAQESOwoMY2x1c3Rlcl9yb2xlGAYgASgOMiAuYWd5bmlvLmFwaS51c2Vycy52MS5DbHVzdGVyUm9sZUgEiAEBEhUKCHVzZXJuYW1lGAcgASgJSAWIAQFCBwoFX25hbWVCCAoGX2VtYWlsQgwKCl9waG90b191cmxCCwoJX25pY2tuYW1lQg8KDV9jbHVzdGVyX3JvbGVCCwoJX3VzZXJuYW1lIj0KElVwZGF0ZVVzZXJSZXNwb25zZRInCgR1c2VyGAEgASgLMhkuYWd5bmlvLmFwaS51c2Vycy52MS5Vc2VyIg4KDEdldE1lUmVxdWVzdCJwCg1HZXRNZVJlc3BvbnNlEicKBHVzZXIYASABKAsyGS5hZ3luaW8uYXBpLnVzZXJzLnYxLlVzZXISNgoMY2x1c3Rlcl9yb2xlGAIgASgOMiAuYWd5bmlvLmFwaS51c2Vycy52MS5DbHVzdGVyUm9sZSJRCg9VcGRhdGVNZVJlcXVlc3QSEQoEbmFtZRgBIAEoCUgAiAEBEhUKCHVzZXJuYW1lGAIgASgJSAGIAQFCBwoFX25hbWVCCwoJX3VzZXJuYW1lInMKEFVwZGF0ZU1lUmVzcG9uc2USJwoEdXNlchgBIAEoCzIZLmFneW5pby5hcGkudXNlcnMudjEuVXNlchI2CgxjbHVzdGVyX3JvbGUYAiABKA4yIC5hZ3luaW8uYXBpLnVzZXJzLnYxLkNsdXN0ZXJSb2xlIlwKElVzZXJEaXJlY3RvcnlFbnRyeRITCgtpZGVudGl0eV9pZBgBIAEoCRIQCgh1c2VybmFtZRgCIAEoCRIMCgRuYW1lGAMgASgJEhEKCXBob3RvX3VybBgEIAEoCSIzChJTZWFyY2hVc2Vyc1JlcXVlc3QSDgoGcHJlZml4GAEgASgJEg0KBWxpbWl0GAIgASgFIk0KE1NlYXJjaFVzZXJzUmVzcG9uc2USNgoFdXNlcnMYASADKAsyJy5hZ3luaW8uYXBpLnVzZXJzLnYxLlVzZXJEaXJlY3RvcnlFbnRyeSI5ChBMaXN0VXNlcnNSZXF1ZXN0EhEKCXBhZ2Vfc2l6ZRgBIAEoBRISCgpwYWdlX3Rva2VuGAIgASgJIlYKEUxpc3RVc2Vyc1Jlc3BvbnNlEigKBXVzZXJzGAEgAygLMhkuYWd5bmlvLmFwaS51c2Vycy52MS5Vc2VyEhcKD25leHRfcGFnZV90b2tlbhgCIAEoCSLrAQoRQ3JlYXRlVXNlclJlcXVlc3QSFAoMb2lkY19zdWJqZWN0GAEgASgJEhEKBG5hbWUYAiABKAlIAIgBARIVCghuaWNrbmFtZRgDIAEoCUgBiAEBEhYKCXBob3RvX3VybBgEIAEoCUgCiAEBEjYKDGNsdXN0ZXJfcm9sZRgFIAEoDjIgLmFneW5pby5hcGkudXNlcnMudjEuQ2x1c3RlclJvbGUSFQoIdXNlcm5hbWUYBiABKAlIA4gBAUIHCgVfbmFtZUILCglfbmlja25hbWVCDAoKX3Bob3RvX3VybEILCglfdXNlcm5hbWUiPQoSQ3JlYXRlVXNlclJlc3BvbnNlEicKBHVzZXIYASABKAsyGS5hZ3luaW8uYXBpLnVzZXJzLnYxLlVzZXIiKAoRRGVsZXRlVXNlclJlcXVlc3QSEwoLaWRlbnRpdHlfaWQYASABKAkiFAoSRGVsZXRlVXNlclJlc3BvbnNlIuEBCghBUElUb2tlbhIKCgJpZBgBIAEoCRITCgtpZGVudGl0eV9pZBgCIAEoCRIMCgRuYW1lGAMgASgJEhQKDHRva2VuX3ByZWZpeBgEIAEoCRIuCgpleHBpcmVzX2F0GAUgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgpjcmVhdGVkX2F0GAYgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIwCgxsYXN0X3VzZWRfYXQYByABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIlUKFUNyZWF0ZUFQSVRva2VuUmVxdWVzdBIMCgRuYW1lGAEgASgJEi4KCmV4cGlyZXNfYXQYAiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIl8KFkNyZWF0ZUFQSVRva2VuUmVzcG9uc2USLAoFdG9rZW4YASABKAsyHS5hZ3luaW8uYXBpLnVzZXJzLnYxLkFQSVRva2VuEhcKD3BsYWludGV4dF90b2tlbhgCIAEoCSIWChRMaXN0QVBJVG9rZW5zUmVxdWVzdCJGChVMaXN0QVBJVG9rZW5zUmVzcG9uc2USLQoGdG9rZW5zGAEgAygLMh0uYWd5bmlvLmFwaS51c2Vycy52MS5BUElUb2tlbiIpChVSZXZva2VBUElUb2tlblJlcXVlc3QSEAoIdG9rZW5faWQYASABKAkiGAoWUmV2b2tlQVBJVG9rZW5SZXNwb25zZSIsChZSZXNvbHZlQVBJVG9rZW5SZXF1ZXN0EhIKCnRva2VuX2hhc2gYASABKAkiXAoXUmVzb2x2ZUFQSVRva2VuUmVzcG9uc2USEwoLaWRlbnRpdHlfaWQYASABKAkSLAoFdG9rZW4YAiABKAsyHS5hZ3luaW8uYXBpLnVzZXJzLnYxLkFQSVRva2VuIiMKE0NyZWF0ZURldmljZVJlcXVlc3QSDAoEbmFtZRgBIAEoCSJbChRDcmVhdGVEZXZpY2VSZXNwb25zZRIrCgZkZXZpY2UYASABKAsyGy5hZ3luaW8uYXBpLnVzZXJzLnYxLkRldmljZRIWCg5lbnJvbGxtZW50X2p3dBgCIAEoCSI7ChJMaXN0RGV2aWNlc1JlcXVlc3QSEQoJcGFnZV9zaXplGAEgASgFEhIKCnBhZ2VfdG9rZW4YAiABKAkiXAoTTGlzdERldmljZXNSZXNwb25zZRIsCgdkZXZpY2VzGAEgAygLMhsuYWd5bmlvLmFwaS51c2Vycy52MS5EZXZpY2USFwoPbmV4dF9wYWdlX3Rva2VuGAIgASgJIiEKE0RlbGV0ZURldmljZVJlcXVlc3QSCgoCaWQYASABKAkiFgoURGVsZXRlRGV2aWNlUmVzcG9uc2UqQwoLQ2x1c3RlclJvbGUSHAoYQ0xVU1RFUl9ST0xFX1VOU1BFQ0lGSUVEEAASFgoSQ0xVU1RFUl9ST0xFX0FETUlOEAEqZAoMRGV2aWNlU3RhdHVzEh0KGURFVklDRV9TVEFUVVNfVU5TUEVDSUZJRUQQABIZChVERVZJQ0VfU1RBVFVTX1BFTkRJTkcQARIaChZERVZJQ0VfU1RBVFVTX0VOUk9MTEVEEAIynw4KDFVzZXJzU2VydmljZRJ4ChNSZXNvbHZlT3JDcmVhdGVVc2VyEi8uYWd5bmlvLmFwaS51c2Vycy52MS5SZXNvbHZlT3JDcmVhdGVVc2VyUmVxdWVzdBowLmFneW5pby5hcGkudXNlcnMudjEuUmVzb2x2ZU9yQ3JlYXRlVXNlclJlc3BvbnNlElQKB0dldFVzZXISIy5hZ3luaW8uYXBpLnVzZXJzLnYxLkdldFVzZXJSZXF1ZXN0GiQuYWd5bmlvLmFwaS51c2Vycy52MS5HZXRVc2VyUmVzcG9uc2USewoUR2V0VXNlckJ5T0lEQ1N1YmplY3QSMC5hZ3luaW8uYXBpLnVzZXJzLnYxLkdldFVzZXJCeU9JRENTdWJqZWN0UmVxdWVzdBoxLmFneW5pby5hcGkudXNlcnMudjEuR2V0VXNlckJ5T0lEQ1N1YmplY3RSZXNwb25zZRJmCg1CYXRjaEdldFVzZXJzEikuYWd5bmlvLmFwaS51c2Vycy52MS5CYXRjaEdldFVzZXJzUmVxdWVzdBoqLmFneW5pby5hcGkudXNlcnMudjEuQmF0Y2hHZXRVc2Vyc1Jlc3BvbnNlEl0KClVwZGF0ZVVzZXISJi5hZ3luaW8uYXBpLnVzZXJzLnYxLlVwZGF0ZVVzZXJSZXF1ZXN0GicuYWd5bmlvLmFwaS51c2Vycy52MS5VcGRhdGVVc2VyUmVzcG9uc2USaQoOQ3JlYXRlQVBJVG9rZW4SKi5hZ3luaW8uYXBpLnVzZXJzLnYxLkNyZWF0ZUFQSVRva2VuUmVxdWVzdBorLmFneW5pby5hcGkudXNlcnMudjEuQ3JlYXRlQVBJVG9rZW5SZXNwb25zZRJmCg1MaXN0QVBJVG9rZW5zEikuYWd5bmlvLmFwaS51c2Vycy52MS5MaXN0QVBJVG9rZW5zUmVxdWVzdBoqLmFneW5pby5hcGkudXNlcnMudjEuTGlzdEFQSVRva2Vuc1Jlc3BvbnNlEmkKDlJldm9rZUFQSVRva2VuEiouYWd5bmlvLmFwaS51c2Vycy52MS5SZXZva2VBUElUb2tlblJlcXVlc3QaKy5hZ3luaW8uYXBpLnVzZXJzLnYxLlJldm9rZUFQSVRva2VuUmVzcG9uc2USbAoPUmVzb2x2ZUFQSVRva2VuEisuYWd5bmlvLmFwaS51c2Vycy52MS5SZXNvbHZlQVBJVG9rZW5SZXF1ZXN0GiwuYWd5bmlvLmFwaS51c2Vycy52MS5SZXNvbHZlQVBJVG9rZW5SZXNwb25zZRJOCgVHZXRNZRIhLmFneW5pby5hcGkudXNlcnMudjEuR2V0TWVSZXF1ZXN0GiIuYWd5bmlvLmFwaS51c2Vycy52MS5HZXRNZVJlc3BvbnNlElcKCFVwZGF0ZU1lEiQuYWd5bmlvLmFwaS51c2Vycy52MS5VcGRhdGVNZVJlcXVlc3QaJS5hZ3luaW8uYXBpLnVzZXJzLnYxLlVwZGF0ZU1lUmVzcG9uc2USYAoLU2VhcmNoVXNlcnMSJy5hZ3luaW8uYXBpLnVzZXJzLnYxLlNlYXJjaFVzZXJzUmVxdWVzdBooLmFneW5pby5hcGkudXNlcnMudjEuU2VhcmNoVXNlcnNSZXNwb25zZRJaCglMaXN0VXNlcnMSJS5hZ3luaW8uYXBpLnVzZXJzLnYxLkxpc3RVc2Vyc1JlcXVlc3QaJi5hZ3luaW8uYXBpLnVzZXJzLnYxLkxpc3RVc2Vyc1Jlc3BvbnNlEl0KCkNyZWF0ZVVzZXISJi5hZ3luaW8uYXBpLnVzZXJzLnYxLkNyZWF0ZVVzZXJSZXF1ZXN0GicuYWd5bmlvLmFwaS51c2Vycy52MS5DcmVhdGVVc2VyUmVzcG9uc2USXQoKRGVsZXRlVXNlchImLmFneW5pby5hcGkudXNlcnMudjEuRGVsZXRlVXNlclJlcXVlc3QaJy5hZ3luaW8uYXBpLnVzZXJzLnYxLkRlbGV0ZVVzZXJSZXNwb25zZRJjCgxDcmVhdGVEZXZpY2USKC5hZ3luaW8uYXBpLnVzZXJzLnYxLkNyZWF0ZURldmljZVJlcXVlc3QaKS5hZ3luaW8uYXBpLnVzZXJzLnYxLkNyZWF0ZURldmljZVJlc3BvbnNlEmAKC0xpc3REZXZpY2VzEicuYWd5bmlvLmFwaS51c2Vycy52MS5MaXN0RGV2aWNlc1JlcXVlc3QaKC5hZ3luaW8uYXBpLnVzZXJzLnYxLkxpc3REZXZpY2VzUmVzcG9uc2USYwoMRGVsZXRlRGV2aWNlEiguYWd5bmlvLmFwaS51c2Vycy52MS5EZWxldGVEZXZpY2VSZXF1ZXN0GikuYWd5bmlvLmFwaS51c2Vycy52MS5EZWxldGVEZXZpY2VSZXNwb25zZUI3WjVnaXRodWIuY29tL2FneW5pby9hcGkvZ2VuL2FneW5pby9hcGkvdXNlcnMvdjE7dXNlcnN2MWIGcHJvdG8z", [file_google_protobuf_timestamp]);
 
 /**
  * @generated from message agynio.api.users.v1.EntityMeta
@@ -71,9 +71,18 @@ export type User = Message<"agynio.api.users.v1.User"> & {
   photoUrl: string;
 
   /**
+   * Organization-scoped nickname (set via OrganizationsService.SetMyOrgNickname).
+   *
    * @generated from field: string nickname = 6;
    */
   nickname: string;
+
+  /**
+   * Cluster-wide username. May be empty for existing users until set.
+   *
+   * @generated from field: string username = 7;
+   */
+  username: string;
 };
 
 /**
@@ -143,6 +152,11 @@ export type ResolveOrCreateUserRequest = Message<"agynio.api.users.v1.ResolveOrC
    * @generated from field: string photo_url = 4;
    */
   photoUrl: string;
+
+  /**
+   * @generated from field: optional string preferred_username = 5;
+   */
+  preferredUsername?: string;
 };
 
 /**
@@ -314,6 +328,11 @@ export type UpdateUserRequest = Message<"agynio.api.users.v1.UpdateUserRequest">
    * @generated from field: optional agynio.api.users.v1.ClusterRole cluster_role = 6;
    */
   clusterRole?: ClusterRole;
+
+  /**
+   * @generated from field: optional string username = 7;
+   */
+  username?: string;
 };
 
 /**
@@ -376,6 +395,125 @@ export const GetMeResponseSchema: GenMessage<GetMeResponse> = /*@__PURE__*/
   messageDesc(file_agynio_api_users_v1_users, 14);
 
 /**
+ * @generated from message agynio.api.users.v1.UpdateMeRequest
+ */
+export type UpdateMeRequest = Message<"agynio.api.users.v1.UpdateMeRequest"> & {
+  /**
+   * @generated from field: optional string name = 1;
+   */
+  name?: string;
+
+  /**
+   * Cluster-wide username. Org-scoped nicknames are set via OrganizationsService.SetMyOrgNickname.
+   *
+   * @generated from field: optional string username = 2;
+   */
+  username?: string;
+};
+
+/**
+ * Describes the message agynio.api.users.v1.UpdateMeRequest.
+ * Use `create(UpdateMeRequestSchema)` to create a new message.
+ */
+export const UpdateMeRequestSchema: GenMessage<UpdateMeRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_users_v1_users, 15);
+
+/**
+ * @generated from message agynio.api.users.v1.UpdateMeResponse
+ */
+export type UpdateMeResponse = Message<"agynio.api.users.v1.UpdateMeResponse"> & {
+  /**
+   * @generated from field: agynio.api.users.v1.User user = 1;
+   */
+  user?: User;
+
+  /**
+   * @generated from field: agynio.api.users.v1.ClusterRole cluster_role = 2;
+   */
+  clusterRole: ClusterRole;
+};
+
+/**
+ * Describes the message agynio.api.users.v1.UpdateMeResponse.
+ * Use `create(UpdateMeResponseSchema)` to create a new message.
+ */
+export const UpdateMeResponseSchema: GenMessage<UpdateMeResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_users_v1_users, 16);
+
+/**
+ * @generated from message agynio.api.users.v1.UserDirectoryEntry
+ */
+export type UserDirectoryEntry = Message<"agynio.api.users.v1.UserDirectoryEntry"> & {
+  /**
+   * @generated from field: string identity_id = 1;
+   */
+  identityId: string;
+
+  /**
+   * @generated from field: string username = 2;
+   */
+  username: string;
+
+  /**
+   * @generated from field: string name = 3;
+   */
+  name: string;
+
+  /**
+   * @generated from field: string photo_url = 4;
+   */
+  photoUrl: string;
+};
+
+/**
+ * Describes the message agynio.api.users.v1.UserDirectoryEntry.
+ * Use `create(UserDirectoryEntrySchema)` to create a new message.
+ */
+export const UserDirectoryEntrySchema: GenMessage<UserDirectoryEntry> = /*@__PURE__*/
+  messageDesc(file_agynio_api_users_v1_users, 17);
+
+/**
+ * @generated from message agynio.api.users.v1.SearchUsersRequest
+ */
+export type SearchUsersRequest = Message<"agynio.api.users.v1.SearchUsersRequest"> & {
+  /**
+   * @generated from field: string prefix = 1;
+   */
+  prefix: string;
+
+  /**
+   * Defaults to 10 when unset or zero. Max 20.
+   *
+   * @generated from field: int32 limit = 2;
+   */
+  limit: number;
+};
+
+/**
+ * Describes the message agynio.api.users.v1.SearchUsersRequest.
+ * Use `create(SearchUsersRequestSchema)` to create a new message.
+ */
+export const SearchUsersRequestSchema: GenMessage<SearchUsersRequest> = /*@__PURE__*/
+  messageDesc(file_agynio_api_users_v1_users, 18);
+
+/**
+ * @generated from message agynio.api.users.v1.SearchUsersResponse
+ */
+export type SearchUsersResponse = Message<"agynio.api.users.v1.SearchUsersResponse"> & {
+  /**
+   * @generated from field: repeated agynio.api.users.v1.UserDirectoryEntry users = 1;
+   */
+  users: UserDirectoryEntry[];
+};
+
+/**
+ * Describes the message agynio.api.users.v1.SearchUsersResponse.
+ * Use `create(SearchUsersResponseSchema)` to create a new message.
+ */
+export const SearchUsersResponseSchema: GenMessage<SearchUsersResponse> = /*@__PURE__*/
+  messageDesc(file_agynio_api_users_v1_users, 19);
+
+/**
  * @generated from message agynio.api.users.v1.ListUsersRequest
  */
 export type ListUsersRequest = Message<"agynio.api.users.v1.ListUsersRequest"> & {
@@ -395,7 +533,7 @@ export type ListUsersRequest = Message<"agynio.api.users.v1.ListUsersRequest"> &
  * Use `create(ListUsersRequestSchema)` to create a new message.
  */
 export const ListUsersRequestSchema: GenMessage<ListUsersRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 15);
+  messageDesc(file_agynio_api_users_v1_users, 20);
 
 /**
  * @generated from message agynio.api.users.v1.ListUsersResponse
@@ -417,7 +555,7 @@ export type ListUsersResponse = Message<"agynio.api.users.v1.ListUsersResponse">
  * Use `create(ListUsersResponseSchema)` to create a new message.
  */
 export const ListUsersResponseSchema: GenMessage<ListUsersResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 16);
+  messageDesc(file_agynio_api_users_v1_users, 21);
 
 /**
  * @generated from message agynio.api.users.v1.CreateUserRequest
@@ -447,6 +585,11 @@ export type CreateUserRequest = Message<"agynio.api.users.v1.CreateUserRequest">
    * @generated from field: agynio.api.users.v1.ClusterRole cluster_role = 5;
    */
   clusterRole: ClusterRole;
+
+  /**
+   * @generated from field: optional string username = 6;
+   */
+  username?: string;
 };
 
 /**
@@ -454,7 +597,7 @@ export type CreateUserRequest = Message<"agynio.api.users.v1.CreateUserRequest">
  * Use `create(CreateUserRequestSchema)` to create a new message.
  */
 export const CreateUserRequestSchema: GenMessage<CreateUserRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 17);
+  messageDesc(file_agynio_api_users_v1_users, 22);
 
 /**
  * @generated from message agynio.api.users.v1.CreateUserResponse
@@ -471,7 +614,7 @@ export type CreateUserResponse = Message<"agynio.api.users.v1.CreateUserResponse
  * Use `create(CreateUserResponseSchema)` to create a new message.
  */
 export const CreateUserResponseSchema: GenMessage<CreateUserResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 18);
+  messageDesc(file_agynio_api_users_v1_users, 23);
 
 /**
  * @generated from message agynio.api.users.v1.DeleteUserRequest
@@ -488,7 +631,7 @@ export type DeleteUserRequest = Message<"agynio.api.users.v1.DeleteUserRequest">
  * Use `create(DeleteUserRequestSchema)` to create a new message.
  */
 export const DeleteUserRequestSchema: GenMessage<DeleteUserRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 19);
+  messageDesc(file_agynio_api_users_v1_users, 24);
 
 /**
  * @generated from message agynio.api.users.v1.DeleteUserResponse
@@ -501,7 +644,7 @@ export type DeleteUserResponse = Message<"agynio.api.users.v1.DeleteUserResponse
  * Use `create(DeleteUserResponseSchema)` to create a new message.
  */
 export const DeleteUserResponseSchema: GenMessage<DeleteUserResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 20);
+  messageDesc(file_agynio_api_users_v1_users, 25);
 
 /**
  * @generated from message agynio.api.users.v1.APIToken
@@ -548,7 +691,7 @@ export type APIToken = Message<"agynio.api.users.v1.APIToken"> & {
  * Use `create(APITokenSchema)` to create a new message.
  */
 export const APITokenSchema: GenMessage<APIToken> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 21);
+  messageDesc(file_agynio_api_users_v1_users, 26);
 
 /**
  * @generated from message agynio.api.users.v1.CreateAPITokenRequest
@@ -570,7 +713,7 @@ export type CreateAPITokenRequest = Message<"agynio.api.users.v1.CreateAPITokenR
  * Use `create(CreateAPITokenRequestSchema)` to create a new message.
  */
 export const CreateAPITokenRequestSchema: GenMessage<CreateAPITokenRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 22);
+  messageDesc(file_agynio_api_users_v1_users, 27);
 
 /**
  * @generated from message agynio.api.users.v1.CreateAPITokenResponse
@@ -592,7 +735,7 @@ export type CreateAPITokenResponse = Message<"agynio.api.users.v1.CreateAPIToken
  * Use `create(CreateAPITokenResponseSchema)` to create a new message.
  */
 export const CreateAPITokenResponseSchema: GenMessage<CreateAPITokenResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 23);
+  messageDesc(file_agynio_api_users_v1_users, 28);
 
 /**
  * @generated from message agynio.api.users.v1.ListAPITokensRequest
@@ -605,7 +748,7 @@ export type ListAPITokensRequest = Message<"agynio.api.users.v1.ListAPITokensReq
  * Use `create(ListAPITokensRequestSchema)` to create a new message.
  */
 export const ListAPITokensRequestSchema: GenMessage<ListAPITokensRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 24);
+  messageDesc(file_agynio_api_users_v1_users, 29);
 
 /**
  * @generated from message agynio.api.users.v1.ListAPITokensResponse
@@ -622,7 +765,7 @@ export type ListAPITokensResponse = Message<"agynio.api.users.v1.ListAPITokensRe
  * Use `create(ListAPITokensResponseSchema)` to create a new message.
  */
 export const ListAPITokensResponseSchema: GenMessage<ListAPITokensResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 25);
+  messageDesc(file_agynio_api_users_v1_users, 30);
 
 /**
  * @generated from message agynio.api.users.v1.RevokeAPITokenRequest
@@ -639,7 +782,7 @@ export type RevokeAPITokenRequest = Message<"agynio.api.users.v1.RevokeAPITokenR
  * Use `create(RevokeAPITokenRequestSchema)` to create a new message.
  */
 export const RevokeAPITokenRequestSchema: GenMessage<RevokeAPITokenRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 26);
+  messageDesc(file_agynio_api_users_v1_users, 31);
 
 /**
  * @generated from message agynio.api.users.v1.RevokeAPITokenResponse
@@ -652,7 +795,7 @@ export type RevokeAPITokenResponse = Message<"agynio.api.users.v1.RevokeAPIToken
  * Use `create(RevokeAPITokenResponseSchema)` to create a new message.
  */
 export const RevokeAPITokenResponseSchema: GenMessage<RevokeAPITokenResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 27);
+  messageDesc(file_agynio_api_users_v1_users, 32);
 
 /**
  * @generated from message agynio.api.users.v1.ResolveAPITokenRequest
@@ -669,7 +812,7 @@ export type ResolveAPITokenRequest = Message<"agynio.api.users.v1.ResolveAPIToke
  * Use `create(ResolveAPITokenRequestSchema)` to create a new message.
  */
 export const ResolveAPITokenRequestSchema: GenMessage<ResolveAPITokenRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 28);
+  messageDesc(file_agynio_api_users_v1_users, 33);
 
 /**
  * @generated from message agynio.api.users.v1.ResolveAPITokenResponse
@@ -691,7 +834,7 @@ export type ResolveAPITokenResponse = Message<"agynio.api.users.v1.ResolveAPITok
  * Use `create(ResolveAPITokenResponseSchema)` to create a new message.
  */
 export const ResolveAPITokenResponseSchema: GenMessage<ResolveAPITokenResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 29);
+  messageDesc(file_agynio_api_users_v1_users, 34);
 
 /**
  * @generated from message agynio.api.users.v1.CreateDeviceRequest
@@ -708,7 +851,7 @@ export type CreateDeviceRequest = Message<"agynio.api.users.v1.CreateDeviceReque
  * Use `create(CreateDeviceRequestSchema)` to create a new message.
  */
 export const CreateDeviceRequestSchema: GenMessage<CreateDeviceRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 30);
+  messageDesc(file_agynio_api_users_v1_users, 35);
 
 /**
  * @generated from message agynio.api.users.v1.CreateDeviceResponse
@@ -732,7 +875,7 @@ export type CreateDeviceResponse = Message<"agynio.api.users.v1.CreateDeviceResp
  * Use `create(CreateDeviceResponseSchema)` to create a new message.
  */
 export const CreateDeviceResponseSchema: GenMessage<CreateDeviceResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 31);
+  messageDesc(file_agynio_api_users_v1_users, 36);
 
 /**
  * @generated from message agynio.api.users.v1.ListDevicesRequest
@@ -754,7 +897,7 @@ export type ListDevicesRequest = Message<"agynio.api.users.v1.ListDevicesRequest
  * Use `create(ListDevicesRequestSchema)` to create a new message.
  */
 export const ListDevicesRequestSchema: GenMessage<ListDevicesRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 32);
+  messageDesc(file_agynio_api_users_v1_users, 37);
 
 /**
  * @generated from message agynio.api.users.v1.ListDevicesResponse
@@ -776,7 +919,7 @@ export type ListDevicesResponse = Message<"agynio.api.users.v1.ListDevicesRespon
  * Use `create(ListDevicesResponseSchema)` to create a new message.
  */
 export const ListDevicesResponseSchema: GenMessage<ListDevicesResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 33);
+  messageDesc(file_agynio_api_users_v1_users, 38);
 
 /**
  * @generated from message agynio.api.users.v1.DeleteDeviceRequest
@@ -793,7 +936,7 @@ export type DeleteDeviceRequest = Message<"agynio.api.users.v1.DeleteDeviceReque
  * Use `create(DeleteDeviceRequestSchema)` to create a new message.
  */
 export const DeleteDeviceRequestSchema: GenMessage<DeleteDeviceRequest> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 34);
+  messageDesc(file_agynio_api_users_v1_users, 39);
 
 /**
  * @generated from message agynio.api.users.v1.DeleteDeviceResponse
@@ -806,7 +949,7 @@ export type DeleteDeviceResponse = Message<"agynio.api.users.v1.DeleteDeviceResp
  * Use `create(DeleteDeviceResponseSchema)` to create a new message.
  */
 export const DeleteDeviceResponseSchema: GenMessage<DeleteDeviceResponse> = /*@__PURE__*/
-  messageDesc(file_agynio_api_users_v1_users, 35);
+  messageDesc(file_agynio_api_users_v1_users, 40);
 
 /**
  * @generated from enum agynio.api.users.v1.ClusterRole
@@ -940,6 +1083,27 @@ export const UsersService: GenService<{
     methodKind: "unary";
     input: typeof GetMeRequestSchema;
     output: typeof GetMeResponseSchema;
+  },
+  /**
+   * Updates cluster-wide profile fields (name/username). Org-scoped
+   * nicknames are managed via OrganizationsService.SetMyOrgNickname.
+   *
+   * @generated from rpc agynio.api.users.v1.UsersService.UpdateMe
+   */
+  updateMe: {
+    methodKind: "unary";
+    input: typeof UpdateMeRequestSchema;
+    output: typeof UpdateMeResponseSchema;
+  },
+  /**
+   * --- User Directory ---
+   *
+   * @generated from rpc agynio.api.users.v1.UsersService.SearchUsers
+   */
+  searchUsers: {
+    methodKind: "unary";
+    input: typeof SearchUsersRequestSchema;
+    output: typeof SearchUsersResponseSchema;
   },
   /**
    * --- Admin User Management ---
