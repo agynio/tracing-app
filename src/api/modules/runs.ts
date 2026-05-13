@@ -200,6 +200,10 @@ function decodeCursorFromPageToken(token: string): RunTimelineEventsCursor | nul
   return { ts, id };
 }
 
+function cursorFromEvent(event: RunTimelineEvent): RunTimelineEventsCursor {
+  return { ts: event.ts, id: event.id };
+}
+
 export const runs = {
   listOrganizationRuns: async (
     organizationId: string,
@@ -304,14 +308,46 @@ export const runs = {
         filter.statuses = spanStatuses;
       }
     }
+    const limit = params.limit ?? 50;
+    const orderBy = params.order === 'asc'
+      ? ListSpansOrderBy.START_TIME_ASC
+      : ListSpansOrderBy.START_TIME_DESC;
+    const initialPageToken = buildPageToken(params.cursorTs, params.cursorId) ?? '';
+
+    if (requiresUnsupportedSpanFetch(types)) {
+      const items: RunTimelineEvent[] = [];
+      let pageToken = initialPageToken;
+      while (items.length < limit) {
+        const resp = await tracingClient.listSpans({
+          organizationId,
+          filter,
+          pageSize: limit - items.length,
+          orderBy,
+          pageToken,
+        });
+        const spans = flattenResourceSpans(resp.resourceSpans);
+        const convertedItems = spans.map(({ span, resourceAttrs }) => spanToEvent(span, resourceAttrs));
+        items.push(...filterEventsByTypes(convertedItems, types));
+        if (!resp.nextPageToken) {
+          return { items, nextCursor: null };
+        }
+        if (resp.nextPageToken === pageToken) {
+          throw new Error('Non-advancing timeline page token');
+        }
+        pageToken = resp.nextPageToken;
+      }
+      return {
+        items,
+        nextCursor: items.length > 0 ? cursorFromEvent(items[items.length - 1]) : null,
+      };
+    }
+
     const resp = await tracingClient.listSpans({
       organizationId,
       filter,
-      pageSize: params.limit ?? 50,
-      orderBy: params.order === 'asc'
-        ? ListSpansOrderBy.START_TIME_ASC
-        : ListSpansOrderBy.START_TIME_DESC,
-      pageToken: buildPageToken(params.cursorTs, params.cursorId) ?? '',
+      pageSize: limit,
+      orderBy,
+      pageToken: initialPageToken,
     });
 
     const spans = flattenResourceSpans(resp.resourceSpans);
