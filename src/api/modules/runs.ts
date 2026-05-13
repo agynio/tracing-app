@@ -324,6 +324,7 @@ export const runs = {
     };
   },
   timelineEventTotals: async (
+    organizationId: string,
     runId: string,
     params?: { types?: string; statuses?: string },
   ): Promise<RunTimelineTotalsResponse> => {
@@ -346,7 +347,7 @@ export const runs = {
     const resp = await tracingClient.getTraceSpanTotals(req);
     const includesUnsupported = requiresUnsupportedSpanFetch(types);
     const eventCount = includesUnsupported
-      ? await runs.countTimelineEvents(req, types)
+      ? await runs.countTimelineEvents(organizationId, req, types)
       : Number(resp.spanCount);
     const tokenUsage = includesUnsupported
       ? await runs.filteredTokenUsage(req, spanNames)
@@ -378,6 +379,7 @@ export const runs = {
     return resp.tokenUsage;
   },
   countTimelineEvents: async (
+    organizationId: string,
     filter: { traceId: Uint8Array; statuses?: SpanStatus[] },
     types: RunEventType[],
   ): Promise<number> => {
@@ -385,6 +387,7 @@ export const runs = {
     let pageToken = '';
     do {
       const resp = await tracingClient.listSpans({
+        organizationId,
         filter,
         pageSize: 250,
         orderBy: ListSpansOrderBy.START_TIME_DESC,
