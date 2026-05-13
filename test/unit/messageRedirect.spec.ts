@@ -1,13 +1,25 @@
 import { describe, expect, it } from 'vitest';
-import { messageRunRedirectRefetchInterval } from '../../src/pages/utils/messageRedirectPolling';
+import {
+  MESSAGE_RUN_LOOKUP_REFETCH_INTERVAL_MS,
+  MESSAGE_RUN_LOOKUP_TIMEOUT_MS,
+  messageRunLookupTimedOut,
+  messageRunRedirectRefetchInterval,
+} from '../../src/pages/utils/messageRedirectPolling';
 
-describe('messageRunRedirectRefetchInterval', () => {
-  it('polls until the run id is resolved', () => {
-    expect(messageRunRedirectRefetchInterval(undefined)).toBe(1000);
-    expect(messageRunRedirectRefetchInterval(null)).toBe(1000);
+describe('message redirect polling', () => {
+  it('polls until the run id is resolved within the lookup window', () => {
+    expect(messageRunRedirectRefetchInterval(undefined, 1000, 1000)).toBe(MESSAGE_RUN_LOOKUP_REFETCH_INTERVAL_MS);
+    expect(messageRunRedirectRefetchInterval(null, 1000, 1000 + MESSAGE_RUN_LOOKUP_TIMEOUT_MS - 1)).toBe(
+      MESSAGE_RUN_LOOKUP_REFETCH_INTERVAL_MS,
+    );
   });
 
   it('stops polling after the run id is resolved', () => {
-    expect(messageRunRedirectRefetchInterval({ runId: 'abc123' })).toBe(false);
+    expect(messageRunRedirectRefetchInterval({ runId: 'abc123' }, 1000, 1000)).toBe(false);
+  });
+
+  it('stops polling after the bounded lookup window expires', () => {
+    expect(messageRunLookupTimedOut(1000, 1000 + MESSAGE_RUN_LOOKUP_TIMEOUT_MS)).toBe(true);
+    expect(messageRunRedirectRefetchInterval(null, 1000, 1000 + MESSAGE_RUN_LOOKUP_TIMEOUT_MS)).toBe(false);
   });
 });
