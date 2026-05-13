@@ -38,10 +38,10 @@ export function useRunTimelineEventTotals(
   filters: { types: string[]; statuses: string[] },
 ) {
   return useQuery({
-    enabled: !!runId,
+    enabled: !!runId && !!organizationId,
     queryKey: ['agents', 'runs', organizationId ?? '', runId, 'timeline', 'events', 'totals', filters],
     queryFn: () =>
-      runs.timelineEventTotals(runId as string, {
+      runs.timelineEventTotals(organizationId as string, runId as string, {
         types: filters.types.length > 0 ? filters.types.join(',') : undefined,
         statuses: filters.statuses.length > 0 ? filters.statuses.join(',') : undefined,
       }),

@@ -33,7 +33,7 @@ export type LlmContextPage = {
 
 export type LlmContextDeltaStatus = 'available' | 'empty' | 'unavailable' | 'redacted' | 'first_call' | 'unknown';
 
-export type RunEventType = 'invocation_message' | 'injection' | 'llm_call' | 'tool_execution' | 'summarization';
+export type RunEventType = 'invocation_message' | 'injection' | 'llm_call' | 'tool_execution' | 'summarization' | 'unsupported';
 export type RunEventStatus = 'pending' | 'running' | 'success' | 'error' | 'cancelled';
 export type EventSourceKind = 'internal' | 'tracing';
 export type ToolExecStatus = 'success' | 'error';
@@ -121,6 +121,20 @@ export type RunTimelineEvent = {
     text: string | null;
     source: unknown;
     createdAt: string;
+  };
+  unsupported?: {
+    spanName: string;
+    spanKind: string;
+    spanStatus: {
+      code: string;
+      message: string | null;
+    };
+    traceId: string;
+    spanId: string;
+    parentSpanId: string | null;
+    resourceAttributes: unknown;
+    spanAttributes: unknown;
+    rawSpan: unknown;
   };
   attachments: Array<{
     id: string;

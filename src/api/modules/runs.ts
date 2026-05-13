@@ -19,6 +19,7 @@ import type {
   RunEventStatus,
   RunEventType,
   RunStatus,
+  RunTimelineEvent,
   RunTimelineEventsCursor,
   RunTimelineEventsResponse,
   RunTimelineSummary,
@@ -27,16 +28,19 @@ import type {
 } from '@/api/types/agents';
 import { ListSpansOrderBy, SpanStatus, TraceStatus } from '@/gen/agynio/api/tracing/v1/tracing_pb';
 
-const EVENT_TYPE_TO_SPAN_NAME: Record<RunEventType, string> =
+const EVENT_TYPE_TO_SPAN_NAME: Partial<Record<RunEventType, string>> =
   (Object.entries(SPAN_NAME_TO_EVENT_TYPE) as Array<[string, RunEventType]>).reduce(
     (acc, [spanName, eventType]) => {
       acc[eventType] = spanName;
       return acc;
     },
-    {} as Record<RunEventType, string>,
+    {} as Partial<Record<RunEventType, string>>,
   );
 
-const RUN_EVENT_TYPES = new Set<RunEventType>(Object.keys(EVENT_TYPE_TO_SPAN_NAME) as RunEventType[]);
+const RUN_EVENT_TYPES = new Set<RunEventType>([
+  ...Object.keys(EVENT_TYPE_TO_SPAN_NAME) as RunEventType[],
+  'unsupported',
+]);
 const RUN_EVENT_STATUSES = new Set<RunEventStatus>(['pending', 'running', 'success', 'error', 'cancelled']);
 
 const EMPTY_COUNTS_BY_TYPE: Record<RunEventType, number> = {
@@ -45,6 +49,7 @@ const EMPTY_COUNTS_BY_TYPE: Record<RunEventType, number> = {
   llm_call: 0,
   tool_execution: 0,
   summarization: 0,
+  unsupported: 0,
 };
 
 const EMPTY_COUNTS_BY_STATUS: Record<RunEventStatus, number> = {
@@ -104,9 +109,8 @@ function requireSummary(summary: RunTimelineSummary | undefined, runId: string):
 function mapCountsByName(countsByName: Record<string, bigint>): Record<RunEventType, number> {
   const counts = { ...EMPTY_COUNTS_BY_TYPE };
   for (const [key, value] of Object.entries(countsByName)) {
-    const type = SPAN_NAME_TO_EVENT_TYPE[key];
-    if (!type) continue;
-    counts[type] = Number(value);
+    const type = SPAN_NAME_TO_EVENT_TYPE[key] ?? 'unsupported';
+    counts[type] = (counts[type] ?? 0) + Number(value);
   }
   return counts;
 }
@@ -132,10 +136,24 @@ function mapCountsByStatus(countsByStatus: Record<string, bigint>): Record<RunEv
 function mapEventTypesToSpanNames(types: RunEventType[]): string[] {
   const spanNames: string[] = [];
   for (const type of types) {
-    const mapped = EVENT_TYPE_TO_SPAN_NAME[type as RunEventType];
+    const mapped = EVENT_TYPE_TO_SPAN_NAME[type];
     if (mapped) spanNames.push(mapped);
   }
   return spanNames;
+}
+
+function requiresUnsupportedSpanFetch(types: RunEventType[]): boolean {
+  return types.includes('unsupported');
+}
+
+function filterEventsByTypes(events: RunTimelineEvent[], types: RunEventType[]): RunTimelineEvent[] {
+  if (types.length === 0) return events;
+  return events.filter((event) => types.includes(event.type));
+}
+
+function countEventsByType(events: RunTimelineEvent[], types: RunEventType[]): number {
+  if (types.length === 0) return events.length;
+  return filterEventsByTypes(events, types).length;
 }
 
 function mapEventStatusesToSpanStatuses(statuses: RunEventStatus[]): SpanStatus[] {
@@ -180,6 +198,10 @@ function decodeCursorFromPageToken(token: string): RunTimelineEventsCursor | nul
   const { ts, id } = parsed as { ts?: unknown; id?: unknown };
   if (typeof ts !== 'string' || typeof id !== 'string') throw new Error('Invalid page token');
   return { ts, id };
+}
+
+function cursorFromEvent(event: RunTimelineEvent): RunTimelineEventsCursor {
+  return { ts: event.ts, id: event.id };
 }
 
 export const runs = {
@@ -274,7 +296,10 @@ export const runs = {
     };
     const types = parseEventTypes(params.types);
     if (types.length > 0) {
-      filter.names = mapEventTypesToSpanNames(types);
+      const spanNames = mapEventTypesToSpanNames(types);
+      if (spanNames.length > 0 && !requiresUnsupportedSpanFetch(types)) {
+        filter.names = spanNames;
+      }
     }
     const statuses = parseEventStatuses(params.statuses);
     if (statuses.length > 0) {
@@ -283,18 +308,51 @@ export const runs = {
         filter.statuses = spanStatuses;
       }
     }
+    const limit = params.limit ?? 50;
+    const orderBy = params.order === 'asc'
+      ? ListSpansOrderBy.START_TIME_ASC
+      : ListSpansOrderBy.START_TIME_DESC;
+    const initialPageToken = buildPageToken(params.cursorTs, params.cursorId) ?? '';
+
+    if (requiresUnsupportedSpanFetch(types)) {
+      const items: RunTimelineEvent[] = [];
+      let pageToken = initialPageToken;
+      while (items.length < limit) {
+        const resp = await tracingClient.listSpans({
+          organizationId,
+          filter,
+          pageSize: limit - items.length,
+          orderBy,
+          pageToken,
+        });
+        const spans = flattenResourceSpans(resp.resourceSpans);
+        const convertedItems = spans.map(({ span, resourceAttrs }) => spanToEvent(span, resourceAttrs));
+        items.push(...filterEventsByTypes(convertedItems, types));
+        if (!resp.nextPageToken) {
+          return { items, nextCursor: null };
+        }
+        if (resp.nextPageToken === pageToken) {
+          throw new Error('Non-advancing timeline page token');
+        }
+        pageToken = resp.nextPageToken;
+      }
+      return {
+        items,
+        nextCursor: items.length > 0 ? cursorFromEvent(items[items.length - 1]) : null,
+      };
+    }
+
     const resp = await tracingClient.listSpans({
       organizationId,
       filter,
-      pageSize: params.limit ?? 50,
-      orderBy: params.order === 'asc'
-        ? ListSpansOrderBy.START_TIME_ASC
-        : ListSpansOrderBy.START_TIME_DESC,
-      pageToken: buildPageToken(params.cursorTs, params.cursorId) ?? '',
+      pageSize: limit,
+      orderBy,
+      pageToken: initialPageToken,
     });
 
     const spans = flattenResourceSpans(resp.resourceSpans);
-    const items = spans.map(({ span, resourceAttrs }) => spanToEvent(span, resourceAttrs));
+    const convertedItems = spans.map(({ span, resourceAttrs }) => spanToEvent(span, resourceAttrs));
+    const items = filterEventsByTypes(convertedItems, types);
 
     return {
       items,
@@ -302,6 +360,7 @@ export const runs = {
     };
   },
   timelineEventTotals: async (
+    organizationId: string,
     runId: string,
     params?: { types?: string; statuses?: string },
   ): Promise<RunTimelineTotalsResponse> => {
@@ -309,7 +368,10 @@ export const runs = {
       traceId: hexToBytes(runId),
     };
     const types = parseEventTypes(params?.types);
-    if (types.length > 0) req.names = mapEventTypesToSpanNames(types);
+    const spanNames = mapEventTypesToSpanNames(types);
+    if (types.length > 0 && spanNames.length > 0 && !requiresUnsupportedSpanFetch(types)) {
+      req.names = spanNames;
+    }
     const statuses = parseEventStatuses(params?.statuses);
     if (statuses.length > 0) {
       const spanStatuses = mapEventStatusesToSpanStatuses(statuses);
@@ -319,7 +381,13 @@ export const runs = {
     }
 
     const resp = await tracingClient.getTraceSpanTotals(req);
-    const tokenUsage = resp.tokenUsage;
+    const includesUnsupported = requiresUnsupportedSpanFetch(types);
+    const eventCount = includesUnsupported
+      ? await runs.countTimelineEvents(organizationId, req, types)
+      : Number(resp.spanCount);
+    const tokenUsage = includesUnsupported
+      ? await runs.filteredTokenUsage(req, spanNames)
+      : resp.tokenUsage;
     return {
       runId,
       filters: {
@@ -327,7 +395,7 @@ export const runs = {
         statuses: params?.statuses ? parseEventStatuses(params.statuses) : [],
       },
       totals: {
-        eventCount: Number(resp.spanCount),
+        eventCount,
         tokenUsage: {
           input: Number(tokenUsage?.inputTokens ?? 0n),
           cached: Number(tokenUsage?.cacheReadInputTokens ?? 0n),
@@ -337,6 +405,36 @@ export const runs = {
         },
       },
     };
+  },
+  filteredTokenUsage: async (
+    filter: { traceId: Uint8Array; statuses?: SpanStatus[] },
+    spanNames: string[],
+  ) => {
+    if (spanNames.length === 0) return undefined;
+    const resp = await tracingClient.getTraceSpanTotals({ ...filter, names: spanNames });
+    return resp.tokenUsage;
+  },
+  countTimelineEvents: async (
+    organizationId: string,
+    filter: { traceId: Uint8Array; statuses?: SpanStatus[] },
+    types: RunEventType[],
+  ): Promise<number> => {
+    let count = 0;
+    let pageToken = '';
+    do {
+      const resp = await tracingClient.listSpans({
+        organizationId,
+        filter,
+        pageSize: 250,
+        orderBy: ListSpansOrderBy.START_TIME_DESC,
+        pageToken,
+      });
+      const spans = flattenResourceSpans(resp.resourceSpans);
+      const items = spans.map(({ span, resourceAttrs }) => spanToEvent(span, resourceAttrs));
+      count += countEventsByType(items, types);
+      pageToken = resp.nextPageToken;
+    } while (pageToken);
+    return count;
   },
   toolOutputSnapshot: async (
     runId: string,

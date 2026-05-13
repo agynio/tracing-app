@@ -200,6 +200,7 @@ export function useTimelinePagination({
   useEffect(() => {
     if (!eventsQuery.data) return;
     const incoming = eventsQuery.data.items ?? [];
+    const visibleIncoming = incoming.filter((event) => matchesFilters(event, selectedTypes, selectedStatuses));
     const queryCursor = eventsQuery.data.nextCursor ?? null;
 
     setLoadOlderError(null);
@@ -208,8 +209,8 @@ export function useTimelinePagination({
       setEvents([]);
       replaceEventsRef.current = false;
     }
-    if (incoming.length > 0) {
-      updateEventsState(incoming);
+    if (visibleIncoming.length > 0) {
+      updateEventsState(visibleIncoming);
     }
     if (!queryCursor) {
       reachedHistoryEndRef.current = true;
@@ -221,7 +222,7 @@ export function useTimelinePagination({
         return compareCursors(queryCursor, prev) < 0 ? queryCursor : prev;
       });
     }
-  }, [eventsQuery.data, updateEventsState, updateOlderCursor]);
+  }, [eventsQuery.data, selectedTypes, selectedStatuses, updateEventsState, updateOlderCursor]);
 
   const loadOlderEvents = useCallback(async () => {
     if (!runId || !organizationId) return;
@@ -247,7 +248,7 @@ export function useTimelinePagination({
         updateOlderCursor(null);
         return;
       }
-      const items = response.items ?? [];
+      const items = (response.items ?? []).filter((event) => matchesFilters(event, currentApiTypes, currentApiStatuses));
       if (response.nextCursor) {
         reachedHistoryEndRef.current = false;
         updateOlderCursor(response.nextCursor);

@@ -232,6 +232,19 @@ export function createUiEvent(event: RunTimelineEvent, options?: CreateUiEventOp
         },
       };
     }
+    case 'unsupported':
+      return {
+        id: event.id,
+        type: 'unsupported',
+        timestamp,
+        duration,
+        status,
+        data: {
+          unsupported: event.unsupported,
+          startedAt: event.startedAt,
+          endedAt: event.endedAt,
+        },
+      };
     default:
       return assertNever(event.type);
   }
