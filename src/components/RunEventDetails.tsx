@@ -1,4 +1,4 @@
-import { Clock, MessageSquare, Bot, Brain, Wrench, FileText, Terminal, Users, ChevronDown, ChevronRight, Copy, User, Settings } from 'lucide-react';
+import { Clock, MessageSquare, Bot, Brain, Wrench, FileText, Terminal, Users, ChevronDown, ChevronRight, Copy, User, Settings, CircleHelp } from 'lucide-react';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactElement } from 'react';
 import { useToolOutputStreaming } from '@/hooks/useToolOutputStreaming';
 import { IconButton } from './IconButton';
@@ -186,6 +186,64 @@ const extractReasoningMetrics = (
 };
 
 const CONTEXT_PAGINATION_PAGE_SIZE = 20;
+const MAX_UNSUPPORTED_JSON_DEPTH = 5;
+const MAX_UNSUPPORTED_JSON_ITEMS = 120;
+const MAX_UNSUPPORTED_STRING_LENGTH = 2000;
+const REDACTED_VALUE = '[REDACTED]';
+const TRUNCATED_VALUE = '[TRUNCATED]';
+
+const SECRET_KEY_NAMES = new Set([
+  'authorization',
+  'cookie',
+  'set-cookie',
+  'x-api-key',
+  'api_key',
+  'token',
+  'access_token',
+  'refresh_token',
+  'password',
+  'secret',
+  'credential',
+]);
+
+const shouldRedactKey = (key: string): boolean => SECRET_KEY_NAMES.has(key.toLowerCase());
+
+const redactAndBoundJson = (value: unknown): unknown => {
+  let itemCount = 0;
+  const walk = (current: unknown, depth: number): unknown => {
+    itemCount += 1;
+    if (itemCount > MAX_UNSUPPORTED_JSON_ITEMS) return TRUNCATED_VALUE;
+    if (current === null || current === undefined) return current;
+    if (typeof current === 'string') {
+      return current.length > MAX_UNSUPPORTED_STRING_LENGTH
+        ? `${current.slice(0, MAX_UNSUPPORTED_STRING_LENGTH)}…`
+        : current;
+    }
+    if (typeof current !== 'object') return current;
+    if (depth >= MAX_UNSUPPORTED_JSON_DEPTH) return TRUNCATED_VALUE;
+    if (Array.isArray(current)) {
+      return current.slice(0, MAX_UNSUPPORTED_JSON_ITEMS).map((item) => walk(item, depth + 1));
+    }
+
+    const record = current as Record<string, unknown>;
+    if (typeof record.key === 'string' && shouldRedactKey(record.key)) {
+      return { ...record, value: REDACTED_VALUE };
+    }
+
+    const boundedRecord: Record<string, unknown> = {};
+    for (const [key, entryValue] of Object.entries(record)) {
+      if (shouldRedactKey(key)) {
+        boundedRecord[key] = REDACTED_VALUE;
+      } else {
+        boundedRecord[key] = walk(entryValue, depth + 1);
+      }
+      if (itemCount > MAX_UNSUPPORTED_JSON_ITEMS) break;
+    }
+    return boundedRecord;
+  };
+
+  return walk(value, 0);
+};
 
 export interface RunEventData extends Record<string, unknown> {
   messageSubtype?: MessageSubtype;
@@ -220,9 +278,25 @@ export interface RunEventData extends Record<string, unknown> {
     status?: ContextDeltaStatus;
   };
   contextDeltaStatus?: ContextDeltaStatus;
+  startedAt?: string | null;
+  endedAt?: string | null;
+  unsupported?: {
+    spanName: string;
+    spanKind: string;
+    spanStatus: {
+      code: string;
+      message: string | null;
+    };
+    traceId: string;
+    spanId: string;
+    parentSpanId: string | null;
+    resourceAttributes: unknown;
+    spanAttributes: unknown;
+    rawSpan: unknown;
+  };
 }
 
-export type EventType = 'message' | 'llm' | 'tool' | 'summarization';
+export type EventType = 'message' | 'llm' | 'tool' | 'summarization' | 'unsupported';
 export type ToolSubtype = 'generic' | 'shell' | 'manage' | string;
 export type MessageSubtype = 'source' | 'intermediate' | 'result';
 export type OutputViewMode = 'text' | 'terminal' | 'markdown' | 'json' | 'yaml';
@@ -1264,6 +1338,89 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
     );
   };
 
+  const renderUnsupportedEvent = () => {
+    const unsupported = event.data.unsupported;
+    const rawSpan = redactAndBoundJson(unsupported?.rawSpan ?? null);
+    const resourceAttributes = redactAndBoundJson(unsupported?.resourceAttributes ?? []);
+    const spanAttributes = redactAndBoundJson(unsupported?.spanAttributes ?? []);
+
+    const metadataRows = [
+      ['Span name', unsupported?.spanName ?? 'Unknown'],
+      ['Kind', unsupported?.spanKind ?? 'unknown'],
+      ['Status', unsupported?.spanStatus.message
+        ? `${unsupported.spanStatus.code}: ${unsupported.spanStatus.message}`
+        : unsupported?.spanStatus.code ?? event.status ?? 'unknown'],
+      ['Started', asString(event.data.startedAt, event.timestamp)],
+      ['Ended', asString(event.data.endedAt, '—')],
+      ['Duration', event.duration ?? '—'],
+      ['Trace ID', unsupported?.traceId ?? '—'],
+      ['Span ID', unsupported?.spanId ?? event.id],
+      ['Parent span ID', unsupported?.parentSpanId ?? '—'],
+    ];
+
+    return (
+      <div className="space-y-6 h-full flex flex-col">
+        <div className="flex items-start flex-shrink-0">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-[var(--agyn-gray)]/10 flex items-center justify-center">
+              <CircleHelp className="w-5 h-5 text-[var(--agyn-gray)]" />
+            </div>
+            <div>
+              <h3 className="text-[var(--agyn-dark)] mb-1" data-testid="run-event-details-heading">Unsupported event</h3>
+              <div className="flex items-center gap-2 text-xs text-[var(--agyn-gray)]" data-testid="run-event-details-meta">
+                <Clock className="w-3 h-3" />
+                <span>{event.timestamp}</span>
+                {event.duration && (
+                  <>
+                    <span>•</span>
+                    <span>{event.duration}</span>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-[minmax(280px,360px)_1fr] gap-4 flex-1 min-h-0">
+          <div className="flex flex-col min-h-0 min-w-0 space-y-4">
+            <div className="border border-[var(--agyn-border-subtle)] rounded-[10px] p-4">
+              <div className="text-sm text-[var(--agyn-gray)] mb-3">Span metadata</div>
+              <div className="space-y-2">
+                {metadataRows.map(([label, value]) => (
+                  <div key={label} className="text-sm">
+                    <div className="text-[var(--agyn-gray)]">{label}</div>
+                    <div className="text-[var(--agyn-dark)] font-mono break-all">{value}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-rows-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] gap-4 min-h-0 min-w-0">
+            <div className="flex flex-col min-h-0 min-w-0">
+              <div className="text-sm text-[var(--agyn-gray)] mb-3 h-8 flex-shrink-0">Resource attributes</div>
+              <div className="flex-1 overflow-y-auto min-h-0 border border-[var(--agyn-border-subtle)] rounded-[10px] p-4">
+                <JsonViewer data={resourceAttributes} initiallyExpanded={false} />
+              </div>
+            </div>
+            <div className="flex flex-col min-h-0 min-w-0">
+              <div className="text-sm text-[var(--agyn-gray)] mb-3 h-8 flex-shrink-0">Span attributes</div>
+              <div className="flex-1 overflow-y-auto min-h-0 border border-[var(--agyn-border-subtle)] rounded-[10px] p-4">
+                <JsonViewer data={spanAttributes} initiallyExpanded={false} />
+              </div>
+            </div>
+            <div className="flex flex-col min-h-0 min-w-0">
+              <div className="text-sm text-[var(--agyn-gray)] mb-3 h-8 flex-shrink-0">Raw span JSON</div>
+              <div className="flex-1 overflow-y-auto min-h-0 border border-[var(--agyn-border-subtle)] rounded-[10px] p-4">
+                <JsonViewer data={rawSpan} initiallyExpanded={false} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   const renderSummarizationEvent = () => {
     const oldContext = Array.isArray(event.data.oldContext) ? event.data.oldContext : [];
     const newContext = Array.isArray(event.data.newContext) ? event.data.newContext : [];
@@ -1343,6 +1500,7 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
         {event.type === 'llm' && renderLLMEvent()}
         {event.type === 'tool' && renderToolEvent()}
         {event.type === 'summarization' && renderSummarizationEvent()}
+        {event.type === 'unsupported' && renderUnsupportedEvent()}
       </div>
     </div>
   );

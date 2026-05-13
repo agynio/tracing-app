@@ -219,8 +219,26 @@ describe('spanToEvent conversions', () => {
     expect(event.durationMs).toBeNull();
   });
 
-  it('throws on unknown span names', () => {
-    const span = buildSpan({ name: 'unexpected.span' });
-    expect(() => spanToEvent(span, [threadAttr])).toThrow('Unhandled span name');
+  it('maps unknown span names to unsupported events', () => {
+    const span = buildSpan({
+      name: 'unexpected.span',
+      attributes: [stringAttr('x-api-key', 'secret-key')],
+    });
+    const event = spanToEvent(span, [threadAttr]);
+
+    expect(event.type).toBe('unsupported');
+    expect(event.unsupported?.spanName).toBe('unexpected.span');
+    expect(event.unsupported?.spanKind).toBe('internal');
+    expect(event.unsupported?.spanStatus.code).toBe('ok');
+    expect(event.unsupported?.traceId).toBe(bytesToHex(TRACE_ID));
+    expect(event.unsupported?.spanId).toBe(bytesToHex(span.spanId));
+    expect(event.unsupported?.parentSpanId).toBe(bytesToHex(PARENT_SPAN_ID));
+    expect(event.unsupported?.resourceAttributes).toEqual([
+      { key: 'agyn.thread.id', value: { stringValue: 'thread-123' } },
+    ]);
+    expect(event.unsupported?.spanAttributes).toEqual([
+      { key: 'x-api-key', value: { stringValue: 'secret-key' } },
+    ]);
+    expect(event.unsupported?.rawSpan).toEqual(expect.objectContaining({ name: 'unexpected.span' }));
   });
 });

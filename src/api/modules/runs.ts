@@ -27,16 +27,19 @@ import type {
 } from '@/api/types/agents';
 import { ListSpansOrderBy, SpanStatus, TraceStatus } from '@/gen/agynio/api/tracing/v1/tracing_pb';
 
-const EVENT_TYPE_TO_SPAN_NAME: Record<RunEventType, string> =
+const EVENT_TYPE_TO_SPAN_NAME: Partial<Record<RunEventType, string>> =
   (Object.entries(SPAN_NAME_TO_EVENT_TYPE) as Array<[string, RunEventType]>).reduce(
     (acc, [spanName, eventType]) => {
       acc[eventType] = spanName;
       return acc;
     },
-    {} as Record<RunEventType, string>,
+    {} as Partial<Record<RunEventType, string>>,
   );
 
-const RUN_EVENT_TYPES = new Set<RunEventType>(Object.keys(EVENT_TYPE_TO_SPAN_NAME) as RunEventType[]);
+const RUN_EVENT_TYPES = new Set<RunEventType>([
+  ...Object.keys(EVENT_TYPE_TO_SPAN_NAME) as RunEventType[],
+  'unsupported',
+]);
 const RUN_EVENT_STATUSES = new Set<RunEventStatus>(['pending', 'running', 'success', 'error', 'cancelled']);
 
 const EMPTY_COUNTS_BY_TYPE: Record<RunEventType, number> = {
@@ -45,6 +48,7 @@ const EMPTY_COUNTS_BY_TYPE: Record<RunEventType, number> = {
   llm_call: 0,
   tool_execution: 0,
   summarization: 0,
+  unsupported: 0,
 };
 
 const EMPTY_COUNTS_BY_STATUS: Record<RunEventStatus, number> = {
@@ -104,9 +108,8 @@ function requireSummary(summary: RunTimelineSummary | undefined, runId: string):
 function mapCountsByName(countsByName: Record<string, bigint>): Record<RunEventType, number> {
   const counts = { ...EMPTY_COUNTS_BY_TYPE };
   for (const [key, value] of Object.entries(countsByName)) {
-    const type = SPAN_NAME_TO_EVENT_TYPE[key];
-    if (!type) continue;
-    counts[type] = Number(value);
+    const type = SPAN_NAME_TO_EVENT_TYPE[key] ?? 'unsupported';
+    counts[type] = (counts[type] ?? 0) + Number(value);
   }
   return counts;
 }
@@ -129,10 +132,11 @@ function mapCountsByStatus(countsByStatus: Record<string, bigint>): Record<RunEv
   return counts;
 }
 
-function mapEventTypesToSpanNames(types: RunEventType[]): string[] {
+function mapEventTypesToSpanNames(types: RunEventType[]): string[] | null {
+  if (types.includes('unsupported')) return null;
   const spanNames: string[] = [];
   for (const type of types) {
-    const mapped = EVENT_TYPE_TO_SPAN_NAME[type as RunEventType];
+    const mapped = EVENT_TYPE_TO_SPAN_NAME[type];
     if (mapped) spanNames.push(mapped);
   }
   return spanNames;
@@ -274,7 +278,8 @@ export const runs = {
     };
     const types = parseEventTypes(params.types);
     if (types.length > 0) {
-      filter.names = mapEventTypesToSpanNames(types);
+      const spanNames = mapEventTypesToSpanNames(types);
+      if (spanNames) filter.names = spanNames;
     }
     const statuses = parseEventStatuses(params.statuses);
     if (statuses.length > 0) {
@@ -309,7 +314,10 @@ export const runs = {
       traceId: hexToBytes(runId),
     };
     const types = parseEventTypes(params?.types);
-    if (types.length > 0) req.names = mapEventTypesToSpanNames(types);
+    if (types.length > 0) {
+      const spanNames = mapEventTypesToSpanNames(types);
+      if (spanNames) req.names = spanNames;
+    }
     const statuses = parseEventStatuses(params?.statuses);
     if (statuses.length > 0) {
       const spanStatuses = mapEventStatusesToSpanStatuses(statuses);

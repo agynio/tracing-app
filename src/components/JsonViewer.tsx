@@ -4,9 +4,10 @@ import { ChevronRight, ChevronDown } from 'lucide-react';
 interface JsonViewerProps {
   data: unknown;
   className?: string;
+  initiallyExpanded?: boolean;
 }
 
-export function JsonViewer({ data, className = '' }: JsonViewerProps) {
+export function JsonViewer({ data, className = '', initiallyExpanded = true }: JsonViewerProps) {
   const isPlainObject = (value: unknown): value is Record<string, unknown> =>
     typeof value === 'object' && value !== null && !Array.isArray(value);
 
@@ -28,7 +29,9 @@ export function JsonViewer({ data, className = '' }: JsonViewerProps) {
     return paths;
   };
 
-  const [expandedPaths, setExpandedPaths] = useState<Set<string>>(() => new Set(getAllPaths(data)));
+  const [expandedPaths, setExpandedPaths] = useState<Set<string>>(() =>
+    initiallyExpanded ? new Set(getAllPaths(data)) : new Set(),
+  );
 
   const togglePath = (path: string) => {
     const newExpanded = new Set(expandedPaths);

@@ -1,6 +1,7 @@
-import type { AnyValue, KeyValue } from '@/gen/opentelemetry/proto/common/v1/common_pb';
+import { toJson } from '@bufbuild/protobuf';
+import { KeyValueSchema, type AnyValue, type KeyValue } from '@/gen/opentelemetry/proto/common/v1/common_pb';
 import type { ResourceSpans, Span } from '@/gen/opentelemetry/proto/trace/v1/trace_pb';
-import { Status_StatusCode } from '@/gen/opentelemetry/proto/trace/v1/trace_pb';
+import { SpanSchema, Span_SpanKind, Status_StatusCode } from '@/gen/opentelemetry/proto/trace/v1/trace_pb';
 import type { RunEventStatus, RunEventType, RunTimelineEvent } from '@/api/types/agents';
 
 type FlattenedSpan = { span: Span; resourceAttrs: KeyValue[] };
@@ -12,6 +13,8 @@ export const SPAN_NAME_TO_EVENT_TYPE: Record<string, RunEventType> = {
   'tool.execution': 'tool_execution',
   summarization: 'summarization',
 };
+
+const UNSUPPORTED_EVENT_TYPE: RunEventType = 'unsupported';
 
 export function bytesToHex(bytes: Uint8Array): string {
   return Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('');
@@ -84,11 +87,7 @@ export function nanosToDurationMs(start: bigint, end: bigint): number | null {
 }
 
 function mapSpanNameToEventType(name: string): RunEventType {
-  const type = SPAN_NAME_TO_EVENT_TYPE[name];
-  if (!type) {
-    throw new Error(`Unhandled span name: ${name}`);
-  }
-  return type;
+  return SPAN_NAME_TO_EVENT_TYPE[name] ?? UNSUPPORTED_EVENT_TYPE;
 }
 
 type ToolCallPayload = {
@@ -124,6 +123,66 @@ function parseToolCalls(raw: string | null): Array<{ callId: string; name: strin
       arguments: toolCall.arguments ?? null,
     };
   });
+}
+
+function spanKindLabel(kind: Span_SpanKind): string {
+  switch (kind) {
+    case Span_SpanKind.UNSPECIFIED:
+      return 'unspecified';
+    case Span_SpanKind.INTERNAL:
+      return 'internal';
+    case Span_SpanKind.SERVER:
+      return 'server';
+    case Span_SpanKind.CLIENT:
+      return 'client';
+    case Span_SpanKind.PRODUCER:
+      return 'producer';
+    case Span_SpanKind.CONSUMER:
+      return 'consumer';
+    default:
+      throw new Error(`Unhandled span kind: ${kind}`);
+  }
+}
+
+function spanStatusCodeLabel(code: Status_StatusCode | undefined): string {
+  switch (code ?? Status_StatusCode.UNSET) {
+    case Status_StatusCode.UNSET:
+      return 'unset';
+    case Status_StatusCode.OK:
+      return 'ok';
+    case Status_StatusCode.ERROR:
+      return 'error';
+    default:
+      throw new Error(`Unhandled span status code: ${code}`);
+  }
+}
+
+function keyValuesToJson(attrs: KeyValue[]): unknown[] {
+  return attrs.map((attr) => toJson(KeyValueSchema, attr));
+}
+
+function extractUnsupportedSpan(
+  span: Span,
+  resourceAttrs: KeyValue[],
+  traceIdHex: string,
+  spanIdHex: string,
+) {
+  const parentSpanId = bytesToHex(span.parentSpanId);
+
+  return {
+    spanName: span.name,
+    spanKind: spanKindLabel(span.kind),
+    spanStatus: {
+      code: spanStatusCodeLabel(span.status?.code),
+      message: span.status?.message || null,
+    },
+    traceId: traceIdHex,
+    spanId: spanIdHex,
+    parentSpanId: parentSpanId || null,
+    resourceAttributes: keyValuesToJson(resourceAttrs),
+    spanAttributes: keyValuesToJson(span.attributes),
+    rawSpan: toJson(SpanSchema, span, { alwaysEmitImplicit: true, useProtoFieldName: true }),
+  };
 }
 
 function extractLlmCall(span: Span) {
@@ -232,6 +291,9 @@ export function spanToEvent(span: Span, resourceAttrs?: KeyValue[]): RunTimeline
       break;
     case 'invocation_message':
       base.message = extractMessage(span);
+      break;
+    case 'unsupported':
+      base.unsupported = extractUnsupportedSpan(span, resourceAttrs ?? [], traceIdHex, spanIdHex);
       break;
   }
 

@@ -11,6 +11,7 @@ import {
   ScrollText,
   Settings2,
   Wrench,
+  CircleHelp,
 } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { IconButton } from '../IconButton';
@@ -27,7 +28,7 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 
-export type EventFilter = 'message' | 'llm' | 'tool' | 'summary';
+export type EventFilter = 'message' | 'llm' | 'tool' | 'summary' | 'unsupported';
 export type StatusFilter = 'running' | 'finished' | 'failed';
 
 interface RunScreenProps {
@@ -41,6 +42,7 @@ interface RunScreenProps {
     llm: number;
     tools: number;
     summaries: number;
+    unsupported: number;
   };
   tokens: {
     input: number;
@@ -531,6 +533,26 @@ export default function RunScreen({
                             </span>
                           </div>
                           {eventFilterSet.has('summary') ? (
+                            <Eye className="h-4 w-4 text-[var(--agyn-blue)]" />
+                          ) : (
+                            <EyeOff className="h-4 w-4 text-[var(--agyn-text-subtle)]" />
+                          )}
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          className="flex items-center justify-between rounded-md px-3 py-2 text-sm transition-colors hover:bg-[var(--agyn-bg-light)] focus:bg-[var(--agyn-bg-light)]"
+                          onSelect={(event) => {
+                            event.preventDefault();
+                            handleToggleEventFilter('unsupported');
+                          }}
+                        >
+                          <div className="flex items-center gap-2">
+                            <CircleHelp className="h-4 w-4 text-[var(--agyn-gray)]" />
+                            <span>Unsupported</span>
+                            <span className="text-xs text-[var(--agyn-text-subtle)]">
+                              ({formatNumber(statistics.unsupported)})
+                            </span>
+                          </div>
+                          {eventFilterSet.has('unsupported') ? (
                             <Eye className="h-4 w-4 text-[var(--agyn-blue)]" />
                           ) : (
                             <EyeOff className="h-4 w-4 text-[var(--agyn-text-subtle)]" />
