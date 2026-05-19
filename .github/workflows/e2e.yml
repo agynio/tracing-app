@@ -33,6 +33,5 @@ jobs:
         uses: agynio/e2e/.github/actions/run-tests@main
         env:
           E2E_SUITES: playwright-tracing-app
-          E2E_PLAYWRIGHT_TEST_ARGS: test/e2e/message-deeplink-empty.spec.ts
         with:
-          service: tracing_app
+          tag: smoke
