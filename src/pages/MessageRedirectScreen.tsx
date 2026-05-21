@@ -3,6 +3,9 @@ import { useQuery } from '@tanstack/react-query';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { runs } from '@/api/modules/runs';
 
+const MESSAGE_REDIRECT_REFETCH_BASE_MS = 1_000;
+const MESSAGE_REDIRECT_REFETCH_MAX_MS = 5_000;
+
 export function MessageRedirectScreen() {
   const navigate = useNavigate();
   const params = useParams<{ messageId: string }>();
@@ -15,6 +18,14 @@ export function MessageRedirectScreen() {
     enabled: Boolean(resolvedMessageId && organizationId),
     queryKey: ['runs', 'message', organizationId, resolvedMessageId],
     queryFn: () => runs.findRunByMessageId(organizationId, resolvedMessageId),
+    refetchInterval: ({ state }) => {
+      if (state.data === undefined || state.data?.runId) return false;
+
+      const nullResponseCount = state.dataUpdateCount;
+      const backoffInterval = MESSAGE_REDIRECT_REFETCH_BASE_MS * 2 ** (nullResponseCount - 1);
+      return Math.min(backoffInterval, MESSAGE_REDIRECT_REFETCH_MAX_MS);
+    },
+    refetchIntervalInBackground: true,
     refetchOnWindowFocus: false,
   });
 
@@ -58,7 +69,7 @@ export function MessageRedirectScreen() {
   if (!query.data?.runId) {
     return (
       <div className="flex flex-1 items-center justify-center text-sm text-[var(--agyn-text-subtle)]">
-        No run found for message.
+        Waiting for run to appear...
       </div>
     );
   }
