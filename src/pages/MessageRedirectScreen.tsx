@@ -3,6 +3,9 @@ import { useQuery } from '@tanstack/react-query';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { runs } from '@/api/modules/runs';
 
+const MESSAGE_RUN_RESOLUTION_TIMEOUT_MS = 120_000;
+const MESSAGE_RUN_RESOLUTION_RETRY_MS = 2_000;
+
 export function MessageRedirectScreen() {
   const navigate = useNavigate();
   const params = useParams<{ messageId: string }>();
@@ -16,6 +19,10 @@ export function MessageRedirectScreen() {
     queryKey: ['runs', 'message', organizationId, resolvedMessageId],
     queryFn: () => runs.findRunByMessageId(organizationId, resolvedMessageId),
     refetchOnWindowFocus: false,
+    refetchInterval: (query) => (query.state.data?.runId ? false : MESSAGE_RUN_RESOLUTION_RETRY_MS),
+    refetchIntervalInBackground: true,
+    staleTime: 0,
+    gcTime: MESSAGE_RUN_RESOLUTION_TIMEOUT_MS,
   });
 
   useEffect(() => {
