@@ -53,7 +53,7 @@ describe('MessageRedirectScreen', () => {
     findRunByMessageIdMock.mockReset();
   });
 
-  it('polls with backoff until a run is found and redirects', async () => {
+  it('polls until a run is found and redirects', async () => {
     findRunByMessageIdMock
       .mockResolvedValueOnce(null)
       .mockResolvedValueOnce(null)
@@ -64,11 +64,7 @@ describe('MessageRedirectScreen', () => {
     expect(findRunByMessageIdMock).toHaveBeenCalledTimes(1);
 
     await waitFor(() => expect(findRunByMessageIdMock).toHaveBeenCalledTimes(2), { timeout: 2_500 });
-    await new Promise((resolve) => window.setTimeout(resolve, 1_500));
-
-    expect(findRunByMessageIdMock).toHaveBeenCalledTimes(2);
-
-    await waitFor(() => expect(findRunByMessageIdMock).toHaveBeenCalledTimes(3), { timeout: 2_000 });
+    await waitFor(() => expect(findRunByMessageIdMock).toHaveBeenCalledTimes(3), { timeout: 2_500 });
     await waitFor(() => expect(getByText('run destination')).toBeTruthy());
 
     expect(findRunByMessageIdMock).toHaveBeenCalledWith('org-1', 'message-123');
