@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { runs } from '@/api/modules/runs';
-import { messageRunLookupTimedOut, messageRunRedirectRefetchInterval } from '@/pages/utils/messageRedirectPolling';
+import {
+  messageRunLookupEmptyStateVisible,
+  messageRunLookupTimedOut,
+  messageRunRedirectRefetchInterval,
+} from '@/pages/utils/messageRedirectPolling';
 
 export function MessageRedirectScreen() {
   const navigate = useNavigate();
@@ -74,7 +78,7 @@ export function MessageRedirectScreen() {
   }
 
   if (!query.data?.runId) {
-    if (messageRunLookupTimedOut(lookupStartedAtMs, nowMs)) {
+    if (messageRunLookupEmptyStateVisible(lookupStartedAtMs, nowMs)) {
       return (
         <div className="flex flex-1 flex-col items-center justify-center gap-3 text-sm text-[var(--agyn-text-subtle)]">
           <div>No run found for message.</div>
