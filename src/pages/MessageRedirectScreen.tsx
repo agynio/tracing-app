@@ -20,6 +20,7 @@ export function MessageRedirectScreen() {
     queryFn: () => runs.findRunByMessageId(organizationId, resolvedMessageId),
     refetchInterval: (lookupQuery) =>
       messageRunRedirectRefetchInterval(lookupQuery.state.data, lookupStartedAtMs, Date.now()),
+    refetchIntervalInBackground: true,
     refetchOnWindowFocus: false,
   });
 
