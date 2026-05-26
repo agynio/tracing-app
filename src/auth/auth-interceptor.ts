@@ -13,7 +13,7 @@ export const authInterceptor: Interceptor = (next) => async (req) => {
   try {
     return await next(req);
   } catch (error) {
-    if (error instanceof ConnectError && error.code === Code.Unauthenticated && userManager) {
+    if (token && error instanceof ConnectError && error.code === Code.Unauthenticated && userManager) {
       const didRetry = req.contextValues.get(retryKey);
       if (!didRetry) {
         req.contextValues.set(retryKey, true);
