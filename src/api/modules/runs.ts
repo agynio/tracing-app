@@ -228,24 +228,14 @@ export const runs = {
     organizationId: string,
     messageId: string,
   ): Promise<{ runId: string } | null> => {
-    let resp = await tracingClient.listSpans({
+    const resp = await tracingClient.listSpans({
       organizationId,
       filter: { messageId },
       pageSize: 1,
       pageToken: '',
       orderBy: ListSpansOrderBy.START_TIME_DESC,
     });
-    let spans = flattenResourceSpans(resp.resourceSpans);
-    if (spans.length === 0) {
-      resp = await tracingClient.listSpans({
-        organizationId,
-        filter: { names: [INVOCATION_MESSAGE_SPAN_NAME] },
-        pageSize: 500,
-        pageToken: '',
-        orderBy: ListSpansOrderBy.START_TIME_DESC,
-      });
-      spans = flattenResourceSpans(resp.resourceSpans).filter(({ span }) => bytesToHex(span.spanId) === messageId);
-    }
+    const spans = flattenResourceSpans(resp.resourceSpans);
     if (spans.length === 0) return null;
     return { runId: bytesToHex(spans[0].span.traceId) };
   },
