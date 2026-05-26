@@ -57,13 +57,23 @@ function SignedOutScreen({
   );
 }
 
+function LoadingScreen() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-muted/40 text-sm text-muted-foreground">
+      Loading tracing...
+    </div>
+  );
+}
+
 function RequireAuth({ children }: { children: ReactNode }) {
   const auth = useAuth();
   const [signedOut, setSignedOut] = useState(() => readSignedOutFlag());
+  const [redirectPending, setRedirectPending] = useState(false);
 
   const handleSignIn = useCallback(() => {
     clearSignedOutFlag();
     setSignedOut(false);
+    setRedirectPending(true);
     void auth.signinRedirect(getSigninRedirectArgs());
   }, [auth]);
 
@@ -80,22 +90,24 @@ function RequireAuth({ children }: { children: ReactNode }) {
   }, [auth.isAuthenticated, signedOut]);
 
   useEffect(() => {
-    if (signedOut) return;
+    if (signedOut || redirectPending) return;
     if (auth.isLoading || auth.activeNavigator || auth.isAuthenticated) return;
     if (hasAuthParams()) return;
+    setRedirectPending(true);
     void auth.signinRedirect(getSigninRedirectArgs());
-  }, [auth, signedOut]);
+  }, [auth, redirectPending, signedOut]);
+
+  useEffect(() => {
+    if (!redirectPending || !auth.isAuthenticated) return;
+    setRedirectPending(false);
+  }, [auth.isAuthenticated, redirectPending]);
 
   if (signedOut && !auth.isAuthenticated) {
     return <SignedOutScreen onSignIn={handleSignIn} />;
   }
 
-  if (auth.isLoading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-muted/40 text-sm text-muted-foreground">
-        Loading tracing...
-      </div>
-    );
+  if (auth.isLoading || auth.activeNavigator || redirectPending || !auth.isAuthenticated) {
+    return <LoadingScreen />;
   }
 
   return <>{children}</>;
