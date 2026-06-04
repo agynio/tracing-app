@@ -1,5 +1,5 @@
 nameOverride: ""
-fullnameOverride: ""
+fullnameOverride: "tracing-app"
 
 commonAnnotations: {}
 
@@ -72,7 +72,15 @@ containerPorts:
 
 command: []
 args: []
-env: []
+env:
+  - name: OIDC_AUTHORITY
+    value: "{{ .Values.oidcAuthority }}"
+  - name: OIDC_CLIENT_ID
+    value: "{{ .Values.oidcClientId }}"
+  - name: OIDC_SCOPE
+    value: "{{ .Values.oidcScope }}"
+  - name: API_BASE_URL
+    value: "{{ .Values.apiBaseUrl }}"
 envFrom: []
 extraEnvVars: []
 extraEnvVarsCM: ""
@@ -80,10 +88,22 @@ extraEnvVarsSecret: ""
 
 configMounts: []
 extraVolumeMounts:
-  - name: tmp
+  - name: nginx-cache
+    mountPath: /var/cache/nginx
+  - name: nginx-run
+    mountPath: /var/run
+  - name: nginx-tmp
     mountPath: /tmp
+  - name: nginx-conf
+    mountPath: /etc/nginx/conf.d
 extraVolumes:
-  - name: tmp
+  - name: nginx-cache
+    emptyDir: {}
+  - name: nginx-run
+    emptyDir: {}
+  - name: nginx-tmp
+    emptyDir: {}
+  - name: nginx-conf
     emptyDir: {}
 
 initContainers: []
@@ -172,6 +192,11 @@ metrics:
         path: /metrics
         interval: ""
         scrapeTimeout: ""
+
+oidcAuthority: ""
+oidcClientId: ""
+oidcScope: "openid profile email offline_access"
+apiBaseUrl: /api
 
 nginx:
   port: 3000
