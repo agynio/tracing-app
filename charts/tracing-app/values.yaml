@@ -79,6 +79,8 @@ env:
     value: "{{ .Values.oidcClientId }}"
   - name: OIDC_SCOPE
     value: "{{ .Values.oidcScope }}"
+  - name: OIDC_RESOURCE
+    value: "{{ .Values.oidcResource }}"
   - name: API_BASE_URL
     value: "{{ .Values.apiBaseUrl }}"
 envFrom: []
@@ -196,6 +198,7 @@ metrics:
 oidcAuthority: ""
 oidcClientId: ""
 oidcScope: "openid profile email offline_access"
+oidcResource: ""
 apiBaseUrl: /api
 
 nginx:

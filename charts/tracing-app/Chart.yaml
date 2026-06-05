@@ -2,8 +2,8 @@ apiVersion: v2
 name: tracing-app
 description: Helm chart for deploying the agyn Tracing App.
 type: application
-version: 0.1.0
-appVersion: 0.1.0
+version: 0.3.2
+appVersion: 0.3.2
 home: https://github.com/agynio/tracing-app
 sources:
   - https://github.com/agynio/tracing-app

@@ -3,6 +3,7 @@ type RuntimeEnv = {
   OIDC_AUTHORITY?: string;
   OIDC_CLIENT_ID?: string;
   OIDC_SCOPE?: string;
+  OIDC_RESOURCE?: string;
 };
 
 export type OidcConfig = {
@@ -10,6 +11,7 @@ export type OidcConfig = {
   authority: string;
   clientId: string;
   scope: string;
+  resource: string | null;
 };
 
 const runtimeEnv: RuntimeEnv = window.__ENV__ ?? {};
@@ -41,12 +43,14 @@ const authority = stripTrailingSlash(
 );
 const clientId = requireConfig('OIDC_CLIENT_ID', readConfigValue('OIDC_CLIENT_ID', 'VITE_OIDC_CLIENT_ID'));
 const scope = requireConfig('OIDC_SCOPE', readConfigValue('OIDC_SCOPE', 'VITE_OIDC_SCOPE'));
+const resource = readConfigValue('OIDC_RESOURCE', 'VITE_OIDC_RESOURCE');
 
 export const oidcConfig: OidcConfig = {
   enabled: true,
   authority,
   clientId,
   scope,
+  resource,
 };
 
 export const config = {

@@ -14,6 +14,7 @@ export const userManager = oidcConfig.enabled
       post_logout_redirect_uri: postLogoutRedirectUri,
       silent_redirect_uri: silentRedirectUri,
       scope: oidcConfig.scope,
+      resource: oidcConfig.resource ?? undefined,
       response_type: 'code',
       userStore: new WebStorageStateStore({ store: window.sessionStorage }),
       automaticSilentRenew: true,
