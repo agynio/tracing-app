@@ -94,7 +94,6 @@ dev:
     namespace: ${APP_NAMESPACE}
     labelSelector:
       app.kubernetes.io/name: tracing-app
-      app.kubernetes.io/instance: tracing-app
     ports:
       - port: "3000"
     containers:
