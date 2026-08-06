@@ -66,7 +66,7 @@ export function Dropdown({
   return (
     <div className={`w-full ${className}`}>
       {label && (
-        <label className="block mb-2 text-[var(--agyn-dark)]">
+        <label className="block mb-2 text-foreground">
           {label}
         </label>
       )}
@@ -83,14 +83,14 @@ export function Dropdown({
           className={`
             w-full
             ${variant === 'flat' 
-              ? 'bg-transparent border-none shadow-none px-0 gap-1 h-auto text-[var(--agyn-dark)] hover:text-[var(--agyn-blue)]' 
+              ? 'bg-transparent border-none shadow-none px-0 gap-1 h-auto text-foreground hover:text-primary' 
               : `
-                bg-white 
-                border border-[var(--agyn-border-subtle)] 
+                bg-background 
+                border border-border 
                 rounded-[10px]
-                text-[var(--agyn-dark)]
-                focus:outline-none focus:ring-2 focus:ring-[var(--agyn-blue)] focus:border-transparent
-                disabled:bg-[var(--agyn-bg-light)] disabled:cursor-not-allowed
+                text-foreground
+                focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent
+                disabled:bg-muted disabled:cursor-not-allowed
                 ${error ? 'border-red-500 focus:ring-red-500' : ''}
                 ${size === 'sm' ? 'px-3 !h-10' : 'px-4 py-3'}
               `
@@ -104,7 +104,7 @@ export function Dropdown({
         
         <SelectContent
           className="
-            bg-white 
+            bg-popover 
             border border-[var(--agyn-border-default)] 
             rounded-[10px]
             shadow-lg
@@ -114,7 +114,7 @@ export function Dropdown({
             groups.map((group, groupIndex) => (
               <SelectGroup key={groupIndex}>
                 {group.label && (
-                  <SelectLabel className="text-[var(--agyn-gray)] px-3 py-2">
+                  <SelectLabel className="text-muted-foreground px-3 py-2">
                     {group.label}
                   </SelectLabel>
                 )}
@@ -124,11 +124,11 @@ export function Dropdown({
                     value={option.value}
                     className="
                       px-3 py-2
-                      !text-[var(--agyn-dark)]
-                      data-[highlighted]:bg-[var(--agyn-bg-light)]
-                      data-[highlighted]:!text-[var(--agyn-dark)]
-                      focus:bg-[var(--agyn-bg-light)]
-                      focus:!text-[var(--agyn-dark)]
+                      !text-foreground
+                      data-[highlighted]:bg-muted
+                      data-[highlighted]:!text-foreground
+                      focus:bg-muted
+                      focus:!text-foreground
                       cursor-pointer
                       rounded-[6px]
                     "
@@ -145,11 +145,11 @@ export function Dropdown({
                 value={option.value}
                 className="
                   px-3 py-2
-                  !text-[var(--agyn-dark)]
-                  data-[highlighted]:bg-[var(--agyn-bg-light)]
-                  data-[highlighted]:!text-[var(--agyn-dark)]
-                  focus:bg-[var(--agyn-bg-light)]
-                  focus:!text-[var(--agyn-dark)]
+                  !text-foreground
+                  data-[highlighted]:bg-muted
+                  data-[highlighted]:!text-foreground
+                  focus:bg-muted
+                  focus:!text-foreground
                   cursor-pointer
                   rounded-[6px]
                 "
@@ -166,7 +166,7 @@ export function Dropdown({
       )}
 
       {helperText && !error && (
-        <p className="mt-2 text-sm text-[var(--agyn-gray)]">{helperText}</p>
+        <p className="mt-2 text-sm text-muted-foreground">{helperText}</p>
       )}
     </div>
   );

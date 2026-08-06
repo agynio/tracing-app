@@ -56,3 +56,24 @@ export const oidcConfig: OidcConfig = {
 export const config = {
   apiBaseUrl,
 };
+
+/**
+ * Derive a sibling product base URL from the current page origin by replacing
+ * the first subdomain label. Null when derivation is not possible (no
+ * subdomain, IP address, SSR, etc.).
+ */
+export function deriveSiblingUrl(serviceName: string): string | null {
+  if (typeof window === 'undefined') return null;
+
+  const { protocol, hostname, port } = window.location;
+  if (/^\d/.test(hostname) || hostname.includes(':')) return null;
+
+  const dotIndex = hostname.indexOf('.');
+  if (dotIndex === -1) return null;
+
+  const rest = hostname.slice(dotIndex);
+  if (!rest.includes('.', 1)) return null;
+
+  const portSuffix = port ? `:${port}` : '';
+  return `${protocol}//${serviceName}${rest}${portSuffix}`;
+}

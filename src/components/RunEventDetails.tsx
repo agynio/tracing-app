@@ -475,7 +475,7 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
             return <JsonViewer data={parsed} className="flex-1 overflow-auto" />;
           }
           return (
-            <pre className="text-sm text-[var(--agyn-dark)] overflow-auto whitespace-pre-wrap flex-1">
+            <pre className="text-sm text-foreground overflow-auto whitespace-pre-wrap flex-1">
               {outputString}
             </pre>
           );
@@ -494,14 +494,14 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
         );
       case 'yaml':
         return (
-          <pre className="text-sm text-[var(--agyn-dark)] overflow-auto whitespace-pre-wrap flex-1 font-mono">
+          <pre className="text-sm text-foreground overflow-auto whitespace-pre-wrap flex-1 font-mono">
             {outputString}
           </pre>
         );
       case 'text':
       default:
         return (
-          <div className="text-sm text-[var(--agyn-dark)] overflow-y-auto whitespace-pre-wrap flex-1 font-mono max-w-full" style={{ wordBreak: 'break-word', overflowX: 'hidden' }}>
+          <div className="text-sm text-foreground overflow-y-auto whitespace-pre-wrap flex-1 font-mono max-w-full" style={{ wordBreak: 'break-word', overflowX: 'hidden' }}>
             {outputString}
           </div>
         );
@@ -539,14 +539,14 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
       <div className="space-y-6" data-testid="run-event-details-message">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-[var(--agyn-blue)]/10 flex items-center justify-center">
-              <MessageSquare className="w-5 h-5 text-[var(--agyn-blue)]" />
+            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+              <MessageSquare className="w-5 h-5 text-primary" />
             </div>
             <div>
-              <h3 className="text-[var(--agyn-dark)] mb-1" data-testid="run-event-details-heading">
+              <h3 className="text-foreground mb-1" data-testid="run-event-details-heading">
                 Message • {getMessageLabel()}
               </h3>
-              <div className="flex items-center gap-2 text-xs text-[var(--agyn-gray)]" data-testid="run-event-details-meta">
+              <div className="flex items-center gap-2 text-xs text-muted-foreground" data-testid="run-event-details-meta">
                 <Clock className="w-3 h-3" />
                 <span>{event.timestamp}</span>
               </div>
@@ -554,13 +554,13 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
           </div>
         </div>
 
-        <div className="border border-[var(--agyn-border-subtle)] rounded-[10px] p-4">
+        <div className="border border-border rounded-[10px] p-4">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-sm text-[var(--agyn-gray)]">Content</span>
+            <span className="text-sm text-muted-foreground">Content</span>
             <IconButton icon={<Copy className="w-3 h-3" />} size="sm" variant="ghost" />
           </div>
           <p
-            className="text-[var(--agyn-dark)] leading-relaxed whitespace-pre-wrap"
+            className="text-foreground leading-relaxed whitespace-pre-wrap"
             data-testid="run-event-details-message-content"
           >
             {content}
@@ -601,8 +601,8 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
               <Bot className="w-5 h-5 text-[var(--agyn-purple)]" />
             </div>
             <div>
-              <h3 className="text-[var(--agyn-dark)] mb-1" data-testid="run-event-details-heading">LLM Call</h3>
-              <div className="flex items-center gap-2 text-xs text-[var(--agyn-gray)]" data-testid="run-event-details-meta">
+              <h3 className="text-foreground mb-1" data-testid="run-event-details-heading">LLM Call</h3>
+              <div className="flex items-center gap-2 text-xs text-muted-foreground" data-testid="run-event-details-meta">
                 <Clock className="w-3 h-3" />
                 <span>{event.timestamp}</span>
                 {event.duration && (
@@ -633,28 +633,28 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
             {provider && (
               <div className="flex-shrink-0 mb-4" data-testid="run-event-details-provider">
                 <div className="flex items-center gap-2 mb-3 h-8">
-                  <span className="text-sm text-[var(--agyn-gray)]">Provider</span>
+                  <span className="text-sm text-muted-foreground">Provider</span>
                   <IconButton icon={<Copy className="w-3 h-3" />} size="sm" variant="ghost" />
                 </div>
-                <div className="text-[var(--agyn-dark)] text-sm font-mono">{provider}</div>
+                <div className="text-foreground text-sm font-mono">{provider}</div>
               </div>
             )}
             {model && (
               <div className="flex-shrink-0 mb-4" data-testid="run-event-details-model">
                 <div className="flex items-center gap-2 mb-3 h-8">
-                  <span className="text-sm text-[var(--agyn-gray)]">Model</span>
+                  <span className="text-sm text-muted-foreground">Model</span>
                   <IconButton icon={<Copy className="w-3 h-3" />} size="sm" variant="ghost" />
                 </div>
-                <div className="text-[var(--agyn-dark)] text-sm font-mono">{model}</div>
+                <div className="text-foreground text-sm font-mono">{model}</div>
               </div>
             )}
 
             <div className="flex-1 flex flex-col min-h-0">
               <div className="flex items-center gap-2 mb-3 h-8 flex-shrink-0">
-                <span className="text-sm text-[var(--agyn-gray)]">Context</span>
+                <span className="text-sm text-muted-foreground">Context</span>
               </div>
               <div
-                className="flex-1 overflow-y-auto min-h-0 border border-[var(--agyn-border-subtle)] rounded-[10px] p-4"
+                className="flex-1 overflow-y-auto min-h-0 border border-border rounded-[10px] p-4"
                 ref={contextScrollRef}
                 data-testid="run-event-details-llm-context"
               >
@@ -663,28 +663,28 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
                     type="button"
                     onClick={handleViewContextHistory}
                     disabled={contextLoadInProgress}
-                    className="mb-4 w-full text-sm text-[var(--agyn-blue)] hover:text-[var(--agyn-blue)]/80 py-2 border border-[var(--agyn-border-subtle)] rounded-[6px] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="mb-4 w-full text-sm text-primary hover:text-primary/80 py-2 border border-border rounded-[6px] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     {contextLoadInProgress ? 'Loading…' : historyButtonLabel}
                   </button>
                 )}
                 {showEmptyContext ? (
-                  <div className="text-sm text-[var(--agyn-gray)]">{emptyContextMessage}</div>
+                  <div className="text-sm text-muted-foreground">{emptyContextMessage}</div>
                 ) : (
                   <div className="flex flex-col">
                     {renderContextMessages(context)}
                   </div>
                 )}
                 {contextHistoryNotice && (
-                  <div className="mt-3 text-sm text-[var(--agyn-gray)]">{contextHistoryNotice}</div>
+                  <div className="mt-3 text-sm text-muted-foreground">{contextHistoryNotice}</div>
                 )}
                 {contextOlderError && (
-                  <div className="mt-4 border border-[var(--agyn-border-subtle)] rounded-[6px] p-3 bg-[var(--agyn-bg-light)]">
-                    <p className="text-sm text-[var(--agyn-dark)]">Failed to load older context.</p>
+                  <div className="mt-4 border border-border rounded-[6px] p-3 bg-muted">
+                    <p className="text-sm text-foreground">Failed to load older context.</p>
                     <button
                       type="button"
                       onClick={handleRetryLoadMore}
-                      className="mt-2 text-sm text-[var(--agyn-blue)] hover:text-[var(--agyn-blue)]/80"
+                      className="mt-2 text-sm text-primary hover:text-primary/80"
                     >
                       Retry
                     </button>
@@ -698,19 +698,19 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
             {reasoningTokens !== undefined && (
               <div className="flex-shrink-0 mb-4" data-testid="run-event-details-reasoning">
                 <div className="flex items-center gap-2 mb-3 h-8">
-                  <span className="text-sm text-[var(--agyn-gray)]">Reasoning</span>
+                  <span className="text-sm text-muted-foreground">Reasoning</span>
                 </div>
-                <div className="text-[var(--agyn-dark)] text-sm font-mono">
+                <div className="text-foreground text-sm font-mono">
                   {reasoningTokens.toLocaleString()} tokens
                 </div>
               </div>
             )}
             <div className="flex items-center gap-2 mb-3 h-8 flex-shrink-0">
-              <span className="text-sm text-[var(--agyn-gray)]">Output</span>
+              <span className="text-sm text-muted-foreground">Output</span>
               <IconButton icon={<Copy className="w-3 h-3" />} size="sm" variant="ghost" />
             </div>
             <div
-              className="flex-1 overflow-y-auto min-h-0 border border-[var(--agyn-border-subtle)] rounded-[10px] p-4"
+              className="flex-1 overflow-y-auto min-h-0 border border-border rounded-[10px] p-4"
               data-testid="run-event-details-llm-output"
             >
               {response ? (
@@ -718,13 +718,13 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
                   <MarkdownContent content={response} />
                 </div>
               ) : (
-                <div className="text-sm text-[var(--agyn-gray)]">No response available</div>
+                <div className="text-sm text-muted-foreground">No response available</div>
               )}
             </div>
             {toolCalls.length > 0 && (
               <div className="mt-4" data-testid="run-event-details-tools">
                 <div className="flex items-center gap-2 mb-3 h-8 flex-shrink-0">
-                  <span className="text-sm text-[var(--agyn-gray)]">Invoked tools</span>
+                  <span className="text-sm text-muted-foreground">Invoked tools</span>
                 </div>
                 {renderFunctionCalls(toolCalls, expandedToolCalls, toggleToolCall, `llm-${event.id}`)}
               </div>
@@ -732,9 +732,9 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
             {assistantContext.length > 0 && (
               <div className="mt-4 flex flex-col min-h-0 min-w-0" data-testid="assistant-context-panel">
                 <div className="flex items-center gap-2 mb-3 h-8 flex-shrink-0">
-                  <span className="text-sm text-[var(--agyn-gray)]">Assistant responses for this call</span>
+                  <span className="text-sm text-muted-foreground">Assistant responses for this call</span>
                 </div>
-                <div className="flex-1 overflow-y-auto min-h-0 border border-[var(--agyn-border-subtle)] rounded-[10px] p-4">
+                <div className="flex-1 overflow-y-auto min-h-0 border border-border rounded-[10px] p-4">
                   {renderContextMessages(assistantContext)}
                 </div>
               </div>
@@ -753,12 +753,12 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
         switch (role) {
           case 'system':
             return {
-              color: 'text-[var(--agyn-gray)]',
+              color: 'text-muted-foreground',
               icon: <Settings className="w-3.5 h-3.5" />,
             };
           case 'user':
             return {
-              color: 'text-[var(--agyn-blue)]',
+              color: 'text-primary',
               icon: <User className="w-3.5 h-3.5" />,
             };
           case 'assistant':
@@ -773,7 +773,7 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
             };
           default:
             return {
-              color: 'text-[var(--agyn-gray)]',
+              color: 'text-muted-foreground',
               icon: <MessageSquare className="w-3.5 h-3.5" />,
             };
         }
@@ -877,7 +877,7 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
               {role === 'tool' ? asString(message.name, 'Tool') : role}
             </span>
             {timestamp && (
-              <span className="text-xs text-[var(--agyn-gray)] ml-1">{timestamp}</span>
+              <span className="text-xs text-muted-foreground ml-1">{timestamp}</span>
             )}
             {role === 'tool' && (
               <div className="ml-auto">
@@ -909,7 +909,7 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
                 {renderAssistantContent()}
                 {reasoningTokens !== undefined && (
                   <div
-                    className="pl-5 flex items-center gap-2 text-sm text-[var(--agyn-dark)]"
+                    className="pl-5 flex items-center gap-2 text-sm text-foreground"
                     data-testid="assistant-context-reasoning"
                   >
                     <Brain className="w-3.5 h-3.5 text-[var(--agyn-purple)]" />
@@ -924,8 +924,8 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
             )}
 
             {hasToolResult && role !== 'tool' && (
-              <div className="bg-[var(--agyn-bg-light)] border border-[var(--agyn-border-subtle)] rounded-[6px] p-3">
-                <div className="text-xs text-[var(--agyn-gray)] mb-1">Tool Result</div>
+              <div className="bg-muted border border-border rounded-[6px] p-3">
+                <div className="text-xs text-muted-foreground mb-1">Tool Result</div>
                 <pre className="text-xs whitespace-pre-wrap overflow-auto">
                   {typeof toolResultValue === 'string'
                     ? toolResultValue
@@ -952,17 +952,17 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
         <div className="grid grid-cols-2 gap-4 h-full">
           <div className="flex flex-col min-h-0 min-w-0">
             <div className="flex items-center gap-2 mb-3 h-8 flex-shrink-0">
-              <span className="text-sm text-[var(--agyn-gray)]">Input</span>
+              <span className="text-sm text-muted-foreground">Input</span>
               <IconButton icon={<Copy className="w-3 h-3" />} size="sm" variant="ghost" />
             </div>
-            <div className="flex-1 overflow-y-auto min-h-0 border border-[var(--agyn-border-subtle)] rounded-[10px] p-4">
+            <div className="flex-1 overflow-y-auto min-h-0 border border-border rounded-[10px] p-4">
               <JsonViewer data={parseInput()} />
             </div>
           </div>
 
           <div className="flex flex-col min-h-0 min-w-0">
             <div className="flex items-center gap-2 mb-3 h-8 flex-shrink-0">
-              <span className="text-sm text-[var(--agyn-gray)]">Output</span>
+              <span className="text-sm text-muted-foreground">Output</span>
               <IconButton icon={<Copy className="w-3 h-3" />} size="sm" variant="ghost" />
               <div className="flex-shrink-0">
                 <Dropdown
@@ -974,7 +974,7 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
                 />
               </div>
             </div>
-            <div className="flex-1 overflow-y-auto overflow-x-hidden min-h-0 min-w-0 flex flex-col border border-[var(--agyn-border-subtle)] rounded-[10px] p-4">
+            <div className="flex-1 overflow-y-auto overflow-x-hidden min-h-0 min-w-0 flex flex-col border border-border rounded-[10px] p-4">
               {renderOutputContent(event.data.output)}
             </div>
           </div>
@@ -1007,10 +1007,10 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
             {cwd && (
               <div className="flex-shrink-0">
                 <div className="flex items-center gap-2 mb-3 h-8">
-                  <span className="text-sm text-[var(--agyn-gray)]">Working Directory</span>
+                  <span className="text-sm text-muted-foreground">Working Directory</span>
                   <IconButton icon={<Copy className="w-3 h-3" />} size="sm" variant="ghost" />
                 </div>
-                <div className="text-[var(--agyn-dark)] text-sm font-mono break-all">
+                <div className="text-foreground text-sm font-mono break-all">
                   {cwd}
                 </div>
               </div>
@@ -1018,10 +1018,10 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
             
             <div className="flex-1 flex flex-col min-h-0">
               <div className="flex items-center gap-2 mb-3 h-8 flex-shrink-0">
-                <span className="text-sm text-[var(--agyn-gray)]">Command</span>
+                <span className="text-sm text-muted-foreground">Command</span>
                 <IconButton icon={<Copy className="w-3 h-3" />} size="sm" variant="ghost" />
               </div>
-              <div className="bg-[var(--agyn-dark)] text-white px-3 py-2 rounded-[6px] text-sm font-mono whitespace-pre-wrap break-words overflow-y-auto flex-1 border border-[var(--agyn-border-subtle)]">
+              <div className="bg-[var(--agyn-dark)] text-white px-3 py-2 rounded-[6px] text-sm font-mono whitespace-pre-wrap break-words overflow-y-auto flex-1 border border-border">
                 {command}
               </div>
             </div>
@@ -1029,7 +1029,7 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
 
           <div className="flex flex-col min-h-0 min-w-0">
             <div className="flex items-center gap-2 mb-3 h-8 flex-shrink-0">
-              <span className="text-sm text-[var(--agyn-gray)]">Output</span>
+              <span className="text-sm text-muted-foreground">Output</span>
               <IconButton icon={<Copy className="w-3 h-3" />} size="sm" variant="ghost" />
               <div className="flex-shrink-0">
                 <Dropdown
@@ -1041,7 +1041,7 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
                 />
               </div>
             </div>
-            <div className="flex-1 overflow-y-auto overflow-x-hidden min-h-0 min-w-0 flex flex-col border border-[var(--agyn-border-subtle)] rounded-[10px] p-4">
+            <div className="flex-1 overflow-y-auto overflow-x-hidden min-h-0 min-w-0 flex flex-col border border-border rounded-[10px] p-4">
               {renderOutputContent(outputValue)}
             </div>
           </div>
@@ -1115,15 +1115,15 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
     return (
       <>
         {childThreadId && (
-          <div className="mb-4 text-xs text-[var(--agyn-gray)] flex flex-col gap-1">
+          <div className="mb-4 text-xs text-muted-foreground flex flex-col gap-1">
             <div>
               <span className="font-medium">Child thread:</span>{' '}
-              <span className="text-[var(--agyn-dark)]">{childThreadId}</span>
+              <span className="text-foreground">{childThreadId}</span>
             </div>
             {childRunId && (
               <div>
                 <span className="font-medium">Child run:</span>{' '}
-                <span className="text-[var(--agyn-dark)]">{childRunId}</span>
+                <span className="text-foreground">{childRunId}</span>
               </div>
             )}
           </div>
@@ -1133,10 +1133,10 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
             {command && (
               <div className="flex-shrink-0">
                 <div className="flex items-center gap-2 mb-3 h-8">
-                  <span className="text-sm text-[var(--agyn-gray)]">Command</span>
+                  <span className="text-sm text-muted-foreground">Command</span>
                   <IconButton icon={<Copy className="w-3 h-3" />} size="sm" variant="ghost" />
                 </div>
-                <div className="text-[var(--agyn-dark)] text-sm font-mono break-all">
+                <div className="text-foreground text-sm font-mono break-all">
                   {command}
                 </div>
               </div>
@@ -1145,10 +1145,10 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
             {worker && (
               <div className="flex-shrink-0">
                 <div className="flex items-center gap-2 mb-3 h-8">
-                  <span className="text-sm text-[var(--agyn-gray)]">Worker</span>
+                  <span className="text-sm text-muted-foreground">Worker</span>
                   <IconButton icon={<Copy className="w-3 h-3" />} size="sm" variant="ghost" />
                 </div>
-                <div className="text-[var(--agyn-dark)] text-sm font-mono break-all">
+                <div className="text-foreground text-sm font-mono break-all">
                   {worker}
                 </div>
               </div>
@@ -1157,10 +1157,10 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
             {threadAlias && (
               <div className="flex-shrink-0">
                 <div className="flex items-center gap-2 mb-3 h-8">
-                  <span className="text-sm text-[var(--agyn-gray)]">Thread Alias</span>
+                  <span className="text-sm text-muted-foreground">Thread Alias</span>
                   <IconButton icon={<Copy className="w-3 h-3" />} size="sm" variant="ghost" />
                 </div>
-                <div className="text-[var(--agyn-dark)] text-sm font-mono break-all">
+                <div className="text-foreground text-sm font-mono break-all">
                   {threadAlias}
                 </div>
               </div>
@@ -1169,10 +1169,10 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
             {message && (
               <div className="flex-1 flex flex-col min-h-0">
                 <div className="flex items-center gap-2 mb-3 h-8 flex-shrink-0">
-                  <span className="text-sm text-[var(--agyn-gray)]">Message</span>
+                  <span className="text-sm text-muted-foreground">Message</span>
                   <IconButton icon={<Copy className="w-3 h-3" />} size="sm" variant="ghost" />
                 </div>
-                <div className="flex-1 overflow-y-auto min-h-0 border border-[var(--agyn-border-subtle)] rounded-[10px] p-4">
+                <div className="flex-1 overflow-y-auto min-h-0 border border-border rounded-[10px] p-4">
                   <div className="prose prose-sm max-w-none">
                     <MarkdownContent content={message} />
                   </div>
@@ -1183,10 +1183,10 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
             {!command && !worker && !threadAlias && !message && input && (
               <div className="flex-1 flex flex-col min-h-0">
                 <div className="flex items-center gap-2 mb-3 h-8 flex-shrink-0">
-                  <span className="text-sm text-[var(--agyn-gray)]">Input</span>
+                  <span className="text-sm text-muted-foreground">Input</span>
                   <IconButton icon={<Copy className="w-3 h-3" />} size="sm" variant="ghost" />
                 </div>
-                <div className="flex-1 overflow-y-auto min-h-0 border border-[var(--agyn-border-subtle)] rounded-[10px] p-4">
+                <div className="flex-1 overflow-y-auto min-h-0 border border-border rounded-[10px] p-4">
                   <JsonViewer data={input} />
                 </div>
               </div>
@@ -1195,7 +1195,7 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
 
           <div className="flex flex-col min-h-0 min-w-0">
             <div className="flex items-center gap-2 mb-3 h-8 flex-shrink-0">
-              <span className="text-sm text-[var(--agyn-gray)]">Output</span>
+              <span className="text-sm text-muted-foreground">Output</span>
               <IconButton icon={<Copy className="w-3 h-3" />} size="sm" variant="ghost" />
               <div className="flex-shrink-0">
                 <Dropdown
@@ -1207,9 +1207,9 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
                 />
               </div>
             </div>
-            <div className="flex-1 overflow-y-auto overflow-x-hidden min-h-0 min-w-0 flex flex-col border border-[var(--agyn-border-subtle)] rounded-[10px] p-4">
+            <div className="flex-1 overflow-y-auto overflow-x-hidden min-h-0 min-w-0 flex flex-col border border-border rounded-[10px] p-4">
               {output ? renderOutputContent(output) : (
-                <div className="text-sm text-[var(--agyn-gray)]">No output available</div>
+                <div className="text-sm text-muted-foreground">No output available</div>
               )}
             </div>
           </div>
@@ -1236,12 +1236,12 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
             </div>
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <h3 className="text-[var(--agyn-dark)]" data-testid="run-event-details-heading">
+                <h3 className="text-foreground" data-testid="run-event-details-heading">
                   {event.data.toolName || 'Tool Call'}
                 </h3>
                 {event.status && <StatusIndicator status={event.status} size="sm" />}
               </div>
-              <div className="flex items-center gap-2 text-xs text-[var(--agyn-gray)]" data-testid="run-event-details-meta">
+              <div className="flex items-center gap-2 text-xs text-muted-foreground" data-testid="run-event-details-meta">
                 <Clock className="w-3 h-3" />
                 <span>{event.timestamp}</span>
                 {event.duration && (
@@ -1272,12 +1272,12 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
       <div className="space-y-6 h-full flex flex-col">
         <div className="flex items-start flex-shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-[var(--agyn-gray)]/10 flex items-center justify-center">
-              <FileText className="w-5 h-5 text-[var(--agyn-gray)]" />
+            <div className="w-10 h-10 rounded-full bg-muted-foreground/10 flex items-center justify-center">
+              <FileText className="w-5 h-5 text-muted-foreground" />
             </div>
             <div>
-              <h3 className="text-[var(--agyn-dark)] mb-1" data-testid="run-event-details-heading">Summarization</h3>
-              <div className="flex items-center gap-2 text-xs text-[var(--agyn-gray)]" data-testid="run-event-details-meta">
+              <h3 className="text-foreground mb-1" data-testid="run-event-details-heading">Summarization</h3>
+              <div className="flex items-center gap-2 text-xs text-muted-foreground" data-testid="run-event-details-meta">
                 <Clock className="w-3 h-3" />
                 <span>{event.timestamp}</span>
                 {event.duration && (
@@ -1294,13 +1294,13 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
         <div className="grid grid-cols-[1fr_1fr] gap-4 flex-1 min-h-0">
           <div className="flex flex-col min-h-0 min-w-0">
             <div className="flex items-center gap-2 mb-3 h-8 flex-shrink-0">
-              <span className="text-sm text-[var(--agyn-gray)]">Old Context</span>
+              <span className="text-sm text-muted-foreground">Old Context</span>
             </div>
-            <div className="flex-1 overflow-y-auto min-h-0 border border-[var(--agyn-border-subtle)] rounded-[10px] p-4">
+            <div className="flex-1 overflow-y-auto min-h-0 border border-border rounded-[10px] p-4">
               {oldContext.length > 0 ? (
                 renderContextMessages(oldContext)
               ) : (
-                <div className="text-sm text-[var(--agyn-gray)]">No old context</div>
+                <div className="text-sm text-muted-foreground">No old context</div>
               )}
             </div>
           </div>
@@ -1308,10 +1308,10 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
           <div className="flex flex-col min-h-0 min-w-0 space-y-4">
             <div className="flex flex-col min-h-0 max-h-[300px]">
               <div className="flex items-center gap-2 mb-3 h-8 flex-shrink-0">
-                <span className="text-sm text-[var(--agyn-gray)]">Summary</span>
+                <span className="text-sm text-muted-foreground">Summary</span>
                 <IconButton icon={<Copy className="w-3 h-3" />} size="sm" variant="ghost" />
               </div>
-              <div className="flex-1 overflow-y-auto min-h-0 border border-[var(--agyn-border-subtle)] rounded-[10px] p-4">
+              <div className="flex-1 overflow-y-auto min-h-0 border border-border rounded-[10px] p-4">
                 <div className="prose prose-sm max-w-none">
                   <MarkdownContent content={event.data.summary || ''} />
                 </div>
@@ -1320,13 +1320,13 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
 
             <div className="flex-1 flex flex-col min-h-0">
               <div className="flex items-center gap-2 mb-3 h-8 flex-shrink-0">
-                <span className="text-sm text-[var(--agyn-gray)]">New Context</span>
+                <span className="text-sm text-muted-foreground">New Context</span>
               </div>
-              <div className="flex-1 overflow-y-auto min-h-0 border border-[var(--agyn-border-subtle)] rounded-[10px] p-4">
+              <div className="flex-1 overflow-y-auto min-h-0 border border-border rounded-[10px] p-4">
                 {newContext.length > 0 ? (
                   renderContextMessages(newContext)
                 ) : (
-                  <div className="text-sm text-[var(--agyn-gray)]">No new context</div>
+                  <div className="text-sm text-muted-foreground">No new context</div>
                 )}
               </div>
             </div>
@@ -1337,7 +1337,7 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
   };
 
   return (
-    <div className="bg-white h-full flex flex-col" data-testid="run-event-details">
+    <div className="bg-card h-full flex flex-col" data-testid="run-event-details">
       <div className="flex-1 overflow-y-auto p-6">
         {event.type === 'message' && renderMessageEvent()}
         {event.type === 'llm' && renderLLMEvent()}
@@ -1368,7 +1368,7 @@ function renderFunctionCalls(
             <button
               type="button"
               onClick={() => toggleToolCall(toggleKey)}
-              className="flex items-center gap-1.5 text-sm text-[var(--agyn-dark)] hover:text-[var(--agyn-blue)] transition-colors"
+              className="flex items-center gap-1.5 text-sm text-foreground hover:text-primary transition-colors"
             >
               {isExpanded ? (
                 <ChevronDown className="w-3.5 h-3.5" />

@@ -7,6 +7,7 @@ import {
   messageRunLookupTimedOut,
   messageRunRedirectRefetchInterval,
 } from '@/pages/utils/messageRedirectPolling';
+import { useOrganization } from '@/organization/organization.runtime';
 
 export function MessageRedirectScreen() {
   const navigate = useNavigate();
@@ -17,6 +18,13 @@ export function MessageRedirectScreen() {
   const organizationId = searchParams.get('orgId')?.trim() || '';
   const [lookupStartedAtMs, setLookupStartedAtMs] = useState(() => Date.now());
   const [nowMs, setNowMs] = useState(() => Date.now());
+  const { selectOrganization } = useOrganization();
+
+  // Inbound trace links carry the org, and the run view now reads it from the
+  // selection rather than the path.
+  useEffect(() => {
+    if (organizationId) selectOrganization(organizationId);
+  }, [organizationId, selectOrganization]);
 
   const query = useQuery({
     enabled: Boolean(resolvedMessageId && organizationId),
@@ -42,7 +50,7 @@ export function MessageRedirectScreen() {
 
   useEffect(() => {
     if (!organizationId || !query.data?.runId) return;
-    navigate(`/${organizationId}/runs/${query.data.runId}`, { replace: true });
+    navigate(`/runs/${query.data.runId}`, { replace: true });
   }, [navigate, organizationId, query.data]);
 
   if (!messageId) {

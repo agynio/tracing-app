@@ -54,11 +54,11 @@ export function JsonViewer({ data, className = '' }: JsonViewerProps) {
     const indent = depth * 16;
 
     if (value === null) {
-      return <span className="text-[var(--agyn-gray)]">null</span>;
+      return <span className="text-muted-foreground">null</span>;
     }
 
     if (value === undefined) {
-      return <span className="text-[var(--agyn-gray)]">undefined</span>;
+      return <span className="text-muted-foreground">undefined</span>;
     }
 
     if (typeof value === 'boolean') {
@@ -90,21 +90,21 @@ export function JsonViewer({ data, className = '' }: JsonViewerProps) {
       const isEmpty = value.length === 0;
 
       if (isEmpty) {
-        return <span className="text-[var(--agyn-gray)]">[]</span>;
+        return <span className="text-muted-foreground">[]</span>;
       }
 
       return (
         <span>
           <button
             onClick={() => togglePath(path)}
-            className="inline-flex items-center gap-1 hover:bg-[var(--agyn-border-subtle)] rounded px-1 -mx-1"
+            className="inline-flex items-center gap-1 hover:bg-border rounded px-1 -mx-1"
           >
             {isExpanded ? (
-              <ChevronDown className="w-3 h-3 text-[var(--agyn-gray)]" />
+              <ChevronDown className="w-3 h-3 text-muted-foreground" />
             ) : (
-              <ChevronRight className="w-3 h-3 text-[var(--agyn-gray)]" />
+              <ChevronRight className="w-3 h-3 text-muted-foreground" />
             )}
-            <span className="text-[var(--agyn-gray)] text-xs">Array ({value.length})</span>
+            <span className="text-muted-foreground text-xs">Array ({value.length})</span>
           </button>
           {isExpanded && (
             <div>
@@ -115,14 +115,14 @@ export function JsonViewer({ data, className = '' }: JsonViewerProps) {
                   <div key={index}>
                     {isComplex ? (
                       <div>
-                        <div className="text-[var(--agyn-gray)]">{keyText}</div>
+                        <div className="text-muted-foreground">{keyText}</div>
                         <div style={{ paddingLeft: '16px' }}>
                           {renderValue(item, `${path}.${index}`, depth)}
                         </div>
                       </div>
                     ) : (
                       <div>
-                        <span className="text-[var(--agyn-gray)]">{keyText}</span>
+                        <span className="text-muted-foreground">{keyText}</span>
                         <div className="inline-block ml-3 align-top max-w-full">
                           {renderValue(item, `${path}.${index}`, depth)}
                         </div>
@@ -143,21 +143,21 @@ export function JsonViewer({ data, className = '' }: JsonViewerProps) {
       const isEmpty = keys.length === 0;
 
       if (isEmpty) {
-        return <span className="text-[var(--agyn-gray)]">{'{}'}</span>;
+        return <span className="text-muted-foreground">{'{}'}</span>;
       }
 
       return (
         <span>
           <button
             onClick={() => togglePath(path)}
-            className="inline-flex items-center gap-1 hover:bg-[var(--agyn-border-subtle)] rounded px-1 -mx-1"
+            className="inline-flex items-center gap-1 hover:bg-border rounded px-1 -mx-1"
           >
             {isExpanded ? (
-              <ChevronDown className="w-3 h-3 text-[var(--agyn-gray)]" />
+              <ChevronDown className="w-3 h-3 text-muted-foreground" />
             ) : (
-              <ChevronRight className="w-3 h-3 text-[var(--agyn-gray)]" />
+              <ChevronRight className="w-3 h-3 text-muted-foreground" />
             )}
-            <span className="text-[var(--agyn-gray)] text-xs">
+            <span className="text-muted-foreground text-xs">
               Object ({keys.length})
             </span>
           </button>
@@ -171,14 +171,14 @@ export function JsonViewer({ data, className = '' }: JsonViewerProps) {
                   <div key={key}>
                     {isComplex ? (
                       <div>
-                        <div className="text-[var(--agyn-blue)]">{keyText}</div>
+                        <div className="text-primary">{keyText}</div>
                         <div style={{ paddingLeft: '16px' }}>
                           {renderValue(entryValue, `${path}.${key}`, depth)}
                         </div>
                       </div>
                     ) : (
                       <div>
-                        <span className="text-[var(--agyn-blue)]">{keyText}</span>
+                        <span className="text-primary">{keyText}</span>
                         <div className="inline-block ml-3 align-top max-w-full">
                           {renderValue(entryValue, `${path}.${key}`, depth)}
                         </div>

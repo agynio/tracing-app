@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
+import { useOrganization } from '@/organization/organization.runtime';
 import RunScreen, { type EventFilter, type StatusFilter } from '@/components/screens/RunScreen';
 import type { RunEvent as UiRunEvent } from '@/components/RunEventsList';
 import { useRunTimelineEventTotals, useRunTimelineSummary } from '@/api/hooks/runs';
@@ -107,8 +108,10 @@ function sanitizeStatusFilters(filters: StatusFilter[]): StatusFilter[] {
 }
 
 export function AgentsRunScreen() {
-  const params = useParams<{ orgId: string; runId: string }>();
-  const organizationId = params.orgId;
+  const params = useParams<{ runId: string }>();
+  // The org left the path with the picker screen; it comes from the selection.
+  const { selectedOrganizationId } = useOrganization();
+  const organizationId = selectedOrganizationId ?? undefined;
   const runId = params.runId;
   const [searchParams, setSearchParams] = useSearchParams();
   const updateSearchParams = useCallback(

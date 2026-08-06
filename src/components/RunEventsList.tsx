@@ -35,7 +35,7 @@ export function RunEventsList({
   const getEventIcon = (event: RunEvent) => {
     switch (event.type) {
       case 'message':
-        return <MessageSquare className="w-4 h-4 text-[var(--agyn-blue)]" />;
+        return <MessageSquare className="w-4 h-4 text-primary" />;
       case 'llm':
         return <Bot className="w-4 h-4 text-[var(--agyn-purple)]" />;
       case 'tool':
@@ -46,20 +46,20 @@ export function RunEventsList({
         }
         return <Wrench className="w-4 h-4 text-[var(--agyn-cyan)]" />;
       case 'summarization':
-        return <FileText className="w-4 h-4 text-[var(--agyn-gray)]" />;
+        return <FileText className="w-4 h-4 text-muted-foreground" />;
     }
   };
 
   const getEventColor = (type: EventType) => {
     switch (type) {
       case 'message':
-        return 'bg-[var(--agyn-blue)]/10 border-[var(--agyn-blue)]/20';
+        return 'bg-primary/10 border-primary/20';
       case 'llm':
         return 'bg-[var(--agyn-purple)]/10 border-[var(--agyn-purple)]/20';
       case 'tool':
         return 'bg-[var(--agyn-cyan)]/10 border-[var(--agyn-cyan)]/20';
       case 'summarization':
-        return 'bg-[var(--agyn-gray)]/10 border-[var(--agyn-gray)]/20';
+        return 'bg-muted-foreground/10 border-muted-foreground/20';
     }
   };
 
@@ -100,12 +100,12 @@ export function RunEventsList({
       <button
         data-testid={`run-event-${event.id}`}
         onClick={() => onSelectEvent(event.id)}
-        className={`w-full px-4 py-3 border-b border-[var(--agyn-border-subtle)] hover:bg-[var(--agyn-bg-light)] transition-colors text-left relative ${
-          isSelected ? 'bg-[var(--agyn-bg-light)]' : ''
+        className={`w-full px-4 py-3 border-b border-border hover:bg-muted transition-colors text-left relative ${
+          isSelected ? 'bg-muted' : ''
         }`}
       >
         {isSelected && (
-          <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-[var(--agyn-blue)]" />
+          <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-primary" />
         )}
         
         <div className="flex items-start gap-3">
@@ -114,7 +114,7 @@ export function RunEventsList({
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-0.5">
-              <div className="text-sm text-[var(--agyn-dark)] truncate">
+              <div className="text-sm text-foreground truncate">
                 {getEventLabel(event)}
               </div>
               {event.status && (
@@ -124,11 +124,11 @@ export function RunEventsList({
               )}
             </div>
             {subtitle && (
-              <div className="text-xs text-[var(--agyn-gray)] truncate mb-1">
+              <div className="text-xs text-muted-foreground truncate mb-1">
                 {subtitle}
               </div>
             )}
-            <div className="text-xs text-[var(--agyn-gray)]" data-testid="run-event-meta">
+            <div className="text-xs text-muted-foreground" data-testid="run-event-meta">
               {event.timestamp}
               {event.duration && ` • ${event.duration}`}
             </div>
@@ -141,12 +141,12 @@ export function RunEventsList({
   const header = hasMore ? (
     <div className="p-4 flex items-center justify-center">
       {isLoadingMore ? (
-        <div className="flex items-center gap-2 text-[var(--agyn-gray)]">
+        <div className="flex items-center gap-2 text-muted-foreground">
           <Loader2 className="w-4 h-4 animate-spin" />
           <span className="text-xs">Loading more events...</span>
         </div>
       ) : (
-        <div className="text-xs text-[var(--agyn-gray)]">Scroll up to load more</div>
+        <div className="text-xs text-muted-foreground">Scroll up to load more</div>
       )}
     </div>
   ) : null;
@@ -175,7 +175,7 @@ export function RunEventsList({
   }, [events.length]);
 
   return (
-    <div className="bg-white overflow-hidden h-full flex flex-col" data-testid="run-events-list">
+    <div className="bg-card overflow-hidden h-full flex flex-col" data-testid="run-events-list">
       <div ref={scrollRef} className="flex-1 overflow-y-auto" onScroll={handleScroll}>
         {header}
         {events.map((event) => (

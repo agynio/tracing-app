@@ -11,20 +11,20 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const baseStyles =
-  'inline-flex items-center justify-center rounded-[10px] font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[var(--agyn-blue)] focus-visible:ring-offset-2';
+  'inline-flex items-center justify-center rounded-[10px] font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2';
 
 const variants: Record<NonNullable<ButtonProps['variant']>, string> = {
   primary:
-    'bg-[var(--agyn-blue)] text-white hover:bg-[var(--agyn-blue-dark)] active:bg-[var(--agyn-blue-dark)]',
-  secondary: 'bg-[var(--agyn-purple)] text-white hover:opacity-90 active:opacity-80',
-  accent: 'bg-[var(--agyn-cyan)] text-white hover:opacity-90 active:opacity-80',
+    'bg-primary text-primary-foreground hover:bg-[var(--agyn-blue-dark)] active:bg-[var(--agyn-blue-dark)]',
+  secondary: 'bg-[var(--agyn-purple)] text-primary-foreground hover:opacity-90 active:opacity-80',
+  accent: 'bg-[var(--agyn-cyan)] text-primary-foreground hover:opacity-90 active:opacity-80',
   outline:
-    'bg-transparent border-2 border-[var(--agyn-blue)] text-[var(--agyn-blue)] hover:bg-[var(--agyn-blue)] hover:text-white',
-  ghost: 'bg-transparent text-[var(--agyn-blue)] hover:bg-[var(--agyn-blue)] hover:text-white',
+    'bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground',
+  ghost: 'bg-transparent text-primary hover:bg-primary hover:text-primary-foreground',
   danger:
-    'bg-transparent border-2 border-[var(--agyn-status-failed)] text-[var(--agyn-status-failed)] hover:bg-[var(--agyn-status-failed)] hover:text-white',
+    'bg-transparent border-2 border-[var(--agyn-status-failed)] text-[var(--agyn-status-failed)] hover:bg-[var(--agyn-status-failed)] hover:text-primary-foreground',
   link:
-    'bg-transparent text-[var(--agyn-blue)] underline-offset-4 hover:underline focus-visible:underline px-0 py-0',
+    'bg-transparent text-primary underline-offset-4 hover:underline focus-visible:underline px-0 py-0',
 };
 
 const sizeClasses: Record<Exclude<ButtonProps['size'], undefined>, string> = {

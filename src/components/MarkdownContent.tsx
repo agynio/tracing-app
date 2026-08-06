@@ -85,7 +85,7 @@ export function MarkdownContent({ content, className = '' }: MarkdownContentProp
             minWidth: 0,
             overflowX: 'auto',
             background: 'var(--agyn-bg-light)',
-            color: 'var(--agyn-dark)',
+            color: 'var(--foreground)',
           }}
           codeTagProps={{
             style: {
@@ -103,7 +103,7 @@ export function MarkdownContent({ content, className = '' }: MarkdownContentProp
       return (
         <code
           className={[
-            'block whitespace-pre-wrap font-mono text-sm leading-relaxed text-[var(--agyn-dark)]',
+            'block whitespace-pre-wrap font-mono text-sm leading-relaxed text-foreground',
             codeClassName,
           ]
             .filter(Boolean)
@@ -117,7 +117,7 @@ export function MarkdownContent({ content, className = '' }: MarkdownContentProp
 
     return (
       <code
-        className="bg-[var(--agyn-bg-light)] text-[var(--agyn-purple)] px-1.5 py-0.5 rounded text-sm break-words max-w-full whitespace-pre-wrap"
+        className="bg-muted text-[var(--agyn-purple)] px-1.5 py-0.5 rounded text-sm break-words max-w-full whitespace-pre-wrap"
         style={{ overflowWrap: 'break-word', wordBreak: 'break-word', ...style }}
         {...props}
       >
@@ -128,45 +128,45 @@ export function MarkdownContent({ content, className = '' }: MarkdownContentProp
 
   const markdownComponents: Components = {
     h1: ({ children }) => (
-      <h1 className="text-[var(--agyn-dark)] mb-4 mt-6 first:mt-0">
+      <h1 className="text-foreground mb-4 mt-6 first:mt-0">
         {children}
       </h1>
     ),
     h2: ({ children }) => (
-      <h2 className="text-[var(--agyn-dark)] mb-3 mt-5 first:mt-0">
+      <h2 className="text-foreground mb-3 mt-5 first:mt-0">
         {children}
       </h2>
     ),
     h3: ({ children }) => (
-      <h3 className="text-[var(--agyn-dark)] mb-2 mt-4 first:mt-0">
+      <h3 className="text-foreground mb-2 mt-4 first:mt-0">
         {children}
       </h3>
     ),
     h4: ({ children }) => (
-      <h4 className="text-[var(--agyn-dark)] mb-2 mt-3 first:mt-0">
+      <h4 className="text-foreground mb-2 mt-3 first:mt-0">
         {children}
       </h4>
     ),
     h5: ({ children }) => (
-      <h5 className="text-[var(--agyn-dark)] mb-2 mt-3 first:mt-0">
+      <h5 className="text-foreground mb-2 mt-3 first:mt-0">
         {children}
       </h5>
     ),
     h6: ({ children }) => (
-      <h6 className="text-[var(--agyn-dark)] mb-2 mt-3 first:mt-0">
+      <h6 className="text-foreground mb-2 mt-3 first:mt-0">
         {children}
       </h6>
     ),
 
     p: ({ children }) => (
-      <p className="text-[var(--agyn-dark)] mb-4 last:mb-0 leading-relaxed">
+      <p className="text-foreground mb-4 last:mb-0 leading-relaxed">
         {children}
       </p>
     ),
 
     ul: ({ children, className, node: _node, depth: _depth, ordered: _ordered, ...domProps }: MarkdownUnorderedListProps) => (
       <ul
-        className={cn('list-disc list-outside ml-5 mb-4 space-y-1 text-[var(--agyn-dark)]', className)}
+        className={cn('list-disc list-outside ml-5 mb-4 space-y-1 text-foreground', className)}
         {...domProps}
       >
         {children}
@@ -174,14 +174,14 @@ export function MarkdownContent({ content, className = '' }: MarkdownContentProp
     ),
     ol: ({ children, className, node: _node, depth: _depth, ordered: _ordered, index: _index, ...domProps }: MarkdownOrderedListProps) => (
       <ol
-        className={cn('list-decimal list-outside ml-5 mb-4 space-y-1 text-[var(--agyn-dark)]', className)}
+        className={cn('list-decimal list-outside ml-5 mb-4 space-y-1 text-foreground', className)}
         {...domProps}
       >
         {children}
       </ol>
     ),
     li: ({ children, className, node: _node, ordered: _ordered, index: _index, checked: _checked, depth: _depth, ...domProps }: MarkdownListItemProps) => (
-      <li className={cn('text-[var(--agyn-dark)] leading-relaxed', className)} {...domProps}>
+      <li className={cn('text-foreground leading-relaxed', className)} {...domProps}>
         {children}
       </li>
     ),
@@ -208,7 +208,7 @@ export function MarkdownContent({ content, className = '' }: MarkdownContentProp
       }
 
       const mergedClassName = [
-        'my-4 w-full overflow-x-auto rounded-[10px] bg-[var(--agyn-bg-light)] p-3 font-mono text-sm leading-relaxed text-[var(--agyn-dark)]',
+        'my-4 w-full overflow-x-auto rounded-[10px] bg-muted p-3 font-mono text-sm leading-relaxed text-foreground',
         preClassName,
       ]
         .filter(Boolean)
@@ -230,7 +230,7 @@ export function MarkdownContent({ content, className = '' }: MarkdownContentProp
             }
 
             const mergedChildClassName = [
-              'block whitespace-pre-wrap font-mono text-sm leading-relaxed text-[var(--agyn-dark)]',
+              'block whitespace-pre-wrap font-mono text-sm leading-relaxed text-foreground',
               node.props.className,
             ]
               .filter(Boolean)
@@ -243,7 +243,7 @@ export function MarkdownContent({ content, className = '' }: MarkdownContentProp
     },
 
     blockquote: ({ children }) => (
-      <blockquote className="border-l-4 border-[var(--agyn-blue)] bg-[var(--agyn-bg-light)] pl-4 pr-4 py-3 my-4 italic text-[var(--agyn-dark)]">
+      <blockquote className="border-l-4 border-primary bg-muted pl-4 pr-4 py-3 my-4 italic text-foreground">
         {children}
       </blockquote>
     ),
@@ -253,25 +253,25 @@ export function MarkdownContent({ content, className = '' }: MarkdownContentProp
         href={typeof href === 'string' ? href : undefined}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-[var(--agyn-blue)] hover:text-[var(--agyn-purple)] underline transition-colors"
+        className="text-primary hover:text-[var(--agyn-purple)] underline transition-colors"
       >
         {children}
       </a>
     ),
 
     hr: () => (
-      <hr className="border-0 border-t border-[var(--agyn-border-subtle)] my-6" />
+      <hr className="border-0 border-t border-border my-6" />
     ),
 
     table: ({ children }) => (
       <div className="overflow-x-auto my-4">
-        <table className="min-w-full border border-[var(--agyn-border-subtle)] rounded-[6px]">
+        <table className="min-w-full border border-border rounded-[6px]">
           {children}
         </table>
       </div>
     ),
     thead: ({ children }) => (
-      <thead className="bg-[var(--agyn-bg-light)]">
+      <thead className="bg-muted">
         {children}
       </thead>
     ),
@@ -281,35 +281,35 @@ export function MarkdownContent({ content, className = '' }: MarkdownContentProp
       </tbody>
     ),
     tr: ({ children }) => (
-      <tr className="border-b border-[var(--agyn-border-subtle)] last:border-b-0">
+      <tr className="border-b border-border last:border-b-0">
         {children}
       </tr>
     ),
     th: ({ children }) => (
-      <th className="px-4 py-2 text-left text-[var(--agyn-dark)] border-r border-[var(--agyn-border-subtle)] last:border-r-0">
+      <th className="px-4 py-2 text-left text-foreground border-r border-border last:border-r-0">
         {children}
       </th>
     ),
     td: ({ children }) => (
-      <td className="px-4 py-2 text-[var(--agyn-dark)] border-r border-[var(--agyn-border-subtle)] last:border-r-0">
+      <td className="px-4 py-2 text-foreground border-r border-border last:border-r-0">
         {children}
       </td>
     ),
 
     strong: ({ children }) => (
-      <strong className="text-[var(--agyn-dark)]">
+      <strong className="text-foreground">
         {children}
       </strong>
     ),
 
     em: ({ children }) => (
-      <em className="text-[var(--agyn-dark)]">
+      <em className="text-foreground">
         {children}
       </em>
     ),
 
     del: ({ children }) => (
-      <del className="text-[var(--agyn-gray)] opacity-70">
+      <del className="text-muted-foreground opacity-70">
         {children}
       </del>
     ),

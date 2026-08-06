@@ -62,6 +62,9 @@ export type OrganizationRunSummary = {
   messageText: string | null;
   createdAt: string;
   status: RunStatus;
+  /** Wall time of the trace, from its first span to its last. */
+  durationMs: number | null;
+  threadId: string | null;
 };
 
 function parseCommaSeparated(value?: string): string[] {
@@ -216,11 +219,18 @@ export const runs = {
       }
       const summary = requireSummary(summaryById.get(runId), runId);
       const event = spanToEvent(spanData.span, spanData.resourceAttrs);
+      const startedAt = Date.parse(summary.createdAt);
+      const endedAt = Date.parse(summary.updatedAt);
       return {
         runId,
         messageText: event.message?.text ?? null,
         createdAt: summary.createdAt,
         status: summary.status,
+        durationMs:
+          Number.isFinite(startedAt) && Number.isFinite(endedAt) && endedAt >= startedAt
+            ? endedAt - startedAt
+            : null,
+        threadId: summary.threadId || null,
       };
     });
   },

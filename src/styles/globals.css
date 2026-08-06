@@ -39,6 +39,10 @@
   --agyn-status-failed-bg: #FEE2E2;
   --agyn-status-terminated: #64748B;
   --agyn-status-terminated-bg: #F1F5F9;
+  --agyn-status-running: #3B82F6;
+  --agyn-status-running-bg: #DBEAFE;
+
+  --agyn-text-subtle: #94A3B8;
 
   /* Agyn Role Colors */
   --agyn-role-system: #64748B;
@@ -132,6 +136,52 @@
   --sidebar-accent-foreground: #ffffff;
   --sidebar-border: #334155;
   --sidebar-ring: #60A5FA;
+
+  /* Brand accents lighten so they stay legible on dark surfaces. */
+  --agyn-blue: #60A5FA;
+  --agyn-blue-dark: #3B82F6;
+  --agyn-blue-light: #93C5FD;
+  --agyn-purple: #A78BFA;
+  --agyn-cyan: #22D3EE;
+  --agyn-yellow: #FBBF24;
+  --agyn-gray: #94A3B8;
+  --agyn-gray-light: #475569;
+  --agyn-gray-lighter: #334155;
+
+  --agyn-border-subtle: #334155;
+  --agyn-border-medium: #475569;
+  --agyn-border-strong: #64748B;
+  --agyn-border-default: #334155;
+
+  /* Tint surfaces invert: near-white washes become deep, desaturated fills. */
+  --agyn-bg-light: #1E293B;
+  --agyn-bg-blue: #172554;
+  --agyn-bg-accent: #172554;
+  --agyn-bg-purple: #2E1065;
+  --agyn-bg-cyan: #083344;
+  --agyn-bg-yellow: #422006;
+
+  --agyn-status-pending: #FBBF24;
+  --agyn-status-pending-bg: #422006;
+  --agyn-status-finished: #34D399;
+  --agyn-status-finished-bg: #022C22;
+  --agyn-status-failed: #F87171;
+  --agyn-status-failed-bg: #450A0A;
+  --agyn-status-terminated: #94A3B8;
+  --agyn-status-terminated-bg: #1E293B;
+  --agyn-status-running: #60A5FA;
+  --agyn-status-running-bg: #172554;
+
+  --agyn-role-system: #94A3B8;
+  --agyn-role-system-bg: #1E293B;
+  --agyn-role-user: #60A5FA;
+  --agyn-role-user-bg: #172554;
+  --agyn-role-assistant: #A78BFA;
+  --agyn-role-assistant-bg: #2E1065;
+  --agyn-role-tool: #22D3EE;
+  --agyn-role-tool-bg: #083344;
+
+  --agyn-text-subtle: #64748B;
 }
 
 @theme inline {

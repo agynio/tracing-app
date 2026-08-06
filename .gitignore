@@ -31,3 +31,9 @@ eslint-report.json
 playwright-report/
 test-results/
 .playwright/
+
+# DevSpace session state, written when running from sources
+.devspace/
+
+# TypeScript incremental build output
+*.tsbuildinfo
