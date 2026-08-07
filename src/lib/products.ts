@@ -17,14 +17,7 @@ export const PRODUCTS: Product[] = [
   { id: 'chat', label: 'Chat', description: 'Talk to agents', icon: MessageCircle, subdomain: 'chat' },
   { id: 'tracing', label: 'Tracing', description: 'Inspect runs', icon: TrendingUp, subdomain: 'tracing' },
   { id: 'console', label: 'Console', description: 'Manage the org', icon: SlidersVertical, subdomain: 'console' },
-  {
-    id: 'sandboxes',
-    label: 'Sandboxes',
-    description: 'Run code safely',
-    icon: Box,
-    subdomain: 'sandboxes',
-    comingSoon: true,
-  },
+  { id: 'sandboxes', label: 'Sandboxes', description: 'Run code safely', icon: Box, subdomain: 'sandboxes' },
 ];
 
 /** Null when the product is unreleased or the host has no derivable sibling. */
