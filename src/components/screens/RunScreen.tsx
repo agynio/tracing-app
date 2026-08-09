@@ -3,6 +3,7 @@ import * as Tooltip from '@radix-ui/react-tooltip';
 import {
   ArrowLeft,
   Bot,
+  Braces,
   Eye,
   EyeOff,
   FileText,
@@ -27,7 +28,7 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 
-export type EventFilter = 'message' | 'llm' | 'tool' | 'summary';
+export type EventFilter = 'message' | 'llm' | 'tool' | 'summary' | 'span';
 export type StatusFilter = 'running' | 'finished' | 'failed';
 
 interface RunScreenProps {
@@ -41,6 +42,7 @@ interface RunScreenProps {
     llm: number;
     tools: number;
     summaries: number;
+    spans: number;
   };
   tokens: {
     input: number;
@@ -531,6 +533,26 @@ export default function RunScreen({
                             </span>
                           </div>
                           {eventFilterSet.has('summary') ? (
+                            <Eye className="h-4 w-4 text-primary" />
+                          ) : (
+                            <EyeOff className="h-4 w-4 text-[var(--agyn-text-subtle)]" />
+                          )}
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          className="flex items-center justify-between rounded-md px-3 py-2 text-sm transition-colors hover:bg-muted focus:bg-muted"
+                          onSelect={(event) => {
+                            event.preventDefault();
+                            handleToggleEventFilter('span');
+                          }}
+                        >
+                          <div className="flex items-center gap-2">
+                            <Braces className="h-4 w-4 text-muted-foreground" />
+                            <span>Span</span>
+                            <span className="text-xs text-[var(--agyn-text-subtle)]">
+                              ({formatNumber(statistics.spans)})
+                            </span>
+                          </div>
+                          {eventFilterSet.has('span') ? (
                             <Eye className="h-4 w-4 text-primary" />
                           ) : (
                             <EyeOff className="h-4 w-4 text-[var(--agyn-text-subtle)]" />

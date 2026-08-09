@@ -1,4 +1,4 @@
-import { Clock, MessageSquare, Bot, Brain, Wrench, FileText, Terminal, Users, ChevronDown, ChevronRight, Copy, User, Settings } from 'lucide-react';
+import { Clock, MessageSquare, Bot, Brain, Wrench, FileText, Terminal, Users, ChevronDown, ChevronRight, Copy, User, Settings, Braces } from 'lucide-react';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactElement } from 'react';
 import { useToolOutputStreaming } from '@/hooks/useToolOutputStreaming';
 import { IconButton } from './IconButton';
@@ -190,6 +190,9 @@ const CONTEXT_PAGINATION_PAGE_SIZE = 20;
 export interface RunEventData extends Record<string, unknown> {
   messageSubtype?: MessageSubtype;
   content?: unknown;
+  spanName?: string;
+  scopeName?: string;
+  attributes?: Record<string, unknown>;
   toolSubtype?: ToolSubtype;
   toolName?: string;
   response?: string;
@@ -222,7 +225,7 @@ export interface RunEventData extends Record<string, unknown> {
   contextDeltaStatus?: ContextDeltaStatus;
 }
 
-export type EventType = 'message' | 'llm' | 'tool' | 'summarization';
+export type EventType = 'message' | 'llm' | 'tool' | 'summarization' | 'span';
 export type ToolSubtype = 'generic' | 'shell' | 'manage' | string;
 export type MessageSubtype = 'source' | 'intermediate' | 'result';
 export type OutputViewMode = 'text' | 'terminal' | 'markdown' | 'json' | 'yaml';
@@ -1336,6 +1339,69 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
     );
   };
 
+  // Spans with no semantic mapping are shown verbatim rather than dropped.
+  const renderSpanEvent = () => {
+    const spanName = event.data.spanName || 'Span';
+    const attributes = event.data.attributes ?? {};
+    const attributeEntries = Object.entries(attributes);
+
+    return (
+      <div className="space-y-6 h-full flex flex-col">
+        <div className="flex items-start flex-shrink-0">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-muted-foreground/10 flex items-center justify-center">
+              <Braces className="w-5 h-5 text-muted-foreground" />
+            </div>
+            <div>
+              <h3 className="text-foreground mb-1 font-mono" data-testid="run-event-details-heading">{spanName}</h3>
+              <div className="flex items-center gap-2 text-xs text-muted-foreground" data-testid="run-event-details-meta">
+                <Clock className="w-3 h-3" />
+                <span>{event.timestamp}</span>
+                {event.duration && (
+                  <>
+                    <span>•</span>
+                    <span>{event.duration}</span>
+                  </>
+                )}
+                {event.data.scopeName && (
+                  <>
+                    <span>•</span>
+                    <span className="font-mono">{event.data.scopeName}</span>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-col flex-1 min-h-0">
+          <div className="text-sm text-muted-foreground mb-2">Attributes</div>
+          {attributeEntries.length > 0 ? (
+            <div
+              className="rounded-[6px] border border-border overflow-auto flex-1"
+              data-testid="run-event-details-span-attributes"
+            >
+              <table className="w-full text-xs">
+                <tbody>
+                  {attributeEntries.map(([key, value]) => (
+                    <tr key={key} className="border-b border-border last:border-b-0 align-top">
+                      <td className="px-3 py-1.5 font-mono text-muted-foreground whitespace-nowrap">{key}</td>
+                      <td className="px-3 py-1.5 font-mono text-foreground break-all">
+                        {typeof value === 'string' ? value : JSON.stringify(value)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="text-sm text-muted-foreground">No attributes</div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="bg-card h-full flex flex-col" data-testid="run-event-details">
       <div className="flex-1 overflow-y-auto p-6">
@@ -1343,6 +1409,7 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
         {event.type === 'llm' && renderLLMEvent()}
         {event.type === 'tool' && renderToolEvent()}
         {event.type === 'summarization' && renderSummarizationEvent()}
+        {event.type === 'span' && renderSpanEvent()}
       </div>
     </div>
   );

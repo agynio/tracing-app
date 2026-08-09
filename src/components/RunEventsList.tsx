@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
-import { MessageSquare, Bot, Wrench, FileText, Terminal, Users, Loader2 } from 'lucide-react';
+import { MessageSquare, Bot, Wrench, FileText, Terminal, Users, Loader2, Braces } from 'lucide-react';
 import { type EventType, type MessageSubtype, type RunEventData } from './RunEventDetails';
 import { StatusIndicator, type Status } from './StatusIndicator';
 
@@ -47,6 +47,8 @@ export function RunEventsList({
         return <Wrench className="w-4 h-4 text-[var(--agyn-cyan)]" />;
       case 'summarization':
         return <FileText className="w-4 h-4 text-muted-foreground" />;
+      case 'span':
+        return <Braces className="w-4 h-4 text-muted-foreground" />;
     }
   };
 
@@ -59,6 +61,7 @@ export function RunEventsList({
       case 'tool':
         return 'bg-[var(--agyn-cyan)]/10 border-[var(--agyn-cyan)]/20';
       case 'summarization':
+      case 'span':
         return 'bg-muted-foreground/10 border-muted-foreground/20';
     }
   };
@@ -85,6 +88,8 @@ export function RunEventsList({
         return event.data?.toolName || 'Tool Call';
       case 'summarization':
         return 'Summarization';
+      case 'span':
+        return event.data?.spanName || 'Span';
       default:
         return 'Event';
     }

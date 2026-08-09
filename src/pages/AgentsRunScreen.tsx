@@ -20,9 +20,9 @@ import { toContextRecord } from '@/lib/llmContext';
 import { buildToolLinkData } from '@/lib/toolDataParsing';
 import { formatDuration } from '@/components/agents/runTimelineFormatting';
 
-const EVENT_FILTER_OPTIONS: EventFilter[] = ['message', 'llm', 'tool', 'summary'];
+const EVENT_FILTER_OPTIONS: EventFilter[] = ['message', 'llm', 'tool', 'summary', 'span'];
 const STATUS_FILTER_OPTIONS: StatusFilter[] = ['running', 'finished', 'failed'];
-const API_EVENT_TYPES: RunEventType[] = ['invocation_message', 'injection', 'llm_call', 'tool_execution', 'summarization'];
+const API_EVENT_TYPES: RunEventType[] = ['invocation_message', 'injection', 'llm_call', 'tool_execution', 'summarization', 'span'];
 const API_EVENT_STATUSES: RunEventStatus[] = ['running', 'success', 'error'];
 const LLM_CONTEXT_PAGE_LIMIT = 100;
 
@@ -39,6 +39,7 @@ const EVENT_FILTER_TO_TYPES: Record<EventFilter, RunEventType[]> = {
   llm: ['llm_call'],
   tool: ['tool_execution'],
   summary: ['summarization'],
+  span: ['span'],
 };
 
 const STATUS_FILTER_TO_STATUSES: Record<StatusFilter, RunEventStatus[]> = {
@@ -528,6 +529,7 @@ export function AgentsRunScreen() {
         llm: 0,
         tools: 0,
         summaries: 0,
+        spans: 0,
       };
     }
     const counts = summary.countsByType ?? {};
@@ -537,6 +539,7 @@ export function AgentsRunScreen() {
       llm: counts.llm_call ?? 0,
       tools: counts.tool_execution ?? 0,
       summaries: counts.summarization ?? 0,
+      spans: counts.span ?? 0,
     };
   }, [filteredEventCount, runSummary]);
 
