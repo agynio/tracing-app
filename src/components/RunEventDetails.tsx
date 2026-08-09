@@ -895,7 +895,11 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
             )}
           </div>
           <div className="ml-5 space-y-3">
-            {(role === 'system' || role === 'user') && (
+            {/* Every role that is not rendered by a branch of its own: system,
+                user, and developer, which codex uses for the agent's own
+                instructions. Listing roles here meant a new one drew its header
+                and nothing under it. */}
+            {role !== 'tool' && role !== 'assistant' && (
               <div className="prose prose-sm max-w-none">
                 <MarkdownContent content={asString(message.content)} />
               </div>
