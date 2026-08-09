@@ -8,6 +8,7 @@ import {
   getStringAttr,
   hexToBytes,
   nanosToIso,
+  RAW_SPAN_EVENT_TYPE,
   SPAN_NAME_TO_EVENT_TYPE,
   spanToEvent,
 } from '@/api/spanToEvent';
@@ -36,7 +37,10 @@ const EVENT_TYPE_TO_SPAN_NAME: Record<RunEventType, string> =
     {} as Record<RunEventType, string>,
   );
 
-const RUN_EVENT_TYPES = new Set<RunEventType>(Object.keys(EVENT_TYPE_TO_SPAN_NAME) as RunEventType[]);
+const RUN_EVENT_TYPES = new Set<RunEventType>([
+  ...(Object.keys(EVENT_TYPE_TO_SPAN_NAME) as RunEventType[]),
+  RAW_SPAN_EVENT_TYPE,
+]);
 const RUN_EVENT_STATUSES = new Set<RunEventStatus>(['pending', 'running', 'success', 'error', 'cancelled']);
 
 const EMPTY_COUNTS_BY_TYPE: Record<RunEventType, number> = {
@@ -45,6 +49,7 @@ const EMPTY_COUNTS_BY_TYPE: Record<RunEventType, number> = {
   llm_call: 0,
   tool_execution: 0,
   summarization: 0,
+  span: 0,
 };
 
 const EMPTY_COUNTS_BY_STATUS: Record<RunEventStatus, number> = {
@@ -55,7 +60,8 @@ const EMPTY_COUNTS_BY_STATUS: Record<RunEventStatus, number> = {
   cancelled: 0,
 };
 
-const INVOCATION_MESSAGE_SPAN_NAME = 'invocation.message';
+const MESSAGE_SPAN_LOOKUP_PAGE_SIZE = 500;
+const ORGANIZATION_RUN_SCAN_PAGE_SIZE = 500;
 
 export type OrganizationRunSummary = {
   runId: string;
@@ -107,9 +113,8 @@ function requireSummary(summary: RunTimelineSummary | undefined, runId: string):
 function mapCountsByName(countsByName: Record<string, bigint>): Record<RunEventType, number> {
   const counts = { ...EMPTY_COUNTS_BY_TYPE };
   for (const [key, value] of Object.entries(countsByName)) {
-    const type = SPAN_NAME_TO_EVENT_TYPE[key];
-    if (!type) continue;
-    counts[type] = Number(value);
+    const type = SPAN_NAME_TO_EVENT_TYPE[key] ?? RAW_SPAN_EVENT_TYPE;
+    counts[type] += Number(value);
   }
   return counts;
 }
@@ -139,6 +144,49 @@ function mapEventTypesToSpanNames(types: RunEventType[]): string[] {
     if (mapped) spanNames.push(mapped);
   }
   return spanNames;
+}
+
+// Raw spans are defined by having no mapped name, which a name filter cannot
+// express -- selecting them means fetching the trace unfiltered.
+function spanNameFilter(types: RunEventType[]): string[] | undefined {
+  if (types.length === 0 || types.includes(RAW_SPAN_EVENT_TYPE)) return undefined;
+  const names = mapEventTypesToSpanNames(types);
+  return names.length > 0 ? names : undefined;
+}
+
+type TraceScore = { semantic: number; total: number; latest: bigint };
+
+function scoresBetter(candidate: TraceScore, best: TraceScore): boolean {
+  if (candidate.semantic !== best.semantic) return candidate.semantic > best.semantic;
+  if (candidate.total !== best.total) return candidate.total > best.total;
+  return candidate.latest > best.latest;
+}
+
+// One message can span several traces -- retries open a new one each attempt,
+// and the session-lifecycle trace outlives them all. Picking the newest span
+// lands on that lifecycle trace, so score by real content instead.
+function pickRunTrace(
+  spans: Array<{ span: { traceId: Uint8Array; name: string; startTimeUnixNano: bigint } }>,
+): string {
+  const byTrace = new Map<string, TraceScore>();
+  for (const { span } of spans) {
+    const traceId = bytesToHex(span.traceId);
+    const score = byTrace.get(traceId) ?? { semantic: 0, total: 0, latest: 0n };
+    score.total += 1;
+    if (SPAN_NAME_TO_EVENT_TYPE[span.name]) score.semantic += 1;
+    if (span.startTimeUnixNano > score.latest) score.latest = span.startTimeUnixNano;
+    byTrace.set(traceId, score);
+  }
+
+  let bestId = '';
+  let best: TraceScore | null = null;
+  for (const [traceId, score] of byTrace) {
+    if (!best || scoresBetter(score, best)) {
+      best = score;
+      bestId = traceId;
+    }
+  }
+  return bestId;
 }
 
 function mapEventStatusesToSpanStatuses(statuses: RunEventStatus[]): SpanStatus[] {
@@ -190,10 +238,11 @@ export const runs = {
     organizationId: string,
     params?: { limit?: number },
   ): Promise<OrganizationRunSummary[]> => {
+    // Scanned unfiltered: runs are traces, and a trace need not contain any
+    // span the semantic adapter recognises.
     const resp = await tracingClient.listSpans({
       organizationId,
-      filter: { names: [INVOCATION_MESSAGE_SPAN_NAME] },
-      pageSize: params?.limit ?? 50,
+      pageSize: ORGANIZATION_RUN_SCAN_PAGE_SIZE,
       pageToken: '',
       orderBy: ListSpansOrderBy.START_TIME_DESC,
     });
@@ -202,12 +251,14 @@ export const runs = {
     const runSpans = new Map<string, (typeof spans)[number]>();
     for (const span of spans) {
       const runId = bytesToHex(span.span.traceId);
-      if (!runSpans.has(runId)) {
+      const existing = runSpans.get(runId);
+      // Prefer a message span so the run keeps its human-readable label.
+      if (!existing || SPAN_NAME_TO_EVENT_TYPE[span.span.name] === 'invocation_message') {
         runSpans.set(runId, span);
       }
     }
 
-    const runIds = Array.from(runSpans.keys());
+    const runIds = Array.from(runSpans.keys()).slice(0, params?.limit ?? 50);
     // TODO: Avoid N+1 trace summary lookups by adding a batch summary API.
     const summaries = await Promise.all(runIds.map((runId) => runs.timelineSummary(runId)));
     const summaryById = new Map(summaries.map((summary) => [summary.runId, summary]));
@@ -215,15 +266,15 @@ export const runs = {
     return runIds.map((runId) => {
       const spanData = runSpans.get(runId);
       if (!spanData) {
-        throw new Error(`Missing invocation span for run ${runId}`);
+        throw new Error(`Missing representative span for run ${runId}`);
       }
       const summary = requireSummary(summaryById.get(runId), runId);
-      const event = spanToEvent(spanData.span, spanData.resourceAttrs);
+      const event = spanToEvent(spanData.span, spanData.resourceAttrs, spanData.scopeName);
       const startedAt = Date.parse(summary.createdAt);
       const endedAt = Date.parse(summary.updatedAt);
       return {
         runId,
-        messageText: event.message?.text ?? null,
+        messageText: event.message?.text ?? event.span?.name ?? null,
         createdAt: summary.createdAt,
         status: summary.status,
         durationMs:
@@ -241,7 +292,7 @@ export const runs = {
     let resp = await tracingClient.listSpans({
       organizationId,
       filter: { messageId },
-      pageSize: 1,
+      pageSize: MESSAGE_SPAN_LOOKUP_PAGE_SIZE,
       pageToken: '',
       orderBy: ListSpansOrderBy.START_TIME_DESC,
     });
@@ -249,15 +300,14 @@ export const runs = {
     if (spans.length === 0) {
       resp = await tracingClient.listSpans({
         organizationId,
-        filter: { names: [INVOCATION_MESSAGE_SPAN_NAME] },
-        pageSize: 500,
+        pageSize: MESSAGE_SPAN_LOOKUP_PAGE_SIZE,
         pageToken: '',
         orderBy: ListSpansOrderBy.START_TIME_DESC,
       });
       spans = flattenResourceSpans(resp.resourceSpans).filter(({ span }) => bytesToHex(span.spanId) === messageId);
     }
     if (spans.length === 0) return null;
-    return { runId: bytesToHex(spans[0].span.traceId) };
+    return { runId: pickRunTrace(spans) };
   },
   timelineSummary: async (runId: string): Promise<RunTimelineSummary> => {
     const resp = await tracingClient.getTraceSummary({
@@ -292,9 +342,9 @@ export const runs = {
     const filter: { traceId: Uint8Array; names?: string[]; statuses?: SpanStatus[] } = {
       traceId: hexToBytes(runId),
     };
-    const types = parseEventTypes(params.types);
-    if (types.length > 0) {
-      filter.names = mapEventTypesToSpanNames(types);
+    const names = spanNameFilter(parseEventTypes(params.types));
+    if (names) {
+      filter.names = names;
     }
     const statuses = parseEventStatuses(params.statuses);
     if (statuses.length > 0) {
@@ -314,7 +364,7 @@ export const runs = {
     });
 
     const spans = flattenResourceSpans(resp.resourceSpans);
-    const items = spans.map(({ span, resourceAttrs }) => spanToEvent(span, resourceAttrs));
+    const items = spans.map(({ span, resourceAttrs, scopeName }) => spanToEvent(span, resourceAttrs, scopeName));
 
     return {
       items,
@@ -328,8 +378,8 @@ export const runs = {
     const req: { traceId: Uint8Array; names?: string[]; statuses?: SpanStatus[] } = {
       traceId: hexToBytes(runId),
     };
-    const types = parseEventTypes(params?.types);
-    if (types.length > 0) req.names = mapEventTypesToSpanNames(types);
+    const names = spanNameFilter(parseEventTypes(params?.types));
+    if (names) req.names = names;
     const statuses = parseEventStatuses(params?.statuses);
     if (statuses.length > 0) {
       const spanStatuses = mapEventStatusesToSpanStatuses(statuses);

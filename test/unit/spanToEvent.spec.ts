@@ -219,8 +219,20 @@ describe('spanToEvent conversions', () => {
     expect(event.durationMs).toBeNull();
   });
 
-  it('throws on unknown span names', () => {
+  it('keeps unknown span names as raw span events', () => {
     const span = buildSpan({ name: 'unexpected.span' });
-    expect(() => spanToEvent(span, [threadAttr])).toThrow('Unhandled span name');
+    const event = spanToEvent(span, [threadAttr], 'codex-app-server');
+
+    expect(event.type).toBe('span');
+    expect(event.span?.name).toBe('unexpected.span');
+    expect(event.span?.scopeName).toBe('codex-app-server');
+  });
+
+  it('exposes span and resource attributes on raw span events', () => {
+    const span = buildSpan({ name: 'op.dispatch.shutdown', attributes: [stringAttr('agyn.tool.name', 'shell')] });
+    const event = spanToEvent(span, [threadAttr]);
+
+    expect(event.span?.attributes['agyn.tool.name']).toBe('shell');
+    expect(event.span?.resourceAttributes['agyn.thread.id']).toBe('thread-123');
   });
 });

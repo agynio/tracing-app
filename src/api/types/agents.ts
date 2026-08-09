@@ -33,7 +33,8 @@ export type LlmContextPage = {
 
 export type LlmContextDeltaStatus = 'available' | 'empty' | 'unavailable' | 'redacted' | 'first_call' | 'unknown';
 
-export type RunEventType = 'invocation_message' | 'injection' | 'llm_call' | 'tool_execution' | 'summarization';
+/** `span` carries any OTel span the semantic adapter does not recognise. */
+export type RunEventType = 'invocation_message' | 'injection' | 'llm_call' | 'tool_execution' | 'summarization' | 'span';
 export type RunEventStatus = 'pending' | 'running' | 'success' | 'error' | 'cancelled';
 export type EventSourceKind = 'internal' | 'tracing';
 export type ToolExecStatus = 'success' | 'error';
@@ -121,6 +122,15 @@ export type RunTimelineEvent = {
     text: string | null;
     source: unknown;
     createdAt: string;
+  };
+  span?: {
+    name: string;
+    kind: number;
+    spanId: string;
+    parentSpanId: string | null;
+    scopeName: string | null;
+    attributes: Record<string, unknown>;
+    resourceAttributes: Record<string, unknown>;
   };
   attachments: Array<{
     id: string;

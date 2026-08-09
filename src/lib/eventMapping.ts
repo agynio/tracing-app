@@ -232,6 +232,19 @@ export function createUiEvent(event: RunTimelineEvent, options?: CreateUiEventOp
         },
       };
     }
+    case 'span':
+      return {
+        id: event.id,
+        type: 'span',
+        timestamp,
+        duration,
+        status,
+        data: {
+          spanName: event.span?.name ?? '',
+          scopeName: event.span?.scopeName ?? undefined,
+          attributes: event.span?.attributes ?? {},
+        },
+      };
     default:
       return assertNever(event.type);
   }

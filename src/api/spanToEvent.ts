@@ -3,7 +3,10 @@ import type { ResourceSpans, Span } from '@/gen/opentelemetry/proto/trace/v1/tra
 import { Status_StatusCode } from '@/gen/opentelemetry/proto/trace/v1/trace_pb';
 import type { RunEventStatus, RunEventType, RunTimelineEvent } from '@/api/types/agents';
 
-type FlattenedSpan = { span: Span; resourceAttrs: KeyValue[] };
+type FlattenedSpan = { span: Span; resourceAttrs: KeyValue[]; scopeName: string | null };
+
+/** Span name used when the semantic adapter has no mapping for a span. */
+export const RAW_SPAN_EVENT_TYPE: RunEventType = 'span';
 
 export const SPAN_NAME_TO_EVENT_TYPE: Record<string, RunEventType> = {
   'invocation.message': 'invocation_message',
@@ -83,12 +86,51 @@ export function nanosToDurationMs(start: bigint, end: bigint): number | null {
   return Number((end - start) / 1_000_000n);
 }
 
+// Unknown spans are kept rather than rejected: the UI shows every valid OTel
+// span, and the semantic types below are an adapter layered on top.
 function mapSpanNameToEventType(name: string): RunEventType {
-  const type = SPAN_NAME_TO_EVENT_TYPE[name];
-  if (!type) {
-    throw new Error(`Unhandled span name: ${name}`);
+  return SPAN_NAME_TO_EVENT_TYPE[name] ?? RAW_SPAN_EVENT_TYPE;
+}
+
+function anyValueToJs(value: AnyValue | undefined): unknown {
+  if (!value) return null;
+  switch (value.value.case) {
+    case 'stringValue':
+    case 'boolValue':
+    case 'doubleValue':
+      return value.value.value;
+    case 'intValue':
+      return Number(value.value.value);
+    case 'bytesValue':
+      return bytesToHex(value.value.value);
+    case 'arrayValue':
+      return value.value.value.values.map((entry) => anyValueToJs(entry));
+    case 'kvlistValue':
+      return attrsToRecord(value.value.value.values);
+    default:
+      return null;
   }
-  return type;
+}
+
+export function attrsToRecord(attrs: KeyValue[]): Record<string, unknown> {
+  const record: Record<string, unknown> = {};
+  for (const attr of attrs) {
+    record[attr.key] = anyValueToJs(attr.value);
+  }
+  return record;
+}
+
+function extractRawSpan(span: Span, resourceAttrs: KeyValue[], scopeName: string | null) {
+  const parentSpanId = span.parentSpanId.length > 0 ? bytesToHex(span.parentSpanId) : null;
+  return {
+    name: span.name,
+    kind: span.kind,
+    spanId: bytesToHex(span.spanId),
+    parentSpanId,
+    scopeName,
+    attributes: attrsToRecord(span.attributes),
+    resourceAttributes: attrsToRecord(resourceAttrs),
+  };
 }
 
 type ToolCallPayload = {
@@ -190,7 +232,7 @@ function extractMessage(span: Span) {
   };
 }
 
-export function spanToEvent(span: Span, resourceAttrs?: KeyValue[]): RunTimelineEvent {
+export function spanToEvent(span: Span, resourceAttrs?: KeyValue[], scopeName?: string | null): RunTimelineEvent {
   const attrs = span.attributes;
   const spanName = span.name;
   const status = deriveEventStatus(span);
@@ -233,6 +275,9 @@ export function spanToEvent(span: Span, resourceAttrs?: KeyValue[]): RunTimeline
     case 'invocation_message':
       base.message = extractMessage(span);
       break;
+    case 'span':
+      base.span = extractRawSpan(span, resourceAttrs ?? [], scopeName ?? null);
+      break;
   }
 
   return base;
@@ -243,8 +288,9 @@ export function flattenResourceSpans(resourceSpans: ResourceSpans[]): FlattenedS
   for (const resourceSpan of resourceSpans) {
     const resourceAttrs = resourceSpan.resource?.attributes ?? [];
     for (const scopeSpan of resourceSpan.scopeSpans) {
+      const scopeName = scopeSpan.scope?.name || null;
       for (const span of scopeSpan.spans) {
-        flattened.push({ span, resourceAttrs });
+        flattened.push({ span, resourceAttrs, scopeName });
       }
     }
   }
