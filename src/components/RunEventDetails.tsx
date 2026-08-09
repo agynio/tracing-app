@@ -996,7 +996,10 @@ export function RunEventDetails({ event, runId, contextPagination, onLoadOlderCo
     };
 
     const input = parseInput();
-    const command = input?.command || event.data.command || '';
+    // Each CLI names the field its own way -- Claude Code's Bash tool sends
+    // `command`, codex's exec sends `cmd` -- and the span carries whatever the
+    // CLI recorded rather than a normalised copy.
+    const command = input?.command || input?.cmd || event.data.command || '';
     const cwd = input?.cwd || event.data.workingDir || '';
     const outputValue =
       outputViewMode === 'text' || outputViewMode === 'terminal'
