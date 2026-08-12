@@ -1,7 +1,7 @@
 version: v2beta1
 
 vars:
-  APP_NAMESPACE: platform
+  APP_NAMESPACE: agyn-platform
   # Carries Node and already ships in the VM's image store, so this pulls
   # nothing. Keep in sync with the image in patch_deployment below.
   DEV_IMAGE: ghcr.io/agynio/devcontainer-agyn:sha-f739923
