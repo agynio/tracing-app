@@ -1,5 +1,9 @@
 type RuntimeEnv = {
   API_BASE_URL?: string;
+  CHAT_URL?: string;
+  TRACING_URL?: string;
+  CONSOLE_URL?: string;
+  SANDBOXES_URL?: string;
   OIDC_AUTHORITY?: string;
   OIDC_CLIENT_ID?: string;
   OIDC_SCOPE?: string;
@@ -53,8 +57,23 @@ export const oidcConfig: OidcConfig = {
   resource,
 };
 
+// Sibling product origins, keyed by product id. Set by the operator when the
+// apps are not served at <product>.<domain>; null falls back to derivation.
+const productUrls: Record<string, string | null> = {
+  chat: readProductUrl('CHAT_URL', 'VITE_CHAT_URL'),
+  tracing: readProductUrl('TRACING_URL', 'VITE_TRACING_URL'),
+  console: readProductUrl('CONSOLE_URL', 'VITE_CONSOLE_URL'),
+  sandboxes: readProductUrl('SANDBOXES_URL', 'VITE_SANDBOXES_URL'),
+};
+
+function readProductUrl(runtimeKey: keyof RuntimeEnv, envKey: keyof ImportMetaEnv): string | null {
+  const value = readConfigValue(runtimeKey, envKey);
+  return value ? stripTrailingSlash(value) : null;
+}
+
 export const config = {
   apiBaseUrl,
+  productUrls,
 };
 
 /**

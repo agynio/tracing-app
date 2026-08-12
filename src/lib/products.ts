@@ -1,5 +1,5 @@
 import { Box, MessageCircle, SlidersVertical, TrendingUp, type LucideIcon } from 'lucide-react';
-import { deriveSiblingUrl } from '@/config';
+import { config, deriveSiblingUrl } from '@/config';
 
 export type Product = {
   id: string;
@@ -23,5 +23,6 @@ export const PRODUCTS: Product[] = [
 /** Null when the product is unreleased or the host has no derivable sibling. */
 export function productUrl(product: Product): string | null {
   if (product.comingSoon) return null;
-  return deriveSiblingUrl(product.subdomain);
+  // Derivation only holds when every app sits at <product>.<domain>.
+  return config.productUrls[product.id] ?? deriveSiblingUrl(product.subdomain);
 }
