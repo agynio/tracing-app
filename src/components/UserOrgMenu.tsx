@@ -14,6 +14,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
+import { signOut } from '@/auth/sign-out';
 import { cn } from '@/lib/utils';
 import { useTheme } from './theme-provider';
 import { useOrganization } from '@/organization/organization.runtime';
@@ -109,7 +110,7 @@ export function UserOrgMenu({ className }: { className?: string }) {
           </DropdownMenuSubContent>
         </DropdownMenuSub>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onSelect={() => void auth.signoutRedirect()} data-testid="sign-out">
+        <DropdownMenuItem onSelect={() => void signOut(auth)} data-testid="sign-out">
           <LogOut className="h-4 w-4 text-muted-foreground" />
           <span>Sign out</span>
         </DropdownMenuItem>
