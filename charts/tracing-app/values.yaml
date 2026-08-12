@@ -83,6 +83,9 @@ env:
     value: "{{ .Values.oidcResource }}"
   - name: API_BASE_URL
     value: "{{ .Values.apiBaseUrl }}"
+# CHAT_URL, TRACING_URL, CONSOLE_URL and SANDBOXES_URL are deliberately absent:
+# an explicit empty env var shadows extraEnvVarsCM, which is how the umbrella
+# feeds them. Set them here via extraEnvVars for a standalone install.
 envFrom: []
 extraEnvVars: []
 extraEnvVarsCM: ""
