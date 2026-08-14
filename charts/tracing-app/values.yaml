@@ -200,6 +200,22 @@ metrics:
 
 oidcAuthority: ""
 oidcClientId: ""
+# offline_access stays in the default: a refresh token is the only renewal that
+# works against an arbitrary provider. The alternative -- renewing from the
+# provider's session through a hidden frame -- needs that frame to be first-party
+# to the issuer, and browsers block it wherever the app and the issuer are not
+# the same site. Nothing in discovery says which case an install is in.
+#
+# An install whose issuer is a sibling hostname should drop offline_access and
+# hold no refresh token at all; the umbrella does exactly that for the bundled
+# provider. Dex rotates refresh tokens either way, which is what RFC 9700 asks
+# of a public client that keeps one.
+#
+# Dropping it against a provider this chart does not configure takes one more
+# step there: <origin>/silent-renew has to be registered as a redirect URI, the
+# same way the callback is. The app cannot do that or detect that it is missing
+# -- the provider answers the renewal with an error the frame swallows, and
+# sessions end at token expiry instead.
 oidcScope: "openid profile email offline_access"
 oidcResource: ""
 apiBaseUrl: /api
