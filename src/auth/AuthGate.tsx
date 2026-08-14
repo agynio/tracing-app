@@ -5,6 +5,7 @@ import { Button } from '@/components/Button';
 import { oidcConfig } from '@/config';
 import { clearSignedOutFlag, readSignedOutFlag } from './signed-out';
 import { getSigninRedirectArgs } from './return-to';
+import { SilentRenewScreen } from './SilentRenewScreen';
 import { userManager } from './user-manager';
 
 type AuthGateProps = {
@@ -143,9 +144,18 @@ function AuthErrorBoundary({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
 
+export const silentRenewPath = '/silent-renew';
+
 export function AuthGate({ children }: AuthGateProps) {
   if (!oidcConfig.enabled) return <>{children}</>;
   if (!userManager) throw new Error('auth: user manager not initialized');
+
+  // The route below this gate never rendered for a renewal frame: the gate runs
+  // first and would sign in again inside the frame. Checked on the raw location
+  // because this has to win before AuthProvider mounts.
+  if (window.location.pathname === silentRenewPath) {
+    return <SilentRenewScreen />;
+  }
 
   return (
     <AuthProvider userManager={userManager} onSigninCallback={handleSigninCallback}>
